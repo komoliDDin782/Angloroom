@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>AngloRoom - Login / Sign Up</title>
+  <title>AngloRoom - Login</title>
   <link rel="stylesheet" href="assets/css/styles.css">
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
@@ -12,15 +12,23 @@
   <script src="assets/js/auth.js" defer></script>
 </head>
 <body>
-  <h1>Welcome to AngloRoom</h1>
 
-  <div id="auth-container">
-    <h2>Enter your email and password</h2>
-    <form id="auth-form">
-      <input type="email" id="email" placeholder="Email" required><br>
-      <input type="password" id="password" placeholder="Password" required><br>
-      <button type="submit">submit</button>
-    </form>
+  <div class="auth-wrapper">
+    <div id="auth-container" class="form-container">
+      <h1>Welcome to AngloRoom</h1>
+      <p>Login</p>
+
+      <form id="auth-form" class="form">
+        <label>Email</label>
+        <input type="email" id="email" class="input" placeholder="Email" required>
+
+        <label>Password</label>
+        <input type="password" id="password" class="input" placeholder="Password" required>
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
   </div>
+
 </body>
 </html>
