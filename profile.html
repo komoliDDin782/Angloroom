@@ -4,34 +4,66 @@
   <meta charset="UTF-8">
   <title>AngloRoom - Profile</title>
   <link rel="stylesheet" href="assets/css/styles.css">
+
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
+
   <script src="assets/js/firebase.js" defer></script>
   <script src="assets/js/profile.js" defer></script>
+
+  <style>
+    #profile-container {
+      text-align: center;
+      margin-top: 40px;
+    }
+    #profile-container input,
+    #profile-container button {
+      font-size: 18px;
+      padding: 10px;
+      width: 80%;
+      max-width: 300px;
+      margin-top: 10px;
+    }
+    #profile-pic {
+      border-radius: 50%;
+      width: 160px;
+      height: 160px;
+      object-fit: cover;
+    }
+  </style>
 </head>
+
 <body>
-    <header>
-        <nav>
-          <a href="main.html">Main</a>
-          <a href="quiz.html">Daily Quizzes</a>
-          <a href="results.html">Results</a>
-          <a href="profile.html">Profile</a>
-          
-        </nav>
-    </header>
+  <header>
+    <nav>
+      <a href="main.html">Main</a>
+      <a href="quiz.html">Daily Quizzes</a>
+      <a href="results.html">Results</a>
+      <a href="profile.html">Profile</a>
+    </nav>
+  </header>
 
-    <h1>Profile</h1>
+  <h1 style="text-align:center;">Profile</h1>
 
-    <div id="profile-container">
-        <!-- Static photo, no input -->
-        <img id="profile-pic" src="assets/css/logo.jpg" alt="Profile Picture" width="150" height="150"><br><br>
+  <div id="profile-container">
 
-        <input type="text" id="nickname" placeholder="Enter nickname"><br><br>
-        <button id="save-profile-btn">Save Profile</button>
-        <button id="logout-btn">Log Out</button>
-    </div>
+    <!-- Profile Image -->
+    <img id="profile-pic" src="assets/css/logo.jpg" alt="Profile Picture"><br>
+
+    <!-- Select Image -->
+    <input type="file" id="profile-pic-input"><br><br>
+
+    <!-- Nickname -->
+    <input type="text" id="nickname" placeholder="Enter nickname"><br>
+
+    <!-- Save All -->
+    <button id="save-profile-btn">Save Profile</button>
+
+    <!-- Logout -->
+    <button id="logout-btn" style="background:#c0392b; color:white;">Log Out</button>
+  </div>
 
 </body>
 </html>
