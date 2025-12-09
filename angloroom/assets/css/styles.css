@@ -1,0 +1,189 @@
+/* ---------------- Reset & Base ---------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+body {
+  background: linear-gradient(to bottom, #e6f2e6, #cce6cc); /* subtle forest gradient */
+  color: #1b3b1b; /* dark forest green for text */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 10px;
+}
+
+/* ---------------- Container ---------------- */
+.container, #profile-container, #auth-container {
+  width: 95%;
+  max-width: 500px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* ---------------- Headings ---------------- */
+h1 {
+  color: #145214;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+h2, h3 {
+  color: #145214;
+  margin-bottom: 15px;
+}
+
+/* ---------------- Paragraphs ---------------- */
+p {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+/* ---------------- Navigation ---------------- */
+nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #fff;
+  background-color: #2e7d32;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 18px;
+  transition: background 0.3s;
+}
+
+nav a:hover {
+  background-color: #145214;
+}
+
+/* ---------------- Buttons ---------------- */
+button {
+  background-color: #2e7d32;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  margin: 10px 0;
+  font-size: 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #145214;
+}
+
+/* ---------------- Input Fields ---------------- */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+/* ---------------- Tables ---------------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  background: rgba(255,255,255,0.95);
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 16px;
+}
+
+th, td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+}
+
+th {
+  background-color: #2e7d32;
+  color: #fff;
+}
+
+tr:hover {
+  background-color: #c8e6c9;
+}
+
+/* ---------------- Profile Picture ---------------- */
+.profile-pic {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border: 3px solid #145214;
+}
+
+/* ---------------- Responsive for Phones ---------------- */
+@media screen and (max-width: 480px) {
+  h1 { font-size: 24px; }
+  h2 { font-size: 20px; }
+  p, input, button, nav a { font-size: 16px; }
+  .container, #profile-container, #auth-container { padding: 15px; }
+  .profile-pic { width: 120px; height: 120px; }
+  table th, table td { padding: 8px; font-size: 14px; }
+}
+/* ---------------- Mobile adjustments ---------------- */
+@media screen and (max-width: 480px) {
+  body {
+      padding: 15px;
+      font-size: 18px; /* base font bigger for readability */
+  }
+
+  h1 { font-size: 32px; }
+  h2 { font-size: 28px; }
+  h3 { font-size: 24px; }
+  p { font-size: 20px; line-height: 1.6; }
+
+  nav a {
+      font-size: 20px;
+      padding: 15px 25px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+      font-size: 18px;
+      padding: 15px;
+  }
+
+  button {
+      font-size: 20px;
+      padding: 15px 30px;
+  }
+
+  .container, #profile-container, #auth-container {
+      padding: 25px;
+  }
+
+  .profile-pic {
+      width: 160px;
+      height: 160px;
+  }
+
+  table th, table td {
+      font-size: 16px;
+      padding: 12px;
+  }
+}

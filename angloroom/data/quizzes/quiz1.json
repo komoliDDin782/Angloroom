@@ -1,0 +1,18 @@
+{
+    "title": "Daily Quiz 1",
+    "questions": [
+      {
+        "question": "What is 2 + 2?",
+        "options": ["4", "3", "2", "5"]
+      },
+      {
+        "question": "Capital of France?",
+        "options": ["Paris", "London", "Berlin", "Rome"]
+      },
+      {
+        "question": "What color do you get when you mix red and blue?",
+        "options": ["Purple", "Green", "Orange", "Yellow"]
+      }
+    ]
+  }
+  

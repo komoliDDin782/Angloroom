@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AngloRoom - Login / Sign Up</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
+  <script src="assets/js/firebase.js" defer></script>
+  <script src="assets/js/auth.js" defer></script>
+</head>
+<body>
+  <h1>Welcome to AngloRoom</h1>
+
+  <div id="auth-container">
+    <h2>Enter your email and password</h2>
+    <form id="auth-form">
+      <input type="email" id="email" placeholder="Email" required><br>
+      <input type="password" id="password" placeholder="Password" required><br>
+      <button type="submit">submit</button>
+    </form>
+  </div>
+</body>
+</html>

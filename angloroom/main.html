@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AngloRoom - Main</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="assets/js/firebase.js" defer></script>
+  <script src="assets/js/auth.js" defer></script>
+</head>
+<body>
+  
+
+  <header>
+    <nav>
+      <a href="main.html">Main</a>
+      <a href="quiz.html">Daily Quizzes</a>
+      <a href="results.html">Results</a>
+      <a href="profile.html">Profile</a>
+    </nav>
+  </header>
+  <h1>Welcome to AngloRoom!</h1>
+
+  <div id="user-info" style="display:none;">
+    <h2>Logged in as <span id="user-email"></span></h2>
+    <button id="logout-btn">Logout</button>
+  </div>
+
+  <script>
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById('user-info').style.display = 'block';
+        document.getElementById('user-email').textContent = user.email;
+
+        document.getElementById('logout-btn').addEventListener('click', () => {
+          auth.signOut().then(() => window.location.href = "index.html");
+        });
+      } else {
+        window.location.href = "index.html";
+      }
+    });
+  </script>
+</body>
+</html>
