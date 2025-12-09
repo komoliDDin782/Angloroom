@@ -4,33 +4,117 @@
   <meta charset="UTF-8">
   <title>AngloRoom - Profile</title>
   <link rel="stylesheet" href="assets/css/styles.css">
-
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
-
   <script src="assets/js/firebase.js" defer></script>
   <script src="assets/js/profile.js" defer></script>
+
+  <!-- Font Awesome for upload icon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     #profile-container {
       text-align: center;
       margin-top: 40px;
     }
-    #profile-container input,
-    #profile-container button {
+
+    h1 {
+      font-size: 36px;
+      color: #145214;
+      margin-bottom: 30px;
+    }
+
+    /* Profile picture */
+    #profile-pic {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #2e7d32;
+      margin-bottom: 15px;
+      transition: transform 0.3s;
+    }
+
+    #profile-pic:hover {
+      transform: scale(1.05);
+    }
+
+    /* Hidden input */
+    #profile-pic-input {
+      display: none;
+    }
+
+    /* Styled label for file input */
+    .profile-pic-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: linear-gradient(135deg, #4CAF50, #2E7D32);
+      color: #fff;
+      padding: 12px 30px;
+      border-radius: 50px;
       font-size: 18px;
-      padding: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .profile-pic-label i {
+      margin-right: 10px;
+    }
+
+    .profile-pic-label:hover {
+      background: linear-gradient(135deg, #2E7D32, #145214);
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    .profile-pic-label:active {
+      transform: translateY(0) scale(0.98);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* Inputs & buttons */
+    #profile-container input[type="text"] {
+      font-size: 18px;
+      padding: 12px;
       width: 80%;
       max-width: 300px;
       margin-top: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
     }
-    #profile-pic {
-      border-radius: 50%;
-      width: 160px;
-      height: 160px;
-      object-fit: cover;
+
+    button {
+      font-size: 18px;
+      padding: 12px 35px;
+      margin: 15px 5px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      color: #fff;
+      transition: transform 0.2s, background 0.3s;
+    }
+
+    #save-profile-btn {
+      background-color: #2e7d32;
+    }
+    #save-profile-btn:hover {
+      background-color: #145214;
+      transform: scale(1.05);
+    }
+
+    #logout-btn {
+      background-color: #c0392b;
+    }
+    #logout-btn:hover {
+      background-color: #922b21;
+      transform: scale(1.05);
     }
   </style>
 </head>
@@ -45,25 +129,53 @@
     </nav>
   </header>
 
-
-
   <div id="profile-container">
-  <h1 style="text-align:center;">Profile</h1>
-    <!-- Profile Image -->
+    <h1>Profile</h1>
+
+    <!-- Profile picture -->
     <img id="profile-pic" src="assets/css/logo.jpg" alt="Profile Picture"><br>
 
-    <!-- Select Image -->
-    <input type="file" id="profile-pic-input"><br><br>
+    <!-- File input with styled label -->
+    <input type="file" id="profile-pic-input" accept="image/*">
+    <label for="profile-pic-input" class="profile-pic-label">
+      <i class="fas fa-upload"></i> Choose Picture
+    </label><br>
 
     <!-- Nickname -->
     <input type="text" id="nickname" placeholder="Enter nickname"><br>
 
-    <!-- Save All -->
+    <!-- Save & Logout buttons -->
     <button id="save-profile-btn">Save Profile</button>
-
-    <!-- Logout -->
-    <button id="logout-btn" style="background:#c0392b; color:white;">Log Out</button>
+    <button id="logout-btn">Log Out</button>
   </div>
 
+  <script>
+    // Live preview for profile picture
+    const fileInput = document.getElementById('profile-pic-input');
+    const profilePic = document.getElementById('profile-pic');
+
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if(file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          profilePic.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Firebase auth check
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById('nickname').value = user.displayName || '';
+        document.getElementById('logout-btn').addEventListener('click', () => {
+          auth.signOut().then(() => window.location.href = "index.html");
+        });
+      } else {
+        window.location.href = "index.html";
+      }
+    });
+  </script>
 </body>
 </html>
