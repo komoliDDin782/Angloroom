@@ -1,63 +1,59 @@
 {
-    "title": "Daily Quiz 1",
-    "questions": [
-      [
-        {
-          "question": "He said, 'I am tired.' → What is the reported speech?",
-          "options": [
-            "He said that he was tired.",
-            "He said that he is tired.",
-            "He says that he was tired.",
-            "He told that he is tired."
-          ]
-        },
-        {
-          "question": "She said, 'I will call you tomorrow.' → Reported speech?",
-          "options": [
-            "She said that she would call me the next day.",
-            "She said that she will call me tomorrow.",
-            "She told she would call me tomorrow.",
-            "She said she will call me the next day."
-          ]
-        },
-        {
-          "question": "Tom said, 'I have finished my work.' → Reported speech?",
-          "options": [
-            "Tom said that he had finished his work.",
-            "Tom said that he has finished his work.",
-            "Tom told that he finished his work.",
-            "Tom said he finishes his work."
-          ]
-        },
-        {
-          "question": "They said, 'We are going to travel.' → Reported speech?",
-          "options": [
-            "They said that they were going to travel.",
-            "They said that they are going to travel.",
-            "They told that they were traveling.",
-            "They said they travel."
-          ]
-        },
-        {
-          "question": "Mary said, 'I can help you.' → Reported speech?",
-          "options": [
-            "Mary said that she could help me.",
-            "Mary said that she can help me.",
-            "Mary told she could help me.",
-            "Mary said she can helping me."
-          ]
-        },
-        {
-          "question": "The teacher said, 'Open your books.' → Reported speech?",
-          "options": [
-            "The teacher told us to open our books.",
-            "The teacher said us to open our books.",
-            "The teacher said that we open our books.",
-            "The teacher told to open our books."
-          ]
-        }
+  "title": "Daily Quiz 1",
+  "questions": [
+    {
+      "question": "He said, 'I am tired.' → What is the reported speech?",
+      "options": [
+        "He said that he was tired.",
+        "He said that he is tired.",
+        "He says that he was tired.",
+        "He told that he is tired."
       ]
-      
-    ]
-  }
-  
+    },
+    {
+      "question": "She said, 'I will call you tomorrow.' → Reported speech?",
+      "options": [
+        "She said that she would call me the next day.",
+        "She said that she will call me tomorrow.",
+        "She told she would call me tomorrow.",
+        "She said she will call me the next day."
+      ]
+    },
+    {
+      "question": "Tom said, 'I have finished my work.' → Reported speech?",
+      "options": [
+        "Tom said that he had finished his work.",
+        "Tom said that he has finished his work.",
+        "Tom told that he finished his work.",
+        "Tom said he finishes his work."
+      ]
+    },
+    {
+      "question": "They said, 'We are going to travel.' → Reported speech?",
+      "options": [
+        "They said that they were going to travel.",
+        "They said that they are going to travel.",
+        "They told that they were traveling.",
+        "They said they travel."
+      ]
+    },
+    {
+      "question": "Mary said, 'I can help you.' → Reported speech?",
+      "options": [
+        "Mary said that she could help me.",
+        "Mary said that she can help me.",
+        "Mary told she could help me.",
+        "Mary said she can helping me."
+      ]
+    },
+    {
+      "question": "The teacher said, 'Open your books.' → Reported speech?",
+      "options": [
+        "The teacher told us to open our books.",
+        "The teacher said us to open our books.",
+        "The teacher said that we open our books.",
+        "The teacher told to open our books."
+      ]
+    }
+  ]
+}
