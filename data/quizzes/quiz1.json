@@ -2,7 +2,7 @@
   "title": "Daily Quiz 1",
   "questions": [
     {
-      "question": "He said, 'I am tired.' → What is the reported speech?",
+      "question": "He said, 'I am tired.' → Reported speech?",
       "options": [
         "He said that he was tired.",
         "He said that he is tired.",
@@ -53,6 +53,42 @@
         "The teacher said us to open our books.",
         "The teacher said that we open our books.",
         "The teacher told to open our books."
+      ]
+    },
+    {
+      "question": "'They will finish the project by next week.' → Passive voice?",
+      "options": [
+        "The project will be finished by them by next week.",
+        "The project will finished by them next week.",
+        "The project is finished by them next week.",
+        "The project has been finished by them next week."
+      ]
+    },
+    {
+      "question": "'Someone stole my wallet.' → Passive voice?",
+      "options": [
+        "My wallet was stolen.",
+        "My wallet is stolen.",
+        "My wallet stole.",
+        "My wallet has been stolen by someone."
+      ]
+    },
+    {
+      "question": "'They are cleaning the room.' → Passive voice?",
+      "options": [
+        "The room is being cleaned by them.",
+        "The room is cleaned by them.",
+        "The room cleaning by them.",
+        "The room has been cleaned by them."
+      ]
+    },
+    {
+      "question": "'He wrote the letter yesterday.' → Passive voice?",
+      "options": [
+        "The letter was written by him yesterday.",
+        "The letter is written by him yesterday.",
+        "The letter has written by him yesterday.",
+        "The letter wrote by him yesterday."
       ]
     }
   ]
