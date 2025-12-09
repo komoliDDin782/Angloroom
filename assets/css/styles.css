@@ -7,8 +7,8 @@
 }
 
 body {
-  background: linear-gradient(to bottom, #e6f2e6, #cce6cc); /* subtle forest gradient */
-  color: #1b3b1b; /* dark forest green for text */
+  background: linear-gradient(to bottom, #e6f2e6, #cce6cc);
+  color: #1b3b1b;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -135,26 +135,21 @@ tr:hover {
   border: 3px solid #145214;
 }
 
-/* ---------------- Responsive for Phones ---------------- */
-@media screen and (max-width: 480px) {
-  h1 { font-size: 24px; }
-  h2 { font-size: 20px; }
-  p, input, button, nav a { font-size: 16px; }
-  .container, #profile-container, #auth-container { padding: 15px; }
-  .profile-pic { width: 120px; height: 120px; }
-  table th, table td { padding: 8px; font-size: 14px; }
-}
-/* ---------------- Mobile adjustments ---------------- */
+/* ---------------- Unified Mobile Styles ---------------- */
 @media screen and (max-width: 480px) {
   body {
       padding: 15px;
-      font-size: 18px; /* base font bigger for readability */
+      font-size: 18px;
   }
 
   h1 { font-size: 32px; }
   h2 { font-size: 28px; }
   h3 { font-size: 24px; }
-  p { font-size: 20px; line-height: 1.6; }
+
+  p {
+      font-size: 20px;
+      line-height: 1.6;
+  }
 
   nav a {
       font-size: 20px;

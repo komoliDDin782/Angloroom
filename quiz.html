@@ -4,15 +4,85 @@
   <meta charset="UTF-8">
   <title>AngloRoom - Daily Quizzes</title>
   <link rel="stylesheet" href="assets/css/styles.css">
+
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
   <script src="assets/js/firebase.js" defer></script>
   <script src="assets/js/quiz.js" defer></script>
+
+  <style>
+    #quiz-container {
+      max-width: 700px;
+      margin: 20px auto;
+      background: rgba(255,255,255,0.95);
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+
+    .question-card {
+      border-bottom: 1px solid #ccc;
+      padding: 20px 0;
+    }
+
+    .question-card:last-child {
+      border-bottom: none;
+    }
+
+    .question-text {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #145214;
+    }
+
+    .options {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .options li {
+      background-color: #f0f7f0;
+      margin-bottom: 10px;
+      padding: 12px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      font-size: 18px;
+      color: #1b3b1b;
+    }
+
+    .options li:hover {
+      background-color: #d0ecd0;
+      transform: translateX(5px);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 32px;
+      color: #145214;
+      margin-top: 20px;
+    }
+
+    nav a {
+      font-size: 20px;
+      text-decoration: none;
+      color: #fff;
+      background-color: #2e7d32;
+      padding: 12px 20px;
+      border-radius: 10px;
+      margin: 0 5px;
+      transition: background 0.3s;
+    }
+
+    nav a:hover {
+      background-color: #145214;
+    }
+  </style>
 </head>
 <body>
   <header>
-   
     <nav>
       <a href="main.html">Main</a>
       <a href="quiz.html">Daily Quizzes</a>
@@ -24,7 +94,7 @@
   <h1>Daily Quizzes</h1>
 
   <div id="quiz-container">
-    <p>Quizzes will appear here.</p>
-  </div><br><br>
+    <!-- Questions will be dynamically added by quiz.js -->
+  </div>
 </body>
 </html>

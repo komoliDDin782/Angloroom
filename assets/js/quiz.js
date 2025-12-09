@@ -33,16 +33,23 @@ async function loadQuiz() {
   let html = `<h2>${quiz.title}</h2><form id="quiz-form">`;
 
   questions.forEach((q, i) => {
-    html += `<p>${i + 1}. ${q.question}</p>`;
+    html += `
+      <div class="question-card">
+        <div class="question-text">${i + 1}. ${q.question}</div>
+        <ul class="options">
+    `;
 
     // Shuffle options
     const shuffledOptions = shuffle([...q.options]);
-
     shuffledOptions.forEach(opt => {
-      html += `<label>
-                 <input type="radio" name="q${i}" value="${opt}" required> ${opt}
-               </label><br>`;
+      html += `<li>
+                 <label>
+                   <input type="radio" name="q${i}" value="${opt}" required> ${opt}
+                 </label>
+               </li>`;
     });
+
+    html += `</ul></div>`;
   });
 
   html += `<button type="submit">Submit</button></form>`;
@@ -59,10 +66,14 @@ async function loadQuiz() {
       if (selected === q.options[0]) score++; // first option is correct
     });
 
+    // Fetch nickname from profile
+    const userDoc = await db.collection('users').doc(currentUser.uid).get();
+    const nickname = userDoc.exists && userDoc.data().nickname ? userDoc.data().nickname : "";
+
     // Save result in Firebase
     await db.collection('results').add({
       userId: currentUser.uid,
-      nickname: "", // can fetch from profile later
+      nickname: nickname,
       quizId: "quiz1",
       score: score,
       total: questions.length,
