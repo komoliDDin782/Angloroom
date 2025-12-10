@@ -349,3 +349,45 @@ tr:last-child td {
     padding: 10px;
   }
 }
+/* Make results container bigger for all screens */
+#results-container {
+  width: 100%;
+  max-width: 800px;   /* bigger than before */
+  margin: 25px auto;
+  padding: 20px;
+  font-size: 20px;    /* default bigger font */
+}
+
+/* Table styling */
+#results-container table {
+  width: 100%;
+  font-size: 22px;     /* bigger text inside table */
+}
+
+#results-container th, 
+#results-container td {
+  padding: 18px 12px;  /* bigger padding */
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 600px) {
+  #results-container {
+    width: 95%;         /* almost full width */
+    padding: 15px;
+    font-size: 22px;    /* bigger text for mobile */
+  }
+
+  #results-container table {
+    font-size: 24px;    /* really readable on small phones */
+  }
+
+  #results-container th, 
+  #results-container td {
+    padding: 20px 10px; /* more spacing for touch readability */
+  }
+
+  .profile-icon {
+    width: 50px;        /* bigger profile pics */
+    height: 50px;
+  }
+}
