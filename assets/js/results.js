@@ -3,7 +3,7 @@
 const resultsContainer = document.getElementById('results-container');
 let currentUser;
 
-// Check authentication
+// Authentication check
 auth.onAuthStateChanged(user => {
   if (user) {
     currentUser = user;
@@ -13,10 +13,10 @@ auth.onAuthStateChanged(user => {
   }
 });
 
-// Load results and display with nicknames
+// Load results with nickname + profile picture
 async function loadResults() {
   const snapshot = await db.collection('results')
-    .orderBy('score', 'desc') // highest scores first
+    .orderBy('score', 'desc')
     .get();
 
   if (snapshot.empty) {
@@ -24,47 +24,94 @@ async function loadResults() {
     return;
   }
 
-  let html = `<table class="results-table">
-                <tr>
-                  <th>Nickname</th>
-                  <th>Quiz</th>
-                  <th>Score</th>
-                  <th>Total</th>
-                </tr>`;
+  // Cache user lookups
+  const userCache = {};
 
-  // Loop through all results
-  for (const doc of snapshot.docs) {
-    const r = doc.data();
-    let nickname = r.nickname || "";
+  async function getUserData(uid) {
+    if (userCache[uid]) return userCache[uid];
 
-    // If nickname not in result, try to fetch from users collection
-    if (!nickname) {
-      try {
-        const userDoc = await db.collection('users').doc(r.userId).get();
-        if (userDoc.exists) {
-          nickname = userDoc.data().nickname || r.userId;
-        } else {
-          nickname = r.userId; // fallback
-        }
-      } catch (err) {
-        console.error("Error fetching nickname:", err);
-        nickname = r.userId; // fallback
+    try {
+      const userDoc = await db.collection('users').doc(uid).get();
+      if (userDoc.exists) {
+        const data = userDoc.data();
+
+        userCache[uid] = {
+          nickname: data.nickname || uid,
+          profilePic: data.profilePic || "assets/css/logo.jpg"
+        };
+        return userCache[uid];
       }
+    } catch (err) {
+      console.error("User data fetch failed:", err);
     }
 
-    html += `<tr>
-               <td>${nickname}</td>
-               <td>${r.quizId}</td>
-               <td>${r.score}</td>
-               <td>${r.total}</td>
-             </tr>`;
+    // default fallback
+    userCache[uid] = {
+      nickname: uid,
+      profilePic: "assets/css/logo.jpg"
+    };
+    return userCache[uid];
+  }
+
+  // Inline styles for profile pictures (mobile-friendly)
+  let html = `
+    <style>
+      .results-table img.profile-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px;
+        vertical-align: middle;
+      }
+      .nickname-cell {
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+      }
+      @media (max-width: 600px) {
+        .results-table img.profile-icon {
+          width: 32px;
+          height: 32px;
+        }
+      }
+    </style>
+
+    <table class="results-table">
+      <tr>
+        <th>User</th>
+        <th>Quiz</th>
+        <th>Score</th>
+        <th>Total</th>
+      </tr>
+  `;
+
+  // Build table rows
+  for (const doc of snapshot.docs) {
+    const r = doc.data();
+    const user = await getUserData(r.userId);
+
+    html += `
+      <tr>
+        <td class="nickname-cell">
+          <img src="${user.profilePic}" class="profile-icon">
+          ${user.nickname}
+        </td>
+        <td>${r.quizId}</td>
+        <td>${r.score}</td>
+        <td>${r.total}</td>
+      </tr>
+    `;
   }
 
   html += "</table>";
   resultsContainer.innerHTML = html;
 }
 
-// Save/update nickname from profile page
+
+// -----------------------------------------
+// Optional: nickname save if used in profile.html
+// -----------------------------------------
 const nicknameInput = document.getElementById('nickname');
 const saveBtn = document.getElementById('save-nickname');
 
@@ -74,9 +121,9 @@ if (saveBtn && nicknameInput) {
     if (!nickname) return alert("Enter a nickname");
 
     try {
-      await db.collection('users').doc(currentUser.uid).set({
-        nickname: nickname
-      }, { merge: true }); // merge to avoid overwriting other data
+      await db.collection('users')
+        .doc(currentUser.uid)
+        .set({ nickname }, { merge: true });
 
       alert("Nickname saved!");
     } catch (err) {
