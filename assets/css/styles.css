@@ -52,21 +52,22 @@ nav {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 25px; /* more space between links */
-  margin-bottom: 30px;
+  gap: 20px; /* moderate spacing */
+  margin-bottom: 25px;
+  margin-top: 35px;
 }
 
 nav a {
-  padding: 1.8em 4em;     /* bigger buttons */
-  font-size: 20px;        /* bigger text */
+  padding: 1.5em 3.2em;     /* moderate size */
+  font-size: 18px;           /* readable but not huge */
   text-transform: uppercase;
-  letter-spacing: 3px;    /* slightly wider spacing */
+  letter-spacing: 2.5px;
   font-weight: 600;
   color: #000;
   background-color: #fff;
   border: none;
-  border-radius: 60px;    /* more rounded */
-  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15); /* bigger shadow */
+  border-radius: 50px;       /* rounded but not extreme */
+  box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.12);
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
@@ -75,21 +76,21 @@ nav a {
 
 nav a:hover {
   background-color: #145214;
-  box-shadow: 0px 18px 25px rgba(46, 229, 157, 0.4); /* bigger hover shadow */
+  box-shadow: 0px 14px 20px rgba(46, 229, 157, 0.35);
   color: #fff;
-  transform: translateY(-10px); /* more noticeable hover lift */
+  transform: translateY(-8px);
 }
 
 nav a:active {
-  transform: translateY(-2px); /* active click effect */
+  transform: translateY(-2px);
 }
 
 /* Mobile scaling */
 @media (max-width: 480px) {
   nav a {
-    padding: 1.5em 3em;
-    font-size: 18px;
-    letter-spacing: 2.5px;
+    padding: 1.2em 2.5em;
+    font-size: 16px;
+    letter-spacing: 2px;
   }
 }
 
