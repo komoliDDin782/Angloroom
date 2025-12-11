@@ -142,7 +142,7 @@ th {
   background-color: rgb(7, 145, 7);
   color: white;
   padding: 18px;
-  font-size: 22px;
+  font-size: 30px;
   font-weight: 600;
   letter-spacing: 0.5px;
 }
@@ -153,7 +153,7 @@ td {
   padding-left: 20px;
   text-align: center;
   border-bottom: 1px solid #e0e0e0;
-  font-size: 29px;
+  font-size: 30px;
 }
 
 /* Hover effect */
