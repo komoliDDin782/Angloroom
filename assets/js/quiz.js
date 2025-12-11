@@ -77,30 +77,46 @@ async function openQuizModal(jsonFile, quizId) {
     quizModal.style.display = 'block';
 
     const quizForm = document.getElementById('quiz-form');
+    let submitted = false; // prevent multiple submissions
+
     quizForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      let score = 0;
+      if (submitted) return; // do nothing if already submitted
+      submitted = true;
 
+      const submitButton = quizForm.querySelector('button[type="submit"]');
+      submitButton.disabled = true;
+      submitButton.textContent = "Submitting...";
+
+      let score = 0;
       questions.forEach((q, i) => {
         const selected = quizForm[`q${i}`].value;
         if (selected === q.options[0]) score++; // first option is correct
       });
 
-      const userDoc = await db.collection('users').doc(currentUser.uid).get();
-      const nickname = userDoc.exists && userDoc.data().nickname ? userDoc.data().nickname : "";
+      try {
+        const userDoc = await db.collection('users').doc(currentUser.uid).get();
+        const nickname = userDoc.exists && userDoc.data().nickname ? userDoc.data().nickname : "";
 
-      await db.collection('results').add({
-        userId: currentUser.uid,
-        nickname: nickname,
-        quizId: quizId,
-        score: score,
-        total: questions.length,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      });
+        await db.collection('results').add({
+          userId: currentUser.uid,
+          nickname: nickname,
+          quizId: quizId,
+          score: score,
+          total: questions.length,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
 
-      alert(`You scored ${score}/${questions.length}`);
-      quizModal.style.display = 'none';
-      modalQuizContainer.innerHTML = '';
+        alert(`You scored ${score}/${questions.length}`);
+        quizModal.style.display = 'none';
+        modalQuizContainer.innerHTML = '';
+      } catch (err) {
+        console.error("Failed to submit results:", err);
+        alert("Failed to submit quiz. Please try again.");
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit";
+        submitted = false;
+      }
     });
 
   } catch (err) {

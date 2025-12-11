@@ -1,67 +1,13 @@
 {
-  "title": "Daily Quiz 1",
+  "title": "Daily Quiz - Passive Voice",
   "questions": [
     {
-      "question": "He said, 'I am tired.' → Reported speech?",
+      "question": "'They will finish the project tomorrow.' → Passive voice?",
       "options": [
-        "He said that he was tired.",
-        "He said that he is tired.",
-        "He says that he was tired.",
-        "He told that he is tired."
-      ]
-    },
-    {
-      "question": "She said, 'I will call you tomorrow.' → Reported speech?",
-      "options": [
-        "She said that she would call me the next day.",
-        "She said that she will call me tomorrow.",
-        "She told she would call me tomorrow.",
-        "She said she will call me the next day."
-      ]
-    },
-    {
-      "question": "Tom said, 'I have finished my work.' → Reported speech?",
-      "options": [
-        "Tom said that he had finished his work.",
-        "Tom said that he has finished his work.",
-        "Tom told that he finished his work.",
-        "Tom said he finishes his work."
-      ]
-    },
-    {
-      "question": "They said, 'We are going to travel.' → Reported speech?",
-      "options": [
-        "They said that they were going to travel.",
-        "They said that they are going to travel.",
-        "They told that they were traveling.",
-        "They said they travel."
-      ]
-    },
-    {
-      "question": "Mary said, 'I can help you.' → Reported speech?",
-      "options": [
-        "Mary said that she could help me.",
-        "Mary said that she can help me.",
-        "Mary told she could help me.",
-        "Mary said she can helping me."
-      ]
-    },
-    {
-      "question": "The teacher said, 'Open your books.' → Reported speech?",
-      "options": [
-        "The teacher told us to open our books.",
-        "The teacher said us to open our books.",
-        "The teacher said that we open our books.",
-        "The teacher told to open our books."
-      ]
-    },
-    {
-      "question": "'They will finish the project by next week.' → Passive voice?",
-      "options": [
-        "The project will be finished by them by next week.",
-        "The project will finished by them next week.",
-        "The project is finished by them next week.",
-        "The project has been finished by them next week."
+        "The project will be finished by them tomorrow.",
+        "The project will finished by them tomorrow.",
+        "The project is finished by them tomorrow.",
+        "The project has been finished by them tomorrow."
       ]
     },
     {
@@ -89,6 +35,60 @@
         "The letter is written by him yesterday.",
         "The letter has written by him yesterday.",
         "The letter wrote by him yesterday."
+      ]
+    },
+    {
+      "question": "'The chef is preparing the meal.' → Passive voice?",
+      "options": [
+        "The meal is being prepared by the chef.",
+        "The meal is prepared by the chef.",
+        "The meal preparing by the chef.",
+        "The meal has been prepared by the chef."
+      ]
+    },
+    {
+      "question": "'They have completed the assignment.' → Passive voice?",
+      "options": [
+        "The assignment has been completed by them.",
+        "The assignment is completed by them.",
+        "The assignment has completed by them.",
+        "The assignment completed by them."
+      ]
+    },
+    {
+      "question": "'Someone will announce the results tomorrow.' → Passive voice?",
+      "options": [
+        "The results will be announced tomorrow.",
+        "The results will announced tomorrow.",
+        "The results is announced tomorrow.",
+        "The results has been announced tomorrow."
+      ]
+    },
+    {
+      "question": "'They repaired the car last week.' → Passive voice?",
+      "options": [
+        "The car was repaired by them last week.",
+        "The car is repaired by them last week.",
+        "The car has repaired by them last week.",
+        "The car repaired by them last week."
+      ]
+    },
+    {
+      "question": "'The students are solving the problems.' → Passive voice?",
+      "options": [
+        "The problems are being solved by the students.",
+        "The problems are solved by the students.",
+        "The problems solving by the students.",
+        "The problems have been solved by the students."
+      ]
+    },
+    {
+      "question": "'He has painted the house.' → Passive voice?",
+      "options": [
+        "The house has been painted by him.",
+        "The house is painted by him.",
+        "The house has painted by him.",
+        "The house painted by him."
       ]
     }
   ]
