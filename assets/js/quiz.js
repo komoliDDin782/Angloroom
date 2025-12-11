@@ -1,9 +1,12 @@
-// assets/js/quiz.js
-
 const quizContainer = document.getElementById('quiz-container');
 let currentUser;
 
-// Helper: shuffle an array
+// Modal elements
+const quizModal = document.getElementById('quiz-modal');
+const modalQuizContainer = document.getElementById('modal-quiz-container');
+const closeModal = document.getElementById('close-modal');
+
+// Shuffle helper
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -12,74 +15,110 @@ function shuffle(array) {
   return array;
 }
 
-// Check user
+// Check authentication
 auth.onAuthStateChanged(user => {
   if (user) {
     currentUser = user;
-    loadQuiz();
+    loadQuizCards();
   } else {
     window.location.href = "index.html";
   }
 });
 
-// Load quiz from local JSON
-async function loadQuiz() {
-  const response = await fetch('data/quizzes/quiz1.json');
-  const quiz = await response.json();
+// Load quiz cards dynamically from index.json
+async function loadQuizCards() {
+  try {
+    const response = await fetch('data/quizzes/index.json');
+    const quizzes = await response.json();
 
-  // Shuffle questions
-  const questions = shuffle(quiz.questions);
+    quizzes.forEach(quiz => {
+      const card = document.createElement('div');
+      card.classList.add('quiz-card');
+      card.textContent = quiz.title;
 
-  let html = `<h2>${quiz.title}</h2><form id="quiz-form">`;
-
-  questions.forEach((q, i) => {
-    html += `
-      <div class="question-card">
-        <div class="question-text">${i + 1}. ${q.question}</div>
-        <ul class="options">
-    `;
-
-    // Shuffle options
-    const shuffledOptions = shuffle([...q.options]);
-    shuffledOptions.forEach(opt => {
-      html += `<li>
-                 <label>
-                   <input type="radio" name="q${i}" value="${opt}" required> ${opt}
-                 </label>
-               </li>`;
+      card.addEventListener('click', () => openQuizModal(`data/quizzes/${quiz.file}`, quiz.id));
+      quizContainer.appendChild(card);
     });
+  } catch (err) {
+    console.error("Failed to load quizzes:", err);
+    alert("Failed to load quizzes. Please try again later.");
+  }
+}
 
-    html += `</ul></div>`;
-  });
+// Open modal and load quiz questions
+async function openQuizModal(jsonFile, quizId) {
+  try {
+    const response = await fetch(jsonFile);
+    const quizData = await response.json();
 
-  html += `<button type="submit">Submit</button></form>`;
-  quizContainer.innerHTML = html;
+    let html = `<h2>${quizData.title}</h2><form id="quiz-form">`;
 
-  // Handle submission
-  const quizForm = document.getElementById('quiz-form');
-  quizForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    let score = 0;
+    const questions = shuffle(quizData.questions);
 
     questions.forEach((q, i) => {
-      const selected = quizForm[`q${i}`].value;
-      if (selected === q.options[0]) score++; // first option is correct
+      html += `
+        <div class="question-card">
+          <div class="question-text">${i + 1}. ${q.question}</div>
+          <ul class="options">
+            ${shuffle([...q.options]).map(opt => `
+              <li>
+                <label>
+                  <input type="radio" name="q${i}" value="${opt}" required> ${opt}
+                </label>
+              </li>
+            `).join('')}
+          </ul>
+        </div>
+      `;
     });
 
-    // Fetch nickname from profile
-    const userDoc = await db.collection('users').doc(currentUser.uid).get();
-    const nickname = userDoc.exists && userDoc.data().nickname ? userDoc.data().nickname : "";
+    html += `<button type="submit">Submit</button></form>`;
+    modalQuizContainer.innerHTML = html;
+    quizModal.style.display = 'block';
 
-    // Save result in Firebase
-    await db.collection('results').add({
-      userId: currentUser.uid,
-      nickname: nickname,
-      quizId: "quiz1",
-      score: score,
-      total: questions.length,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    const quizForm = document.getElementById('quiz-form');
+    quizForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      let score = 0;
+
+      questions.forEach((q, i) => {
+        const selected = quizForm[`q${i}`].value;
+        if (selected === q.options[0]) score++; // first option is correct
+      });
+
+      const userDoc = await db.collection('users').doc(currentUser.uid).get();
+      const nickname = userDoc.exists && userDoc.data().nickname ? userDoc.data().nickname : "";
+
+      await db.collection('results').add({
+        userId: currentUser.uid,
+        nickname: nickname,
+        quizId: quizId,
+        score: score,
+        total: questions.length,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      alert(`You scored ${score}/${questions.length}`);
+      quizModal.style.display = 'none';
+      modalQuizContainer.innerHTML = '';
     });
 
-    alert(`You scored ${score}/${questions.length}`);
-  });
+  } catch (err) {
+    console.error("Failed to load quiz JSON:", err);
+    alert("Failed to load quiz. Please try again later.");
+  }
 }
+
+// Close modal
+closeModal.addEventListener('click', () => {
+  quizModal.style.display = 'none';
+  modalQuizContainer.innerHTML = '';
+});
+
+// Close modal if clicked outside
+window.addEventListener('click', (e) => {
+  if (e.target === quizModal) {
+    quizModal.style.display = 'none';
+    modalQuizContainer.innerHTML = '';
+  }
+});

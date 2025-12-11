@@ -1,0 +1,6 @@
+[
+    { "id": "quiz1", "title": "Quiz 1", "file": "quiz1.json" },
+    { "id": "quiz2", "title": "Quiz 2", "file": "quiz2.json" },
+    { "id": "quiz3", "title": "Quiz 3", "file": "quiz3.json" }
+  ]
+  
