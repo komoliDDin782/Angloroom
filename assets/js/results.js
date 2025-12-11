@@ -57,12 +57,13 @@ async function loadResults() {
   let html = `
     <style>
       .results-table img.profile-icon {
-        width: 40px;
-        height: 40px;
+        width: 80px;
+        height: 80px;
         border-radius: 50%;
         object-fit: cover;
         margin-right: 10px;
         vertical-align: middle;
+          
       }
       .nickname-cell {
         display: flex;

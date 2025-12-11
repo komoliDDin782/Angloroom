@@ -150,8 +150,10 @@ th {
 /* Rows */
 td {
   padding: 16px;
+  padding-left: 20px;
   text-align: center;
   border-bottom: 1px solid #e0e0e0;
+  font-size: 29px;
 }
 
 /* Hover effect */
