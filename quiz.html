@@ -13,30 +13,34 @@
 
   <style>
     /* Quiz card dashboard */
-    #quiz-container {
-      max-width: 900px;
-      margin: 30px auto;
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-    }
+    /* Quiz card dashboard — now row/grid style */
+#quiz-container {
+  max-width: 1200px;
+  margin: 30px auto;
+  display: flex;
+  flex-wrap: wrap;          /* allows multiple cards in a row */
+  gap: 25px;
+  justify-content: center;  /* centers the grid */
+}
 
-    .quiz-card {
-      background-color: #f0f7f0;
-      border: 2px solid #145214;
-      padding: 40px;         /* larger padding */
-      text-align: center;
-      font-size: 28px;       /* bigger font */
-      font-weight: 700;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
-    }
+.quiz-card {
+  background-color: #f0f7f0;
+  border: 2px solid #145214;
+  width: 260px;             /* fixed width for clean rows */
+  padding: 35px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
 
-    .quiz-card:hover {
-      background-color: #d0ecd0;
-      transform: translateY(-4px);
-    }
+.quiz-card:hover {
+  background-color: #d0ecd0;
+  transform: translateY(-4px);
+}
+
 
     /* Modal overlay */
     .quiz-modal {
