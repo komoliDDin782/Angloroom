@@ -11,42 +11,68 @@
   <script src="assets/js/firebase.js" defer></script>
   <script src="assets/js/profile.js" defer></script>
 
-  <!-- Font Awesome for upload icon -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
+
+    /* NEW PROFILE CONTAINER */
     #profile-container {
+      width: 90%;
+      max-width: 450px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       text-align: center;
-      margin-top: 40px;
     }
 
-    h1 {
-      font-size: 36px;
-      color: #145214;
-      margin-bottom: 30px;
+    /* Top 1/4 background image */
+    .profile-top-bg {
+      height: 180px;
+      background-image: url(assets/css/back3.jpg);
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      
     }
 
-    /* Profile picture */
-    #profile-pic {
-      width: 160px;
-      height: 160px;
+    /* Profile image centered and overlapping */
+    .profile-top-bg #profile-pic {
+      width: 150px;
+      height: 150px;
       border-radius: 50%;
       object-fit: cover;
-      border: 4px solid #2e7d32;
-      margin-bottom: 15px;
+      border: 5px solid #fff;
+      position: absolute;
+      bottom: -75px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
       transition: transform 0.3s;
     }
 
-    #profile-pic:hover {
-      transform: scale(1.05);
+    .profile-top-bg #profile-pic:hover {
+      transform: translateX(-50%) scale(1.05);
     }
 
-    /* Hidden input */
+    /* Bottom 3/4 white section */
+    .profile-bottom {
+      padding: 90px 20px 40px; /* reduced from 110px */
+ 
+    }
+
+    h1 {
+      font-size: 32px;
+      color: #145214;
+      margin-bottom: 20px;
+    }
+
+    /* Hide file input */
     #profile-pic-input {
       display: none;
     }
 
-    /* Styled label for file input */
     .profile-pic-label {
       display: inline-flex;
       align-items: center;
@@ -68,18 +94,6 @@
       margin-right: 10px;
     }
 
-    .profile-pic-label:hover {
-      background: linear-gradient(135deg, #2E7D32, #145214);
-      transform: translateY(-2px) scale(1.05);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    }
-
-    .profile-pic-label:active {
-      transform: translateY(0) scale(0.98);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-
-    /* Inputs & buttons */
     #profile-container input[type="text"] {
       font-size: 18px;
       padding: 12px;
@@ -128,29 +142,32 @@
       <a href="profile.html">Profile</a>
     </nav>
   </header>
-
+  <h1>Profile</h1>
+  <!-- NEW PROFILE CONTAINER STRUCTURE -->
   <div id="profile-container">
-    <h1>Profile</h1>
 
-    <!-- Profile picture -->
-    <img id="profile-pic" src="assets/css/logo.jpg" alt="Profile Picture"><br>
+    <div class="profile-top-bg">
+      <img id="profile-pic" src="assets/css/logo.jpg" alt="Profile Picture">
+    </div>
 
-    <!-- File input with styled label -->
-    <input type="file" id="profile-pic-input" accept="image/*">
-    <label for="profile-pic-input" class="profile-pic-label">
-      <i class="fas fa-upload"></i> Choose Picture
-    </label><br>
+    <div class="profile-bottom"><br><br><br>
+   
 
-    <!-- Nickname -->
-    <input type="text" id="nickname" placeholder="Enter nickname"><br>
+      <input type="file" id="profile-pic-input" accept="image/*">
+      <label for="profile-pic-input" class="profile-pic-label">
+        <i class="fas fa-upload"></i> Choose Picture
+      </label>
 
-    <!-- Save & Logout buttons -->
-    <button id="save-profile-btn">Save Profile</button>
-    <button id="logout-btn">Log Out</button>
+      <input type="text" id="nickname" placeholder="Enter nickname">
+
+      <button id="save-profile-btn">Save Profile</button>
+      <button id="logout-btn">Log Out</button>
+    </div>
+
   </div>
 
   <script>
-    // Live preview for profile picture
+    // Preview new image
     const fileInput = document.getElementById('profile-pic-input');
     const profilePic = document.getElementById('profile-pic');
 
