@@ -24,7 +24,6 @@ async function loadResults() {
     return;
   }
 
-  // Cache user lookups
   const userCache = {};
 
   async function getUserData(uid) {
@@ -34,7 +33,6 @@ async function loadResults() {
       const userDoc = await db.collection('users').doc(uid).get();
       if (userDoc.exists) {
         const data = userDoc.data();
-
         userCache[uid] = {
           nickname: data.nickname || uid,
           profilePic: data.profilePic || "assets/css/logo.jpg"
@@ -45,7 +43,6 @@ async function loadResults() {
       console.error("User data fetch failed:", err);
     }
 
-    // default fallback
     userCache[uid] = {
       nickname: uid,
       profilePic: "assets/css/logo.jpg"
@@ -53,7 +50,6 @@ async function loadResults() {
     return userCache[uid];
   }
 
-  // Inline styles for profile pictures (mobile-friendly)
   let html = `
     <style>
       .results-table img.profile-icon {
@@ -63,14 +59,25 @@ async function loadResults() {
         object-fit: cover;
         margin-right: 10px;
         vertical-align: middle;
-        
-          
       }
+
       .nickname-cell {
         display: flex;
         align-items: center;
         font-weight: 600;
       }
+
+      .rank { 
+        font-weight: bold;
+        text-align: center;
+        width: 60px;
+      }
+
+      .gold { background-color: #C6E8C3; }
+      .silver { background-color: #E6F7E4 }
+      .bronze { background-color: #D9F2D5; }
+      
+
       @media (max-width: 600px) {
         .results-table img.profile-icon {
           width: 32px;
@@ -81,6 +88,7 @@ async function loadResults() {
 
     <table class="results-table">
       <tr>
+        <th>Rank</th>
         <th>User</th>
         <th>Quiz</th>
         <th>Score</th>
@@ -88,13 +96,23 @@ async function loadResults() {
       </tr>
   `;
 
-  // Build table rows
+  let rank = 1;
+
   for (const doc of snapshot.docs) {
     const r = doc.data();
     const user = await getUserData(r.userId);
 
+    let rankLabel = rank + (rank === 1 ? "st" : rank === 2 ? "nd" : rank === 3 ? "rd" : "th");
+
+    // Assign row class by rank
+    let rowClass = "";
+    if (rank === 1) rowClass = "gold";
+    if (rank === 2) rowClass = "bronze";
+    if (rank === 3) rowClass = "silver";
+
     html += `
-      <tr>
+      <tr class="${rowClass}">
+        <td class="rank">${rankLabel}</td>
         <td class="nickname-cell">
           <img src="${user.profilePic}" class="profile-icon">
           ${user.nickname}
@@ -104,6 +122,8 @@ async function loadResults() {
         <td>${r.total}</td>
       </tr>
     `;
+
+    rank++;
   }
 
   html += "</table>";
@@ -111,9 +131,7 @@ async function loadResults() {
 }
 
 
-// -----------------------------------------
-// Optional: nickname save if used in profile.html
-// -----------------------------------------
+// nickname save
 const nicknameInput = document.getElementById('nickname');
 const saveBtn = document.getElementById('save-nickname');
 
