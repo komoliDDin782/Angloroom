@@ -10,113 +10,109 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
   <script src="assets/js/firebase.js" defer></script>
   <script src="assets/js/profile.js" defer></script>
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
-
-    /* NEW PROFILE CONTAINER */
     #profile-container {
       width: 90%;
-      max-width: 450px;
-      margin: 40px auto;
+      max-width: 500px;
+      margin: 50px auto;
       background: #fff;
-      border-radius: 12px;
+      border-radius: 15px;
       overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 6px 25px rgba(0,0,0,0.15);
       text-align: center;
+      position: relative;
     }
 
-    /* Top 1/4 background image */
     .profile-top-bg {
-      height: 180px;
-      background-image: url(assets/css/back3.jpg);
+      height: 220px;
+      background-image: url(assets/css/back4.jpg);
       background-size: cover;
       background-position: center;
       position: relative;
-      
     }
 
-    /* Profile image centered and overlapping */
-    .profile-top-bg #profile-pic {
-      width: 150px;
-      height: 150px;
+    #profile-pic {
+      width: 160px;
+      height: 160px;
       border-radius: 50%;
       object-fit: cover;
       border: 5px solid #fff;
       position: absolute;
-      bottom: -75px;
+      bottom: -80px;
       left: 50%;
       transform: translateX(-50%);
       background: #fff;
       transition: transform 0.3s;
     }
+    #profile-pic:hover { transform: translateX(-50%) scale(1.05); }
 
-    .profile-top-bg #profile-pic:hover {
-      transform: translateX(-50%) scale(1.05);
-    }
-
-    /* Bottom 3/4 white section */
-    .profile-bottom {
-      padding: 90px 20px 40px; /* reduced from 110px */
- 
-    }
-
-    h1 {
-      font-size: 32px;
-      color: #145214;
-      margin-bottom: 20px;
-    }
-
-    /* Hide file input */
-    #profile-pic-input {
-      display: none;
-    }
-
-    .profile-pic-label {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    .settings-menu {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 22px;
       color: #fff;
-      padding: 12px 30px;
-      border-radius: 50px;
-      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .settings-dropdown {
+      display: none;
+      position: absolute;
+      top: 40px;
+      right: 0;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      min-width: 180px;
+      z-index: 100;
+      text-align: left;
+    }
+
+    .dropdown-item {
+      padding: 12px 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #333;
+    }
+    .dropdown-item:hover { background-color: #f1f1f1; }
+
+    .profile-bottom {
+      padding: 100px 20px 40px;
+    }
+
+    #nickname-display {
+      font-size: 26px;
       font-weight: 600;
-      letter-spacing: 1px;
       margin-bottom: 20px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      transition: all 0.3s ease;
+      text-align: center;
     }
 
-    .profile-pic-label i {
-      margin-right: 10px;
-    }
-
-    #profile-container input[type="text"] {
+    #nickname {
+      display: none;
       font-size: 18px;
-      padding: 12px;
+      padding: 10px;
       width: 80%;
       max-width: 300px;
-      margin-top: 10px;
       border-radius: 10px;
       border: 1px solid #ccc;
-    }
-
-    button {
-      font-size: 18px;
-      padding: 12px 35px;
-      margin: 15px 5px;
-      border-radius: 12px;
-      cursor: pointer;
-      border: none;
-      color: #fff;
-      transition: transform 0.2s, background 0.3s;
+      margin: 0 auto 15px;
+      text-align: center;
     }
 
     #save-profile-btn {
+      display: none;
+      font-size: 18px;
+      padding: 12px 35px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
       background-color: #2e7d32;
+      color: #fff;
+      transition: transform 0.2s, background 0.3s;
     }
     #save-profile-btn:hover {
       background-color: #145214;
@@ -124,11 +120,7 @@
     }
 
     #logout-btn {
-      background-color: #c0392b;
-    }
-    #logout-btn:hover {
-      background-color: #922b21;
-      transform: scale(1.05);
+      background-color: #e74c3c;
     }
   </style>
 </head>
@@ -142,57 +134,35 @@
       <a href="profile.html">Profile</a>
     </nav>
   </header>
-  <h1>Profile</h1>
-  <!-- NEW PROFILE CONTAINER STRUCTURE -->
-  <div id="profile-container">
 
+  <h1>Profile</h1>
+
+  <div id="profile-container">
     <div class="profile-top-bg">
       <img id="profile-pic" src="assets/css/logo.jpg" alt="Profile Picture">
+
+      <div class="settings-menu" id="settings-btn">
+        <i class="fas fa-ellipsis-v"></i>
+        <div class="settings-dropdown" id="settings-dropdown">
+          <label for="profile-pic-input" class="dropdown-item">
+            <i class="fas fa-upload"></i> Change Picture
+          </label>
+          <input type="file" id="profile-pic-input" accept="image/*" style="display:none;">
+          <div class="dropdown-item" id="change-nickname">
+            <i class="fas fa-user-edit"></i> Change Nickname
+          </div>
+          <div class="dropdown-item" id="logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Log Out
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="profile-bottom"><br><br><br>
-   
-
-      <input type="file" id="profile-pic-input" accept="image/*">
-      <label for="profile-pic-input" class="profile-pic-label">
-        <i class="fas fa-upload"></i> Choose Picture
-      </label>
-
+    <div class="profile-bottom">
+      <h2 id="nickname-display">Student</h2>
       <input type="text" id="nickname" placeholder="Enter nickname">
-
-      <button id="save-profile-btn">Save Profile</button>
-      <button id="logout-btn">Log Out</button>
+      <button id="save-profile-btn">Save Changes</button>
     </div>
-
   </div>
-
-  <script>
-    // Preview new image
-    const fileInput = document.getElementById('profile-pic-input');
-    const profilePic = document.getElementById('profile-pic');
-
-    fileInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if(file) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          profilePic.src = event.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    // Firebase auth check
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        document.getElementById('nickname').value = user.displayName || '';
-        document.getElementById('logout-btn').addEventListener('click', () => {
-          auth.signOut().then(() => window.location.href = "index.html");
-        });
-      } else {
-        window.location.href = "index.html";
-      }
-    });
-  </script>
 </body>
 </html>
