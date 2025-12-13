@@ -12,41 +12,35 @@
   <script src="assets/js/quiz.js" defer></script>
 
   <style>
-    /* Quiz card dashboard */
-    /* Quiz card dashboard — now row/grid style */
-#quiz-container {
-  max-width: 1200px;
-  margin: 30px auto;
-  display: flex;
-  flex-wrap: wrap;          /* allows multiple cards in a row */
-  gap: 25px;
-  justify-content: center;  /* centers the grid */
-}
+    #quiz-container {
+      max-width: 1200px;
+      margin: 30px auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 25px;
+      justify-content: center;
+    }
 
-.quiz-card {
-  background-color: #f0f7f0;
-  border: 2px solid #145214;
-  width: 260px;             /* fixed width for clean rows */
-  padding: 35px;
-  text-align: center;
-  font-size: 24px;
-  font-weight: 700;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    .quiz-card {
+      background-color: #f0f7f0;
+      border: 2px solid #145214;
+      width: 260px;
+      padding: 35px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: 700;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    }
 
-}
+    .quiz-card:hover {
+      background-color: #d0ecd0;
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    }
 
-.quiz-card:hover {
-  background-color: #d0ecd0;
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-
-}
-
-
-    /* Modal overlay */
     .quiz-modal {
       display: none;
       position: fixed;
@@ -64,7 +58,7 @@
       margin: 50px auto;
       padding: 30px;
       border-radius: 15px;
-      max-width: 850px;      /* slightly wider */
+      max-width: 850px;
       width: 95%;
       box-sizing: border-box;
       position: relative;
@@ -111,6 +105,10 @@
       color: #1b3b1b;
     }
 
+    .options li.selected {
+      background-color: #b0e0b0;
+    }
+
     .options li:hover {
       background-color: #d0ecd0;
       transform: translateX(5px);
@@ -118,7 +116,7 @@
 
     h1 {
       text-align: center;
-      font-size: 36px;      /* bigger heading */
+      font-size: 36px;
       color: #145214;
       margin-top: 20px;
     }
@@ -135,18 +133,12 @@
   </header>
 
   <h1>Daily Quizzes</h1>
+  <div id="quiz-container"></div>
 
-  <div id="quiz-container">
-    <!-- Quiz cards will be dynamically generated here -->
-  </div>
-
-  <!-- Modal for quiz -->
   <div id="quiz-modal" class="quiz-modal">
     <div class="quiz-modal-content">
       <span id="close-modal">&times;</span>
-      <div id="modal-quiz-container">
-        <!-- Questions will be dynamically loaded here -->
-      </div>
+      <div id="modal-quiz-container"></div>
     </div>
   </div>
 </body>

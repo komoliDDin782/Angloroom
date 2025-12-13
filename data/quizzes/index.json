@@ -1,6 +1,20 @@
 [
-    { "id": "quiz1", "title": "Quiz 1", "file": "quiz1.json" },
-    { "id": "quiz2", "title": "Quiz 2", "file": "quiz2.json" },
-    { "id": "quiz3", "title": "Quiz 3", "file": "quiz3.json" }
-  ]
-  
+  {
+    "id": "quiz3",
+    "title": "Basic English Vocabulary",
+    "file": "quiz3.json",
+    "level": "beginner"
+  },
+  {
+    "id": "quiz2",
+    "title": "Intermediate Grammar Review",
+    "file": "quiz2.json",
+    "level": "intermediate"
+  },
+  {
+    "id": "quiz1",
+    "title": "Passive voice",
+    "file": "quiz1.json",
+    "level": "advanced"
+  }
+]

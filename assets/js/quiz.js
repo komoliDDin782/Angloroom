@@ -1,162 +1,183 @@
 const quizContainer = document.getElementById('quiz-container');
-let currentUser;
-
-// Modal elements
 const quizModal = document.getElementById('quiz-modal');
 const modalQuizContainer = document.getElementById('modal-quiz-container');
 const closeModal = document.getElementById('close-modal');
 
-// Shuffle helper
+let currentUser;
+let userLevel;
+
+/* ---------- Utils ---------- */
 function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+    [arr[i], arr[j]] = [arr[j], arr[i]];
   }
-  return array;
+  return arr;
 }
 
-// Check authentication
-auth.onAuthStateChanged(user => {
-  if (user) {
-    currentUser = user;
+/* ---------- Auth ---------- */
+auth.onAuthStateChanged(async user => {
+  if (!user) {
+    window.location.href = 'index.html';
+    return;
+  }
+
+  currentUser = user;
+
+  try {
+    const userDoc = await db.collection('users').doc(user.uid).get();
+    userLevel = userDoc.exists ? userDoc.data().level || 'beginner' : 'beginner';
     loadQuizCards();
-  } else {
-    window.location.href = "index.html";
+  } catch (err) {
+    console.error(err);
+    alert('Failed to load user data.');
   }
 });
 
-// Load quiz cards dynamically from index.json
+/* ---------- Load quiz cards ---------- */
 async function loadQuizCards() {
   try {
-    const response = await fetch('data/quizzes/index.json');
-    const quizzes = await response.json();
+    const res = await fetch('data/quizzes/index.json');
+    const quizzes = await res.json();
+
+    quizContainer.innerHTML = '';
 
     for (const quiz of quizzes) {
+      if (quiz.level !== userLevel) continue;
+
       const card = document.createElement('div');
-      card.classList.add('quiz-card');
+      card.className = 'quiz-card';
       card.textContent = quiz.title;
 
-      // Check if quiz already completed
-      const existingResults = await db.collection('results')
+      const completed = await db.collection('results')
         .where('userId', '==', currentUser.uid)
         .where('quizId', '==', quiz.id)
         .get();
 
-      if (!existingResults.empty) {
-        card.style.opacity = "0.5"; // visually show it’s completed
-        card.style.cursor = "not-allowed";
-        card.title = "You have already completed this quiz";
+      if (!completed.empty) {
+        card.style.opacity = '0.5';
+        card.style.cursor = 'not-allowed';
+        card.title = 'Quiz already completed';
       } else {
-        card.addEventListener('click', () => openQuizModal(`data/quizzes/${quiz.file}`, quiz.id));
+        card.addEventListener('click', () =>
+          openQuizModal(`data/quizzes/${quiz.file}`, quiz.id)
+        );
       }
 
       quizContainer.appendChild(card);
     }
+
   } catch (err) {
-    console.error("Failed to load quizzes:", err);
-    alert("Failed to load quizzes. Please try again later.");
+    console.error(err);
+    alert('Failed to load quizzes.');
   }
 }
 
-// Open modal and load quiz questions
+/* ---------- Open quiz ---------- */
 async function openQuizModal(jsonFile, quizId) {
   try {
-    // Double-check if quiz already completed
-    const existingResults = await db.collection('results')
-      .where('userId', '==', currentUser.uid)
-      .where('quizId', '==', quizId)
-      .get();
+    const res = await fetch(jsonFile);
+    const quizData = await res.json();
 
-    if (!existingResults.empty) {
-      alert("You have already completed this quiz. You cannot take it again.");
-      return;
-    }
+    modalQuizContainer.innerHTML = '';
 
-    // Fetch quiz JSON
-    const response = await fetch(jsonFile);
-    const quizData = await response.json();
-
-    let html = `<h2>${quizData.title}</h2><form id="quiz-form">`;
+    // shuffle QUESTIONS
     const questions = shuffle(quizData.questions);
 
-    questions.forEach((q, i) => {
-      html += `
-        <div class="question-card">
-          <div class="question-text">${i + 1}. ${q.question}</div>
-          <ul class="options">
-            ${shuffle([...q.options]).map(opt => `
-              <li>
-                <label>
-                  <input type="radio" name="q${i}" value="${opt}" required> ${opt}
-                </label>
-              </li>
-            `).join('')}
-          </ul>
-        </div>
+    const form = document.createElement('form');
+    form.id = 'quiz-form';
+
+    questions.forEach((q, index) => {
+      const correctAnswer = q.options[0]; // ALWAYS FIRST IN JSON
+      const shuffledOptions = shuffle(q.options);
+
+      const qCard = document.createElement('div');
+      qCard.className = 'question-card';
+      qCard.dataset.correct = correctAnswer;
+
+      qCard.innerHTML = `
+        <p class="question-text">${index + 1}. ${q.question}</p>
       `;
+
+      const ul = document.createElement('ul');
+      ul.className = 'options';
+
+      shuffledOptions.forEach(opt => {
+        const li = document.createElement('li');
+        li.textContent = opt;
+
+        li.addEventListener('click', () => {
+          ul.querySelectorAll('li').forEach(el => el.classList.remove('selected'));
+          li.classList.add('selected');
+        });
+
+        ul.appendChild(li);
+      });
+
+      qCard.appendChild(ul);
+      form.appendChild(qCard);
     });
 
-    html += `<button type="submit">Submit</button></form>`;
-    modalQuizContainer.innerHTML = html;
-    quizModal.style.display = 'block';
+    const submitBtn = document.createElement('button');
+    submitBtn.type = 'submit';
+    submitBtn.textContent = 'Submit Quiz';
+    submitBtn.style.marginTop = '20px';
+    form.appendChild(submitBtn);
 
-    const quizForm = document.getElementById('quiz-form');
-    let submitted = false;
-
-    quizForm.addEventListener('submit', async (e) => {
+    /* ---------- Submit ---------- */
+    form.addEventListener('submit', async e => {
       e.preventDefault();
-      if (submitted) return;
-      submitted = true;
-
-      const submitButton = quizForm.querySelector('button[type="submit"]');
-      submitButton.disabled = true;
-      submitButton.textContent = "Submitting...";
 
       let score = 0;
-      questions.forEach((q, i) => {
-        const selected = quizForm[`q${i}`].value;
-        if (selected === q.options[0]) score++; // first option is correct
+      const cards = form.querySelectorAll('.question-card');
+
+      cards.forEach(card => {
+        const selected = card.querySelector('.selected');
+        if (!selected) return;
+
+        if (selected.textContent === card.dataset.correct) {
+          score++;
+        }
       });
 
       try {
-        const userDoc = await db.collection('users').doc(currentUser.uid).get();
-        const nickname = userDoc.exists && userDoc.data().nickname ? userDoc.data().nickname : "";
-
         await db.collection('results').add({
           userId: currentUser.uid,
-          nickname: nickname,
           quizId: quizId,
           score: score,
-          total: questions.length,
+          total: cards.length,
+          level: userLevel,
           timestamp: firebase.firestore.FieldValue.serverTimestamp()
         });
 
-        alert(`You scored ${score}/${questions.length}`);
+        alert(`Result: ${score} / ${cards.length}`);
         quizModal.style.display = 'none';
         modalQuizContainer.innerHTML = '';
+        loadQuizCards();
+
       } catch (err) {
-        console.error("Failed to submit results:", err);
-        alert("Failed to submit quiz. Please try again.");
-        submitButton.disabled = false;
-        submitButton.textContent = "Submit";
-        submitted = false;
+        console.error(err);
+        alert('Failed to submit quiz.');
       }
     });
 
+    modalQuizContainer.appendChild(form);
+    quizModal.style.display = 'block';
+
   } catch (err) {
-    console.error("Failed to load quiz JSON or check results:", err);
-    alert("Failed to load quiz. Please try again later.");
+    console.error(err);
+    alert('Failed to load quiz.');
   }
 }
 
-// Close modal
+/* ---------- Close modal ---------- */
 closeModal.addEventListener('click', () => {
   quizModal.style.display = 'none';
   modalQuizContainer.innerHTML = '';
 });
 
-// Close modal if clicked outside
-window.addEventListener('click', (e) => {
+window.addEventListener('click', e => {
   if (e.target === quizModal) {
     quizModal.style.display = 'none';
     modalQuizContainer.innerHTML = '';
