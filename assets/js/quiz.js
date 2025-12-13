@@ -31,14 +31,27 @@ async function loadQuizCards() {
     const response = await fetch('data/quizzes/index.json');
     const quizzes = await response.json();
 
-    quizzes.forEach(quiz => {
+    for (const quiz of quizzes) {
       const card = document.createElement('div');
       card.classList.add('quiz-card');
       card.textContent = quiz.title;
 
-      card.addEventListener('click', () => openQuizModal(`data/quizzes/${quiz.file}`, quiz.id));
+      // Check if quiz already completed
+      const existingResults = await db.collection('results')
+        .where('userId', '==', currentUser.uid)
+        .where('quizId', '==', quiz.id)
+        .get();
+
+      if (!existingResults.empty) {
+        card.style.opacity = "0.5"; // visually show it’s completed
+        card.style.cursor = "not-allowed";
+        card.title = "You have already completed this quiz";
+      } else {
+        card.addEventListener('click', () => openQuizModal(`data/quizzes/${quiz.file}`, quiz.id));
+      }
+
       quizContainer.appendChild(card);
-    });
+    }
   } catch (err) {
     console.error("Failed to load quizzes:", err);
     alert("Failed to load quizzes. Please try again later.");
@@ -48,11 +61,22 @@ async function loadQuizCards() {
 // Open modal and load quiz questions
 async function openQuizModal(jsonFile, quizId) {
   try {
+    // Double-check if quiz already completed
+    const existingResults = await db.collection('results')
+      .where('userId', '==', currentUser.uid)
+      .where('quizId', '==', quizId)
+      .get();
+
+    if (!existingResults.empty) {
+      alert("You have already completed this quiz. You cannot take it again.");
+      return;
+    }
+
+    // Fetch quiz JSON
     const response = await fetch(jsonFile);
     const quizData = await response.json();
 
     let html = `<h2>${quizData.title}</h2><form id="quiz-form">`;
-
     const questions = shuffle(quizData.questions);
 
     questions.forEach((q, i) => {
@@ -77,11 +101,11 @@ async function openQuizModal(jsonFile, quizId) {
     quizModal.style.display = 'block';
 
     const quizForm = document.getElementById('quiz-form');
-    let submitted = false; // prevent multiple submissions
+    let submitted = false;
 
     quizForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (submitted) return; // do nothing if already submitted
+      if (submitted) return;
       submitted = true;
 
       const submitButton = quizForm.querySelector('button[type="submit"]');
@@ -120,7 +144,7 @@ async function openQuizModal(jsonFile, quizId) {
     });
 
   } catch (err) {
-    console.error("Failed to load quiz JSON:", err);
+    console.error("Failed to load quiz JSON or check results:", err);
     alert("Failed to load quiz. Please try again later.");
   }
 }

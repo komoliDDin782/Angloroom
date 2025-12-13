@@ -142,7 +142,7 @@ table {
 th {
   background-color: #2cb619;
   color: white;
-  padding: 18px;
+  padding: 26px 18px; 
   font-size: 30px;
   font-weight: 600;
   letter-spacing: 0.5px;
@@ -150,13 +150,14 @@ th {
 
 /* Rows */
 td {
-  padding: 16px;
-  padding-left: 20px;
+  padding: 22px 20px;  
   text-align: center;
   border-bottom: 1px solid #e0e0e0;
   font-size: 30px;
 }
-
+tr {
+  height: 90px;        /* gives breathing room */
+}
 /* Hover effect */
 tr:hover {
   background-color: #e8f5e9;
