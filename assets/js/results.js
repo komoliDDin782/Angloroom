@@ -1,19 +1,33 @@
 const resultsContainer = document.getElementById('results-container');
 let currentUser;
+let userLevel;
 
 // Check authentication
-auth.onAuthStateChanged(user => {
+auth.onAuthStateChanged(async user => {
   if (!user) {
     window.location.href = "index.html";
     return;
   }
   currentUser = user;
-  loadResults();
+
+  try {
+    // Get current user level
+    const userDoc = await db.collection('users').doc(user.uid).get();
+    userLevel = userDoc.exists && userDoc.data().level
+      ? userDoc.data().level
+      : 'beginner';
+
+    loadResults();
+  } catch (err) {
+    console.error(err);
+    resultsContainer.innerHTML = "<p style='color:red;text-align:center;'>Failed to load user level.</p>";
+  }
 });
 
 // Fetch results and display leaderboard
 async function loadResults() {
   try {
+    // Fetch all results sorted by score
     const snapshot = await db.collection('results')
       .orderBy('score', 'desc')
       .get();
@@ -44,7 +58,16 @@ async function loadResults() {
       return userCache[uid];
     }
 
-    let html = `<table class="results-table">
+    // Filter results by userLevel in JavaScript
+    const filteredResults = snapshot.docs.filter(doc => doc.data().level === userLevel);
+
+    if (!filteredResults.length) {
+      resultsContainer.innerHTML = `<p style='text-align:center;'>No results for level "${userLevel}".</p>`;
+      return;
+    }
+
+    let html = `<h2 style="text-align:center;">Leaderboard – ${userLevel}</h2>`;
+    html += `<table class="results-table">
       <tr>
         <th>Rank</th>
         <th>User</th>
@@ -55,7 +78,7 @@ async function loadResults() {
 
     let rank = 1;
 
-    for (const doc of snapshot.docs) {
+    for (const doc of filteredResults) {
       const data = doc.data();
       const user = await getUserData(data.userId);
 
