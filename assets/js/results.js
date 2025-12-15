@@ -2,6 +2,15 @@ const resultsContainer = document.getElementById('results-container');
 let currentUser;
 let userLevel;
 
+// Modal elements
+const modal = document.getElementById('profile-preview-modal');
+const modalClose = modal.querySelector('.close');
+const modalBg = document.getElementById('preview-bg');
+const modalPic = document.getElementById('preview-pic');
+const modalNickname = document.getElementById('preview-nickname');
+const modalLevel = document.getElementById('preview-level');
+const modalSteps = modal.querySelectorAll('.level-step');
+
 // Check authentication
 auth.onAuthStateChanged(async user => {
   if (!user) {
@@ -11,7 +20,6 @@ auth.onAuthStateChanged(async user => {
   currentUser = user;
 
   try {
-    // Get current user level
     const userDoc = await db.collection('users').doc(user.uid).get();
     userLevel = userDoc.exists && userDoc.data().level
       ? userDoc.data().level
@@ -27,7 +35,6 @@ auth.onAuthStateChanged(async user => {
 // Fetch results and display leaderboard
 async function loadResults() {
   try {
-    // Fetch all results sorted by score
     const snapshot = await db.collection('results')
       .orderBy('score', 'desc')
       .get();
@@ -47,18 +54,24 @@ async function loadResults() {
           const data = userDoc.data();
           userCache[uid] = {
             nickname: data.nickname || uid,
-            profilePic: data.profilePic || "assets/css/logo.jpg"
+            profilePic: data.profilePic || "assets/css/logo.jpg",
+            level: data.level || 'beginner',
+            profileBg: data.profileBg || 'assets/css/back4.jpg'
           };
           return userCache[uid];
         }
       } catch (err) {
         console.error("Failed to fetch user data:", err);
       }
-      userCache[uid] = { nickname: uid, profilePic: "assets/css/logo.jpg" };
+      userCache[uid] = {
+        nickname: uid,
+        profilePic: "assets/css/logo.jpg",
+        level: 'beginner',
+        profileBg: 'assets/css/back4.jpg'
+      };
       return userCache[uid];
     }
 
-    // Filter results by userLevel in JavaScript
     const filteredResults = snapshot.docs.filter(doc => doc.data().level === userLevel);
 
     if (!filteredResults.length) {
@@ -77,7 +90,6 @@ async function loadResults() {
       </tr>`;
 
     let rank = 1;
-
     for (const doc of filteredResults) {
       const data = doc.data();
       const user = await getUserData(data.userId);
@@ -93,7 +105,7 @@ async function loadResults() {
         <tr class="${rowClass}">
           <td class="rank">${rankLabel}</td>
           <td class="nickname-cell">
-            <img src="${user.profilePic}" class="profile-icon">
+            <img src="${user.profilePic}" class="profile-icon" data-uid="${data.userId}">
             ${user.nickname}
           </td>
           <td>${data.quizId}</td>
@@ -107,8 +119,45 @@ async function loadResults() {
     html += "</table>";
     resultsContainer.innerHTML = html;
 
+    // Attach click events to profile pictures
+    document.querySelectorAll('.profile-icon').forEach(img => {
+      img.addEventListener('click', async e => {
+        const uid = e.target.dataset.uid;
+        const user = await getUserData(uid);
+        modalPic.src = user.profilePic;
+        modalBg.style.backgroundImage = `url(${user.profileBg})`;
+        modalNickname.textContent = user.nickname;
+        modalLevel.textContent = `Level: ${capitalize(user.level)}`;
+
+        modalSteps.forEach(step => step.className = 'level-step'); // reset
+        if (user.level === 'beginner') modalSteps[0].classList.add('active', 'beginner');
+        if (user.level === 'intermediate') {
+          modalSteps[0].classList.add('active', 'beginner');
+          modalSteps[1].classList.add('active', 'intermediate');
+        }
+        if (user.level === 'advanced') {
+          modalSteps[0].classList.add('active', 'beginner');
+          modalSteps[1].classList.add('active', 'intermediate');
+          modalSteps[2].classList.add('active', 'advanced');
+        }
+
+        modal.style.display = 'flex';
+      });
+    });
+
   } catch (err) {
     console.error(err);
     resultsContainer.innerHTML = "<p style='color:red;text-align:center;'>Failed to load results.</p>";
   }
+}
+
+// Modal close behavior
+modalClose.addEventListener('click', () => modal.style.display = 'none');
+modal.addEventListener('click', e => {
+  if (e.target === modal) modal.style.display = 'none';
+});
+
+// Utility
+function capitalize(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
 }
