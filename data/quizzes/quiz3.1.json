@@ -1,0 +1,46 @@
+{
+    "title": "Daily Quiz - Present Simple",
+    "questions": [
+      {
+        "question": "I ___ to school every day.",
+        "options": ["go", "goes", "going", "went"]
+      },
+      {
+        "question": "She ___ English very well.",
+        "options": ["speaks", "speak", "speaking", "spoke"]
+      },
+      {
+        "question": "They ___ football after school.",
+        "options": ["play", "plays", "playing", "played"]
+      },
+      {
+        "question": "He ___ coffee in the morning.",
+        "options": ["drinks", "drink", "drinking", "drank"]
+      },
+      {
+        "question": "We ___ TV in the evening.",
+        "options": ["watch", "watches", "watching", "watched"]
+      },
+      {
+        "question": "My father ___ at a hospital.",
+        "options": ["works", "work", "working", "worked"]
+      },
+      {
+        "question": "She ___ up early on weekdays.",
+        "options": ["gets", "get", "getting", "got"]
+      },
+      {
+        "question": "They ___ their homework after dinner.",
+        "options": ["do", "does", "doing", "did"]
+      },
+      {
+        "question": "He ___ music very much.",
+        "options": ["likes", "like", "liking", "liked"]
+      },
+      {
+        "question": "I ___ my friends every weekend.",
+        "options": ["see", "sees", "seeing", "saw"]
+      }
+    ]
+  }
+  

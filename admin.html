@@ -16,22 +16,32 @@
     }
 
     #btn-results {
-      background-color: #22c55e;
+      background: #4caf50; /* medium green */
       transition: all 0.3s ease;
+      box-shadow:
+    inset 3px 3px 8px rgba(27, 94, 32, 0.9),   /* dark green */
+    inset -3px -3px 8px rgba(129, 199, 132, 0.6); /* light green */
     }
 
     #btn-students {
-      background-color: #22c55e;
+      background: #4caf50; /* medium green */
       transition: all 0.3s ease;
+      box-shadow:
+    inset 4px 4px 10px rgba(27, 94, 32, 1),
+    inset -4px -4px 10px rgba(165, 214, 167, 0.7);
     }
 
     #btn-students:hover {
-      transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(46, 139, 87, 0.4);
+      background-color: #23c483;
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
     }
     #btn-results:hover {
-      transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(46, 139, 87, 0.4);
+      background-color: #23c483;
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
     }
 
     .admin-main button {

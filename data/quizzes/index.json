@@ -1,18 +1,18 @@
 [
   {
-    "id": "quiz3",
-    "title": "Basic English Vocabulary",
+    "id": "To be",
+    "title": "To be",
     "file": "quiz3.json",
     "level": "beginner"
   },
   {
-    "id": "quiz2",
+    "id": "Passive voice",
     "title": "Passive voice",
     "file": "quiz2.json",
     "level": "intermediate"
   },
   {
-    "id": "quiz1",
+    "id": "advanced",
     "title": "Passive voice",
     "file": "quiz1.json",
     "level": "advanced"

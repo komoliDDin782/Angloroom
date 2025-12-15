@@ -10,6 +10,8 @@ const profilePicImage = document.getElementById('profile-pic');
 const logoutBtn = document.getElementById('logout-btn');
 const levelDisplay = document.getElementById('level-display');
 
+const levelSteps = document.querySelectorAll('.level-step');
+
 let currentUser;
 let isSaving = false;
 
@@ -52,8 +54,10 @@ async function loadProfile() {
 
     if (data.level) {
       levelDisplay.textContent = `Level: ${capitalize(data.level)}`;
+      updateLevelProgress(data.level);
     } else {
       levelDisplay.textContent = 'Level: not set';
+      resetLevelProgress();
     }
 
   } catch (err) {
@@ -61,6 +65,31 @@ async function loadProfile() {
   }
 }
 
+/* ---------- Level progress ---------- */
+function updateLevelProgress(level) {
+  resetLevelProgress();
+
+  if (level === 'beginner') {
+    levelSteps[0].classList.add('active', 'beginner');
+  }
+
+  if (level === 'intermediate') {
+    levelSteps[0].classList.add('active', 'beginner');
+    levelSteps[1].classList.add('active', 'intermediate');
+  }
+
+  if (level === 'advanced') {
+    levelSteps[0].classList.add('active', 'beginner');
+    levelSteps[1].classList.add('active', 'intermediate');
+    levelSteps[2].classList.add('active', 'advanced');
+  }
+}
+
+function resetLevelProgress() {
+  levelSteps.forEach(step => {
+    step.className = 'level-step';
+  });
+}
 
 /* ---------- Change nickname ---------- */
 changeNicknameBtn.addEventListener('click', () => {
@@ -161,6 +190,8 @@ logoutBtn.addEventListener('click', async () => {
     alert('Logout failed');
   }
 });
+
+/* ---------- Utils ---------- */
 function capitalize(word) {
   return word.charAt(0).toUpperCase() + word.slice(1);
 }

@@ -1,96 +1,45 @@
 {
-    "title": "Daily Quiz - To Be",
-    "questions": [
-      {
-        "question": "I ___ a student.",
-        "options": [
-          "am",
-          "is",
-          "are",
-          "be"
-        ]
-      },
-      {
-        "question": "She ___ happy today.",
-        "options": [
-          "is",
-          "am",
-          "are",
-          "be"
-        ]
-      },
-      {
-        "question": "They ___ at school now.",
-        "options": [
-          "are",
-          "is",
-          "am",
-          "be"
-        ]
-      },
-      {
-        "question": "He ___ my brother.",
-        "options": [
-          "is",
-          "am",
-          "are",
-          "be"
-        ]
-      },
-      {
-        "question": "We ___ friends since childhood.",
-        "options": [
-          "are",
-          "is",
-          "am",
-          "be"
-        ]
-      },
-      {
-        "question": "I ___ not tired.",
-        "options": [
-          "am",
-          "is",
-          "are",
-          "be"
-        ]
-      },
-      {
-        "question": "She ___ at home yesterday.",
-        "options": [
-          "was",
-          "is",
-          "are",
-          "be"
-        ]
-      },
-      {
-        "question": "They ___ in the park last week.",
-        "options": [
-          "were",
-          "is",
-          "am",
-          "be"
-        ]
-      },
-      {
-        "question": "He ___ late for class today.",
-        "options": [
-          "is",
-          "am",
-          "are",
-          "be"
-        ]
-      },
-      {
-        "question": "We ___ happy to see you.",
-        "options": [
-          "are",
-          "is",
-          "am",
-          "be"
-        ]
-      }
-    ]
-  }
-  
+  "title": "Daily Quiz - To Be (Present)",
+  "questions": [
+    {
+      "question": "I ___ a student.",
+      "options": ["am", "is", "are", "be"]
+    },
+    {
+      "question": "She ___ happy today.",
+      "options": ["is", "am", "are", "be"]
+    },
+    {
+      "question": "They ___ at school now.",
+      "options": ["are", "is", "am", "be"]
+    },
+    {
+      "question": "He ___ my brother.",
+      "options": ["is", "am", "are", "be"]
+    },
+    {
+      "question": "We ___ friends.",
+      "options": ["are", "is", "am", "be"]
+    },
+    {
+      "question": "I ___ not tired.",
+      "options": ["am", "is", "are", "be"]
+    },
+    {
+      "question": "She ___ very kind.",
+      "options": ["is", "am", "are", "be"]
+    },
+    {
+      "question": "They ___ ready for the test.",
+      "options": ["are", "is", "am", "be"]
+    },
+    {
+      "question": "He ___ at home now.",
+      "options": ["is", "am", "are", "be"]
+    },
+    {
+      "question": "We ___ in the classroom.",
+      "options": ["are", "is", "am", "be"]
+    }
+  ]
+}

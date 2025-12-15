@@ -4,14 +4,17 @@
 <head>
   <meta charset="UTF-8">
   <title>AngloRoom - Profile</title>
+
   <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
+
   <script src="assets/js/firebase.js" defer></script>
   <script src="assets/js/profile.js" defer></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     #profile-container {
@@ -22,7 +25,6 @@
       border-radius: 15px;
       overflow: hidden;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-
       text-align: center;
       position: relative;
     }
@@ -49,7 +51,6 @@
       background: #fff;
       transition: transform 0.3s;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-
     }
 
     #profile-pic:hover {
@@ -98,8 +99,47 @@
     #nickname-display {
       font-size: 26px;
       font-weight: 600;
-      margin-bottom: 20px;
-      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .user-level {
+      font-size: 20px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+      text-shadow:
+        1px 1px 1px rgba(0,0,0,0.25),
+       -1px -1px 1px rgba(255,255,255,0.6);
+    }
+
+    /* LEVEL PROGRESS */
+    .level-progress {
+      width: 80%;
+      max-width: 280px;
+      height: 12px;
+      margin: 0 auto 18px;
+      display: flex;
+      gap: 6px;
+    }
+
+    .level-step {
+      flex: 1;
+      border-radius: 8px;
+      background: #e0e0e0;
+      box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2);
+      transition: background 0.3s ease;
+    }
+
+    .level-step.active.beginner {
+      background: #9be7a1;
+    }
+
+    .level-step.active.intermediate {
+      background: #4caf50;
+    }
+
+    .level-step.active.advanced {
+      background: #1b5e20;
     }
 
     #nickname {
@@ -134,25 +174,15 @@
     #logout-btn {
       background-color: #e74c3c;
     }
-
-    .user-level {
-      margin-top: 8px;
-      font-size: 16px;
-      font-weight: 600;
-      color: #333;
-      letter-spacing: 0.3px;
-    }
-    .fas fa-ellipsis-v{
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-    }
   </style>
 </head>
 
 <body>
+
   <header>
     <nav>
       <a href="main.html">Main</a>
-      <a href="quiz.html">Daily Quizzes</a>
+      <a href="quiz.html">Quizzes</a>
       <a href="results.html">Results</a>
       <a href="profile.html">Profile</a>
     </nav>
@@ -162,18 +192,22 @@
 
   <div id="profile-container">
     <div class="profile-top-bg">
+
       <img id="profile-pic" src="assets/css/logo.jpg" alt="Profile Picture">
 
       <div class="settings-menu" id="settings-btn">
         <i class="fas fa-ellipsis-v"></i>
+
         <div class="settings-dropdown" id="settings-dropdown">
           <label for="profile-pic-input" class="dropdown-item">
             <i class="fas fa-upload"></i> Change Picture
           </label>
-          <input type="file" id="profile-pic-input" accept="image/*" style="display:none;">
+          <input type="file" id="profile-pic-input" accept="image/*" hidden>
+
           <div class="dropdown-item" id="change-nickname">
             <i class="fas fa-user-edit"></i> Change Nickname
           </div>
+
           <div class="dropdown-item" id="logout-btn">
             <i class="fas fa-sign-out-alt"></i> Log Out
           </div>
@@ -183,11 +217,19 @@
 
     <div class="profile-bottom">
       <h2 id="nickname-display">Student</h2>
+
       <p id="level-display" class="user-level">Level: —</p>
+
+      <div class="level-progress">
+        <div class="level-step"></div>
+        <div class="level-step"></div>
+        <div class="level-step"></div>
+      </div><br><br><br><br>
+
       <input type="text" id="nickname" placeholder="Enter nickname">
       <button id="save-profile-btn">Save Changes</button>
-    </div><br><br><br><br><br><br><br><br>
+    </div>
   </div>
-</body>
 
+</body>
 </html>
