@@ -9,14 +9,17 @@ const profilePicInput = document.getElementById('profile-pic-input');
 const profilePicImage = document.getElementById('profile-pic');
 const logoutBtn = document.getElementById('logout-btn');
 const levelDisplay = document.getElementById('level-display');
-
 const levelSteps = document.querySelectorAll('.level-step');
+
+const changeBgBtn = document.getElementById('change-bg');
+const bgPicInput = document.getElementById('bg-pic-input');
+const profileTopBg = document.querySelector('.profile-top-bg');
 
 let currentUser;
 let isSaving = false;
 
 /* ---------- Dropdown ---------- */
-settingsBtn.addEventListener('click', (e) => {
+settingsBtn.addEventListener('click', e => {
   e.stopPropagation();
   settingsDropdown.style.display =
     settingsDropdown.style.display === 'block' ? 'none' : 'block';
@@ -44,13 +47,9 @@ async function loadProfile() {
 
     const data = doc.data();
 
-    if (data.nickname) {
-      nicknameDisplay.textContent = data.nickname;
-    }
-
-    if (data.profilePic) {
-      profilePicImage.src = data.profilePic;
-    }
+    if (data.nickname) nicknameDisplay.textContent = data.nickname;
+    if (data.profilePic) profilePicImage.src = data.profilePic;
+    if (data.profileBg) profileTopBg.style.backgroundImage = `url(${data.profileBg})`;
 
     if (data.level) {
       levelDisplay.textContent = `Level: ${capitalize(data.level)}`;
@@ -59,7 +58,6 @@ async function loadProfile() {
       levelDisplay.textContent = 'Level: not set';
       resetLevelProgress();
     }
-
   } catch (err) {
     console.error('Profile load error:', err);
   }
@@ -68,27 +66,19 @@ async function loadProfile() {
 /* ---------- Level progress ---------- */
 function updateLevelProgress(level) {
   resetLevelProgress();
-
-  if (level === 'beginner') {
-    levelSteps[0].classList.add('active', 'beginner');
-  }
-
+  if (level === 'beginner') levelSteps[0].classList.add('active', 'beginner');
   if (level === 'intermediate') {
     levelSteps[0].classList.add('active', 'beginner');
     levelSteps[1].classList.add('active', 'intermediate');
   }
-
   if (level === 'advanced') {
     levelSteps[0].classList.add('active', 'beginner');
     levelSteps[1].classList.add('active', 'intermediate');
     levelSteps[2].classList.add('active', 'advanced');
   }
 }
-
 function resetLevelProgress() {
-  levelSteps.forEach(step => {
-    step.className = 'level-step';
-  });
+  levelSteps.forEach(step => step.className = 'level-step');
 }
 
 /* ---------- Change nickname ---------- */
@@ -99,41 +89,42 @@ changeNicknameBtn.addEventListener('click', () => {
   saveProfileBtn.style.display = 'inline-block';
 });
 
-/* ---------- Image preview ---------- */
+/* ---------- Change profile pic ---------- */
 profilePicInput.addEventListener('change', () => {
   const file = profilePicInput.files[0];
   if (!file) return;
-
   const reader = new FileReader();
   reader.onload = e => profilePicImage.src = e.target.result;
   reader.readAsDataURL(file);
+  saveProfileBtn.style.display = 'inline-block';
+});
 
+/* ---------- Change background pic ---------- */
+changeBgBtn.addEventListener('click', () => bgPicInput.click());
+bgPicInput.addEventListener('change', () => {
+  const file = bgPicInput.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => profileTopBg.style.backgroundImage = `url(${e.target.result})`;
+  reader.readAsDataURL(file);
   saveProfileBtn.style.display = 'inline-block';
 });
 
 /* ---------- ImgBB upload ---------- */
 async function uploadImageToImgBB(file) {
   const API_KEY = '7a4357485dc65af8bbe234efb1c3803a';
-
   const base64 = await new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result.split(',')[1]);
     reader.onerror = reject;
     reader.readAsDataURL(file);
   });
-
   const formData = new FormData();
   formData.append('key', API_KEY);
   formData.append('image', base64);
-
-  const res = await fetch('https://api.imgbb.com/1/upload', {
-    method: 'POST',
-    body: formData
-  });
-
+  const res = await fetch('https://api.imgbb.com/1/upload', { method: 'POST', body: formData });
   const data = await res.json();
   if (!data.success) throw new Error('ImgBB upload failed');
-
   return data.data.url;
 }
 
@@ -158,9 +149,13 @@ saveProfileBtn.addEventListener('click', async () => {
       profilePicImage.src = imageUrl;
     }
 
-    await db.collection('users')
-      .doc(currentUser.uid)
-      .set(updates, { merge: true });
+    if (bgPicInput.files[0]) {
+      const imageUrl = await uploadImageToImgBB(bgPicInput.files[0]);
+      updates.profileBg = imageUrl;
+      profileTopBg.style.backgroundImage = `url(${imageUrl})`;
+    }
+
+    await db.collection('users').doc(currentUser.uid).set(updates, { merge: true });
 
     if (updates.nickname) {
       nicknameDisplay.textContent = updates.nickname;
@@ -170,7 +165,6 @@ saveProfileBtn.addEventListener('click', async () => {
 
     saveProfileBtn.style.display = 'none';
     alert('Profile updated');
-
   } catch (err) {
     console.error(err);
     alert(err.message || 'Failed to update profile');

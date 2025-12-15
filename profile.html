@@ -19,7 +19,7 @@
   <style>
     #profile-container {
       width: 90%;
-      max-width: 500px;
+      max-width: 650px;
       margin: 50px auto;
       background: #fff;
       border-radius: 15px;
@@ -30,7 +30,7 @@
     }
 
     .profile-top-bg {
-      height: 220px;
+      height: 280px;
       background-image: url(assets/css/back4.jpg);
       background-size: cover;
       background-position: center;
@@ -39,13 +39,13 @@
     }
 
     #profile-pic {
-      width: 160px;
-      height: 160px;
+      width: 200px;
+      height: 200px;
       border-radius: 50%;
       object-fit: cover;
       border: 5px solid #fff;
       position: absolute;
-      bottom: -80px;
+      bottom: -100px;
       left: 50%;
       transform: translateX(-50%);
       background: #fff;
@@ -93,17 +93,17 @@
     }
 
     .profile-bottom {
-      padding: 100px 20px 40px;
+      padding: 140px 25px 50px;
     }
 
     #nickname-display {
-      font-size: 26px;
+      font-size: 32px;
       font-weight: 600;
       margin-bottom: 12px;
     }
 
     .user-level {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 600;
       color: #333;
       margin-bottom: 8px;
@@ -114,9 +114,9 @@
 
     /* LEVEL PROGRESS */
     .level-progress {
-      width: 80%;
-      max-width: 280px;
-      height: 12px;
+      width: 85%;
+      max-width: 350px;
+      height: 14px;
       margin: 0 auto 18px;
       display: flex;
       gap: 6px;
@@ -144,10 +144,10 @@
 
     #nickname {
       display: none;
-      font-size: 18px;
+      font-size: 20px;
       padding: 10px;
-      width: 80%;
-      max-width: 300px;
+      width: 85%;
+      max-width: 350px;
       border-radius: 10px;
       border: 1px solid #ccc;
       margin: 0 auto 15px;
@@ -156,7 +156,7 @@
 
     #save-profile-btn {
       display: none;
-      font-size: 18px;
+      font-size: 20px;
       padding: 12px 35px;
       border-radius: 12px;
       border: none;
@@ -203,6 +203,11 @@
             <i class="fas fa-upload"></i> Change Picture
           </label>
           <input type="file" id="profile-pic-input" accept="image/*" hidden>
+
+          <div class="dropdown-item" id="change-bg">
+            <i class="fas fa-image"></i> Change Background
+          </div>
+          <input type="file" id="bg-pic-input" accept="image/*" hidden>
 
           <div class="dropdown-item" id="change-nickname">
             <i class="fas fa-user-edit"></i> Change Nickname
