@@ -16,5 +16,11 @@
     "title": "Passive voice",
     "file": "quiz1.json",
     "level": "advanced"
+  },
+  {
+    "id": "Elementary Basics",
+    "title": "Elementary Basics",
+    "file": "quiz0.json",
+    "level": "elementary"
   }
 ]

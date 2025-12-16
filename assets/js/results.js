@@ -24,6 +24,9 @@ function formatTime(ms) {
   return `${minutes}m ${seconds}s`;
 }
 
+// Map levels to modal steps
+const levelOrder = ['elementary', 'beginner', 'intermediate', 'advanced'];
+
 // Check authentication
 auth.onAuthStateChanged(async user => {
   if (!user) {
@@ -92,7 +95,7 @@ async function loadResults() {
       return;
     }
 
-    let html = `<h2 style="text-align:center;">Leaderboard – ${userLevel}</h2>`;
+    let html = `<h2 style="text-align:center;">Leaderboard – ${capitalize(userLevel)}</h2>`;
     html += `<table class="results-table">
       <tr>
         <th>Rank</th>
@@ -139,21 +142,19 @@ async function loadResults() {
       img.addEventListener('click', async e => {
         const uid = e.target.dataset.uid;
         const user = await getUserData(uid);
+
         modalPic.src = user.profilePic;
         modalBg.style.backgroundImage = `url(${user.profileBg})`;
         modalNickname.textContent = user.nickname;
         modalLevel.textContent = `Level: ${capitalize(user.level)}`;
 
-        modalSteps.forEach(step => step.className = 'level-step'); // reset
-        if (user.level === 'beginner') modalSteps[0].classList.add('active', 'beginner');
-        if (user.level === 'intermediate') {
-          modalSteps[0].classList.add('active', 'beginner');
-          modalSteps[1].classList.add('active', 'intermediate');
-        }
-        if (user.level === 'advanced') {
-          modalSteps[0].classList.add('active', 'beginner');
-          modalSteps[1].classList.add('active', 'intermediate');
-          modalSteps[2].classList.add('active', 'advanced');
+        // Reset all steps
+        modalSteps.forEach(step => step.className = 'level-step');
+
+        // Activate steps up to user's level
+        const levelIndex = levelOrder.indexOf(user.level);
+        for (let i = 0; i <= levelIndex; i++) {
+          modalSteps[i].classList.add('active', levelOrder[i]);
         }
 
         modal.style.display = 'flex';

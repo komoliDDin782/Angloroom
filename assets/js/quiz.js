@@ -52,6 +52,7 @@ async function loadQuizCards() {
     quizContainer.innerHTML = '';
 
     for (const quiz of quizzes) {
+      // Only show quizzes matching the user's level
       if (quiz.level !== userLevel) continue;
 
       const card = document.createElement('div');
@@ -147,7 +148,7 @@ async function openQuizModal(jsonFile, quizId) {
           score,
           total: form.querySelectorAll('.question-card').length,
           level: userLevel,
-          timeTaken: timeTakenMs, // save milliseconds
+          timeTaken: timeTakenMs,
           timestamp: firebase.firestore.FieldValue.serverTimestamp()
         });
 

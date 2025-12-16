@@ -10,15 +10,17 @@ const closeStudentsBtn = document.getElementById('close-students');
 const adminEmail = "komoliddinkevin@gmail.com";
 let currentUser;
 
-// Student tables
+// Student tables - ADDED ELEMENTARY
 const studentTables = {
+  elementary: document.querySelector('#students-elementary tbody'),
   beginner: document.querySelector('#students-beginner tbody'),
   intermediate: document.querySelector('#students-intermediate tbody'),
   advanced: document.querySelector('#students-advanced tbody')
 };
 
-// Result tables
+// Result tables - ADDED ELEMENTARY
 const resultTables = {
+  elementary: document.querySelector('#results-elementary tbody'),
   beginner: document.querySelector('#results-beginner tbody'),
   intermediate: document.querySelector('#results-intermediate tbody'),
   advanced: document.querySelector('#results-advanced tbody')
@@ -46,38 +48,71 @@ btnStudents.addEventListener('click', () => { studentsOverlay.style.display = "b
 closeResultsBtn.addEventListener('click', () => resultsOverlay.style.display = "none");
 closeStudentsBtn.addEventListener('click', () => studentsOverlay.style.display = "none");
 
-// Load students
+// Load students - UPDATED FOR ELEMENTARY
 async function loadStudents() {
   try {
     const snapshot = await db.collection('users').get();
-    for (let key in studentTables) studentTables[key].innerHTML = '';
+    
+    // Clear all tables including elementary
+    for (let key in studentTables) {
+      if (studentTables[key]) {
+        studentTables[key].innerHTML = '';
+      }
+    }
 
     snapshot.forEach(doc => {
       const u = doc.data();
-      const level = u.level || 'beginner';
+      const level = u.level || 'elementary'; // Default to elementary instead of beginner
+      
+      // Check if the table exists for this level
+      if (!studentTables[level]) {
+        console.warn(`No table found for level: ${level}, defaulting to elementary`);
+        level = 'elementary';
+      }
+      
+      // Create dropdown options - ADDED ELEMENTARY OPTION
+      const levelOptions = [
+        { value: 'elementary', label: 'Elementary' },
+        { value: 'beginner', label: 'Beginner' },
+        { value: 'intermediate', label: 'Intermediate' },
+        { value: 'advanced', label: 'Advanced' }
+      ];
+      
+      // Generate dropdown HTML
+      let dropdownHTML = '<select class="level-select">';
+      levelOptions.forEach(option => {
+        dropdownHTML += `<option value="${option.value}" ${level === option.value ? 'selected' : ''}>${option.label}</option>`;
+      });
+      dropdownHTML += '</select>';
+      
       const row = `<tr data-id="${doc.id}">
         <td><img src="${u.profilePic || 'assets/img/default-pic.png'}" class="student-pic" alt="${u.nickname}"></td>
         <td>${u.nickname || 'N/A'}</td>
-        <td>
-          <select class="level-select">
-            <option value="beginner" ${level==='beginner'?'selected':''}>Beginner</option>
-            <option value="intermediate" ${level==='intermediate'?'selected':''}>Intermediate</option>
-            <option value="advanced" ${level==='advanced'?'selected':''}>Advanced</option>
-          </select>
-        </td>
+        <td>${dropdownHTML}</td>
       </tr>`;
-      studentTables[level].insertAdjacentHTML('beforeend', row);
+      
+      // Insert into the correct table
+      if (studentTables[level]) {
+        studentTables[level].insertAdjacentHTML('beforeend', row);
+      }
     });
   } catch (err) {
     console.error(err);
-    for (let key in studentTables) studentTables[key].innerHTML = '<tr><td colspan="3">Failed to load students.</td></tr>';
+    for (let key in studentTables) {
+      if (studentTables[key]) {
+        studentTables[key].innerHTML = '<tr><td colspan="3">Failed to load students.</td></tr>';
+      }
+    }
   }
 }
 
-// Save all student levels
+// Save all student levels - UPDATED FOR ELEMENTARY
 saveAllLevelsBtn.addEventListener('click', async () => {
   try {
     const batch = db.batch();
+    let updateCount = 0;
+    
+    // Iterate through all level tables including elementary
     for (let key in studentTables) {
       const rows = studentTables[key].querySelectorAll('tr');
       rows.forEach(row => {
@@ -85,46 +120,77 @@ saveAllLevelsBtn.addEventListener('click', async () => {
         const newLevel = row.querySelector('.level-select').value;
         const userRef = db.collection('users').doc(userId);
         batch.update(userRef, { level: newLevel });
+        updateCount++;
       });
     }
+    
+    if (updateCount === 0) {
+      alert("No students to update!");
+      return;
+    }
+    
     await batch.commit();
-    alert("All levels updated!");
-    loadStudents();
+    alert(`Updated ${updateCount} student levels!`);
+    loadStudents(); // Reload to reflect changes
   } catch (err) {
     console.error(err);
     alert("Failed to update levels.");
   }
 });
 
-// Load results grouped by level
+// Load results grouped by level - UPDATED FOR ELEMENTARY
 async function loadResults() {
   try {
     const snapshot = await db.collection('results').orderBy('score','desc').get();
-    for (let key in resultTables) resultTables[key].innerHTML = '';
+    
+    // Clear all result tables including elementary
+    for (let key in resultTables) {
+      if (resultTables[key]) {
+        resultTables[key].innerHTML = '';
+      }
+    }
 
+    // Process each result
     for (const doc of snapshot.docs) {
       const r = doc.data();
       let nickname = r.nickname || '';
       let photo = 'assets/img/default-pic.png';
-      let level = 'beginner';
+      let level = 'elementary'; // Default to elementary
 
+      // Fetch user data to get level and photo
       try {
-        const userDoc = await db.collection('users').doc(r.userId).get();
-        if (userDoc.exists) {
-          nickname = userDoc.data().nickname || r.userId;
-          photo = userDoc.data().profilePic || photo;
-          level = userDoc.data().level || 'beginner';
+        if (r.userId) {
+          const userDoc = await db.collection('users').doc(r.userId).get();
+          if (userDoc.exists) {
+            const userData = userDoc.data();
+            nickname = userData.nickname || r.userId;
+            photo = userData.profilePic || photo;
+            level = userData.level || 'elementary';
+          }
         }
-      } catch {}
+      } catch (err) {
+        console.warn(`Error fetching user data for ${r.userId}:`, err);
+      }
 
+      // Ensure level is valid, fallback to elementary
+      if (!resultTables[level]) {
+        console.warn(`Invalid level "${level}" for user ${nickname}, defaulting to elementary`);
+        level = 'elementary';
+      }
+
+      // Create result row
       const row = `<tr>
         <td><img src="${photo}" class="student-pic" alt="${nickname}"> ${nickname}</td>
-        <td>${r.quizId}</td>
-        <td>${r.score}</td>
-        <td>${r.total}</td>
+        <td>${r.quizId || 'Unknown Quiz'}</td>
+        <td>${r.score || 0}</td>
+        <td>${r.total || 0}</td>
         <td><button class="delete-result-btn" data-id="${doc.id}">Delete</button></td>
       </tr>`;
-      resultTables[level].insertAdjacentHTML('beforeend', row);
+      
+      // Insert into the correct table
+      if (resultTables[level]) {
+        resultTables[level].insertAdjacentHTML('beforeend', row);
+      }
     }
 
     // Attach delete handlers
@@ -134,29 +200,45 @@ async function loadResults() {
         if (!confirm("Delete this result?")) return;
         try {
           await db.collection('results').doc(id).delete();
-          loadResults();
+          loadResults(); // Reload results
         } catch (err) {
           console.error(err);
-          alert("Failed to delete.");
+          alert("Failed to delete result.");
         }
       });
     });
 
+    // Check if any tables are empty and show message
+    for (let key in resultTables) {
+      if (resultTables[key] && resultTables[key].children.length === 0) {
+        resultTables[key].innerHTML = '<tr><td colspan="5">No results found.</td></tr>';
+      }
+    }
+
   } catch (err) {
     console.error(err);
-    for (let key in resultTables) resultTables[key].innerHTML = '<tr><td colspan="5">Failed to load results.</td></tr>';
+    for (let key in resultTables) {
+      if (resultTables[key]) {
+        resultTables[key].innerHTML = '<tr><td colspan="5">Failed to load results.</td></tr>';
+      }
+    }
   }
 }
 
-// Clear all results
+// Clear all results - FUNCTION REMAINS THE SAME
 clearAllBtn.addEventListener('click', async () => {
-  if (!confirm("Delete ALL results?")) return;
+  if (!confirm("Delete ALL results? This cannot be undone!")) return;
   try {
     const snapshot = await db.collection('results').get();
+    if (snapshot.empty) {
+      alert("No results to delete.");
+      return;
+    }
+    
     const batch = db.batch();
     snapshot.forEach(doc => batch.delete(doc.ref));
     await batch.commit();
-    alert("All results deleted!");
+    alert(`${snapshot.size} results deleted!`);
     loadResults();
   } catch (err) {
     console.error(err);
@@ -164,8 +246,21 @@ clearAllBtn.addEventListener('click', async () => {
   }
 });
 
-// Logout
+// Logout - FUNCTION REMAINS THE SAME
 document.getElementById('logout-btn').addEventListener('click', async () => {
-  try { await auth.signOut(); window.location.href="index.html"; } 
-  catch(err){ console.error(err); alert("Failed to log out."); }
+  try { 
+    await auth.signOut(); 
+    window.location.href = "index.html"; 
+  } catch(err) { 
+    console.error(err); 
+    alert("Failed to log out."); 
+  }
+});
+
+// Optional: Add keyboard shortcuts to close overlays
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    resultsOverlay.style.display = "none";
+    studentsOverlay.style.display = "none";
+  }
 });

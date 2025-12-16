@@ -12,42 +12,46 @@
       justify-content: center;
       gap: 50px;
       margin-top: 100px;
-
     }
 
     #btn-results {
       background: #4caf50; /* medium green */
       transition: all 0.3s ease;
       box-shadow:
-    inset 3px 3px 8px rgba(27, 94, 32, 0.9),   /* dark green */
-    inset -3px -3px 8px rgba(129, 199, 132, 0.6); /* light green */
+        inset 3px 3px 8px rgba(27, 94, 32, 0.9),   /* dark green */
+        inset -3px -3px 8px rgba(129, 199, 132, 0.6); /* light green */
     }
 
     #btn-students {
       background: #4caf50; /* medium green */
       transition: all 0.3s ease;
       box-shadow:
-    inset 4px 4px 10px rgba(27, 94, 32, 1),
-    inset -4px -4px 10px rgba(165, 214, 167, 0.7);
+        inset 4px 4px 10px rgba(27, 94, 32, 1),
+        inset -4px -4px 10px rgba(165, 214, 167, 0.7);
     }
 
     #btn-students:hover {
       background-color: #23c483;
-  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
-  color: #fff;
-  transform: translateY(-7px);
+      box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+      color: #fff;
+      transform: translateY(-7px);
     }
+    
     #btn-results:hover {
       background-color: #23c483;
-  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
-  color: #fff;
-  transform: translateY(-7px);
+      box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+      color: #fff;
+      transform: translateY(-7px);
     }
 
     .admin-main button {
       padding: 50px 100px;
       font-size: 24px;
       cursor: pointer;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-weight: bold;
     }
 
     /* Fullscreen overlays */
@@ -56,8 +60,8 @@
       position: fixed;
       top: 50%;
       left: 50%;
-      width: 80%;
-      height: 80%;
+      width: 90%;
+      height: 85%;
       background-color: #f9f9f9;
       border: 2px solid #4CAF50;
       border-radius: 15px;
@@ -70,29 +74,46 @@
 
     .overlay .close-btn {
       position: absolute;
-      top: 5px;
+      top: 10px;
       right: 20px;
-      font-size: 20px;
-      padding: 10px 15px;
+      font-size: 24px;
+      padding: 8px 15px;
       cursor: pointer;
-
+      background: #ff4444;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      z-index: 10000;
     }
 
     /* Students & results tables */
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 15px;
+      margin-top: 20px;
+      margin-bottom: 30px;
     }
 
-    table th,
-    table td {
-      width: 30px;
+    table th {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px;
+      font-weight: bold;
+    }
 
-      border: 1px solid #ccc;
+    table td {
+      border: 1px solid #ddd;
       padding: 10px;
       text-align: center;
       vertical-align: middle;
+    }
+
+    table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    table tr:hover {
+      background-color: #f1f1f1;
     }
 
     .student-pic {
@@ -102,6 +123,7 @@
       object-fit: cover;
       margin-right: 5px;
       vertical-align: middle;
+      border: 2px solid #4CAF50;
     }
 
     .level-select {
@@ -113,6 +135,7 @@
       color: #166534;
       cursor: pointer;
       transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+      min-width: 120px;
     }
 
     .level-select:hover {
@@ -126,40 +149,61 @@
       box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
     }
 
-
-
     button.action-btn {
       margin-top: 15px;
-      padding: 10px 20px;
+      padding: 12px 25px;
       cursor: pointer;
-      border-radius: 5px;
+      border-radius: 8px;
       background-color: #4CAF50;
       color: white;
       border: none;
-      display: inline-block;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    button.action-btn:hover {
+      background-color: #3d8b40;
     }
 
     .dropdown-item {
       position: fixed;
-      top: 40px;
-      right: 40px;
-      background-color: red;
+      top: 20px;
+      right: 20px;
+      background-color: #ff4444;
       color: white;
       padding: 10px 20px;
       border: none;
       border-radius: 5px;
       cursor: pointer;
       text-align: center;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .dropdown-item:hover {
+      background-color: #cc0000;
     }
 
     h2 {
       text-align: center;
+      color: #2c3e50;
+      margin-top: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #4CAF50;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-top: 30px;
+      font-size: 2.5em;
     }
   </style>
 </head>
 
 <body>
-  <h1 style="text-align:center;">Admin Panel</h1>
+  <h1>Admin Panel</h1>
 
   <div class="admin-main">
     <button id="btn-results">Results</button>
@@ -169,6 +213,18 @@
   <!-- Students overlay -->
   <div id="students-overlay" class="overlay">
     <button class="close-btn" id="close-students">X</button>
+
+    <h2>Elementary</h2>
+    <table class="students-table" id="students-elementary">
+      <thead>
+        <tr>
+          <th>Photo</th>
+          <th>Nickname</th>
+          <th>Level</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
 
     <h2>Beginners</h2>
     <table class="students-table" id="students-beginner">
@@ -214,6 +270,22 @@
   <!-- Results overlay -->
   <div id="results-overlay" class="overlay">
     <button class="close-btn" id="close-results">X</button>
+
+    <div id="results-elementary">
+      <h2>Elementary</h2>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Nickname</th>
+            <th>Quiz</th>
+            <th>Score</th>
+            <th>Total</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
 
     <div id="results-beginner">
       <h2>Beginners</h2>

@@ -1,0 +1,46 @@
+{
+    "title": "Daily Quiz - To Be (Present)",
+    "questions": [
+      {
+        "question": "I ___ a student.",
+        "options": ["am", "is", "are", "be"]
+      },
+      {
+        "question": "She ___ happy today.",
+        "options": ["is", "am", "are", "be"]
+      },
+      {
+        "question": "They ___ at school now.",
+        "options": ["are", "is", "am", "be"]
+      },
+      {
+        "question": "He ___ my brother.",
+        "options": ["is", "am", "are", "be"]
+      },
+      {
+        "question": "We ___ friends.",
+        "options": ["are", "is", "am", "be"]
+      },
+      {
+        "question": "I ___ not tired.",
+        "options": ["am", "is", "are", "be"]
+      },
+      {
+        "question": "She ___ very kind.",
+        "options": ["is", "am", "are", "be"]
+      },
+      {
+        "question": "They ___ ready for the test.",
+        "options": ["are", "is", "am", "be"]
+      },
+      {
+        "question": "He ___ at home now.",
+        "options": ["is", "am", "are", "be"]
+      },
+      {
+        "question": "We ___ in the classroom.",
+        "options": ["are", "is", "am", "be"]
+      }
+    ]
+  }
+  
