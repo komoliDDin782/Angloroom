@@ -4,15 +4,21 @@
 <head>
   <meta charset="UTF-8">
   <title>AngloRoom - Leaderboard</title>
+
   <link rel="stylesheet" href="assets/css/styles.css">
 
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
   <script src="assets/js/firebase.js" defer></script>
   <script src="assets/js/results.js" defer></script>
 
   <style>
+    /* =========================
+       PAGE
+       ========================= */
+
     h1 {
       text-align: center;
       font-size: 36px;
@@ -39,26 +45,24 @@
       color: #fff;
     }
 
+    .nickname-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+    }
+
     .results-table img.profile-icon {
       width: 60px;
       height: 60px;
       border-radius: 50%;
       object-fit: cover;
-      margin-right: 10px;
-      vertical-align: middle;
       cursor: pointer;
       transition: transform 0.2s;
     }
 
     .results-table img.profile-icon:hover {
-      transform: scale(1.05);
-    }
-
-    .nickname-cell {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      font-weight: 600;
+      transform: scale(1.06);
     }
 
     .rank {
@@ -66,17 +70,9 @@
       width: 60px;
     }
 
-    .gold {
-      background-color: #C6E8C3;
-    }
-
-    .silver {
-      background-color: #E6F7E4;
-    }
-
-    .bronze {
-      background-color: #D9F2D5;
-    }
+    .gold { background-color: #C6E8C3; }
+    .silver { background-color: #E6F7E4; }
+    .bronze { background-color: #D9F2D5; }
 
     @media (max-width: 600px) {
       .results-table img.profile-icon {
@@ -89,109 +85,129 @@
       }
     }
 
-    /* Modal styles */
+    /* =========================
+       PROFILE PREVIEW MODAL
+       ========================= */
+
     #profile-preview-modal {
-      display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
       z-index: 999;
+
+      display: none;              /* IMPORTANT: hidden by default */
       justify-content: center;
       align-items: center;
     }
 
-    #profile-preview-modal .modal-content {
-      background: #fff;
-      border-radius: 15px;
-      padding: 0;
-      width: 400px;
-      /* increased from 320px */
-      max-width: 95%;
-      /* keep it responsive */
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    /* when JS adds .active */
+    #profile-preview-modal.active {
+      display: flex;
     }
 
-    #profile-preview-modal .close {
+    .modal-content {
+      background: #fff;
+      width: 560px;
+      max-width: 96%;
+      border-radius: 22px;
+      overflow: hidden;
+      position: relative;
+      text-align: center;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.45);
+    }
+
+    .close {
       position: absolute;
-      top: 10px;
-      right: 15px;
-      font-size: 24px;
+      top: 14px;
+      right: 18px;
+      font-size: 26px;
       font-weight: bold;
       cursor: pointer;
       color: #fff;
-      z-index: 2;
+      z-index: 3;
     }
 
     .modal-bg {
-  height: 220px;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-}
+      height: 280px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
 
-.modal-profile-pic {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 5px solid #fff;
-  background: #fff;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  top: 130px;
+    .modal-profile-pic {
+      width: 210px;
+      height: 210px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 6px solid #fff;
+      background: #fff;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
 
-  position: absolute;
-
-/* overlap background and card content */
-  transform: translateX(-50%);
-}
-
+      position: absolute;
+      top: 170px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
 
     .modal-info {
-      padding: 110px 20px 40px;
-      /* more space for bigger pic */
+      padding: 150px 32px 56px;
     }
 
     .modal-info h2 {
+      font-size: 30px;
+      font-weight: 700;
       margin-bottom: 12px;
-      font-size: 24px;
+    }
+
+    #preview-level {
+      font-size: 18px;
+      color: #444;
+      margin-bottom: 22px;
     }
 
     .modal-level-progress {
       display: flex;
-      gap: 6px;
+      gap: 12px;
       justify-content: center;
-      margin-top: 12px;
     }
 
     .level-step {
       flex: 1;
-      height: 14px;
-      /* slightly bigger progress bars */
-      border-radius: 7px;
+      height: 18px;
+      border-radius: 9px;
       background: #e0e0e0;
     }
 
-    .level-step.active.beginner {
-      background: #9be7a1;
-    }
+    .level-step.active.beginner { background: #9be7a1; }
+    .level-step.active.intermediate { background: #4caf50; }
+    .level-step.active.advanced { background: #1b5e20; }
 
-    .level-step.active.intermediate {
-      background: #4caf50;
-    }
+    /* =========================
+       MOBILE
+       ========================= */
 
-    .level-step.active.advanced {
-      background: #1b5e20;
+    @media (max-width: 600px) {
+      .modal-bg { height: 220px; }
+
+      .modal-profile-pic {
+        width: 160px;
+        height: 160px;
+        top: 140px;
+      }
+
+      .modal-info {
+        padding: 120px 20px 40px;
+      }
+
+      .modal-info h2 {
+        font-size: 24px;
+      }
     }
   </style>
 </head>
 
 <body>
+
   <header>
     <nav>
       <a href="main.html">Main</a>
@@ -205,15 +221,23 @@
     <p style="text-align:center;">Loading results...</p>
   </div>
 
-  <!-- Profile Preview Modal -->
+  <!-- PROFILE PREVIEW MODAL -->
   <div id="profile-preview-modal">
     <div class="modal-content">
       <span class="close">&times;</span>
-      <div class="modal-bg" id="preview-bg" style="background-image: url('assets/css/back4.jpg');"></div>
-      <img id="preview-pic" class="modal-profile-pic" src="assets/css/logo.jpg" alt="Profile Picture">
+
+      <div class="modal-bg" id="preview-bg"
+        style="background-image: url('assets/css/back4.jpg');"></div>
+
+      <img id="preview-pic"
+           class="modal-profile-pic"
+           src="assets/css/logo.jpg"
+           alt="Profile Picture">
+
       <div class="modal-info">
         <h2 id="preview-nickname">Nickname</h2>
         <p id="preview-level">Level: —</p>
+
         <div class="modal-level-progress">
           <div class="level-step"></div>
           <div class="level-step"></div>
@@ -222,6 +246,6 @@
       </div>
     </div>
   </div>
-</body>
 
+</body>
 </html>
