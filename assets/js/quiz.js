@@ -5,6 +5,7 @@ const closeModal = document.getElementById('close-modal');
 
 let currentUser;
 let userLevel;
+let startTime, endTime;
 
 /* ---------- Utils ---------- */
 function shuffle(array) {
@@ -14,6 +15,13 @@ function shuffle(array) {
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
   return arr;
+}
+
+function formatTime(ms) {
+  const totalSeconds = Math.floor(ms / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${minutes}m ${seconds}s`;
 }
 
 /* ---------- Auth ---------- */
@@ -82,36 +90,29 @@ async function openQuizModal(jsonFile, quizId) {
 
     modalQuizContainer.innerHTML = '';
 
-    // shuffle QUESTIONS
     const questions = shuffle(quizData.questions);
-
     const form = document.createElement('form');
     form.id = 'quiz-form';
 
     questions.forEach((q, index) => {
-      const correctAnswer = q.options[0]; // ALWAYS FIRST IN JSON
+      const correctAnswer = q.options[0];
       const shuffledOptions = shuffle(q.options);
 
       const qCard = document.createElement('div');
       qCard.className = 'question-card';
       qCard.dataset.correct = correctAnswer;
 
-      qCard.innerHTML = `
-        <p class="question-text">${index + 1}. ${q.question}</p>
-      `;
-
+      qCard.innerHTML = `<p class="question-text">${index + 1}. ${q.question}</p>`;
       const ul = document.createElement('ul');
       ul.className = 'options';
 
       shuffledOptions.forEach(opt => {
         const li = document.createElement('li');
         li.textContent = opt;
-
         li.addEventListener('click', () => {
           ul.querySelectorAll('li').forEach(el => el.classList.remove('selected'));
           li.classList.add('selected');
         });
-
         ul.appendChild(li);
       });
 
@@ -125,37 +126,35 @@ async function openQuizModal(jsonFile, quizId) {
     submitBtn.style.marginTop = '20px';
     form.appendChild(submitBtn);
 
-    /* ---------- Submit ---------- */
+    // START TIMER
+    startTime = Date.now();
+
     form.addEventListener('submit', async e => {
       e.preventDefault();
+      endTime = Date.now();
+      const timeTakenMs = endTime - startTime;
 
       let score = 0;
-      const cards = form.querySelectorAll('.question-card');
-
-      cards.forEach(card => {
+      form.querySelectorAll('.question-card').forEach(card => {
         const selected = card.querySelector('.selected');
-        if (!selected) return;
-
-        if (selected.textContent === card.dataset.correct) {
-          score++;
-        }
+        if (selected && selected.textContent === card.dataset.correct) score++;
       });
 
       try {
         await db.collection('results').add({
           userId: currentUser.uid,
           quizId: quizId,
-          score: score,
-          total: cards.length,
+          score,
+          total: form.querySelectorAll('.question-card').length,
           level: userLevel,
+          timeTaken: timeTakenMs, // save milliseconds
           timestamp: firebase.firestore.FieldValue.serverTimestamp()
         });
 
-        alert(`Result: ${score} / ${cards.length}`);
+        alert(`Result: ${score} / ${form.querySelectorAll('.question-card').length} in ${formatTime(timeTakenMs)}`);
         quizModal.style.display = 'none';
         modalQuizContainer.innerHTML = '';
         loadQuizCards();
-
       } catch (err) {
         console.error(err);
         alert('Failed to submit quiz.');
@@ -164,7 +163,6 @@ async function openQuizModal(jsonFile, quizId) {
 
     modalQuizContainer.appendChild(form);
     quizModal.style.display = 'block';
-
   } catch (err) {
     console.error(err);
     alert('Failed to load quiz.');

@@ -11,6 +11,19 @@ const modalNickname = document.getElementById('preview-nickname');
 const modalLevel = document.getElementById('preview-level');
 const modalSteps = modal.querySelectorAll('.level-step');
 
+// Utility
+function capitalize(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
+function formatTime(ms) {
+  if (!ms) return '-';
+  const totalSeconds = Math.floor(ms / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${minutes}m ${seconds}s`;
+}
+
 // Check authentication
 auth.onAuthStateChanged(async user => {
   if (!user) {
@@ -86,6 +99,7 @@ async function loadResults() {
         <th>User</th>
         <th>Quiz</th>
         <th>Score</th>
+        <th>Time</th>
         <th>Total</th>
       </tr>`;
 
@@ -110,6 +124,7 @@ async function loadResults() {
           </td>
           <td>${data.quizId}</td>
           <td>${data.score}</td>
+          <td>${formatTime(data.timeTaken)}</td>
           <td>${data.total}</td>
         </tr>
       `;
@@ -156,8 +171,3 @@ modalClose.addEventListener('click', () => modal.style.display = 'none');
 modal.addEventListener('click', e => {
   if (e.target === modal) modal.style.display = 'none';
 });
-
-// Utility
-function capitalize(word) {
-  return word.charAt(0).toUpperCase() + word.slice(1);
-}
