@@ -1,94 +1,94 @@
 {
-  "title": "Daily Quiz - Passive Voice",
+  "title": "Passive Voice",
   "questions": [
     {
-      "question": "'They will finish the project tomorrow.' → Passive voice?",
+      "question": "'They will publish the report next week.' → Passive voice?",
       "options": [
-        "The project will be finished by them tomorrow.",
-        "The project will finished by them tomorrow.",
-        "The project is finished by them tomorrow.",
-        "The project has been finished by them tomorrow."
+        "The report will be published next week.",
+        "The report will publish next week.",
+        "The report is published next week.",
+        "The report has been published next week."
       ]
     },
     {
-      "question": "'Someone stole my wallet.' → Passive voice?",
+      "question": "'Someone broke the window last night.' → Passive voice?",
       "options": [
-        "My wallet was stolen.",
-        "My wallet is stolen.",
-        "My wallet stole.",
-        "My wallet has been stolen by someone."
+        "The window was broken last night.",
+        "The window is broken last night.",
+        "The window broke last night.",
+        "The window has broken last night."
       ]
     },
     {
-      "question": "'They are cleaning the room.' → Passive voice?",
+      "question": "'They are building a new bridge.' → Passive voice?",
       "options": [
-        "The room is being cleaned by them.",
-        "The room is cleaned by them.",
-        "The room cleaning by them.",
-        "The room has been cleaned by them."
+        "A new bridge is being built.",
+        "A new bridge is built.",
+        "A new bridge being built.",
+        "A new bridge has been built."
       ]
     },
     {
-      "question": "'He wrote the letter yesterday.' → Passive voice?",
+      "question": "'She sent the email yesterday.' → Passive voice?",
       "options": [
-        "The letter was written by him yesterday.",
-        "The letter is written by him yesterday.",
-        "The letter has written by him yesterday.",
-        "The letter wrote by him yesterday."
+        "The email was sent yesterday.",
+        "The email is sent yesterday.",
+        "The email has sent yesterday.",
+        "The email sent yesterday."
       ]
     },
     {
-      "question": "'The chef is preparing the meal.' → Passive voice?",
+      "question": "'The company is testing the product.' → Passive voice?",
       "options": [
-        "The meal is being prepared by the chef.",
-        "The meal is prepared by the chef.",
-        "The meal preparing by the chef.",
-        "The meal has been prepared by the chef."
+        "The product is being tested.",
+        "The product is tested.",
+        "The product testing.",
+        "The product has been tested."
       ]
     },
     {
-      "question": "'They have completed the assignment.' → Passive voice?",
+      "question": "'They have cleaned the office.' → Passive voice?",
       "options": [
-        "The assignment has been completed by them.",
-        "The assignment is completed by them.",
-        "The assignment has completed by them.",
-        "The assignment completed by them."
+        "The office has been cleaned.",
+        "The office is cleaned.",
+        "The office has cleaned.",
+        "The office cleaned."
       ]
     },
     {
-      "question": "'Someone will announce the results tomorrow.' → Passive voice?",
+      "question": "'Someone will deliver the package tomorrow.' → Passive voice?",
       "options": [
-        "The results will be announced tomorrow.",
-        "The results will announced tomorrow.",
-        "The results is announced tomorrow.",
-        "The results has been announced tomorrow."
+        "The package will be delivered tomorrow.",
+        "The package will deliver tomorrow.",
+        "The package is delivered tomorrow.",
+        "The package has been delivered tomorrow."
       ]
     },
     {
-      "question": "'They repaired the car last week.' → Passive voice?",
+      "question": "'They fixed the computer last Friday.' → Passive voice?",
       "options": [
-        "The car was repaired by them last week.",
-        "The car is repaired by them last week.",
-        "The car has repaired by them last week.",
-        "The car repaired by them last week."
+        "The computer was fixed last Friday.",
+        "The computer is fixed last Friday.",
+        "The computer has fixed last Friday.",
+        "The computer fixed last Friday."
       ]
     },
     {
-      "question": "'The students are solving the problems.' → Passive voice?",
+      "question": "'The workers are painting the walls.' → Passive voice?",
       "options": [
-        "The problems are being solved by the students.",
-        "The problems are solved by the students.",
-        "The problems solving by the students.",
-        "The problems have been solved by the students."
+        "The walls are being painted.",
+        "The walls are painted.",
+        "The walls painting.",
+        "The walls have been painted."
       ]
     },
     {
-      "question": "'He has painted the house.' → Passive voice?",
+      "question": "'He has written the article.' → Passive voice?",
       "options": [
-        "The house has been painted by him.",
-        "The house is painted by him.",
-        "The house has painted by him.",
-        "The house painted by him."
+        "The article has been written.",
+        "The article is written.",
+        "The article has written.",
+        "The article written."
       ]
     }
   ]
