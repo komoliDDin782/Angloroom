@@ -66,29 +66,35 @@ async function loadProfile() {
 /* ---------- Level progress ---------- */
 function updateLevelProgress(level) {
   resetLevelProgress();
+
   switch (level) {
-    case 'elementary':
-      levelSteps[0].classList.add('active', 'elementary');
-      break;
     case 'beginner':
-      levelSteps[0].classList.add('active', 'elementary');
-      levelSteps[1].classList.add('active', 'beginner');
+      levelSteps[0].classList.add('active', 'beginner');
       break;
+
+    case 'elementary':
+      levelSteps[0].classList.add('active', 'beginner');
+      levelSteps[1].classList.add('active', 'elementary');
+      break;
+
     case 'intermediate':
-      levelSteps[0].classList.add('active', 'elementary');
-      levelSteps[1].classList.add('active', 'beginner');
+      levelSteps[0].classList.add('active', 'beginner');
+      levelSteps[1].classList.add('active', 'elementary');
       levelSteps[2].classList.add('active', 'intermediate');
       break;
+
     case 'advanced':
-      levelSteps[0].classList.add('active', 'elementary');
-      levelSteps[1].classList.add('active', 'beginner');
+      levelSteps[0].classList.add('active', 'beginner');
+      levelSteps[1].classList.add('active', 'elementary');
       levelSteps[2].classList.add('active', 'intermediate');
       levelSteps[3].classList.add('active', 'advanced');
       break;
+
     default:
       resetLevelProgress();
   }
 }
+
 
 function resetLevelProgress() {
   levelSteps.forEach(step => step.className = 'level-step');
