@@ -71,7 +71,7 @@ async function loadStudents() {
       }
       
       // Create dropdown options - ADDED ELEMENTARY OPTION
-      const levelOptions = [ 
+      const levelOptions = [
         { value: 'beginner', label: 'Beginner' },
         { value: 'elementary', label: 'Elementary' },
         { value: 'intermediate', label: 'Intermediate' },
@@ -155,7 +155,7 @@ async function loadResults() {
       const r = doc.data();
       let nickname = r.nickname || '';
       let photo = 'assets/img/default-pic.png';
-      let level = 'Beginner'; // Default to elementary
+      let level = 'beginner'; // Default to elementary
 
       // Fetch user data to get level and photo
       try {
