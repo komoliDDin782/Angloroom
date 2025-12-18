@@ -25,7 +25,7 @@ function formatTime(ms) {
 }
 
 // Map levels to modal steps
-const levelOrder = ['elementary', 'beginner', 'intermediate', 'advanced'];
+const levelOrder = ['beginner','elementary', 'intermediate', 'advanced'];
 
 // Check authentication
 auth.onAuthStateChanged(async user => {
