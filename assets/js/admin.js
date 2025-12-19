@@ -31,7 +31,7 @@ const clearAllBtn = document.getElementById('clear-all-results');
 
 // Auth check
 auth.onAuthStateChanged(user => {
-  if (!user) { window.location.href = "index.html"; return; }
+  if (!user) { window.location.href = "login.html"; return; }
   currentUser = user;
   if (user.email !== adminEmail) {
     alert("Access denied.");
@@ -250,7 +250,7 @@ clearAllBtn.addEventListener('click', async () => {
 document.getElementById('logout-btn').addEventListener('click', async () => {
   try { 
     await auth.signOut(); 
-    window.location.href = "index.html"; 
+    window.location.href = "login.html"; 
   } catch(err) { 
     console.error(err); 
     alert("Failed to log out."); 
@@ -264,3 +264,48 @@ document.addEventListener('keydown', (e) => {
     studentsOverlay.style.display = "none";
   }
 });
+const btnNewStudents = document.getElementById('btn-new-students');
+const newStudentsOverlay = document.getElementById('new-students-overlay');
+const closeNewStudentsBtn = document.getElementById('close-new-students');
+const newStudentsTableBody = document.querySelector('#new-students-table tbody');
+
+// Show overlay
+btnNewStudents.addEventListener('click', () => {
+  newStudentsOverlay.style.display = 'block';
+  loadNewStudents();
+});
+
+// Close overlay
+closeNewStudentsBtn.addEventListener('click', () => {
+  newStudentsOverlay.style.display = 'none';
+});
+
+// Load New Students from Firebase
+async function loadNewStudents() {
+  try {
+    const snapshot = await db.collection('NewStudents').get();
+    newStudentsTableBody.innerHTML = '';
+
+    if (snapshot.empty) {
+      newStudentsTableBody.innerHTML = '<tr><td colspan="3">No new students found.</td></tr>';
+      return;
+    }
+
+    snapshot.forEach(doc => {
+      const student = doc.data();
+      const name = student.name || 'N/A';
+      const phone = student.phone || 'N/A';
+      const level = student.level || 'N/A';
+
+      const row = `<tr>
+        <td>${name}</td>
+        <td>${phone}</td>
+        <td>${level}</td>
+      </tr>`;
+      newStudentsTableBody.insertAdjacentHTML('beforeend', row);
+    });
+  } catch (err) {
+    console.error(err);
+    newStudentsTableBody.innerHTML = '<tr><td colspan="3">Failed to load new students.</td></tr>';
+  }
+}

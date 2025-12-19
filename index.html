@@ -1,140 +1,310 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
-  <meta charset="UTF-8">
-  <title>AngloRoom - Login</title>
-
-  <link rel="stylesheet" href="assets/css/styles.css">
-
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
-  <script src="assets/js/firebase.js" defer></script>
-  <script src="assets/js/auth.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AngloRoom</title>
 
   <style>
-    .auth-card-wrapper {
-      min-height: 100vh;
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      background: #f6faf7;
+      color: #123;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: linear-gradient(90deg, #0f5132, #1f7a4a);
+      color: #fff;
+      padding: 16px 24px;
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      background: linear-gradient(to bottom, #e6f2e6, #cce6cc);
-      padding: 30px;
+      position: relative;
     }
-  
-    .auth-card {
-      width: 100%;
-      max-width: 1200px; /* BIG CARD */
-      padding: 60px;
-      border-radius: 24px;
-  
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px solid rgba(0,0,0,0.15);
-      box-shadow: 0 12px 35px rgba(0,0,0,0.15);
-  
-      color: #000;
-      text-align: center;
-    }
-  
-    .auth-card h1 {
-      margin-bottom: 20px;
-      font-size: 40px; /* very readable */
+
+    .logo {
+      font-size: 26px;
       font-weight: 800;
     }
-  
-    .auth-card p {
-      font-size: 24px;
-      margin-bottom: 45px;
-      opacity: 0.9;
+
+    nav {
+      display: flex;
+      gap: 18px;
+      align-items: center;
     }
-  
-    .auth-card label {
-      display: block;
-      text-align: left;
-      margin-bottom: 12px;
-      font-size: 20px;
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
       font-weight: 600;
     }
-  
-    .auth-card input {
-      width: 100%;
-      padding: 22px;
-      margin-bottom: 30px;
-  
-      border-radius: 14px;
-      border: 1px solid #ccc;
-      outline: none;
-  
-      font-size: 22px;
-    }
-  
-    .auth-card button {
-      width: 100%;
-      padding: 22px;
-      margin-top: 20px;
-  
-      background: #1f7a1f;
+
+    .lang button {
+      background: rgba(255,255,255,.15);
       border: none;
-      border-radius: 16px;
-  
-      color: white;
-      font-size: 24px;
-      font-weight: 700;
-  
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: 0.2s;
     }
-  
-    .auth-card button:hover {
-      background: #176117;
+
+    .menu-btn {
+      display: none;
+      font-size: 26px;
+      background: none;
+      border: none;
+      color: #fff;
+      cursor: pointer;
     }
+
+    /* ===== FREE TEST (CTA) ===== */
+    .cta {
+  /* Background image with gradient overlay */
+  background: 
+    linear-gradient(120deg, rgba(233, 247, 239, 0.8), rgba(246, 255, 250, 0.8)),
+    url('assets/css/pi1.jpg') center/cover no-repeat;
   
-    /* MOBILE */
-    @media (max-width: 600px) {
-      .auth-card {
-        padding: 40px;
+  padding: 70px 24px;
+  text-align: center;
+  border-radius: 20px; /* optional, for modern rounded look */
+  color: #0f5132; /* ensures text is visible */
+}
+
+.cta h1 {
+  font-size: 42px;
+  margin-bottom: 16px;
+  color: #0f5132;
+}
+
+.cta p {
+  font-size: 18px;
+  max-width: 600px;
+  margin: 0 auto 28px;
+}
+
+.cta a {
+  background: #1f7a4a;
+  color: #fff;
+  padding: 14px 32px;
+  border-radius: 30px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+  transition: 0.4s ease;
+}
+
+.cta a:hover {
+  background: linear-gradient(270deg, rgba(31, 122, 79, 0.8) 0%, rgba(64, 195, 110, 0.9) 60%);
+}
+
+
+    /* ===== BODY ===== */
+    .content {
+      padding: 70px 24px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      margin-top: 40px;
+    }
+
+    .card {
+      background: #fff;
+      padding: 28px;
+      border-radius: 20px;
+      box-shadow:
+  0 20px 40px rgba(0,0,0,0.15),
+  0 10px 20px rgba(0,0,0,0.08);
+
+    }
+
+    .card h3 {
+      color: #1f7a4a;
+      margin-bottom: 10px;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #0f5132;
+      color: #fff;
+      padding: 40px 24px;
+      text-align: center;
+    }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 900px) {
+      nav {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: #0f5132;
+        flex-direction: column;
+        padding: 20px;
+        display: none;
       }
-  
-      .auth-card h1 {
-        font-size: 30px;
+
+      nav.active {
+        display: flex;
       }
-  
-      .auth-card p {
-        font-size: 20px;
+
+      .menu-btn {
+        display: block;
       }
-  
-      .auth-card input {
-        font-size: 20px;
-        padding: 18px;
+
+      .cards {
+        grid-template-columns: 1fr;
       }
-  
-      .auth-card button {
-        font-size: 22px;
-        padding: 18px;
+
+      .cta h1 {
+        font-size: 32px;
       }
     }
+    .login-btn {
+  background: #ffd43b;
+  color: #000;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+/* From Uiverse.io by ShrinilDhorda */ 
+.btn {
+  font-size: 1.2rem;
+  padding: 1rem 2.5rem;
+  border: none;
+  outline: none;
+  border-radius: 22px; /* matches your header/footer style */
+  cursor: pointer;
+  text-transform: uppercase;
+  background-color: #1f7a4a; /* main green */
+  color: #fff;
+  font-weight: 700;
+  transition: 0.5s ease;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.18); /* deeper shadow like we adjusted */
+}
+
+.btn:active {
+  transform: scale(0.92);
+}
+
+.btn:hover {
+  background: linear-gradient(270deg, rgba(31, 122, 79, 0.8) 0%, rgba(64, 195, 110, 0.9) 60%);
+  color: #fff;
+}
+
+
   </style>
-  
-  
 </head>
 
 <body>
-  <div class="auth-card-wrapper">
-    <div class="auth-card">
-      <h1>Welcome to AngloRoom</h1>
-      <p>Login</p>
 
-      <form id="auth-form">
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="Email" required>
+<!-- HEADER -->
+<header>
+  <div class="logo">AngloRoom</div>
 
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Password" required>
+  <button class="menu-btn" onclick="toggleMenu()">☰</button>
 
-        <button type="submit">Sign In</button>
-      </form>
+  <nav id="nav">
+    <a href="#about" data-i18n="about"></a>
+    <a href="#test" data-i18n="test"></a>
+    <a href="login.html" class="login-btn" data-i18n="login"></a>
+    <div class="lang">
+      <button onclick="setLang('uz')">UZ</button>
+      <button onclick="setLang('ru')">RU</button>
+    </div>
+  </nav>
+</header>
+
+<!-- FREE TEST -->
+<section class="cta" id="test">
+  <h1 data-i18n="title"></h1>
+  <p data-i18n="desc"></p>
+  <a href="test.html" class="btn" data-i18n="btn"></a>
+</section>
+
+
+
+
+<!-- BODY -->
+<section class="content" id="about">
+  <h2 data-i18n="why"></h2>
+
+  <div class="cards">
+    <div class="card">
+      <h3 data-i18n="c1t"></h3>
+      <p data-i18n="c1d"></p>
+    </div>
+    <div class="card">
+      <h3 data-i18n="c2t"></h3>
+      <p data-i18n="c2d"></p>
+    </div>
+    <div class="card">
+      <h3 data-i18n="c3t"></h3>
+      <p data-i18n="c3d"></p>
     </div>
   </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© AngloRoom • Uzbekistan</p>
+</footer>
+
+<script>
+const texts = {
+  uz: {
+    login: "Kirish",
+    about: "Biz haqimizda",
+    test: "Bepul test",
+    title: "Ingliz tilini ishonch bilan o‘rganing",
+    desc: "Bepul onlayn testdan o‘ting va ingliz tilidagi haqiqiy darajangizni aniqlang. Test bir necha daqiqa vaqt oladi va o‘qishni qayerdan boshlash yaxshiroq ekanini ko‘rsatadi.",
+    btn: "Testni boshlash",
+    why: "Nega AngloRoom?",
+    c1t: "Malakali o‘qituvchilar",
+    c1d: "Bizning o‘qituvchilar — oliy ma’lumotli (bakalavr darajasiga ega) va kuchli akademik tayyorgarlikka ega mutaxassislardir. Ular zamonaviy o‘qitish metodlarini mukammal biladi va turli darajadagi o‘quvchilar bilan samarali ishlashni yaxshi o‘zlashtirgan. Biz fan­ni bilish bilan cheklanmaymiz — uni to‘g‘ri va tushunarli qilib o‘rgata olamiz.",
+    c2t: "Zamonaviy metodika",
+    c2d: "Biz suhbat amaliyotiga alohida e’tibor qaratamiz, shunda o‘quvchilar dastlabki darslardanoq ingliz tilida erkin gapira boshlaydi. Mashg‘ulotlar nutq ravonligini, to‘g‘ri talaffuzni va real hayotiy vaziyatlarda fikrni aniq ifodalashni rivojlantirishga yo‘naltirilgan.",
+    c3t: "Aniq natija",
+    c3d: "Biz har bir o‘quvchining bilim darajasi va rivojini doimiy nazorat qilamiz. Muntazam baholash va fikr-mulohazalar orqali kuchli va zaif tomonlar aniqlanadi hamda ta’lim jarayoni yanada samarali tarzda tashkil etiladi."
+  },
+  ru: {
+    login: "Вход",
+    about: "О нас",
+    test: "Бесплатный тест",
+    title: "Изучайте английский уверенно",
+    desc: "Пройдите бесплатный онлайн-тест и узнайте свой реальный уровень английского языка. Тест займет всего несколько минут и поможет определить, с чего лучше начать обучение.",
+    btn: "Начать тест",
+    why: "Почему AngloRoom?",
+    c1t: "Опытные преподаватели",
+    c1d: "Наши преподаватели — квалифицированные специалисты с высшим образованием (степень бакалавра) и прочной академической базой. Они владеют современными методиками обучения и умеют эффективно работать с учениками разного уровня подготовки. Мы не просто знаем предмет — мы знаем, как правильно его преподавать.",
+    c2t: "Современный подход",
+    c2d: "Мы делаем упор на разговорную практику, чтобы ученики с первых занятий начинали уверенно говорить на английском языке. Занятия построены так, чтобы развивать беглость речи, правильное произношение и умение выражать мысли в реальных жизненных ситуациях.",
+    c3t: "Реальный результат",
+    c3d: "Мы обеспечиваем постоянный контроль успеваемости и прогресса каждого ученика. Регулярные проверки знаний и обратная связь позволяют своевременно выявлять слабые стороны и выстраивать дальнейшее обучение максимально эффективно."
+  }
+};
+
+function setLang(lang) {
+  localStorage.setItem("lang", lang);
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    el.textContent = texts[lang][el.dataset.i18n];
+  });
+}
+
+function toggleMenu() {
+  document.getElementById("nav").classList.toggle("active");
+}
+
+setLang(localStorage.getItem("lang") || "uz");
+</script>
+
 </body>
 </html>

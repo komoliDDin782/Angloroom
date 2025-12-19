@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AngloRoom – Level Test</title>
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+    /* ================= HEADER ================= */
+    .ar-header {
+      position: relative;
+      width: 100%;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(90deg, #0f5132, #1f7a1f);
+      color: #fff;
+      flex-wrap: wrap;
+    }
+    .ar-logo { font-size: 24px; font-weight: 800; letter-spacing: 1px; text-decoration: none; color: #ffffff;}
+    .lang-switch { display: flex; gap: 10px; }
+    .lang-switch button {
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    /* ================= HERO ================= */
+    .ar-hero {
+      padding: 50px 20px;
+      background: #f6fff6;
+      text-align: center;
+      border-radius: 20px;
+    }
+    .ar-hero h1 { font-size: 36px; font-weight: 800; margin-bottom: 10px; }
+    .ar-hero p { font-size: 18px; margin-bottom: 30px; }
+
+    /* ================= QUIZ ================= */
+    .quiz-section {
+      max-width: 900px;
+      margin: 0 auto 80px;
+      padding: 0 20px;
+    }
+    .task-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      padding: 20px 25px;
+      margin-bottom: 25px;
+    }
+    .task-card h3 { font-size: 20px; margin-bottom: 10px; }
+    .task-card label { display: block; font-size: 16px; margin-bottom: 8px; cursor: pointer; }
+    .task-card input[type="text"] { 
+      padding: 8px 12px; margin-top: 4px;
+      border-radius: 8px; border: 1px solid #ccc; width: 100%;
+    }
+
+    .submit-quiz-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 16px 35px;
+      font-size: 18px;
+      font-weight: 700;
+      background: #1f7a1f;
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+    }
+
+    /* ================= MODAL ================= */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.877); /* DARKER BACKGROUND */
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal {
+      background: #f4fdf4;
+      padding: 25px 30px;
+      border-radius: 20px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+    .modal label { display: block; font-size: 16px; margin: 12px 0 6px; text-align: left; }
+    .modal input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ccc; margin-bottom: 15px; font-size: 16px; }
+    .modal button {
+      padding: 14px 30px;
+      font-size: 16px;
+      font-weight: 700;
+      background: #1f7a1f;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    /* ================= RESULT ================= */
+    .result-card {
+      max-width: 500px;
+      margin: 40px auto;
+      display: none;
+      background: #e6ffe6;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .result-card h2 { font-size: 26px; margin-bottom: 12px; }
+    .result-card p { font-size: 18px; }
+
+    /* ================= FOOTER ================= */
+    .ar-footer { width: 100%; padding: 40px 20px; background: #0f5132; color: #fff; text-align: center; }
+    .ar-footer h4 { font-size: 20px; margin-bottom: 10px; }
+    .ar-footer p { font-size: 14px; }
+
+    /* ================= HIGHLIGHTING ================= */
+    .correct { background: #d4edda; border-left: 5px solid #28a745; }
+    .incorrect { background: #f8d7da; border-left: 5px solid #dc3545; }
+
+    /* ================= RESPONSIVE ================= */
+    @media(max-width: 600px){
+      .ar-hero h1 { font-size: 28px; }
+      .ar-hero p { font-size: 16px; }
+      .task-card h3 { font-size: 18px; }
+      .task-card label { font-size: 14px; }
+      .submit-quiz-btn { font-size: 16px; padding: 14px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="ar-header">
+  <a class="ar-logo" href="index.html">AngloRoom</a>
+</header>
+
+<!-- HERO -->
+<section class="ar-hero">
+  <h1 data-i18n="heroTitle"></h1>
+  <p data-i18n="heroDesc"></p>
+</section>
+
+<!-- QUIZ SECTION -->
+<section class="quiz-section" id="quizSection">
+  <!-- TASKS WILL BE INSERTED DYNAMICALLY -->
+</section>
+
+<!-- MODAL REGISTRATION -->
+<div class="modal-overlay" id="registrationModal">
+  <div class="modal">
+    <p id="examInfoText"></p> <!-- NEW TEXT -->
+    <label data-i18n="fullName"></label>
+    <input type="text" id="studentName" required placeholder="Name">
+    <label data-i18n="phoneNumber"></label>
+    <input type="text" id="studentPhone" required placeholder="+998 XX XXX XX XX">
+    <button id="submitInfoBtn" data-i18n="submitInfo"></button>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div class="result-card" id="resultCard">
+  <h2 data-i18n="level"></h2>
+  <p id="score"></p>
+</div>
+
+<!-- FOOTER -->
+<footer class="ar-footer">
+  <h4>AngloRoom</h4>
+  <p data-i18n="footerDesc"></p>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+<script src="assets/js/firebase.js"></script>
+<script src="assets/js/test.js"></script>
+</body>
+</html>

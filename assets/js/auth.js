@@ -2,7 +2,6 @@
 
 const authForm = document.getElementById('auth-form');
 
-// Handle login or automatic sign-up
 authForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -15,42 +14,32 @@ authForm.addEventListener('submit', async (e) => {
   }
 
   try {
-    // Attempt to log in
-    await auth.signInWithEmailAndPassword(email, password);
-    // Login successful → redirect handled by onAuthStateChanged
-  } catch (loginError) {
-    // If account doesn't exist → create automatically
-    if (loginError.code === "auth/user-not-found") {
-      try {
-        await auth.createUserWithEmailAndPassword(email, password);
-        // Redirect handled by onAuthStateChanged
-      } catch (signupError) {
-        alert(`Sign-up failed: ${signupError.message}`);
-      }
-    } 
-    // Wrong password
-    else if (loginError.code === "auth/wrong-password") {
-      alert("Incorrect password. Try again.");
-    } 
-    // Invalid email format
-    else if (loginError.code === "auth/invalid-email") {
-      alert("Invalid email format.");
-    } 
-    // Other unexpected errors
-    else {
-      alert(`Login failed: ${loginError.message}`);
-    }
-  }
-});
+    // Sign in ONLY existing users
+    const userCredential = await auth.signInWithEmailAndPassword(email, password);
+    const user = userCredential.user;
 
-// Automatically redirect logged-in users
-auth.onAuthStateChanged(user => {
-  if (user) {
-    const adminEmail = "komoliddinkevin@gmail.com"; // Admin email
+    // Manual redirect AFTER successful login
+    const adminEmail = "komoliddinkevin@gmail.com";
+
     if (user.email === adminEmail) {
-      window.location.href = "admin.html"; // Go to admin panel
+      window.location.href = "admin.html";
     } else {
-      window.location.href = "main.html";  // Students go to main page
+      window.location.href = "main.html";
+    }
+
+  } catch (error) {
+    switch (error.code) {
+      case "auth/user-not-found":
+        alert("No account found. Please contact admin to register.");
+        break;
+      case "auth/wrong-password":
+        alert("Incorrect password.");
+        break;
+      case "auth/invalid-email":
+        alert("Invalid email format.");
+        break;
+      default:
+        alert(error.message);
     }
   }
 });

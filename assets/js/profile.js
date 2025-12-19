@@ -32,7 +32,7 @@ window.addEventListener('click', () => {
 /* ---------- Auth ---------- */
 auth.onAuthStateChanged(async user => {
   if (!user) {
-    window.location.href = 'index.html';
+    window.location.href = 'login.html';
     return;
   }
   currentUser = user;
