@@ -205,7 +205,24 @@
       }
     }
     
+/* Add this to ensure results container stays centered */
+#results-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
 
+/* Make sure table respects container boundaries */
+.results-table {
+    width: 100% !important;
+    max-width: 1000px !important;
+    margin: 20px auto !important;
+}
   </style>
 </head>
 
