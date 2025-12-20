@@ -257,7 +257,7 @@ submitInfoBtn.addEventListener('click', async () => {
   let level = '';
   if(correctAnswers <= 10) level='Beginner';
   else if(correctAnswers <= 30) level='Elementary';
-  else if(correctAnswers <= 50) level='Intermediate';
+  else if(correctAnswers <= 60) level='Intermediate';
   else level='Advanced';
 
   try {
