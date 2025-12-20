@@ -309,3 +309,30 @@ async function loadNewStudents() {
     newStudentsTableBody.innerHTML = '<tr><td colspan="3">Failed to load new students.</td></tr>';
   }
 }
+// Remove all students from Firebase
+async function removeAllStudents() {
+  if (!confirm('Are you sure you want to remove all students? This cannot be undone.')) return;
+
+  try {
+    const snapshot = await db.collection('NewStudents').get();
+
+    if (snapshot.empty) {
+      alert('No students to remove.');
+      return;
+    }
+
+    // Batch delete for efficiency
+    const batch = db.batch();
+    snapshot.forEach(doc => {
+      batch.delete(doc.ref);
+    });
+
+    await batch.commit();
+    alert('All students have been removed.');
+    // Refresh the table after deletion
+    loadNewStudents();
+  } catch (err) {
+    console.error(err);
+    alert('Failed to remove students.');
+  }
+}

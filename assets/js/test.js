@@ -104,11 +104,11 @@ const tasks = [
     title: { uz: 'topshiriq: Some/Any/No', ru: 'задание: Some/Any/No' },
     desc: { uz: 'To‘g‘ri variantni tanlang.', ru: 'Выберите правильный вариант.' },
     questions: [
-      { question: 'I have ___ apples. (some/any/no)', answer: 'some' },
-      { question: 'Do you have ___ milk? (some/any/no)', answer: 'any' },
-      { question: 'There is ___ water in the bottle. (some/any/no)', answer: 'some' },
-      { question: 'He has ___ friends. (some/any/no)', answer: 'no' },
-      { question: 'Is there ___ sugar? (some/any/no)', answer: 'any' }
+      { question: 'I have ___ oranges. (some/any/no)', answer: 'some' },
+      { question: 'Do you have ___ bread? (some/any/no)', answer: 'any' },
+      { question: 'There is ___ milk in the fridge. (some/any/no)', answer: 'some' },
+      { question: 'He has ___ homework today. (some/any/no)', answer: 'no' },
+      { question: 'Is there ___ juice left? (some/any/no)', answer: 'any' }
     ]
   },
   {
@@ -255,11 +255,11 @@ submitInfoBtn.addEventListener('click', async () => {
   if(!name || !phone) { alert('Please fill all fields'); return; }
 
   let level = '';
-  if(correctAnswers <= 10) level='Beginner';
-  else if(correctAnswers <= 30) level='Elementary';
-  else if(correctAnswers <= 60) level='Intermediate';
-  else level='Advanced';
-
+  if(correctAnswers <= 30) level = 'Beginner';
+  else if(correctAnswers <= 50) level = 'Elementary';
+  else if(correctAnswers <= 60) level = 'Intermediate';
+  else level = 'Advanced';
+  
   try {
     const db = firebase.firestore();
     await db.collection('NewStudents').add({ name, phone, correctAnswers, level, timestamp: new Date() });
