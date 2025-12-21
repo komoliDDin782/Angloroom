@@ -36,6 +36,13 @@ auth.onAuthStateChanged(async user => {
   try {
     const userDoc = await db.collection('users').doc(user.uid).get();
     userLevel = userDoc.exists ? userDoc.data().level || 'beginner' : 'beginner';
+    
+    // Show video lesson only for intermediate users
+    const videoLesson = document.getElementById('video-lesson');
+    if (videoLesson && userLevel === 'intermediate') {
+      videoLesson.style.display = 'block';
+    }
+    
     loadQuizCards();
   } catch (err) {
     console.error(err);
@@ -63,7 +70,6 @@ async function loadQuizCards() {
         .where('userId', '==', currentUser.uid)
         .where('quizId', '==', quiz.id)
         .get();
-
       if (!completed.empty) {
         card.style.opacity = '0.5';
         card.style.cursor = 'not-allowed';

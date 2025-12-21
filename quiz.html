@@ -120,6 +120,72 @@
       color: #145214;
       margin-top: 20px;
     }
+    .video-lesson {
+    width: 700px;
+    margin: 0 auto;
+    background-color: #f0f7f0;
+    border-radius: 20px;
+    box-shadow: 0 15px 50px rgba(15, 81, 50, 0.12);
+    padding: 30px;
+    border: 2px solid #145214;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.video-lesson:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 60px rgba(15, 81, 50, 0.18);
+}
+
+.lesson-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.lesson-header h2 {
+    color: #0f5132;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.5px;
+}
+
+.subtitle {
+    color: #38a169;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+    opacity: 0.85;
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 50%; /* Smaller than standard 56.25% */
+    height: 0;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #000;
+    margin: 20px 0;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+}
+
+.badge {
+    background: linear-gradient(135deg, #0f5132, #2e8b57);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(15, 81, 50, 0.2);
+}
   </style>
 </head>
 <body>
@@ -135,11 +201,25 @@
   <h1>Weekly quizzes</h1>
   <div id="quiz-container"></div>
 
+  <div class="video-lesson" id="video-lesson" style="display: none;">
+    <div class="lesson-header">
+        <h2>Reported Speech</h2>
+        <p class="subtitle">Master the art of indirect speech</p>
+    </div>
+    
+    <div class="video-container">
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/iFNFD0pS1gk?si=p2GrWHovfeT5byhO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+</div>
+
+
+
   <div id="quiz-modal" class="quiz-modal">
     <div class="quiz-modal-content">
       <span id="close-modal">&times;</span>
       <div id="modal-quiz-container"></div>
     </div>
   </div>
+
 </body>
 </html>
