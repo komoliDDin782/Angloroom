@@ -1,94 +1,94 @@
 {
-  "title": "Passive Voice",
+  "title": "Reported Speech",
   "questions": [
     {
-      "question": "'They will publish the report next week.' → Passive voice?",
+      "question": "'She said, \"I am tired.\"' → Reported speech?",
       "options": [
-        "The report will be published next week.",
-        "The report will publish next week.",
-        "The report is published next week.",
-        "The report has been published next week."
+        "She said that she was tired.",
+        "She said that she is tired.",
+        "She told that she was tired.",
+        "She said she had been tired."
       ]
     },
     {
-      "question": "'Someone broke the window last night.' → Passive voice?",
+      "question": "'He said, \"I will call you tomorrow.\"' → Reported speech?",
       "options": [
-        "The window was broken last night.",
-        "The window is broken last night.",
-        "The window broke last night.",
-        "The window has broken last night."
+        "He said that he would call me the next day.",
+        "He said that he will call me tomorrow.",
+        "He told that he would call me tomorrow.",
+        "He said he would call me tomorrow."
       ]
     },
     {
-      "question": "'They are building a new bridge.' → Passive voice?",
+      "question": "'They said, \"We have finished the work.\"' → Reported speech?",
       "options": [
-        "A new bridge is being built.",
-        "A new bridge is built.",
-        "A new bridge being built.",
-        "A new bridge has been built."
+        "They said that they had finished the work.",
+        "They said that they have finished the work.",
+        "They told they had finished the work.",
+        "They said that they finished the work."
       ]
     },
     {
-      "question": "'She sent the email yesterday.' → Passive voice?",
+      "question": "'She said, \"I am studying English.\"' → Reported speech?",
       "options": [
-        "The email was sent yesterday.",
-        "The email is sent yesterday.",
-        "The email has sent yesterday.",
-        "The email sent yesterday."
+        "She said that she was studying English.",
+        "She said that she is studying English.",
+        "She told that she was studying English.",
+        "She said she had studied English."
       ]
     },
     {
-      "question": "'The company is testing the product.' → Passive voice?",
+      "question": "'He said, \"I saw her yesterday.\"' → Reported speech?",
       "options": [
-        "The product is being tested.",
-        "The product is tested.",
-        "The product testing.",
-        "The product has been tested."
+        "He said that he had seen her the day before.",
+        "He said that he saw her yesterday.",
+        "He told that he had seen her yesterday.",
+        "He said he has seen her the day before."
       ]
     },
     {
-      "question": "'They have cleaned the office.' → Passive voice?",
+      "question": "'She said, \"I can help you.\"' → Reported speech?",
       "options": [
-        "The office has been cleaned.",
-        "The office is cleaned.",
-        "The office has cleaned.",
-        "The office cleaned."
+        "She said that she could help me.",
+        "She said that she can help me.",
+        "She told she could help me.",
+        "She said she had helped me."
       ]
     },
     {
-      "question": "'Someone will deliver the package tomorrow.' → Passive voice?",
+      "question": "'They said, \"We are going to move.\"' → Reported speech?",
       "options": [
-        "The package will be delivered tomorrow.",
-        "The package will deliver tomorrow.",
-        "The package is delivered tomorrow.",
-        "The package has been delivered tomorrow."
+        "They said that they were going to move.",
+        "They said that they are going to move.",
+        "They told they were going to move.",
+        "They said they had moved."
       ]
     },
     {
-      "question": "'They fixed the computer last Friday.' → Passive voice?",
+      "question": "'He asked, \"Do you like coffee?\"' → Reported speech?",
       "options": [
-        "The computer was fixed last Friday.",
-        "The computer is fixed last Friday.",
-        "The computer has fixed last Friday.",
-        "The computer fixed last Friday."
+        "He asked if I liked coffee.",
+        "He asked if I like coffee.",
+        "He asked did I like coffee.",
+        "He said if I liked coffee."
       ]
     },
     {
-      "question": "'The workers are painting the walls.' → Passive voice?",
+      "question": "'She asked, \"Where do you live?\"' → Reported speech?",
       "options": [
-        "The walls are being painted.",
-        "The walls are painted.",
-        "The walls painting.",
-        "The walls have been painted."
+        "She asked where I lived.",
+        "She asked where did I live.",
+        "She said where I lived.",
+        "She asked where I live."
       ]
     },
     {
-      "question": "'He has written the article.' → Passive voice?",
+      "question": "'He said, \"Don’t be late.\"' → Reported speech?",
       "options": [
-        "The article has been written.",
-        "The article is written.",
-        "The article has written.",
-        "The article written."
+        "He told me not to be late.",
+        "He told me don’t be late.",
+        "He said me not to be late.",
+        "He asked me not to be late."
       ]
     }
   ]
