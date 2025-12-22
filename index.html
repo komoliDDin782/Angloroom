@@ -119,7 +119,7 @@
       background: #fff;
       padding: 28px;
       border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, .15);
+      box-shadow: 0 8px 25px rgba(15, 81, 50, 0.12);
     }
 
     .card h3 {
@@ -396,6 +396,24 @@
         height: 260px;
       }
     }
+
+    .mortarboard-svg {
+    /* Smooth scaling */
+    display: block;
+    margin: 0 auto;
+    transition: transform 0.3s ease;
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    stroke: #0f5132 !important;
+    stroke-width: 2px !important;
+}
+
+/* 2. Hover Effects */
+.mortarboard-svg:hover {
+    transform: translateY(-5px);
+    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
+}
   </style>
 </head>
 
@@ -426,14 +444,18 @@
 
     <div class="cards">
       <div class="card" data-aos="fade-up">
+        <img src="assets/css/education2.svg" alt="" class="mortarboard-svg">
+
         <h3 data-i18n="c1t"></h3>
         <p data-i18n="c1d"></p>
       </div>
       <div class="card" data-aos="fade-up">
+        <img src="assets/css/education.svg" alt="" class="mortarboard-svg">
         <h3 data-i18n="c2t"></h3>
         <p data-i18n="c2d"></p>
       </div>
       <div class="card" data-aos="fade-up">
+        <img src="assets/css/education3.svg" alt="" class="mortarboard-svg">
         <h3 data-i18n="c3t"></h3>
         <p data-i18n="c3d"></p>
       </div>
