@@ -4,10 +4,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
   <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
   <title>AngloRoom</title>
 
   <style>
+    html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* important to prevent horizontal scroll */
+}
     body {
       margin: 0;
       font-family: Inter, system-ui, sans-serif;
@@ -414,11 +420,70 @@
     transform: translateY(-5px);
     filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
 }
+/* Fullscreen splash */
+#splash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #0f5132; /* dark green */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+/* Text styling */
+#splash-text {
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 6vw;
+  color: white;
+  letter-spacing: 5px;
+  line-height: 1;
+  text-shadow: 0 0 10px rgba(255,255,255,0.6), 0 0 20px rgba(255,255,255,0.3); /* soft glow */
+  display: flex;
+  flex-wrap: wrap;
+  opacity: 0; /* start hidden */
+  transition: opacity 0.2s ease;
+}
+
+/* Animate each letter */
+#splash-text span {
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  display: inline-block;
+  animation: letter-focus 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+}
+
+/* Stagger letters */
+#splash-text span:nth-child(1) { animation-delay: 0s; }
+#splash-text span:nth-child(2) { animation-delay: 0.05s; }
+#splash-text span:nth-child(3) { animation-delay: 0.1s; }
+#splash-text span:nth-child(4) { animation-delay: 0.15s; }
+#splash-text span:nth-child(5) { animation-delay: 0.2s; }
+#splash-text span:nth-child(6) { animation-delay: 0.25s; }
+#splash-text span:nth-child(7) { animation-delay: 0.3s; }
+#splash-text span:nth-child(8) { animation-delay: 0.35s; }
+#splash-text span:nth-child(9) { animation-delay: 0.4s; }
+
+/* Letter focus-in animation */
+@keyframes letter-focus {
+  0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
   </style>
 </head>
 
 <body>
-
+  <div id="splash">
+    <h1 id="splash-text">Angloroom</h1>
+  </div>
   <header>
     <div class="logo">AngloRoom</div>
     <button class="menu-btn" onclick="toggleMenu()">☰</button>
@@ -564,6 +629,33 @@
   <script>AOS.init({ once: true });</script>
 
   <script>
+const text = document.getElementById('splash-text');
+
+// Step 1: Show whole word briefly
+text.style.opacity = 1; // show entire word
+setTimeout(() => {
+  // Step 2: Split letters for animation
+  text.innerHTML = text.textContent
+    .split('')
+    .map(letter => `<span>${letter}</span>`)
+    .join('');
+
+  // Step 3: Fade-in letters
+  const letters = text.querySelectorAll('span');
+  letters.forEach(letter => {
+    letter.style.opacity = 1;
+  });
+
+  // Step 4: Fade-out splash after animation
+  setTimeout(() => {
+    const splash = document.getElementById('splash');
+    splash.style.opacity = 0;
+    setTimeout(() => {
+      splash.style.display = 'none';
+    }, 1000);
+  }, 1500); // wait for letters animation
+}, 1000); // show full word for 1 second
+
     const texts = {
       uz: {
         login: "Kirish", about: "Biz haqimizda", test: "Bepul test",
