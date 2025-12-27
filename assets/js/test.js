@@ -46,7 +46,7 @@ const registrationModal = document.getElementById('registrationModal');
 const tasks = [
   {
     type: 'gap',
-    title: { uz: 'topshiriq: Haftaning kunlari', ru: 'задание: Дни недели' },
+    title: { uz: 'Haftaning kunlari', ru: 'Дни недели' },
     desc: { uz: 'Bo‘sh joylarni to‘ldiring.', ru: 'Заполните пропуски.' },
     questions: [
       { question: 'Mon___', answer: 'day' },
@@ -60,7 +60,7 @@ const tasks = [
   },
   {
     type: 'gap',
-    title: { uz: 'topshiriq: To Be', ru: 'задание: To Be' },
+    title: { uz: 'To Be', ru: 'To Be' },
     desc: { uz: 'Bo‘sh joylarni to‘ldiring.', ru: 'Заполните пропуски.' },
     questions: [
       { question: 'I ___ a student.', answer: 'am' },
@@ -74,7 +74,7 @@ const tasks = [
   },
   {
     type: 'gap',
-    title: { uz: 'topshiriq: Oddiy gaplar', ru: 'задание: Простые предложения' },
+    title: { uz: 'Oddiy gaplar', ru: 'Простые предложения' },
     desc: { uz: 'Bo‘sh joylarni to‘ldiring.', ru: 'Заполните пропуски.' },
     questions: [
       { question: 'I ___ from Uzbekistan.', answer: 'am' },
@@ -87,7 +87,7 @@ const tasks = [
   },
   {
     type: 'gap',
-    title: { uz: 'topshiriq: Ko‘plik', ru: 'задание: Множественное число' },
+    title: { uz: 'Ko‘plik', ru: 'Множественное число' },
     desc: { uz: 'Quyidagi otlarni ko‘plik shaklida yozing.', ru: 'Напишите существительные во множественном числе.' },
     questions: [
       { question: 'Mouse -> ___', answer: 'mice' },
@@ -101,7 +101,7 @@ const tasks = [
   },
   {
     type: 'gap',
-    title: { uz: 'topshiriq: Some/Any/No', ru: 'задание: Some/Any/No' },
+    title: { uz: 'Some/Any/No', ru: 'Some/Any/No' },
     desc: { uz: 'To‘g‘ri variantni tanlang.', ru: 'Выберите правильный вариант.' },
     questions: [
       { question: 'I have ___ oranges. (some/any/no)', answer: 'some' },
@@ -113,7 +113,7 @@ const tasks = [
   },
   {
     type: 'gap',
-    title: { uz: 'topshiriq: Solishtirma va eng yuqori daraja', ru: 'задание: Comparative and Superlative' },
+    title: { uz: 'Solishtirma va eng yuqori daraja', ru: 'Comparative and Superlative' },
     desc: { uz: 'Bo‘sh joylarni to‘ldiring.', ru: 'Заполните пропуски.' },
     questions: [
       { question: 'This car is ___ (fast) than that one.', answer: 'faster' },
@@ -127,7 +127,7 @@ const tasks = [
   },
   {
     type: 'gap',
-    title: { uz: 'topshiriq: Predloglar', ru: 'задание: Предлоги' },
+    title: { uz: 'Predloglar', ru: 'Предлоги' },
     desc: { uz: 'To‘g‘ri variantni tanlang.', ru: 'Выберите правильный вариант.' },
     questions: [
       { question: 'The cat is ___ the roof. (on/in/under)', answer: 'on' },
@@ -141,7 +141,7 @@ const tasks = [
   },
   {
     type: 'gap',
-    title: { uz: 'topshiriq: Fe’llar zamonlar bo‘yicha', ru: 'задание: Времена глаголов' },
+    title: { uz: 'Fe’llar zamonlar bo‘yicha', ru: 'Времена глаголов' },
     desc: { uz: 'Bo‘sh joylarni to‘ldiring.', ru: 'Заполните пропуски.' },
     questions: [
       { question: 'Yesterday, I ___ (go) to school.', answer: 'went' },
@@ -155,7 +155,7 @@ const tasks = [
   },
   {
     type: 'gap',
-    title: { uz: 'topshiriq: Passive Voice', ru: 'задание: Passive Voice' },
+    title: { uz: 'Passive Voice', ru: 'Passive Voice' },
     desc: { uz: 'Bo‘sh joylarni to‘ldiring.', ru: 'Заполните пропуски.' },
     questions: [
       { question: 'The cake ___ (make) by my mom yesterday.', answer: 'was made' },
@@ -168,7 +168,7 @@ const tasks = [
   },
   {
     type: 'gap',
-    title: { uz: 'topshiriq: Fe’llar va zamonlar', ru: 'задание: Глаголы и времена' },
+    title: { uz: 'Fe’llar va zamonlar', ru: 'Глаголы и времена' },
     desc: { uz: 'Bo‘sh joylarni to‘ldiring: Present Perfect, Past Perfect, Past Simple yoki Conditional.', 
            ru: 'Заполните пропуски: Present Perfect, Past Perfect, Past Simple или Conditional.' },
     questions: [
@@ -182,8 +182,8 @@ const tasks = [
       { question: 'If she studied harder, she ___ (pass) the exam.', answer: 'would pass' } // Conditional
     ]
   }
-  
 ];
+
 
 
 // ================= CREATE QUIZ HTML =================
