@@ -4,28 +4,55 @@
 <head>
   <meta charset="UTF-8">
   <title>Admin Panel</title>
-
-  <link rel="stylesheet" href="assets/css/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     /* ---------- Base ---------- */
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background-color: #027a2e;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      color: #1f2937;
-    }
+    * {
+  box-sizing: border-box;
+}
 
-    h1 {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 2.6rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      color: #e5e7eb;
-    }
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #22c55e;
+  border-radius: 999px;
+}
+
+    body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #1f2937;
+
+  background:
+    radial-gradient(1200px 600px at top, #16a34a 0%, transparent 60%),
+    linear-gradient(180deg, #064e3b 0%, #022c22 100%);
+}
+
+
+h1 {
+  text-align: center;
+  margin: 48px 0 20px;
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  color: #ecfdf5;
+}
+h1::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  margin: 14px auto 0;
+  background: linear-gradient(90deg, #22c55e, #86efac);
+  border-radius: 999px;
+}
 
     h2 {
       margin-top: 50px;
@@ -47,24 +74,31 @@
 }
 
 .admin-main button {
-  padding: 25px 50px; /* smaller padding for mobile */
-  font-size: 18px; /* smaller font on mobile */
+  padding: 22px 48px;
+  font-size: 17px;
   font-weight: 700;
-  border-radius: 22px;
+  border-radius: 20px;
   border: none;
   cursor: pointer;
-  color: #14532d;
-  background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+
+  color: #064e3b;
+  background:
+    linear-gradient(135deg, rgba(220,252,231,0.95), rgba(187,247,208,0.95));
+
   box-shadow:
-    0 12px 30px rgba(0, 0, 0, 0.1),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.7);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+    0 10px 30px rgba(0,0,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.6);
+
+  backdrop-filter: blur(6px);
+  transition: transform .25s ease, box-shadow .25s ease;
 }
 
+
 .admin-main button:hover {
-  transform: translateY(-6px) scale(1.03);
-  box-shadow: 0 20px 45px rgba(34, 197, 94, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 18px 45px rgba(34,197,94,0.35);
 }
+
 
 /* Media Query for smaller devices */
 @media (max-width: 600px) {
@@ -82,22 +116,35 @@
 
     /* ---------- Overlays ---------- */
     .overlay {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      width: 92%;
-      max-width: 1300px;
-      height: 85%;
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(14px);
-      border-radius: 28px;
-      padding: 35px 40px;
-      overflow-y: auto;
-      box-shadow: 0 40px 90px rgba(0, 0, 0, 0.25);
-      transform: translate(-50%, -50%);
-      z-index: 9999;
-    }
+  display: none;
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: min(80%, 800px);
+  height: 85%;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border-radius: 10px;
+  padding: 36px 40px;
+  overflow-y: auto;
+  box-shadow:
+    0 40px 100px rgba(0,0,0,0.35),
+    inset 0 0 0 1px rgba(255,255,255,0.5);
+  transform: scale(.96);
+  animation: overlayIn .25s ease forwards;
+  z-index: 9999;
+  text-align: center;
+
+}
+
+
+@keyframes overlayIn {
+  to {
+    transform: scale(1);
+  }
+}
+
 
     .close-btn {
       position: absolute;
@@ -131,28 +178,28 @@
     }
 
     th {
-      background: #22c55e;
-      color: white;
-      padding: 14px;
-      font-size: 15px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+  background: #064e3b;
+  color: white;
+  padding: 16px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
 
-    td {
-      padding: 14px;
-      text-align: center;
-      font-size: 15px;
-      border-bottom: 1px solid #e5e7eb;
-    }
+td {
+  padding: 14px;
+  font-size: 14px;
+  border-bottom: 1px solid #ecfdf5;
+}
+tr:hover td {
+  background: linear-gradient(90deg, #f0fdf4, #ecfdf5);
+}
+
 
     tr:last-child td {
       border-bottom: none;
     }
 
-    tr:hover td {
-      background-color: #f0fdf4;
-    }
 
     /* ---------- Student picture ---------- */
     .student-pic {
@@ -175,7 +222,7 @@
       border: none;
       cursor: pointer;
       color: white;
-      background: linear-gradient(135deg, #22c55e, #16a34a);
+      background: #064e3b;
       box-shadow: 0 12px 25px rgba(34, 197, 94, 0.35);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
@@ -187,18 +234,24 @@
 
     /* ---------- Logout ---------- */
     #logout-btn {
-      position: fixed;
-      top: 24px;
-      right: 24px;
-      background: #ef4444;
-      color: white;
-      padding: 12px 22px;
-      border-radius: 14px;
-      cursor: pointer;
-      font-weight: 700;
-      box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
+  position: fixed;
+  top: 24px;
+  right: 24px;
+
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+
+  padding: 12px 20px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+
+  box-shadow: 0 12px 30px rgba(239,68,68,.45);
+  backdrop-filter: blur(6px);
+
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
 
     #logout-btn:hover {
       transform: translateY(-2px);
@@ -261,6 +314,21 @@
     .remove-all-btn:hover {
       background-color: #c82333;
     }
+    @media (max-width: 600px) {
+  .admin-main {
+    gap: 24px;
+    margin-top: 50px;
+  }
+
+  .admin-main button {
+    width: 100%;              /* full-width = modern mobile UI */
+    max-width: 320px;
+    padding: 26px 20px;       /* bigger tap area */
+    font-size: 18px;
+    border-radius: 26px;
+  }
+}
+
   </style>
 </head>
 
