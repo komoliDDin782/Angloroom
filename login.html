@@ -31,6 +31,7 @@
     box-sizing: border-box;
     transform: scale(0.7);
     transform-origin: center; /* scale from center */
+
   }
   
   /* Inner wrapper for image + card */
@@ -43,13 +44,16 @@
     box-shadow: 0 12px 35px rgba(0,0,0,0.15);
     background: rgba(255,255,255,0.95);
     margin: 0 auto; /* center horizontally */
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+
   }
   
   /* Left image */
   .auth-image {
     flex: 1;
     min-width: 300px;
-    background: url('assets/css/logo.jpg') center/cover no-repeat;
+    background: url('assets/css/pi.jpg') center/cover no-repeat;
+    
   }
   
   /* Right form */
@@ -59,6 +63,7 @@
     margin-left: 20px; /* gap between image and card */
     text-align: center;
     box-sizing: border-box;
+
   }
   
   /* Text and form styling */
@@ -66,14 +71,16 @@
   .auth-card p { font-size: 24px; margin-bottom: 45px; opacity: 0.9; }
   .auth-card label { display: block; text-align: left; margin-bottom: 12px; font-size: 20px; font-weight: 600; }
   .auth-card input { width: 100%; padding: 22px; margin-bottom: 30px; border-radius: 14px; border: 1px solid #ccc; outline: none; font-size: 22px; }
-  .auth-card button { width: 100%; padding: 22px; margin-top: 20px; background: #1f7a1f; border: none; border-radius: 16px; color: white; font-size: 24px; font-weight: 700; cursor: pointer; transition: 0.2s; }
-  .auth-card button:hover { background: #176117; }
+  .auth-card button { width: 100%; padding: 22px; margin-top: 20px; background: #0f5132; border: none; border-radius: 16px; color: white; font-size: 24px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+  .auth-card button:hover { background: #0f5132d8,; }
   
   /* MOBILE */
-  @media (max-width: 768px) {
+  @media (max-width: 968px) {
     .auth-card-wrapper {
-    transform: scale(1);
+    transform: scale(0);
     transform-origin: center; /* scale from center */
+    font-size: 18px; /* try 16px–20px */
+    line-height: 1.6; /* improves readability */
   }
     .auth-card-wrapper-inner { 
       flex-direction: column; 
