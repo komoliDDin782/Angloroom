@@ -1,126 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>AngloRoom - Login</title>
+<meta charset="UTF-8">
+<title>AngloRoom - Login</title>
 
-  <link rel="stylesheet" href="assets/css/styles.css">
+<link rel="stylesheet" href="assets/css/styles.css">
 
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
-  <script src="assets/js/firebase.js" defer></script>
-  <script src="assets/js/auth.js" defer></script>
-
-  <style>
-    .auth-card-wrapper {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(to bottom, #e6f2e6, #cce6cc);
-      padding: 30px;
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
+<script src="assets/js/firebase.js" defer></script>
+<script src="assets/js/auth.js" defer></script>
+<style>
+  html, body {
+    overflow:hidden ;
+    height: 100%;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(to bottom, #e6f2e6, #cce6cc);
+  }
+  
+  /* Wrapper with some gap from screen edges */
+  .auth-card-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px; /* top/bottom + horizontal padding (gap from edges) */
+    box-sizing: border-box;
+    transform: scale(0.7);
+    transform-origin: center; /* scale from center */
+  }
+  
+  /* Inner wrapper for image + card */
+  .auth-card-wrapper-inner {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+    background: rgba(255,255,255,0.95);
+    margin: 0 auto; /* center horizontally */
+  }
+  
+  /* Left image */
+  .auth-image {
+    flex: 1;
+    min-width: 300px;
+    background: url('assets/css/logo.jpg') center/cover no-repeat;
+  }
+  
+  /* Right form */
+  .auth-card {
+    flex: 1;
+    padding: 60px 40px; /* top/bottom + side padding */
+    margin-left: 20px; /* gap between image and card */
+    text-align: center;
+    box-sizing: border-box;
+  }
+  
+  /* Text and form styling */
+  .auth-card h1 { margin-bottom: 20px; font-size: 40px; font-weight: 800; }
+  .auth-card p { font-size: 24px; margin-bottom: 45px; opacity: 0.9; }
+  .auth-card label { display: block; text-align: left; margin-bottom: 12px; font-size: 20px; font-weight: 600; }
+  .auth-card input { width: 100%; padding: 22px; margin-bottom: 30px; border-radius: 14px; border: 1px solid #ccc; outline: none; font-size: 22px; }
+  .auth-card button { width: 100%; padding: 22px; margin-top: 20px; background: #1f7a1f; border: none; border-radius: 16px; color: white; font-size: 24px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+  .auth-card button:hover { background: #176117; }
+  
+  /* MOBILE */
+  @media (max-width: 768px) {
+    .auth-card-wrapper-inner { 
+      flex-direction: column; 
+    }
+  
+    .auth-image { 
+      display: none; 
     }
   
     .auth-card {
-      width: 100%;
-      max-width: 1200px; /* BIG CARD */
-      padding: 60px;
-      border-radius: 24px;
-  
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px solid rgba(0,0,0,0.15);
-      box-shadow: 0 12px 35px rgba(0,0,0,0.15);
-  
-      color: #000;
-      text-align: center;
+      padding: 40px 30px;
+      margin-left: 0;
+      margin-top: 20px; /* gap from top */
     }
   
-    .auth-card h1 {
-      margin-bottom: 20px;
-      font-size: 40px; /* very readable */
-      font-weight: 800;
-    }
-  
-    .auth-card p {
-      font-size: 24px;
-      margin-bottom: 45px;
-      opacity: 0.9;
-    }
-  
-    .auth-card label {
-      display: block;
-      text-align: left;
-      margin-bottom: 12px;
-      font-size: 20px;
-      font-weight: 600;
-    }
-  
-    .auth-card input {
-      width: 100%;
-      padding: 22px;
-      margin-bottom: 30px;
-  
-      border-radius: 14px;
-      border: 1px solid #ccc;
-      outline: none;
-  
-      font-size: 22px;
-    }
-  
-    .auth-card button {
-      width: 100%;
-      padding: 22px;
-      margin-top: 20px;
-  
-      background: #1f7a1f;
-      border: none;
-      border-radius: 16px;
-  
-      color: white;
-      font-size: 24px;
-      font-weight: 700;
-  
-      cursor: pointer;
-      transition: 0.2s;
-    }
-  
-    .auth-card button:hover {
-      background: #176117;
-    }
-  
-    /* MOBILE */
-    @media (max-width: 600px) {
-      .auth-card {
-        padding: 40px;
-      }
-  
-      .auth-card h1 {
-        font-size: 30px;
-      }
-  
-      .auth-card p {
-        font-size: 20px;
-      }
-  
-      .auth-card input {
-        font-size: 20px;
-        padding: 18px;
-      }
-  
-      .auth-card button {
-        font-size: 22px;
-        padding: 18px;
-      }
-    }
+    .auth-card h1 { font-size: 30px; }
+    .auth-card p { font-size: 20px; }
+    .auth-card input { font-size: 20px; padding: 18px; }
+    .auth-card button { font-size: 22px; padding: 18px; }
+  }
   </style>
   
   
 </head>
 
 <body>
-  <div class="auth-card-wrapper">
+<div class="auth-card-wrapper">
+  <div class="auth-card-wrapper-inner">
+    <div class="auth-image"></div>
     <div class="auth-card">
       <h1>Welcome to AngloRoom</h1>
       <p>Login</p>
@@ -136,5 +114,6 @@
       </form>
     </div>
   </div>
+</div>
 </body>
 </html>
