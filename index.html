@@ -17,13 +17,12 @@
     body {
       margin: 0;
       font-family: Inter, system-ui, sans-serif;
-      background: #f6faf7;
       color: #123;
     }
 
     /* ===== HEADER ===== */
     header {
-      background: linear-gradient(90deg, #0f5132, #1f7a4a);
+      background: linear-gradient(90deg, #0f5132c0, #1f7a49b4);
       color: #fff;
       padding: 16px 24px;
       display: flex;
@@ -107,9 +106,9 @@
 
     /* ===== CONTENT ===== */
     .content {
-      background: #f6faf7;
+ 
       padding: 80px 24px;
-      max-width: 1100px;
+      max-width: 100%;
       margin: auto;
     }
 
@@ -133,7 +132,8 @@
 
     /* ===== PROCESS ===== */
     .process {
-      background: #f3fbf7;
+      border: 2px solid rgba(255, 255, 255, 0);
+      border-radius: 30px;
       padding: 80px 24px;
       border-radius: 24px;
       max-width: 1000px;
@@ -148,7 +148,7 @@
       top: 0;
       bottom: 0;
       width: 3px;
-      background: rgba(31, 122, 74, .25);
+      background: rgb(255, 255, 255);
       transform: translateX(-50%);
     }
 
@@ -200,7 +200,7 @@
     /* ===== FOOTER ===== */
  /* ===== FOOTER ===== */
 .ar-footer {
-  background: #0f5132;
+  background: #0f5132a8;
   color: #fff;
   padding: 60px 24px;
 }
@@ -337,7 +337,11 @@
       max-width: 1100px;
       margin: 100px auto;
       padding: 0 24px;
-      background: #f3fbf7;
+      border: 2px solid rgba(255, 255, 255, 0);
+      border-radius: 30px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      
     }
 
     .story h2 {
@@ -475,6 +479,33 @@
   0% { opacity: 0; transform: translateY(20px) scale(0.95); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
 }
+/* ===== FLOATING WORDS BACKGROUND ===== */
+.floating-words {
+  position: fixed;
+  inset: 0;
+  background: #0f5132;
+  overflow: hidden;
+  z-index: -1; /* behind everything */
+}
+
+.floating-word {
+  position: absolute;
+  color: #ffd700; /* yellow */
+  font-weight: 700;
+  opacity: 0.15;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+  from {
+    transform: translateY(110vh);
+  }
+  to {
+    transform: translateY(-120vh);
+  }
+}
 
   </style>
 </head>
@@ -504,7 +535,7 @@
   </section>
 
   <section class="content" id="about">
-    <h2 data-i18n="why" data-aos="fade-up"></h2>
+    <h2 data-i18n="why" data-aos="fade-up" style="color: rgb(255, 255, 255)"></h2>
 
     <div class="cards">
       <div class="card" data-aos="fade-up" data-aos-delay="500">
@@ -565,7 +596,7 @@
   </div>
 
   <section class="story">
-    <h2 data-i18n="storyTitle" data-aos="fade-up"></h2>
+    <h2 data-i18n="storyTitle" data-aos="fade-up" style="color: white;"></h2>
 
     <div class="story-wrapper">
 
@@ -604,6 +635,7 @@
   </section>
 
 
+  <div class="floating-words"></div>
 
 
 
@@ -627,7 +659,31 @@
   <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
   <script>AOS.init({ once: true });</script>
   <script src="assets/js/index.js"></script>
-
+  <script>
+    const words = [
+      "English", "IELTS", "Grammar", "Speaking",
+      "Writing", "Listening", "Vocabulary",
+      "Practice", "Fluency", "AngloRoom"
+    ];
+  
+    const container = document.querySelector(".floating-words");
+  
+    for (let i = 0; i < 35; i++) {
+      const span = document.createElement("span");
+      span.className = "floating-word";
+      span.textContent = words[Math.floor(Math.random() * words.length)];
+  
+      const size = Math.random() * 26 + 14; // 14–40px
+      span.style.fontSize = size + "px";
+  
+      span.style.left = Math.random() * 100 + "vw";
+      span.style.animationDuration = Math.random() * 20 + 15 + "s";
+      span.style.animationDelay = Math.random() * -30 + "s";
+  
+      container.appendChild(span);
+    }
+  </script>
+  
 </body>
 
 </html>

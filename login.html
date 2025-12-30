@@ -5,6 +5,7 @@
 <title>AngloRoom - Login</title>
 
 <link rel="stylesheet" href="assets/css/styles.css">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
@@ -75,32 +76,49 @@
   .auth-card button:hover { background: #0f5132d8,; }
   
   /* MOBILE */
-  @media (max-width: 968px) {
-    .auth-card-wrapper {
-    transform: scale(0);
-    transform-origin: center; /* scale from center */
-    font-size: 18px; /* try 16px–20px */
-    line-height: 1.6; /* improves readability */
-  }
-    .auth-card-wrapper-inner { 
-      flex-direction: column; 
-    }
-  
-    .auth-image { 
-      display: none; 
-    }
-  
-    .auth-card {
-      padding: 40px 30px;
-      margin-left: 0;
-      margin-top: 20px; /* gap from top */
-    }
-  
-    .auth-card h1 { font-size: 30px; }
-    .auth-card p { font-size: 20px; }
-    .auth-card input { font-size: 20px; padding: 18px; }
-    .auth-card button { font-size: 22px; padding: 18px; }
-  }
+  /* ===== MOBILE FIX ===== */
+@media (max-width: 768px) {
+
+body {
+  overflow-y: auto;
+}
+
+.auth-card-wrapper {
+  padding: 16px;
+}
+
+.auth-card-wrapper-inner {
+  flex-direction: column;
+  border-radius: 20px;
+}
+
+.auth-image {
+  display: none; /* hide image on phones */
+}
+
+.auth-card {
+  padding: 40px 24px;
+}
+
+.auth-card h1 {
+  font-size: 28px;
+}
+
+.auth-card p {
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+.auth-card input {
+  font-size: 16px;
+  padding: 16px;
+}
+
+.auth-card button {
+  font-size: 18px;
+  padding: 16px;
+}
+}
   </style>
   
   
