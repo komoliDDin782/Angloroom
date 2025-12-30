@@ -4,142 +4,278 @@
 <meta charset="UTF-8">
 <title>AngloRoom - Login</title>
 
-<link rel="stylesheet" href="assets/css/styles.css">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<link rel="stylesheet" href="assets/css/styles.css">
+
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
+
 <script src="assets/js/firebase.js" defer></script>
 <script src="assets/js/auth.js" defer></script>
+
 <style>
-  html, body {
-    overflow:hidden ;
-    height: 100%;
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(to bottom, #e6f2e6, #cce6cc);
-  }
-  
-  /* Wrapper with some gap from screen edges */
-  .auth-card-wrapper {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 20px; /* top/bottom + horizontal padding (gap from edges) */
-    box-sizing: border-box;
-    transform: scale(0.7);
-    transform-origin: center; /* scale from center */
-
-  }
-  
-  /* Inner wrapper for image + card */
-  .auth-card-wrapper-inner {
-    display: flex;
-    width: 100%;
-    max-width: 1200px;
-    border-radius: 24px;
-    overflow: hidden;
-    box-shadow: 0 12px 35px rgba(0,0,0,0.15);
-    background: rgba(255,255,255,0.95);
-    margin: 0 auto; /* center horizontally */
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-
-  }
-  
-  /* Left image */
-  .auth-image {
-    display: block;
-    flex: 1;
-    min-width: 300px;
-    background: url('assets/image/pi.jpg') center/cover no-repeat;
-    
-  }
-  
-  /* Right form */
-  .auth-card {
-    flex: 1;
-    padding: 60px 40px; /* top/bottom + side padding */
-    margin-left: 20px; /* gap between image and card */
-    text-align: center;
-    box-sizing: border-box;
-
-  }
-  
-  /* Text and form styling */
-  .auth-card h1 { margin-bottom: 20px; font-size: 40px; font-weight: 800; }
-  .auth-card p { font-size: 24px; margin-bottom: 45px; opacity: 0.9; }
-  .auth-card label { display: block; text-align: left; margin-bottom: 12px; font-size: 20px; font-weight: 600; }
-  .auth-card input { width: 100%; padding: 22px; margin-bottom: 30px; border-radius: 14px; border: 1px solid #ccc; outline: none; font-size: 22px; }
-  .auth-card button { width: 100%; padding: 22px; margin-top: 20px; background: #0f5132; border: none; border-radius: 16px; color: white; font-size: 24px; font-weight: 700; cursor: pointer; transition: 0.2s; }
-  .auth-card button:hover { background: #0f5132d8,; }
-  
-  /* MOBILE */
-  /* ===== MOBILE FIX ===== */
-  @media (max-width: 768px) {
-
-.auth-card-wrapper {
-  padding: 12px;
+/* ===== BASE ===== */
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: 'Inter', sans-serif;
+  background: #0f5132c0;
 }
 
+body {
+  overflow-y: auto;
+}
+
+/* ===== LAYOUT ===== */
+.auth-card-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  box-sizing: border-box;
+}
+
+.auth-card-wrapper-inner {
+  display: flex;
+  width: 100%;
+  max-width: 1100px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+
+/* ===== IMAGE ===== */
+.auth-image {
+  flex: 1;
+  min-width: 320px;
+  background: url('assets/image/pi.jpg') center / cover no-repeat;
+}
+
+/* ===== FORM ===== */
 .auth-card {
-  padding: 28px 20px;
+  flex: 1;
+  padding: 56px 40px;
+  text-align: center;
+  box-sizing: border-box;
+  position: relative; /* for Nebula particles */
+  overflow: visible;
 }
 
 .auth-card h1 {
-  font-size: 24px;
+  font-size: 36px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: #0f5132;
 }
 
 .auth-card p {
-  font-size: 16px;
-  margin-bottom: 22px;
+  font-size: 20px;
+  margin-bottom: 36px;
+  opacity: 0.85;
 }
 
-.auth-card label {
+/* ===== NEBULA INPUT ===== */
+.nebula-input {
+  position: relative;
+  margin-bottom: 26px;
+}
+
+.nebula-input .input {
+  width: 100%;
+  padding: 18px;
+  font-size: 18px;
+  border-radius: 14px;
+  border: 2px solid #2a2a3a;
+  background: #ffffff;
+  color: #0f5132;
+  outline: none;
+  box-sizing: border-box;
+  transition: 0.35s ease;
+}
+
+.nebula-input .input:focus {
+  border-color: #0f5132;
+  box-shadow:
+    0 6px 14px rgba(15,81,50,0.35),
+    0 14px 35px rgba(15,81,50,0.25);
+}
+
+/* Floating label */
+.nebula-input .user-label {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
   font-size: 15px;
-}
-.auth-image {
-  display: none; /* hide image on phones */
-}
-.auth-card input {
-  font-size: 16px;
-  padding: 14px;
-  margin-bottom: 18px;
+  color: #8a8aa8;
+  background: #ffffff;
+  padding: 0 6px;
+  pointer-events: none;
+  transition: 0.3s ease;
 }
 
-.auth-card button {
-  font-size: 17px;
-  padding: 14px;
+.nebula-input .input:focus ~ .user-label,
+.nebula-input .input:valid ~ .user-label {
+  top: -9px;
+  font-size: 12px;
+  color: #0f5132;
 }
+
+/* Particles */
+.nebula-particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  top: 50%;
+  left: 14px;
+  opacity: 0;
+  pointer-events: none;
+  filter: blur(0.6px);
 }
 
+.nebula-input .input:focus ~ .nebula-particle {
+  animation: nebula-float 1.6s ease-out forwards;
+}
 
+@keyframes nebula-float {
+  0% {
+    transform: translate(0, -50%) scale(.6);
+    opacity: 0;
+    background: #4caf50;
+  }
+  30% {
+    opacity: .9;
+  }
+  100% {
+    transform: translate(
+      calc(var(--x) * 120px),
+      calc(var(--y) * 40px)
+    ) scale(1.1);
+    opacity: 0;
+    background: #81c784;
+  }
+}
+.star-button {
+  position: relative;
+  width: 100%;
+  padding: 18px 0;
+  background: #0f5132;
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  overflow: hidden; /* stars stay inside */
+  transition: background 0.3s ease, transform 0.1s ease;
+}
 
-  </style>
-  
-  
+/* Hover background */
+.star-button:hover { background: #0c4128; }
+
+/* Stars hidden by default */
+.star-button svg {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  fill: #81c784;
+  opacity: 0;
+  transition: transform 0.6s ease, opacity 0.3s ease;
+}
+
+/* Initial positions inside button */
+.star-button .star-1 { top: 10%; left: 5%; }
+.star-button .star-2 { top: 20%; left: 35%; }
+.star-button .star-3 { top: 35%; left: 65%; }
+.star-button .star-4 { top: 50%; left: 15%; }
+.star-button .star-5 { top: 65%; left: 45%; }
+.star-button .star-6 { top: 80%; left: 75%; }
+
+/* Appear + move on hover */
+.star-button:hover .star-1 { opacity: 1; transform: translate(-10px,-15px) scale(1.2); }
+.star-button:hover .star-2 { opacity: 1; transform: translate(8px,-10px) scale(1.1); }
+.star-button:hover .star-3 { opacity: 1; transform: translate(12px,5px) scale(1.3); }
+.star-button:hover .star-4 { opacity: 1; transform: translate(-6px,10px) scale(1.2); }
+.star-button:hover .star-5 { opacity: 1; transform: translate(10px,-6px) scale(1.1); }
+.star-button:hover .star-6 { opacity: 1; transform: translate(-8px,6px) scale(1.2); }
+
+.fil0 { fill: #81c784; }
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  .auth-card-wrapper {
+    display: flex;
+  justify-content: center; /* horizontal center */
+  align-items: center;     /* vertical center */
+  height: 100vh;           /* full viewport height */         
+  box-sizing: border-box;  /* ensures padding doesn't affect centering */
+}
+  .auth-card-wrapper-inner { flex-direction: column; border-radius: 20px; }
+  .auth-image { display: none; }
+  .auth-card { padding: 28px 20px; }
+  .auth-card h1 { font-size: 26px; }
+  .auth-card p { font-size: 16px; margin-bottom: 22px; }
+  .nebula-input .input { font-size: 16px; padding: 14px; }
+  .star-button { font-size: 16px; padding: 14px 0; }
+}
+</style>
 </head>
 
 <body>
+
 <div class="auth-card-wrapper">
   <div class="auth-card-wrapper-inner">
+
     <div class="auth-image"></div>
+
     <div class="auth-card">
       <h1>Welcome to AngloRoom</h1>
       <p>Login</p>
 
       <form id="auth-form">
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="Email" required>
 
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Password" required>
+        <!-- EMAIL -->
+        <div class="nebula-input">
+          <input required type="email" id="email" class="input">
+          <label class="user-label">Email</label>
 
-        <button type="submit">Sign In</button>
+          <div class="nebula-particle" style="--x:0.2;--y:-0.4"></div>
+          <div class="nebula-particle" style="--x:0.5;--y:-0.2"></div>
+          <div class="nebula-particle" style="--x:0.3;--y:0.3"></div>
+        </div>
+
+        <!-- PASSWORD -->
+        <div class="nebula-input">
+          <input required type="password" id="password" class="input">
+          <label class="user-label">Password</label>
+
+          <div class="nebula-particle" style="--x:0.4;--y:-0.3"></div>
+          <div class="nebula-particle" style="--x:0.6;--y:0.2"></div>
+          <div class="nebula-particle" style="--x:0.2;--y:0.4"></div>
+        </div>
+
+        <!-- STAR BUTTON -->
+        <button type="submit" class="star-button">
+          Sign In
+          <svg class="star-1" viewBox="0 0 784.11 815.53"><path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"/></svg>
+          <svg class="star-2" viewBox="0 0 784.11 815.53"><path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"/></svg>
+          <svg class="star-3" viewBox="0 0 784.11 815.53"><path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"/></svg>
+          <svg class="star-4" viewBox="0 0 784.11 815.53"><path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"/></svg>
+          <svg class="star-5" viewBox="0 0 784.11 815.53"><path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"/></svg>
+          <svg class="star-6" viewBox="0 0 784.11 815.53"><path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"/></svg>
+        </button>
+
       </form>
     </div>
+
   </div>
 </div>
+
 </body>
 </html>

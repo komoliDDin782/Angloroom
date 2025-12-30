@@ -250,7 +250,7 @@ clearAllBtn.addEventListener('click', async () => {
 document.getElementById('logout-btn').addEventListener('click', async () => {
   try { 
     await auth.signOut(); 
-    window.location.href = "login.html"; 
+    window.location.href = "index.html"; 
   } catch(err) { 
     console.error(err); 
     alert("Failed to log out."); 
