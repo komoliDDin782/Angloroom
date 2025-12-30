@@ -70,9 +70,9 @@ async function loadResults() {
           const data = userDoc.data();
           userCache[uid] = {
             nickname: data.nickname || uid,
-            profilePic: data.profilePic || "assets/css/logo.jpg",
+            profilePic: data.profilePic || "assets/image/logo.jpg",
             level: data.level || 'beginner',
-            profileBg: data.profileBg || 'assets/css/back4.jpg'
+            profileBg: data.profileBg || 'assets/image/back4.jpg'
           };
           return userCache[uid];
         }
@@ -81,9 +81,9 @@ async function loadResults() {
       }
       userCache[uid] = {
         nickname: uid,
-        profilePic: "assets/css/logo.jpg",
+        profilePic: "assets/image/logo.jpg",
         level: 'beginner',
-        profileBg: 'assets/css/back4.jpg'
+        profileBg: 'assets/image/back4.jpg'
       };
       return userCache[uid];
     }
