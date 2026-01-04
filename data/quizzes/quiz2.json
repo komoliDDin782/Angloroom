@@ -1,94 +1,94 @@
 {
-  "title": "Reported Speech",
+  "title": "Infinitive and Gerund - Sequential Verbs",
   "questions": [
     {
-      "question": "'She said, \"I am tired.\"' → Reported speech?",
+      "question": "I want _______ the book.",
       "options": [
-        "She said that she was tired.",
-        "She said that she is tired.",
-        "She told that she was tired.",
-        "She said she had been tired."
+        "to read",
+        "reading",
+        "to writing",
+        "writing"
       ]
     },
     {
-      "question": "'He said, \"I will call you tomorrow.\"' → Reported speech?",
+      "question": "She enjoys _______ in the park.",
       "options": [
-        "He said that he would call me the next day.",
-        "He said that he will call me tomorrow.",
-        "He told that he would call me tomorrow.",
-        "He said he would call me tomorrow."
+        "jogging",
+        "to jog",
+        "to running",
+        "running to"
       ]
     },
     {
-      "question": "'They said, \"We have finished the work.\"' → Reported speech?",
+      "question": "He promised _______ me.",
       "options": [
-        "They said that they had finished the work.",
-        "They said that they have finished the work.",
-        "They told they had finished the work.",
-        "They said that they finished the work."
+        "to help",
+        "helping",
+        "to helping",
+        "helped"
       ]
     },
     {
-      "question": "'She said, \"I am studying English.\"' → Reported speech?",
+      "question": "We decided _______ abroad.",
       "options": [
-        "She said that she was studying English.",
-        "She said that she is studying English.",
-        "She told that she was studying English.",
-        "She said she had studied English."
+        "to travel",
+        "traveling",
+        "to traveling",
+        "travels"
       ]
     },
     {
-      "question": "'He said, \"I saw her yesterday.\"' → Reported speech?",
+      "question": "They started _______ English.",
       "options": [
-        "He said that he had seen her the day before.",
-        "He said that he saw her yesterday.",
-        "He told that he had seen her yesterday.",
-        "He said he has seen her the day before."
+        "studying",
+        "to study",
+        "study",
+        "to studying"
       ]
     },
     {
-      "question": "'She said, \"I can help you.\"' → Reported speech?",
+      "question": "I can’t afford _______ a new laptop.",
       "options": [
-        "She said that she could help me.",
-        "She said that she can help me.",
-        "She told she could help me.",
-        "She said she had helped me."
+        "to buy",
+        "buying",
+        "to buying",
+        "bought"
       ]
     },
     {
-      "question": "'They said, \"We are going to move.\"' → Reported speech?",
+      "question": "She avoided _______ late.",
       "options": [
-        "They said that they were going to move.",
-        "They said that they are going to move.",
-        "They told they were going to move.",
-        "They said they had moved."
+        "being",
+        "to be",
+        "be",
+        "been"
       ]
     },
     {
-      "question": "'He asked, \"Do you like coffee?\"' → Reported speech?",
+      "question": "He hopes _______ soon.",
       "options": [
-        "He asked if I liked coffee.",
-        "He asked if I like coffee.",
-        "He asked did I like coffee.",
-        "He said if I liked coffee."
+        "to move",
+        "moving",
+        "move",
+        "to moving"
       ]
     },
     {
-      "question": "'She asked, \"Where do you live?\"' → Reported speech?",
+      "question": "I enjoy _______ tea in the morning.",
       "options": [
-        "She asked where I lived.",
-        "She asked where did I live.",
-        "She said where I lived.",
-        "She asked where I live."
+        "drinking",
+        "to drink",
+        "drink",
+        "to drinking"
       ]
     },
     {
-      "question": "'He said, \"Don’t be late.\"' → Reported speech?",
+      "question": "They practiced _______ the song.",
       "options": [
-        "He told me not to be late.",
-        "He told me don’t be late.",
-        "He said me not to be late.",
-        "He asked me not to be late."
+        "singing",
+        "to sing",
+        "sang",
+        "to singing"
       ]
     }
   ]
