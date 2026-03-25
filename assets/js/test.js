@@ -24,24 +24,6 @@ const texts = {
     examInfo: 'Введите имя и номер, чтобы узнать результат.'
   }
 };
-
-function setLang(lang) {
-  localStorage.setItem('lang', lang);
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    el.textContent = texts[lang][el.dataset.i18n];
-  });
-
-  // NEW: set exam info text
-  const examInfoText = document.getElementById('examInfoText');
-  if(examInfoText) examInfoText.textContent = texts[lang].examInfo;
-}
-
-// Initialize
-setLang(localStorage.getItem('lang') || 'uz');
-
-
-const quizSection = document.getElementById('quizSection');
-const registrationModal = document.getElementById('registrationModal');
 // ================= TASKS =================
 const tasks = [
   {
@@ -183,8 +165,26 @@ const tasks = [
     ]
   }
 ];
+// ================= LANGUAGE SETUP =================
+function setLang(lang) {
+  localStorage.setItem('lang', lang);
 
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = texts[lang][el.dataset.i18n];
+  });
 
+  const examInfoText = document.getElementById('examInfoText');
+  if (examInfoText) examInfoText.textContent = texts[lang].examInfo;
+}
+
+// Initialize language
+const currentLang = localStorage.getItem('lang') || 'uz';
+setLang(currentLang);
+
+// ================= DOM REFERENCES =================
+const quizSection = document.getElementById('quizSection');
+const resultCard = document.getElementById('resultCard'); // make sure it exists in HTML
+let correctAnswers = 0;
 
 // ================= CREATE QUIZ HTML =================
 tasks.forEach((task, i) => {
@@ -193,20 +193,26 @@ tasks.forEach((task, i) => {
   taskCard.dataset.task = i;
 
   const lang = localStorage.getItem('lang') || 'uz';
+
+  // Task title
   const h3 = document.createElement('h3');
   h3.textContent = `${i + 1}. ${task.title[lang]}`;
   taskCard.appendChild(h3);
 
+  // Task description
   const desc = document.createElement('p');
   desc.textContent = task.desc[lang];
   taskCard.appendChild(desc);
 
+  // Questions
   task.questions.forEach(q => {
     const label = document.createElement('label');
     label.textContent = q.question;
+
     const input = document.createElement('input');
     input.type = 'text';
     input.dataset.answer = q.answer.toLowerCase();
+
     label.appendChild(document.createElement('br'));
     label.appendChild(input);
     taskCard.appendChild(label);
@@ -215,60 +221,55 @@ tasks.forEach((task, i) => {
   quizSection.appendChild(taskCard);
 });
 
-// ================= SUBMIT QUIZ =================
-let correctAnswers = 0;
-
+// ================= SUBMIT QUIZ BUTTON =================
 const submitQuizBtn = document.createElement('button');
-submitQuizBtn.textContent = texts[localStorage.getItem('lang') || 'uz'].submitQuiz;
+submitQuizBtn.textContent = texts[currentLang].submitQuiz;
 submitQuizBtn.className = 'submit-quiz-btn';
 quizSection.appendChild(submitQuizBtn);
 
+// ================= QUIZ SUBMIT HANDLER =================
 submitQuizBtn.addEventListener('click', () => {
   correctAnswers = 0;
+
   document.querySelectorAll('.task-card').forEach(card => {
     card.querySelectorAll('input').forEach(input => {
+      // Remove old hints
+      input.parentElement.querySelectorAll('small').forEach(el => el.remove());
+
       const val = input.value.trim().toLowerCase();
       const answer = input.dataset.answer;
-      if(val === answer) {
+
+      if (val === answer) {
         correctAnswers++;
         input.parentElement.classList.add('correct');
+        input.parentElement.classList.remove('incorrect');
       } else {
         input.parentElement.classList.add('incorrect');
+        input.parentElement.classList.remove('correct');
+
         const hint = document.createElement('small');
         hint.style.display = 'block';
         hint.style.color = '#155724';
         hint.textContent = `Correct: ${answer}`;
         input.parentElement.appendChild(hint);
       }
-      input.disabled = true;
+
+      input.disabled = true; // disable input after checking
     });
   });
-  // Show registration modal
-  registrationModal.style.display = 'flex';
-});
 
-// ================= SUBMIT STUDENT INFO =================
-const submitInfoBtn = document.getElementById('submitInfoBtn');
-submitInfoBtn.addEventListener('click', async () => {
-  const name = document.getElementById('studentName').value.trim();
-  const phone = document.getElementById('studentPhone').value.trim();
-  if(!name || !phone) { alert('Please fill all fields'); return; }
-
+  // ================= SHOW RESULT =================
   let level = '';
-  if(correctAnswers <= 30) level = 'Beginner';
-  else if(correctAnswers <= 50) level = 'Elementary';
-  else if(correctAnswers <= 60) level = 'Intermediate';
+  if (correctAnswers <= 30) level = 'Beginner';
+  else if (correctAnswers <= 50) level = 'Elementary';
+  else if (correctAnswers <= 60) level = 'Intermediate';
   else level = 'Advanced';
-  
-  try {
-    const db = firebase.firestore();
-    await db.collection('NewStudents').add({ name, phone, correctAnswers, level, timestamp: new Date() });
-    registrationModal.style.display = 'none';
 
-    const resultCard = document.getElementById('resultCard');
+  if (resultCard) {
     resultCard.style.display = 'block';
     resultCard.querySelector('#score').textContent = `${correctAnswers} correct, Level: ${level}`;
-  } catch(e) {
-    alert('Failed to save data: ' + e.message);
   }
+
+  // Disable submit button after submission
+  submitQuizBtn.disabled = true;
 });

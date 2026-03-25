@@ -1,10 +1,10 @@
-const btnResults = document.getElementById('btn-results');
+
 const btnStudents = document.getElementById('btn-students');
 
-const resultsOverlay = document.getElementById('results-overlay');
+
 const studentsOverlay = document.getElementById('students-overlay');
 
-const closeResultsBtn = document.getElementById('close-results');
+
 const closeStudentsBtn = document.getElementById('close-students');
 
 const adminEmail = "komoliddinkevin@gmail.com";
@@ -18,16 +18,10 @@ const studentTables = {
   advanced: document.querySelector('#students-advanced tbody')
 };
 
-// Result tables - ADDED ELEMENTARY
-const resultTables = {
-  elementary: document.querySelector('#results-elementary tbody'),
-  beginner: document.querySelector('#results-beginner tbody'),
-  intermediate: document.querySelector('#results-intermediate tbody'),
-  advanced: document.querySelector('#results-advanced tbody')
-};
+
 
 const saveAllLevelsBtn = document.getElementById('save-all-levels');
-const clearAllBtn = document.getElementById('clear-all-results');
+
 
 // Auth check
 auth.onAuthStateChanged(user => {
@@ -41,11 +35,9 @@ auth.onAuthStateChanged(user => {
 });
 
 // Show overlays
-btnResults.addEventListener('click', () => { resultsOverlay.style.display = "block"; loadResults(); });
 btnStudents.addEventListener('click', () => { studentsOverlay.style.display = "block"; loadStudents(); });
 
 // Close overlays
-closeResultsBtn.addEventListener('click', () => resultsOverlay.style.display = "none");
 closeStudentsBtn.addEventListener('click', () => studentsOverlay.style.display = "none");
 
 // Load students - UPDATED FOR ELEMENTARY
@@ -138,113 +130,6 @@ saveAllLevelsBtn.addEventListener('click', async () => {
   }
 });
 
-// Load results grouped by level - UPDATED FOR ELEMENTARY
-async function loadResults() {
-  try {
-    const snapshot = await db.collection('results').orderBy('score','desc').get();
-    
-    // Clear all result tables including elementary
-    for (let key in resultTables) {
-      if (resultTables[key]) {
-        resultTables[key].innerHTML = '';
-      }
-    }
-
-    // Process each result
-    for (const doc of snapshot.docs) {
-      const r = doc.data();
-      let nickname = r.nickname || '';
-      let photo = 'assets/img/default-pic.png';
-      let level = 'beginner'; // Default to elementary
-
-      // Fetch user data to get level and photo
-      try {
-        if (r.userId) {
-          const userDoc = await db.collection('users').doc(r.userId).get();
-          if (userDoc.exists) {
-            const userData = userDoc.data();
-            nickname = userData.nickname || r.userId;
-            photo = userData.profilePic || photo;
-            level = userData.level || 'elementary';
-          }
-        }
-      } catch (err) {
-        console.warn(`Error fetching user data for ${r.userId}:`, err);
-      }
-
-      // Ensure level is valid, fallback to elementary
-      if (!resultTables[level]) {
-        console.warn(`Invalid level "${level}" for user ${nickname}, defaulting to elementary`);
-        level = 'elementary';
-      }
-
-      // Create result row
-      const row = `<tr>
-        <td><img src="${photo}" class="student-pic" alt="${nickname}"> ${nickname}</td>
-        <td>${r.quizId || 'Unknown Quiz'}</td>
-        <td>${r.score || 0}</td>
-        <td>${r.total || 0}</td>
-        <td><button class="delete-result-btn" data-id="${doc.id}">Delete</button></td>
-      </tr>`;
-      
-      // Insert into the correct table
-      if (resultTables[level]) {
-        resultTables[level].insertAdjacentHTML('beforeend', row);
-      }
-    }
-
-    // Attach delete handlers
-    document.querySelectorAll('.delete-result-btn').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        const id = btn.dataset.id;
-        if (!confirm("Delete this result?")) return;
-        try {
-          await db.collection('results').doc(id).delete();
-          loadResults(); // Reload results
-        } catch (err) {
-          console.error(err);
-          alert("Failed to delete result.");
-        }
-      });
-    });
-
-    // Check if any tables are empty and show message
-    for (let key in resultTables) {
-      if (resultTables[key] && resultTables[key].children.length === 0) {
-        resultTables[key].innerHTML = '<tr><td colspan="5">No results found.</td></tr>';
-      }
-    }
-
-  } catch (err) {
-    console.error(err);
-    for (let key in resultTables) {
-      if (resultTables[key]) {
-        resultTables[key].innerHTML = '<tr><td colspan="5">Failed to load results.</td></tr>';
-      }
-    }
-  }
-}
-
-// Clear all results - FUNCTION REMAINS THE SAME
-clearAllBtn.addEventListener('click', async () => {
-  if (!confirm("Delete ALL results? This cannot be undone!")) return;
-  try {
-    const snapshot = await db.collection('results').get();
-    if (snapshot.empty) {
-      alert("No results to delete.");
-      return;
-    }
-    
-    const batch = db.batch();
-    snapshot.forEach(doc => batch.delete(doc.ref));
-    await batch.commit();
-    alert(`${snapshot.size} results deleted!`);
-    loadResults();
-  } catch (err) {
-    console.error(err);
-    alert("Failed to delete results.");
-  }
-});
 
 // Logout - FUNCTION REMAINS THE SAME
 document.getElementById('logout-btn').addEventListener('click', async () => {
@@ -260,7 +145,6 @@ document.getElementById('logout-btn').addEventListener('click', async () => {
 // Optional: Add keyboard shortcuts to close overlays
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
-    resultsOverlay.style.display = "none";
     studentsOverlay.style.display = "none";
   }
 });
