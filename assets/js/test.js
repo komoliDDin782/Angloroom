@@ -28,30 +28,21 @@ const texts = {
 const tasks = [
   {
     type: 'gap',
-    title: { uz: 'Haftaning kunlari', ru: 'Дни недели' },
+    title: { uz: 'Hafta kunlari', ru: 'Дни недели' },
     desc: { uz: 'Bo‘sh joylarni to‘ldiring.', ru: 'Заполните пропуски.' },
     questions: [
-      { question: 'Mon___', answer: 'day' },
-      { question: 'Tue___', answer: 'sday' },
-      { question: 'Wed___', answer: 'nesday' },
-      { question: 'Thu___', answer: 'rsday' },
-      { question: 'Fri___', answer: 'day' },
-      { question: 'S___day', answer: 'aturday' },
-      { question: 'S___day', answer: 'unday' },
+      { question: 'Monday, Tuesday, ___,', answer: 'Wednesday' },
+      { question: 'Thursday, ___, Sunday', answer: 'Friday' }
     ]
   },
   {
     type: 'gap',
-    title: { uz: 'To Be', ru: 'To Be' },
-    desc: { uz: 'Bo‘sh joylarni to‘ldiring.', ru: 'Заполните пропуски.' },
+    title: { uz: 'To be fe’li', ru: 'Глагол to be' },
+    desc: { uz: 'To‘g‘ri shaklni yozing.', ru: 'Напишите формы.' },
     questions: [
-      { question: 'I ___ a student.', answer: 'am' },
-      { question: 'He ___ from Russia.', answer: 'is' },
-      { question: 'They ___ teachers.', answer: 'are' },
-      { question: 'She ___ my sister.', answer: 'is' },
-      { question: 'We ___ friends.', answer: 'are' },
-      { question: 'It ___ cold today.', answer: 'is' },
-      { question: 'You ___ very kind.', answer: 'are' }
+      { question: 'I ___ a pupil.', answer: 'am' },
+      { question: 'She ___ my friend.', answer: 'is' },
+      { question: 'We ___ from Uzbekistan.', answer: 'are' }
     ]
   },
   {
@@ -59,109 +50,93 @@ const tasks = [
     title: { uz: 'Oddiy gaplar', ru: 'Простые предложения' },
     desc: { uz: 'Bo‘sh joylarni to‘ldiring.', ru: 'Заполните пропуски.' },
     questions: [
-      { question: 'I ___ from Uzbekistan.', answer: 'am' },
-      { question: 'She ___ a friend.', answer: 'is' },
-      { question: 'They ___ happy.', answer: 'are' },
-      { question: 'We ___ in school.', answer: 'are' },
-      { question: 'He ___ a doctor.', answer: 'is' },
-      { question: 'The children ___ in the park.', answer: 'are' }
+      { question: 'My name ___ Kevin', answer: 'is' },
+      { question: 'I live ___ Uzbekistan.', answer: 'in' },
+      { question: 'We ___ a friend.', answer: 'have' },
+      { question: 'She ___ got a cat.', answer: 'has' },
+      { question: 'The cat ___ black.', answer: 'is' }
     ]
   },
   {
     type: 'gap',
-    title: { uz: 'Ko‘plik', ru: 'Множественное число' },
-    desc: { uz: 'Quyidagi otlarni ko‘plik shaklida yozing.', ru: 'Напишите существительные во множественном числе.' },
+    title: { uz: 'Sonlar', ru: 'Числа' },
+    desc: { uz: 'Davomini yozing.', ru: 'Продолжите.' },
     questions: [
-      { question: 'Mouse -> ___', answer: 'mice' },
-      { question: 'Child -> ___', answer: 'children' },
-      { question: 'Book -> ___', answer: 'books' },
-      { question: 'Man -> ___', answer: 'men' },
-      { question: 'Woman -> ___', answer: 'women' },
-      { question: 'City -> ___', answer: 'cities' },
-      { question: 'Dog -> ___', answer: 'dogs' }
+      { question: 'One, ___, three', answer: 'two' },
+      { question: '___, seventeen, sixteen,', answer: 'sixteen' },
+      { question: ' twenty, ___ , forty', answer: 'thirty' },
+      { question: 'fifty, ___, seventy ', answer: 'sixty' },
+      { question: 'eighty, ___, one hundred ', answer: 'seventy' }
+
     ]
   },
   {
     type: 'gap',
-    title: { uz: 'Some/Any/No', ru: 'Some/Any/No' },
-    desc: { uz: 'To‘g‘ri variantni tanlang.', ru: 'Выберите правильный вариант.' },
+    title: { uz: 'Ko‘plik shakli', ru: 'Множественное число' },
+    desc: { uz: 'Ko‘plikka o‘tkazing.', ru: 'Поставьте во множественное число.' },
     questions: [
-      { question: 'I have ___ oranges. (some/any/no)', answer: 'some' },
-      { question: 'Do you have ___ bread? (some/any/no)', answer: 'any' },
-      { question: 'There is ___ milk in the fridge. (some/any/no)', answer: 'some' },
-      { question: 'He has ___ homework today. (some/any/no)', answer: 'no' },
-      { question: 'Is there ___ juice left? (some/any/no)', answer: 'any' }
+      { question: 'This is a bird → ___', answer: 'These are birds' },
+      { question: 'Is that a bird? → ___', answer: 'Are those birds?' },
+      { question: 'No, it is a mouse → ___', answer: 'No, they are mice' }
     ]
   },
   {
     type: 'gap',
-    title: { uz: 'Solishtirma va eng yuqori daraja', ru: 'Comparative and Superlative' },
+    title: { uz: 'Some / Any / No', ru: 'Some / Any / No' },
+    desc: { uz: 'To‘g‘ri variantni qo‘ying.', ru: 'Вставьте правильное слово.' },
+    questions: [
+      { question: 'There are ___ pictures in the book.', answer: 'some' },
+      { question: 'Do you have ___ money?', answer: 'any' },
+      { question: 'There is ___ sugar in my tea.', answer: 'no' }
+    ]
+  },
+  {
+    type: 'gap',
+    title: { uz: 'Solishtirma daraja', ru: 'Степени сравнения' },
+    desc: { uz: 'To‘g‘ri shaklni yozing.', ru: 'Заполните форму.' },
+    questions: [
+      { question: 'This man is ___ (tall) than that one.', answer: 'taller' },
+      { question: 'Mary is a ___ (good) student than Lucy.', answer: 'better' },
+      { question: 'This garden is the ___ (beautiful) in our town.', answer: 'most beautiful' }
+    ]
+  },
+  {
+    type: 'gap',
+    title: { uz: 'Predloglar va iboralar', ru: 'Предлоги и выражения' },
     desc: { uz: 'Bo‘sh joylarni to‘ldiring.', ru: 'Заполните пропуски.' },
     questions: [
-      { question: 'This car is ___ (fast) than that one.', answer: 'faster' },
-      { question: 'She is the ___ (smart) in class.', answer: 'smartest' },
-      { question: 'My house is ___ (big) than yours.', answer: 'bigger' },
-      { question: 'He is ___ (tall) than his brother.', answer: 'taller' },
-      { question: 'This is the ___ (beautiful) park.', answer: 'most beautiful' },
-      { question: 'Today is ___ (cold) than yesterday.', answer: 'colder' },
-      { question: 'This book is the ___ (interesting) I have ever read.', answer: 'most interesting' }
+      { question: 'He decided to get rid ___ his old phone.', answer: 'of' },
+      { question: '___ Sunday I get up at nine o’clock.', answer: 'On' },
+      { question: 'My mother is afraid ___ dogs.', answer: 'of' }
     ]
   },
   {
     type: 'gap',
-    title: { uz: 'Predloglar', ru: 'Предлоги' },
-    desc: { uz: 'To‘g‘ri variantni tanlang.', ru: 'Выберите правильный вариант.' },
+    title: { uz: 'Zamonlar', ru: 'Времена' },
+    desc: { uz: 'To‘g‘ri zamonni qo‘llang.', ru: 'Используйте правильное время.' },
     questions: [
-      { question: 'The cat is ___ the roof. (on/in/under)', answer: 'on' },
-      { question: 'He goes ___ school every day. (to/in/at)', answer: 'to' },
-      { question: 'The picture hangs ___ the wall. (on/in/under)', answer: 'on' },
-      { question: 'The dog is hiding ___ the bed. (on/in/under)', answer: 'under' },
-      { question: 'I live ___ Tashkent. (at/in/on)', answer: 'in' },
-      { question: 'She is sitting ___ the chair. (on/in/under)', answer: 'on' },
-      { question: 'We meet ___ Monday. (on/in/at)', answer: 'on' }
+      { question: 'The boys ___ (run) now.', answer: 'are running' },
+      { question: 'She ___ (do) homework every evening.', answer: 'does' },
+      { question: 'They ___ (go) to the library on Saturdays.', answer: 'go' },
+      { question: 'She ___ (not drink) coffee now.', answer: 'is not drinking' },
+      { question: 'Mother ___ (cook) when Nick came.', answer: 'was cooking' },
+      { question: 'Tomorrow at this time we ___ (go) to school.', answer: 'will be going' },
+      { question: 'My sister ___ (sleep).', answer: 'is sleeping' },
+      { question: 'He has just ___ (tell) me.', answer: 'told' },
+      { question: 'They have ___ (ask) questions.', answer: 'asked' },
+      { question: '___ you ___ (be) at home tomorrow?', answer: 'Will, be' }
     ]
   },
   {
     type: 'gap',
-    title: { uz: 'Fe’llar zamonlar bo‘yicha', ru: 'Времена глаголов' },
-    desc: { uz: 'Bo‘sh joylarni to‘ldiring.', ru: 'Заполните пропуски.' },
+    title: { uz: 'Zamonni aniqlang', ru: 'Определите время' },
+    desc: { uz: 'Zamonini yozing.', ru: 'Определите время.' },
     questions: [
-      { question: 'Yesterday, I ___ (go) to school.', answer: 'went' },
-      { question: 'I ___ (eat) breakfast every morning.', answer: 'eat' },
-      { question: 'She ___ (finish) her homework last night.', answer: 'finished' },
-      { question: 'They ___ (play) football now.', answer: 'are playing' },
-      { question: 'We ___ (see) that movie before.', answer: 'have seen' },
-      { question: 'He ___ (watch) TV every evening.', answer: 'watches' },
-      { question: 'I ___ (be) at home yesterday.', answer: 'was' }
-    ]
-  },
-  {
-    type: 'gap',
-    title: { uz: 'Passive Voice', ru: 'Passive Voice' },
-    desc: { uz: 'Bo‘sh joylarni to‘ldiring.', ru: 'Заполните пропуски.' },
-    questions: [
-      { question: 'The cake ___ (make) by my mom yesterday.', answer: 'was made' },
-      { question: 'Letters ___ (send) yesterday.', answer: 'were sent' },
-      { question: 'The room ___ (clean) every day.', answer: 'is cleaned' },
-      { question: 'This book ___ (write) by him in 2009.', answer: 'was written' },
-      { question: 'The windows ___ (open) now.', answer: 'are opened' },
-      { question: 'The homework ___ (do) by the students 2 days ago.', answer: 'was done' }
-    ]
-  },
-  {
-    type: 'gap',
-    title: { uz: 'Fe’llar va zamonlar', ru: 'Глаголы и времена' },
-    desc: { uz: 'Bo‘sh joylarni to‘ldiring: Present Perfect, Past Perfect, Past Simple yoki Conditional.', 
-           ru: 'Заполните пропуски: Present Perfect, Past Perfect, Past Simple или Conditional.' },
-    questions: [
-      { question: 'I ___ (finish) my homework already.', answer: 'have finished' }, // Present Perfect
-      { question: 'She ___ (eat) before he arrived.', answer: 'had eaten' },       // Past Perfect
-      { question: 'We ___ (go) to the park yesterday.', answer: 'went' },         // Past Simple
-      { question: 'If I were rich, I ___ (travel) around the world.', answer: 'would travel' }, // Conditional
-      { question: 'He ___ (see) that movie three times.', answer: 'has seen' },    // Present Perfect
-      { question: 'They ___ (leave) by the time I got there.', answer: 'had left' }, // Past Perfect
-      { question: 'I ___ (meet) him last week.', answer: 'met' },                  // Past Simple
-      { question: 'If she studied harder, she ___ (pass) the exam.', answer: 'would pass' } // Conditional
+      { question: 'She remembered she had forgotten.', answer: 'Past Perfect' },
+      { question: 'This book is very ancient.', answer: 'Present Simple' },
+      { question: 'I had to call the police.', answer: 'Past Simple' },
+      { question: 'If it rains, I will stay at home.', answer: 'first conditional' },
+      { question: 'I learn many languages.', answer: 'Present Simple' }
     ]
   }
 ];
