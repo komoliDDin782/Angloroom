@@ -224,7 +224,7 @@ submitQuizBtn.addEventListener('click', () => {
 
         const hint = document.createElement('small');
         hint.style.display = 'block';
-        hint.style.color = '#155724';
+        hint.style.color = '#f8fafc';
         hint.textContent = `Correct: ${answer}`;
         input.parentElement.appendChild(hint);
       }

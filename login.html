@@ -1,230 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>AngloRoom - Login</title>
+  <meta charset="UTF-8">
+  <title>AngloRoom - Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/css/styles.css">
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
 
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
+  <script src="assets/js/firebase.js" defer></script>
+  <script src="assets/js/auth.js" defer></script>
 
-<script src="assets/js/firebase.js" defer></script>
-<script src="assets/js/auth.js" defer></script>
+  <style>
+    :root {
+      --bg-base: #022c22;
+      --accent: #10b981;
+      --accent-glow: rgba(16, 185, 129, 0.4);
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
 
-<style>
-/* ===== BASE ===== */
-html, body {
-  margin: 0;
-  padding: 0;
-  min-height: 100%;
-  font-family: 'Inter', sans-serif;
-  background: #0f5132c0;
-}
+    /* ===== BASE & BACKGROUND ===== */
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      overflow-x: hidden;
+    }
 
-body {
-  overflow-y: auto;
-}
+    /* Ambient Glows to match Home Page */
+    body::before {
+      content: ''; position: fixed; top: -10%; left: -10%; width: 50vw; height: 50vw;
+      background: radial-gradient(circle, rgba(16,185,129,0.1) 0%, transparent 70%);
+      filter: blur(100px); z-index: -1;
+    }
 
-/* ===== LAYOUT ===== */
-.auth-card-wrapper {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 32px 16px;
-  box-sizing: border-box;
-}
+    /* ===== LAYOUT ===== */
+    .auth-card-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      box-sizing: border-box;
+    }
 
-.auth-card-wrapper-inner {
-  display: flex;
-  width: 100%;
-  max-width: 1100px;
-  border-radius: 24px;
-  overflow: hidden;
-  background: #ffffff;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-}
+    .auth-card-wrapper-inner {
+      display: flex;
+      width: 100%;
+      max-width: 1000px;
+      min-height: 600px;
+      border-radius: 32px;
+      overflow: hidden;
+      background: var(--glass-bg);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+    }
 
-/* ===== IMAGE ===== */
-.auth-image {
-  flex: 1;
-  min-width: 320px;
-  background: url('assets/image/pi.jpg') center / cover no-repeat;
-}
+    /* ===== IMAGE SIDE ===== */
+    .auth-image {
+      flex: 1.2;
+      background: url('assets/image/pi.jpg') center / cover no-repeat;
+      position: relative;
+    }
 
-/* ===== FORM ===== */
-.auth-card {
-  flex: 1;
-  padding: 56px 40px;
-  text-align: center;
-  box-sizing: border-box;
-  position: relative; /* for Nebula particles */
-  overflow: visible;
-}
+    /* Dark overlay for the image side */
+    .auth-image::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to right, transparent, var(--bg-base));
+    }
 
-.auth-card h1 {
-  font-size: 36px;
-  font-weight: 800;
-  margin-bottom: 12px;
-  color: #0f5132;
-}
+    /* ===== FORM SIDE ===== */
+    .auth-card {
+      flex: 1;
+      padding: 60px 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-sizing: border-box;
+    }
 
-.auth-card p {
-  font-size: 20px;
-  margin-bottom: 36px;
-  opacity: 0.85;
-}
+    /* ===== BACK TO HOME BUTTON ===== */
+    .back-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      padding: 8px 16px;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      transition: all 0.3s ease;
+      align-self: flex-start;
+    }
 
-/* ===== NEBULA INPUT ===== */
-.nebula-input {
-  position: relative;
-  margin-bottom: 26px;
-}
+    .back-home:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--accent);
+      transform: translateX(-5px);
+    }
 
-.nebula-input .input {
-  width: 100%;
-  padding: 18px;
-  font-size: 18px;
-  border-radius: 14px;
-  border: 2px solid #2a2a3a;
-  background: #ffffff;
-  color: #0f5132;
-  outline: none;
-  box-sizing: border-box;
-  transition: 0.35s ease;
-}
+    .auth-card h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 32px;
+      font-weight: 900;
+      margin-bottom: 8px;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #fff, var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-.nebula-input .input:focus {
-  border-color: #0f5132;
-  box-shadow:
-    0 6px 14px rgba(15,81,50,0.35),
-    0 14px 35px rgba(15,81,50,0.25);
-}
+    .auth-card p {
+      font-size: 16px;
+      margin-bottom: 40px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
 
-/* Floating label */
-.nebula-input .user-label {
-  position: absolute;
-  top: 50%;
-  left: 14px;
-  transform: translateY(-50%);
-  font-size: 15px;
-  color: #8a8aa8;
-  background: #ffffff;
-  padding: 0 6px;
-  pointer-events: none;
-  transition: 0.3s ease;
-}
+    /* ===== MODERN INPUTS ===== */
+    .nebula-input {
+      position: relative;
+      margin-bottom: 24px;
+    }
 
-.nebula-input .input:focus ~ .user-label,
-.nebula-input .input:valid ~ .user-label {
-  top: -9px;
-  font-size: 12px;
-  color: #0f5132;
-}
+    .nebula-input .input {
+      width: 100%;
+      padding: 18px 20px;
+      font-size: 16px;
+      font-weight: 500;
+      border-radius: 16px;
+      border: 1px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      outline: none;
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+    }
 
-/* Particles */
-.nebula-particle {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  top: 50%;
-  left: 14px;
-  opacity: 0;
-  pointer-events: none;
-  filter: blur(0.6px);
-}
+    .nebula-input .input:focus {
+      border-color: var(--accent);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+    }
 
-.nebula-input .input:focus ~ .nebula-particle {
-  animation: nebula-float 1.6s ease-out forwards;
-}
+    /* Floating label */
+    .nebula-input .user-label {
+      position: absolute;
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
+      font-size: 15px;
+      color: var(--text-muted);
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 0 4px;
+    }
 
-@keyframes nebula-float {
-  0% {
-    transform: translate(0, -50%) scale(.6);
-    opacity: 0;
-    background: #4caf50;
-  }
-  30% {
-    opacity: .9;
-  }
-  100% {
-    transform: translate(
-      calc(var(--x) * 120px),
-      calc(var(--y) * 40px)
-    ) scale(1.1);
-    opacity: 0;
-    background: #81c784;
-  }
-}
-.star-button {
-  position: relative;
-  width: 100%;
-  padding: 18px 0;
-  background: #0f5132;
-  font-size: 20px;
-  font-weight: 700;
-  color: #ffffff;
-  border: none;
-  border-radius: 16px;
-  cursor: pointer;
-  overflow: hidden; /* stars stay inside */
-  transition: background 0.3s ease, transform 0.1s ease;
-}
+    .nebula-input .input:focus ~ .user-label,
+    .nebula-input .input:valid ~ .user-label {
+      top: 0;
+      font-size: 12px;
+      color: var(--accent);
+      background: #064e3b; /* Matches deep green bg */
+      border-radius: 4px;
+    }
 
-/* Hover background */
-.star-button:hover { background: #0c4128; }
+    /* Particles Refined */
+    .nebula-particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      top: 50%;
+      left: 20px;
+      opacity: 0;
+      pointer-events: none;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+    }
 
-/* Stars hidden by default */
-.star-button svg {
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  fill: #81c784;
-  opacity: 0;
-  transition: transform 0.6s ease, opacity 0.3s ease;
-}
+    .nebula-input .input:focus ~ .nebula-particle {
+      animation: nebula-float 1s ease-out forwards;
+    }
 
-/* Initial positions inside button */
-.star-button .star-1 { top: 10%; left: 5%; }
-.star-button .star-2 { top: 20%; left: 35%; }
-.star-button .star-3 { top: 35%; left: 65%; }
-.star-button .star-4 { top: 50%; left: 15%; }
-.star-button .star-5 { top: 65%; left: 45%; }
-.star-button .star-6 { top: 80%; left: 75%; }
+    @keyframes nebula-float {
+      0% { transform: translate(0, -50%) scale(1); opacity: 0; }
+      50% { opacity: 1; }
+      100% {
+        transform: translate(calc(var(--x) * 100px), calc(var(--y) * 50px)) scale(0);
+        opacity: 0;
+      }
+    }
 
-/* Appear + move on hover */
-.star-button:hover .star-1 { opacity: 1; transform: translate(-10px,-15px) scale(1.2); }
-.star-button:hover .star-2 { opacity: 1; transform: translate(8px,-10px) scale(1.1); }
-.star-button:hover .star-3 { opacity: 1; transform: translate(12px,5px) scale(1.3); }
-.star-button:hover .star-4 { opacity: 1; transform: translate(-6px,10px) scale(1.2); }
-.star-button:hover .star-5 { opacity: 1; transform: translate(10px,-6px) scale(1.1); }
-.star-button:hover .star-6 { opacity: 1; transform: translate(-8px,6px) scale(1.2); }
+    /* ===== STAR BUTTON ===== */
+    .star-button {
+      position: relative;
+      width: 100%;
+      padding: 18px 0;
+      background: var(--accent);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+      color: #022c22;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      margin-top: 10px;
+      box-shadow: 0 10px 25px var(--accent-glow);
+    }
 
-.fil0 { fill: #81c784; }
-/* ===== MOBILE ===== */
-@media (max-width: 768px) {
-  .auth-card-wrapper {
-    display: flex;
-  justify-content: center; /* horizontal center */
-  align-items: center;     /* vertical center */
-  height: 100vh;           /* full viewport height */         
-  box-sizing: border-box;  /* ensures padding doesn't affect centering */
-}
-  .auth-card-wrapper-inner { flex-direction: column; border-radius: 20px; }
-  .auth-image { display: none; }
-  .auth-card { padding: 28px 20px; }
-  .auth-card h1 { font-size: 26px; }
-  .auth-card p { font-size: 16px; margin-bottom: 22px; }
-  .nebula-input .input { font-size: 16px; padding: 14px; }
-  .star-button { font-size: 16px; padding: 14px 0; }
-}
-</style>
+    .star-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px var(--accent-glow);
+    }
+
+    .star-button:active { transform: scale(0.98); }
+
+    .star-button svg {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      fill: #fff;
+      opacity: 0;
+      transition: all 0.6s ease;
+    }
+
+    .star-button .star-1 { top: 10%; left: 10%; }
+    .star-button .star-2 { top: 20%; left: 80%; }
+    .star-button .star-3 { top: 70%; left: 20%; }
+    .star-button .star-4 { top: 60%; left: 70%; }
+
+    .star-button:hover svg { opacity: 0.6; transform: scale(1.5) rotate(20deg); }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 850px) {
+      .auth-card-wrapper-inner {
+        flex-direction: column;
+        max-width: 450px;
+      }
+      .auth-image { display: none; }
+      .auth-card { padding: 40px 30px; }
+      .auth-card h1 { font-size: 28px; }
+    }
+    
+  </style>
 </head>
 
 <body>
@@ -233,42 +273,42 @@ body {
   <div class="auth-card-wrapper-inner">
 
     <div class="auth-image"></div>
-
     <div class="auth-card">
-      <h1>Welcome to AngloRoom</h1>
-      <p>Login</p>
+      
+      <a href="index.html" class="back-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Back to Home
+      </a>
+
+      <h1>AngloRoom</h1>
+      <p>Log in to your account</p>
 
       <form id="auth-form">
 
-        <!-- EMAIL -->
         <div class="nebula-input">
           <input required type="email" id="email" class="input">
-          <label class="user-label">Email</label>
+          <label class="user-label">Email Address</label>
 
-          <div class="nebula-particle" style="--x:0.2;--y:-0.4"></div>
-          <div class="nebula-particle" style="--x:0.5;--y:-0.2"></div>
-          <div class="nebula-particle" style="--x:0.3;--y:0.3"></div>
+          <div class="nebula-particle" style="--x:0.5;--y:-0.8"></div>
+          <div class="nebula-particle" style="--x:-0.5;--y:0.8"></div>
+          <div class="nebula-particle" style="--x:0.8;--y:0.4"></div>
         </div>
 
-        <!-- PASSWORD -->
         <div class="nebula-input">
           <input required type="password" id="password" class="input">
           <label class="user-label">Password</label>
 
-          <div class="nebula-particle" style="--x:0.4;--y:-0.3"></div>
-          <div class="nebula-particle" style="--x:0.6;--y:0.2"></div>
-          <div class="nebula-particle" style="--x:0.2;--y:0.4"></div>
+          <div class="nebula-particle" style="--x:-0.8;--y:-0.5"></div>
+          <div class="nebula-particle" style="--x:0.6;--y:0.7"></div>
+          <div class="nebula-particle" style="--x:-0.3;--y:0.9"></div>
         </div>
 
-        <!-- STAR BUTTON -->
         <button type="submit" class="star-button">
           Sign In
-          <svg class="star-1" viewBox="0 0 784.11 815.53"><path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"/></svg>
-          <svg class="star-2" viewBox="0 0 784.11 815.53"><path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"/></svg>
-          <svg class="star-3" viewBox="0 0 784.11 815.53"><path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"/></svg>
-          <svg class="star-4" viewBox="0 0 784.11 815.53"><path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"/></svg>
-          <svg class="star-5" viewBox="0 0 784.11 815.53"><path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"/></svg>
-          <svg class="star-6" viewBox="0 0 784.11 815.53"><path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"/></svg>
+          <svg class="star-1" viewBox="0 0 784 815"><path d="M392 0c-20 210-184 378-392 407 207 29 371 197 392 407 21-210 184-378 392-407-208-29-371-197-392-407z"/></svg>
+          <svg class="star-2" viewBox="0 0 784 815"><path d="M392 0c-20 210-184 378-392 407 207 29 371 197 392 407 21-210 184-378 392-407-208-29-371-197-392-407z"/></svg>
+          <svg class="star-3" viewBox="0 0 784 815"><path d="M392 0c-20 210-184 378-392 407 207 29 371 197 392 407 21-210 184-378 392-407-208-29-371-197-392-407z"/></svg>
+          <svg class="star-4" viewBox="0 0 784 815"><path d="M392 0c-20 210-184 378-392 407 207 29 371 197 392 407 21-210 184-378 392-407-208-29-371-197-392-407z"/></svg>
         </button>
 
       </form>

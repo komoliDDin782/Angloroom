@@ -3,182 +3,333 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+  
   <title>AngloRoom – Level Test</title>
 
-  <link rel="stylesheet" href="assets/css/styles.css" />
   <style>
+    :root {
+      --bg-base: #022c22;      
+      --accent: #10b981;       
+      --accent-glow: rgba(16, 185, 129, 0.4);
+      --error: #ef4444;
+      --error-glow: rgba(239, 68, 68, 0.4);
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    /* ================= RESET & BASE ================= */
     html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background-repeat: no-repeat; /* prevent repetition */
-  background-attachment: fixed; /* optional: keeps gradient fixed on scroll */
-}
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Background Glows */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -20%; left: -10%; width: 50vw; height: 50vw;
+      background: radial-gradient(circle, rgba(16,185,129,0.15) 0%, transparent 70%);
+      filter: blur(100px); z-index: -2; pointer-events: none;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -20%; right: -10%; width: 50vw; height: 50vw;
+      background: radial-gradient(circle, rgba(5,150,105,0.15) 0%, transparent 70%);
+      filter: blur(100px); z-index: -2; pointer-events: none;
+    }
 
     /* ================= HEADER ================= */
     .ar-header {
-      position: relative;
-      width: 100%;
-      padding: 15px 20px;
+      background: rgba(2, 44, 34, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      padding: 16px 32px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: linear-gradient(90deg, #0f5132, #1f7a4a);
-      color: #fff;
-      flex-wrap: wrap;
+      position: sticky;
+      top: 20px;
+      z-index: 1000;
+      max-width: 1200px;
+      margin: 0 auto;
+      border-radius: 100px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     }
-    .ar-logo { font-size: 24px; font-weight: 800; letter-spacing: 1px; text-decoration: none; color: #ffffff;}
+
+    .ar-logo {
+      font-family: 'Outfit', sans-serif;
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #fff, var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-decoration: none;
+    }
+
     .lang-switch { display: flex; gap: 10px; }
     .lang-switch button {
-      background: rgba(255,255,255,0.2);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
       color: #fff;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 12px;
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 13px;
       cursor: pointer;
-      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .lang-switch button:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #000;
+      box-shadow: 0 0 15px var(--accent-glow);
     }
 
     /* ================= HERO ================= */
     .ar-hero {
-      padding: 50px 20px;
-      background: #f6fff6;
+      padding: 80px 20px 40px;
       text-align: center;
-      border-radius: 20px;
-      margin-top: 20px;
-      margin-bottom: 20px;
+      max-width: 800px;
+      margin: 0 auto;
     }
-    .ar-hero h1 { font-size: 36px; font-weight: 800; margin-bottom: 10px; }
-    .ar-hero p { font-size: 18px; margin-bottom: 30px; }
+    .ar-hero h1 { 
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(36px, 5vw, 54px); 
+      font-weight: 900; 
+      margin-bottom: 16px;
+      letter-spacing: -1px;
+      background: linear-gradient(180deg, #ffffff 0%, #a7f3d0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .ar-hero p { 
+      font-size: 18px; 
+      color: var(--text-muted);
+      margin-bottom: 30px; 
+    }
 
-    /* ================= QUIZ ================= */
+    /* ================= QUIZ SECTION ================= */
     .quiz-section {
-      max-width: 900px;
+      max-width: 800px;
       margin: 0 auto 80px;
       padding: 0 20px;
-    }
-    .task-card {
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-      padding: 20px 25px;
-      margin-bottom: 25px;
-    }
-    .task-card h3 { font-size: 20px; margin-bottom: 10px; }
-    .task-card label { display: block; font-size: 16px; margin-bottom: 8px; cursor: pointer; }
-    .task-card input[type="text"] { 
-      padding: 8px 12px; margin-top: 4px;
-      border-radius: 8px; border: 1px solid #ccc; width: 100%;
+      position: relative;
+      z-index: 2;
     }
 
+    /* Dynamically Generated JS Classes */
+    .task-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 32px;
+      margin-bottom: 24px;
+      transition: transform 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .task-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    }
+    .task-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .task-card h3 { 
+      font-size: 22px; 
+      margin-top: 0;
+      margin-bottom: 8px; 
+      color: #fff;
+    }
+    .task-card p {
+      color: var(--text-muted);
+      font-size: 15px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .task-card label { 
+      display: block; 
+      font-size: 16px; 
+      margin-bottom: 16px; 
+      color: var(--text-main);
+      padding: 12px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .task-card input[type="text"] { 
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+      padding: 12px 16px; 
+      margin-top: 10px;
+      border-radius: 12px; 
+      width: 100%;
+      box-sizing: border-box;
+      font-family: inherit;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+    .task-card input[type="text"]:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: rgba(0, 0, 0, 0.4);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+    .task-card input[type="text"]:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    /* Submit Button */
     .submit-quiz-btn {
       display: block;
-      margin: 20px auto;
-      padding: 16px 35px;
-      font-size: 18px;
-      font-weight: 700;
-      background: #0f5132;
-      color: #fff;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-    }
-    .submit-quiz-btn:hover{
-      background: #0f5132c7;
-    }
-
-    /* ================= MODAL ================= */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.877); /* DARKER BACKGROUND */
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-    .modal {
-      background: #f4fdf4;
-      padding: 25px 30px;
-      border-radius: 20px;
-      max-width: 400px;
-      width: 90%;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-      text-align: center;
-    }
-    .modal label { display: block; font-size: 16px; margin: 12px 0 6px; text-align: left; }
-    .modal input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ccc; margin-bottom: 15px; font-size: 16px; }
-    .modal button {
-      padding: 14px 30px;
-      font-size: 16px;
-      font-weight: 700;
-      background: #1f7a4a;
-      color: #fff;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      width: 100%;
-    }
-
-    /* ================= RESULT ================= */
-    .result-card {
-      max-width: 500px;
       margin: 40px auto;
-      display: none;
-      background: #e6ffe6;
-      padding: 25px;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-      text-align: center;
+      padding: 16px 40px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      background: var(--accent);
+      color: #022c22;
+      border: none;
+      border-radius: 100px;
+      cursor: pointer;
+      box-shadow: 0 0 30px var(--accent-glow);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    .result-card h2 { font-size: 26px; margin-bottom: 12px; }
-    .result-card p { font-size: 18px; }
+    .submit-quiz-btn:hover {
+      transform: scale(1.05) translateY(-2px);
+      box-shadow: 0 15px 40px var(--accent-glow);
+    }
+    .submit-quiz-btn:disabled {
+      background: #334155;
+      color: #94a3b8;
+      box-shadow: none;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ================= HIGHLIGHTING (JS Controlled) ================= */
+    /* Modifying the logic to look good on a dark background */
+    .task-card label.correct { 
+      background: rgba(16, 185, 129, 0.1); 
+      border-left: 4px solid var(--accent); 
+    }
+    .task-card label.incorrect { 
+      background: rgba(239, 68, 68, 0.1); 
+      border-left: 4px solid var(--error); 
+    }
+    .task-card label.incorrect small {
+      color: var(--error) !important; /* Overriding JS inline style for dark mode */
+      font-weight: 600;
+      margin-top: 8px;
+      font-size: 14px;
+    }
+
+    /* ================= RESULT CARD ================= */
+    .result-card {
+      max-width: 600px;
+      margin: 40px auto 80px;
+      display: none; /* Controlled by JS */
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(2, 44, 34, 0.8));
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--accent);
+      padding: 40px;
+      border-radius: 32px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px var(--accent-glow);
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+    .result-card h2 { 
+      font-family: 'Outfit', sans-serif;
+      font-size: 32px; 
+      margin-bottom: 16px; 
+      color: #fff;
+    }
+    .result-card p { 
+      font-size: 22px; 
+      font-weight: 700;
+      color: var(--accent);
+      margin: 0;
+    }
 
     /* ================= FOOTER ================= */
-    .ar-footer { width: 100%; padding: 40px 20px; background: #0f5132; color: #fff; text-align: center; }
-    .ar-footer h4 { font-size: 20px; margin-bottom: 10px; }
-    .ar-footer p { font-size: 14px; }
-
-    /* ================= HIGHLIGHTING ================= */
-    .correct { background: #d4edda; border-left: 5px solid #28a745; }
-    .incorrect { background: #f8d7da; border-left: 5px solid #dc3545; }
+    .ar-footer { 
+      width: 100%; 
+      padding: 60px 20px 40px; 
+      background: rgba(0, 0, 0, 0.4);
+      border-top: 1px solid var(--glass-border);
+      color: var(--text-muted); 
+      text-align: center; 
+      position: relative;
+      z-index: 2;
+      box-sizing: border-box;
+    }
+    .ar-footer h4 { 
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px; 
+      color: #fff;
+      margin-bottom: 12px; 
+    }
+    .ar-footer p { font-size: 15px; }
 
     /* ================= RESPONSIVE ================= */
     @media(max-width: 600px){
-      .ar-hero h1 { font-size: 28px; }
+      .ar-header { top: 10px; width: calc(100% - 40px); padding: 12px 20px; border-radius: 20px; }
+      .ar-hero h1 { font-size: 32px; }
       .ar-hero p { font-size: 16px; }
+      .task-card { padding: 20px; border-radius: 20px; }
       .task-card h3 { font-size: 18px; }
-      .task-card label { font-size: 14px; }
-      .submit-quiz-btn { font-size: 16px; padding: 14px 28px; }
+      .submit-quiz-btn { width: 100%; padding: 14px; }
     }
   </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="ar-header">
   <a class="ar-logo" href="index.html">AngloRoom</a>
+  <div class="lang-switch">
+    <button onclick="setLang('uz')">UZ</button>
+    <button onclick="setLang('ru')">RU</button>
+  </div>
 </header>
 
-<!-- HERO -->
 <section class="ar-hero">
   <h1 data-i18n="heroTitle"></h1>
   <p data-i18n="heroDesc"></p>
 </section>
 
-<!-- QUIZ SECTION -->
 <section class="quiz-section" id="quizSection">
-  <!-- TASKS WILL BE INSERTED DYNAMICALLY -->
-</section>
+  </section>
 
-
-<!-- RESULT -->
 <div class="result-card" id="resultCard">
   <h2 data-i18n="level"></h2>
   <p id="score"></p>
 </div>
 
-<!-- FOOTER -->
 <footer class="ar-footer">
   <h4>AngloRoom</h4>
   <p data-i18n="footerDesc"></p>

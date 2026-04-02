@@ -1,30 +1,9 @@
 
-const text = document.getElementById('splash-text');
-
-// Step 1: Show whole word briefly
-text.style.opacity = 1; // show entire word
-setTimeout(() => {
-  // Step 2: Split letters for animation
-  text.innerHTML = text.textContent
-    .split('')
-    .map(letter => `<span>${letter}</span>`)
-    .join('');
-
-  // Step 3: Fade-in letters
-  const letters = text.querySelectorAll('span');
-  letters.forEach(letter => {
-    letter.style.opacity = 1;
-  });
-
-  // Step 4: Fade-out splash after animation
-  setTimeout(() => {
-    const splash = document.getElementById('splash');
-    splash.style.opacity = 0;
-    setTimeout(() => {
-      splash.style.display = 'none';
-    }, 1000);
-  }, 1500); // wait for letters animation
-}, 1000); // show full word for 1 second
+// Menu Toggle for Mobile
+function toggleMenu() {
+  const nav = document.getElementById('nav');
+  nav.classList.toggle('active');
+}
 
     const texts = {
       uz: {
