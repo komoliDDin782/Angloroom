@@ -11,7 +11,7 @@ const modalNickname = document.getElementById('preview-nickname');
 const modalLevel = document.getElementById('preview-level');
 const modalSteps = modal.querySelectorAll('.level-step');
 
-// Utility
+// Utility Functions
 function capitalize(word) {
   return word.charAt(0).toUpperCase() + word.slice(1);
 }
@@ -25,7 +25,7 @@ function formatTime(ms) {
 }
 
 // Map levels to modal steps
-const levelOrder = ['beginner','elementary', 'intermediate', 'advanced'];
+const levelOrder = ['beginner', 'elementary', 'intermediate', 'advanced'];
 
 // Check authentication
 auth.onAuthStateChanged(async user => {
@@ -43,7 +43,7 @@ auth.onAuthStateChanged(async user => {
 
     loadResults();
   } catch (err) {
-    console.error(err);
+    console.error("Auth Error:", err);
     resultsContainer.innerHTML = "<p style='color:red;text-align:center;'>Failed to load user level.</p>";
   }
 });
@@ -51,6 +51,7 @@ auth.onAuthStateChanged(async user => {
 // Fetch results and display leaderboard
 async function loadResults() {
   try {
+    // 1. Fetch all results ordered by score
     const snapshot = await db.collection('results')
       .orderBy('score', 'desc')
       .get();
@@ -62,6 +63,7 @@ async function loadResults() {
 
     const userCache = {};
 
+    // Helper to fetch user details (cached to minimize DB hits)
     async function getUserData(uid) {
       if (userCache[uid]) return userCache[uid];
       try {
@@ -77,44 +79,56 @@ async function loadResults() {
           return userCache[uid];
         }
       } catch (err) {
-        console.error("Failed to fetch user data:", err);
+        console.error("Failed to fetch user data for:", uid, err);
       }
-      userCache[uid] = {
-        nickname: uid,
+      // Fallback
+      return {
+        nickname: uid.substring(0, 8) + '...',
         profilePic: "assets/image/logo.jpg",
         level: 'beginner',
         profileBg: 'assets/image/back4.jpg'
       };
-      return userCache[uid];
     }
 
-    const filteredResults = snapshot.docs.filter(doc => doc.data().level === userLevel);
+    // Filter results by current user's level
+    const filteredDocs = snapshot.docs.filter(doc => doc.data().level === userLevel);
 
-    if (!filteredResults.length) {
-      resultsContainer.innerHTML = `<p style='text-align:center;'>No results for level "${userLevel}".</p>`;
+    if (!filteredDocs.length) {
+      resultsContainer.innerHTML = `<p style='text-align:center;'>No results for level "${capitalize(userLevel)}".</p>`;
       return;
     }
 
-    let html = `<h2 style="text-align:center;">Leaderboard – ${capitalize(userLevel)}</h2>`;
-    html += `<table class="results-table">
-      <tr>
-        <th>Rank</th>
-        <th>User</th>
-        <th>Quiz</th>
-        <th>Score</th>
-        <th>Time</th>
-        <th>Total</th>
-      </tr>`;
+    // 2. Build the Leaderboard Table
+    // Slice the results to show only the top 10 players
+    const topTen = filteredDocs.slice(0, 10);
+
+    let html = `<br>
+    <h2 style="text-align:center; font-size: 18px; margin-bottom: 10px;">
+                  Top 10: ${capitalize(userLevel)}
+                </h2>`;
+    html += `
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>User</th>
+            <th>Quiz</th>
+            <th>Score</th>
+            <th>Time</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>`;
 
     let rank = 1;
-    for (const doc of filteredResults) {
+    for (const doc of topTen) {
       const data = doc.data();
-      const user = await getUserData(data.userId);
+      const userData = await getUserData(data.userId);
 
       let rowClass = "";
-      if (rank === 1) rowClass = "gold";
-      if (rank === 2) rowClass = "silver";
-      if (rank === 3) rowClass = "bronze";
+      if (rank === 1) rowClass = "gold-row";
+      else if (rank === 2) rowClass = "silver-row";
+      else if (rank === 3) rowClass = "bronze-row";
 
       const rankLabel = rank + (rank === 1 ? "st" : rank === 2 ? "nd" : rank === 3 ? "rd" : "th");
 
@@ -122,11 +136,11 @@ async function loadResults() {
         <tr class="${rowClass}">
           <td class="rank">${rankLabel}</td>
           <td class="nickname-cell">
-            <img src="${user.profilePic}" class="profile-icon" data-uid="${data.userId}">
-            ${user.nickname}
+            <img src="${userData.profilePic}" class="profile-icon" data-uid="${data.userId}">
+            <span>${userData.nickname}</span>
           </td>
           <td>${data.quizId}</td>
-          <td>${data.score}</td>
+          <td style="font-weight: bold; color: var(--accent);">${data.score}</td>
           <td>${formatTime(data.timeTaken)}</td>
           <td>${data.total}</td>
         </tr>
@@ -134,10 +148,10 @@ async function loadResults() {
       rank++;
     }
 
-    html += "</table>";
+    html += "</tbody></table>";
     resultsContainer.innerHTML = html;
 
-    // Attach click events to profile pictures
+    // 3. Re-attach Click Events for Profile Preview
     document.querySelectorAll('.profile-icon').forEach(img => {
       img.addEventListener('click', async e => {
         const uid = e.target.dataset.uid;
@@ -148,13 +162,11 @@ async function loadResults() {
         modalNickname.textContent = user.nickname;
         modalLevel.textContent = `Level: ${capitalize(user.level)}`;
 
-        // Reset all steps
+        // Update progress steps
         modalSteps.forEach(step => step.className = 'level-step');
-
-        // Activate steps up to user's level
         const levelIndex = levelOrder.indexOf(user.level);
         for (let i = 0; i <= levelIndex; i++) {
-          modalSteps[i].classList.add('active', levelOrder[i]);
+          modalSteps[i].classList.add('active');
         }
 
         modal.style.display = 'flex';
@@ -162,13 +174,13 @@ async function loadResults() {
     });
 
   } catch (err) {
-    console.error(err);
+    console.error("Leaderboard Error:", err);
     resultsContainer.innerHTML = "<p style='color:red;text-align:center;'>Failed to load results.</p>";
   }
 }
 
-// Modal close behavior
+// Modal closing logic
 modalClose.addEventListener('click', () => modal.style.display = 'none');
-modal.addEventListener('click', e => {
+window.addEventListener('click', e => {
   if (e.target === modal) modal.style.display = 'none';
 });

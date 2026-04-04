@@ -220,3 +220,65 @@ async function removeAllStudents() {
     alert('Failed to remove students.');
   }
 }
+// --- Elements ---
+const btnResults = document.getElementById('btn-results');
+const resultsOverlay = document.getElementById('results-overlay');
+const closeResultsBtn = document.getElementById('close-results');
+const resultsTableBody = document.querySelector('#results-table tbody');
+
+// --- Show/Hide ---
+btnResults.addEventListener('click', () => {
+  resultsOverlay.style.display = 'block';
+  loadResults();
+});
+
+closeResultsBtn.addEventListener('click', () => {
+  resultsOverlay.style.display = 'none';
+});
+
+// --- Load Data from Firebase ---
+async function loadResults() {
+  try {
+    // Assuming your collection is named 'results'
+    const snapshot = await db.collection('results').orderBy('timestamp', 'desc').get();
+    resultsTableBody.innerHTML = '';
+
+    if (snapshot.empty) {
+      resultsTableBody.innerHTML = '<tr><td colspan="5">No results recorded yet.</td></tr>';
+      return;
+    }
+
+    snapshot.forEach(doc => {
+      const res = doc.data();
+      const date = res.timestamp ? new Date(res.timestamp.seconds * 1000).toLocaleDateString() : 'N/A';
+      
+      const row = `
+        <tr>
+          <td>${res.userEmail || 'Anonymous'}</td>
+          <td>${res.quizName || 'General Quiz'}</td>
+          <td style="color: var(--accent); font-weight: bold;">${res.score}%</td>
+          <td>${date}</td>
+          <td>
+            <button class="delete-result-btn" onclick="deleteResult('${doc.id}')">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>`;
+      resultsTableBody.insertAdjacentHTML('beforeend', row);
+    });
+  } catch (err) {
+    console.error("Error loading results:", err);
+    resultsTableBody.innerHTML = '<tr><td colspan="5">Error loading data.</td></tr>';
+  }
+}
+
+// --- Delete Single Result ---
+async function deleteResult(id) {
+  if (!confirm('Delete this result permanently?')) return;
+  try {
+    await db.collection('results').doc(id).delete();
+    loadResults(); // Refresh table
+  } catch (err) {
+    alert("Failed to delete result.");
+  }
+}
