@@ -4,8 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <title>AngloRoom - Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+  
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
@@ -17,53 +22,142 @@
   <script src="assets/js/profile.js" defer></script>
 
   <style>
+    :root {
+      --bg-base: #022c22;
+      --accent: #10b981;
+      --accent-glow: rgba(16, 185, 129, 0.4);
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    /* ===== BASE STYLES ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Ambient Background */
+    body::before {
+      content: ''; position: fixed; top: -10%; left: -10%; width: 50vw; height: 50vw;
+      background: radial-gradient(circle, rgba(16,185,129,0.1) 0%, transparent 70%);
+      filter: blur(100px); z-index: -1;
+    }
+
+    /* ===== NAVIGATION ===== */
+    header {
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      background: rgba(2, 44, 34, 0.85);
+      backdrop-filter: blur(15px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    nav { display: flex; gap: clamp(15px, 4vw, 30px); }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    nav a:hover, nav a[href="profile.html"] {
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    /* ===== HEADER ===== */
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      text-align: center;
+      font-size: clamp(32px, 8vw, 42px);
+      margin: 40px 20px 20px;
+      background: linear-gradient(135deg, #fff, var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ===== PROFILE CONTAINER ===== */
     #profile-container {
       width: 90%;
       max-width: 650px;
-      margin: 50px auto;
-      background: #fff;
-      border-radius: 15px;
+      margin: 20px auto 60px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
       overflow: hidden;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
       text-align: center;
       position: relative;
+      animation: fadeUp 0.8s ease-out;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .profile-top-bg {
-      height: 280px;
+      height: 200px; /* Slightly shorter for modern proportions */
       background-image: url(assets/image/back4.jpg);
       background-size: cover;
       background-position: center;
       position: relative;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+      border-bottom: 1px solid var(--glass-border);
     }
 
     #profile-pic {
-      width: 200px;
-      height: 200px;
+      width: 160px;
+      height: 160px;
       border-radius: 50%;
       object-fit: cover;
-      border: 5px solid #fff;
+      border: 6px solid var(--bg-base); /* Matches background instead of stark white */
       position: absolute;
-      bottom: -100px;
+      bottom: -80px;
       left: 50%;
       transform: translateX(-50%);
-      background: #fff;
-      transition: transform 0.3s;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+      background: var(--bg-base);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      z-index: 2;
     }
 
     #profile-pic:hover {
-      transform: translateX(-50%) scale(1.05);
+      transform: translateX(-50%) scale(1.08);
+      border-color: var(--accent);
     }
 
+    /* ===== DROPDOWN MENU ===== */
     .settings-menu {
       position: absolute;
-      top: 15px;
-      right: 15px;
-      font-size: 22px;
-      color: #fff;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+      color: rgba(255, 255, 255, 0.8);
       cursor: pointer;
+      z-index: 10;
+      transition: color 0.3s;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+
+    .settings-menu:hover {
+      color: var(--accent);
     }
 
     .settings-dropdown {
@@ -71,104 +165,130 @@
       position: absolute;
       top: 40px;
       right: 0;
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      min-width: 180px;
+      background: rgba(4, 60, 47, 0.95);
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      min-width: 200px;
       z-index: 100;
       text-align: left;
+      overflow: hidden;
     }
 
     .dropdown-item {
-      padding: 12px 15px;
+      padding: 14px 20px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 10px;
-      color: #333;
+      gap: 12px;
+      color: var(--text-main);
+      font-weight: 600;
+      font-size: 14px;
+      transition: background 0.2s, color 0.2s;
     }
 
     .dropdown-item:hover {
-      background-color: #f1f1f1;
+      background-color: rgba(16, 185, 129, 0.15);
+      color: var(--accent);
     }
 
+    #logout-btn {
+      color: #ef4444; /* Soft red for dark mode */
+      border-top: 1px solid var(--glass-border);
+    }
+    #logout-btn:hover {
+      background-color: rgba(239, 68, 68, 0.1);
+    }
+
+    /* ===== PROFILE BOTTOM ===== */
     .profile-bottom {
-      padding: 140px 25px 50px;
+      padding: 100px 25px 50px; /* Adjusted padding to fit new avatar size */
     }
 
     #nickname-display {
+      font-family: 'Outfit', sans-serif;
       font-size: 32px;
-      font-weight: 600;
-      margin-bottom: 12px;
+      font-weight: 700;
+      margin-bottom: 8px;
     }
 
     .user-level {
-      font-size: 22px;
-      font-weight: 600;
-      color: #333;
-      margin-bottom: 8px;
-      text-shadow:
-        1px 1px 1px rgba(0,0,0,0.25),
-       -1px -1px 1px rgba(255,255,255,0.6);
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+      letter-spacing: 1px;
     }
 
-    /* LEVEL PROGRESS */
+    /* ===== LEVEL PROGRESS ===== */
     .level-progress {
-      width: 85%;
-      max-width: 350px;
-      height: 14px;
-      margin: 0 auto 18px;
+      width: 100%;
+      max-width: 400px;
+      height: 8px;
+      margin: 0 auto 30px;
       display: flex;
-      gap: 6px;
+      gap: 8px;
     }
 
     .level-step {
       flex: 1;
-      border-radius: 8px;
-      background: #e0e0e0;
-      box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2);
-      transition: background 0.3s ease;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      transition: background 0.4s ease, box-shadow 0.4s ease;
     }
 
-    .level-step.active.beginner { background: #02d614; }
-    .level-step.active.intermediate { background: #017c0b;  }
-    .level-step.active.advanced { background: #015c08;  }
-    .level-step.active.elementary { background: #02a10f;  } /* choose a color you like */
+    /* Utilizing the exact classes from your JS */
+    .level-step.active.beginner { background: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
+    .level-step.active.elementary { background: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
+    .level-step.active.intermediate { background: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
+    .level-step.active.advanced { background: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
 
+    /* ===== INPUTS & BUTTONS ===== */
     #nickname {
       display: none;
-      font-size: 20px;
-      padding: 10px;
-      width: 85%;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 14px;
+      width: 100%;
       max-width: 350px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      margin: 0 auto 15px;
+      border-radius: 12px;
+      border: 1px solid var(--accent);
+      background: rgba(0, 0, 0, 0.2);
+      color: var(--text-main);
+      margin: 0 auto 20px;
       text-align: center;
+      outline: none;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    #nickname::placeholder {
+      color: var(--text-muted);
     }
 
     #save-profile-btn {
       display: none;
-      font-size: 20px;
-      padding: 12px 35px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      padding: 14px 40px;
       border-radius: 12px;
       border: none;
       cursor: pointer;
-      background-color: #2e7d32;
-      color: #fff;
-      transition: transform 0.2s, background 0.3s;
+      background: var(--accent);
+      color: #000; /* Dark text on bright accent button */
+      transition: transform 0.2s, background 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 15px var(--accent-glow);
     }
 
     #save-profile-btn:hover {
-      background-color: #145214;
-      transform: scale(1.05);
+      background: #0ea5e9; /* Switch to a bright blue/teal on hover or stay green */
+      background: #059669; /* Slightly darker green */
+      transform: translateY(-2px);
+      color: #fff;
     }
-
-    #logout-btn {
-      background-color: #e74c3c;
-    }
-
-
   </style>
 </head>
 
@@ -225,7 +345,7 @@
         <div class="level-step"></div>
         <div class="level-step"></div>
         <div class="level-step"></div>
-      </div><br><br><br><br>
+      </div>
 
       <input type="text" id="nickname" placeholder="Enter nickname">
       <button id="save-profile-btn">Save Changes</button>
