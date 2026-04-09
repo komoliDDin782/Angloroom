@@ -92,15 +92,18 @@ async function loadQuizCards() {
 /* ---------- Open quiz ---------- */
 async function openQuizModal(jsonFile, quizId) {
   try {
+    // 1. Fetch and Prepare Data
     const res = await fetch(jsonFile);
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
     const quizData = await res.json();
-
-    modalQuizContainer.innerHTML = '';
-
     const questions = shuffle(quizData.questions);
+
+    // 2. Setup Form Container
+    modalQuizContainer.innerHTML = '';
     const form = document.createElement('form');
     form.id = 'quiz-form';
 
+    // 3. Build Questions
     questions.forEach((q, index) => {
       const correctAnswer = q.options[0];
       const shuffledOptions = shuffle(q.options);
@@ -109,70 +112,98 @@ async function openQuizModal(jsonFile, quizId) {
       qCard.className = 'question-card';
       qCard.dataset.correct = correctAnswer;
 
+      // Add Question Text
       qCard.innerHTML = `<p class="question-text">${index + 1}. ${q.question}</p>`;
+      
+      // Add Options (Using a DocumentFragment for better performance)
       const ul = document.createElement('ul');
       ul.className = 'options';
-
+      
       shuffledOptions.forEach(opt => {
         const li = document.createElement('li');
         li.textContent = opt;
-        li.addEventListener('click', () => {
-          ul.querySelectorAll('li').forEach(el => el.classList.remove('selected'));
-          li.classList.add('selected');
-        });
         ul.appendChild(li);
+      });
+
+      // EVENT DELEGATION: Attach one listener to the UL instead of every LI
+      ul.addEventListener('click', (e) => {
+        if (e.target.tagName === 'LI') {
+          ul.querySelectorAll('li').forEach(el => el.classList.remove('selected'));
+          e.target.classList.add('selected');
+        }
       });
 
       qCard.appendChild(ul);
       form.appendChild(qCard);
     });
 
+    // 4. Build Submit Button
     const submitBtn = document.createElement('button');
     submitBtn.type = 'submit';
     submitBtn.textContent = 'Submit Quiz';
-    submitBtn.style.marginTop = '20px';
+    submitBtn.className = 'submit';
     form.appendChild(submitBtn);
 
-    // START TIMER
+    // 5. Start Timer
     startTime = Date.now();
 
-    form.addEventListener('submit', async e => {
+    // 6. Handle Submission
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      
+      // Prevent double-submissions
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Processing...';
+
       endTime = Date.now();
       const timeTakenMs = endTime - startTime;
+      const totalQuestions = questions.length;
 
+      // Calculate Score
       let score = 0;
       form.querySelectorAll('.question-card').forEach(card => {
         const selected = card.querySelector('.selected');
-        if (selected && selected.textContent === card.dataset.correct) score++;
+        if (selected && selected.textContent === card.dataset.correct) {
+          score++;
+        }
       });
 
+      // Save to Firebase
       try {
         await db.collection('results').add({
           userId: currentUser.uid,
           quizId: quizId,
-          score,
-          total: form.querySelectorAll('.question-card').length,
+          score: score,
+          total: totalQuestions,
           level: userLevel,
           timeTaken: timeTakenMs,
           timestamp: firebase.firestore.FieldValue.serverTimestamp()
         });
 
-        alert(`Result: ${score} / ${form.querySelectorAll('.question-card').length} in ${formatTime(timeTakenMs)}`);
+        alert(`Result: ${score} / ${totalQuestions} in ${formatTime(timeTakenMs)}`);
+        
+        // Cleanup UI on success
         quizModal.style.display = 'none';
         modalQuizContainer.innerHTML = '';
         loadQuizCards();
+        
       } catch (err) {
-        console.error(err);
-        alert('Failed to submit quiz.');
+        console.error("Firebase save error:", err);
+        alert('Failed to submit quiz. Please check your connection and try again.');
+        
+        // Re-enable button so they can try submitting again
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Quiz';
       }
     });
 
+    // 7. Render to Screen
     modalQuizContainer.appendChild(form);
     quizModal.style.display = 'block';
+
   } catch (err) {
-    console.error(err);
-    alert('Failed to load quiz.');
+    console.error("Quiz load error:", err);
+    alert('Failed to load quiz. Please try again later.');
   }
 }
 

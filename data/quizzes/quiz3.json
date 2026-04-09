@@ -1,45 +1,56 @@
 {
-  "title": "Daily Quiz - To Be (Present)",
+  "title": "Go Getter 1 - Full Grammar & Vocabulary Quiz",
   "questions": [
-    {
-      "question": "I ___ a student.",
-      "options": ["am", "is", "are", "be"]
-    },
-    {
-      "question": "She ___ happy today.",
-      "options": ["is", "am", "are", "be"]
-    },
-    {
-      "question": "They ___ at school now.",
-      "options": ["are", "is", "am", "be"]
-    },
-    {
-      "question": "He ___ my brother.",
-      "options": ["is", "am", "are", "be"]
-    },
-    {
-      "question": "We ___ friends.",
-      "options": ["are", "is", "am", "be"]
-    },
-    {
-      "question": "I ___ not tired.",
-      "options": ["am", "is", "are", "be"]
-    },
-    {
-      "question": "She ___ very kind.",
-      "options": ["is", "am", "are", "be"]
-    },
-    {
-      "question": "They ___ ready for the test.",
-      "options": ["are", "is", "am", "be"]
-    },
-    {
-      "question": "He ___ at home now.",
-      "options": ["is", "am", "are", "be"]
-    },
-    {
-      "question": "We ___ in the classroom.",
-      "options": ["are", "is", "am", "be"]
-    }
+    { "question": "I ___ a student.", "options": ["am", "is", "are", "be"] },
+    { "question": "She ___ my friend.", "options": ["is", "am", "are", "be"] },
+    { "question": "They ___ from Spain.", "options": ["are", "is", "am", "be"] },
+    { "question": "___ you like pizza?", "options": ["Do", "Are", "Does", "Is"] },
+    { "question": "He ___ football every day.", "options": ["plays", "play", "playing", "played"] },
+    { "question": "We ___ TV in the evening.", "options": ["watch", "watches", "watching", "watched"] },
+    { "question": "She ___ like milk.", "options": ["doesn't", "don't", "isn't", "aren't"] },
+    { "question": "___ they go to school?", "options": ["Do", "Does", "Is", "Are"] },
+    { "question": "I have ___ dog.", "options": ["a", "an", "the", "some"] },
+    { "question": "There ___ a book on the table.", "options": ["is", "are", "be", "am"] },
+    { "question": "There ___ two cats.", "options": ["are", "is", "am", "be"] },
+    { "question": "This is ___ apple.", "options": ["an", "a", "the", "some"] },
+    { "question": "He ___ swim.", "options": ["can", "cans", "can’t", "is can"] },
+    { "question": "I ___ play the piano.", "options": ["can’t", "don’t can", "am not", "doesn’t"] },
+    { "question": "___ is your name?", "options": ["What", "Who", "Where", "How"] },
+    { "question": "___ do you live?", "options": ["Where", "What", "Who", "When"] },
+    { "question": "My mother ___ a teacher.", "options": ["is", "are", "am", "be"] },
+    { "question": "We ___ not tired.", "options": ["are", "is", "am", "be"] },
+    { "question": "He ___ got a bike.", "options": ["has", "have", "having", "had"] },
+    { "question": "I ___ got two sisters.", "options": ["have", "has", "having", "had"] },
+    { "question": "___ she your sister?", "options": ["Is", "Do", "Does", "Are"] },
+    { "question": "We ___ in a big house.", "options": ["live", "lives", "living", "lived"] },
+    { "question": "He ___ TV now.", "options": ["watches", "watch", "watching", "watched"] },
+    { "question": "They ___ apples.", "options": ["like", "likes", "liking", "liked"] },
+    { "question": "I ___ like coffee.", "options": ["don’t", "doesn’t", "isn’t", "aren’t"] },
+
+    { "question": "A place where you study is a ___.", "options": ["school", "hospital", "shop", "park"] },
+    { "question": "Your mother’s brother is your ___.", "options": ["uncle", "cousin", "nephew", "grandfather"] },
+    { "question": "You use this to write.", "options": ["pen", "chair", "bag", "ruler"] },
+    { "question": "Breakfast is in the ___.", "options": ["morning", "evening", "afternoon", "night"] },
+    { "question": "A doctor works in a ___.", "options": ["hospital", "school", "shop", "park"] },
+    { "question": "You wear this on your feet.", "options": ["shoes", "hat", "gloves", "jacket"] },
+    { "question": "Opposite of 'big'.", "options": ["small", "tall", "long", "short"] },
+    { "question": "A place to buy food.", "options": ["supermarket", "cinema", "school", "library"] },
+    { "question": "A cat is an ___.", "options": ["animal", "food", "place", "job"] },
+    { "question": "You drink ___.", "options": ["water", "bread", "rice", "apple"] },
+    { "question": "You eat ___.", "options": ["bread", "juice", "milk", "tea"] },
+    { "question": "A teacher works in a ___.", "options": ["school", "hospital", "shop", "bank"] },
+    { "question": "You watch films in a ___.", "options": ["cinema", "park", "school", "shop"] },
+    { "question": "Opposite of 'hot'.", "options": ["cold", "warm", "big", "fast"] },
+    { "question": "A place with many books.", "options": ["library", "cinema", "park", "shop"] },
+    { "question": "You sleep in a ___.", "options": ["bedroom", "kitchen", "bathroom", "garden"] },
+    { "question": "A car is a ___.", "options": ["transport", "animal", "food", "job"] },
+    { "question": "Opposite of 'fast'.", "options": ["slow", "quick", "big", "long"] },
+    { "question": "You wear this in winter.", "options": ["coat", "T-shirt", "shorts", "cap"] },
+    { "question": "Apples and bananas are ___.", "options": ["fruit", "vegetables", "drinks", "meat"] },
+    { "question": "A place to play outside.", "options": ["park", "school", "hospital", "cinema"] },
+    { "question": "You use this to carry books.", "options": ["bag", "pen", "desk", "chair"] },
+    { "question": "Opposite of 'old'.", "options": ["young", "new", "big", "tall"] },
+    { "question": "Milk is a ___.", "options": ["drink", "food", "place", "animal"] },
+    { "question": "A place to buy clothes.", "options": ["clothes shop", "supermarket", "hospital", "school"] }
   ]
 }

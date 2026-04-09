@@ -268,7 +268,24 @@
       flex-direction: column;
       gap: 12px;
     }
-
+    .submit{
+      background: rgba(255, 255, 255, 0.05);
+      padding: clamp(16px, 4vw, 20px);
+      padding-top: -5px;
+      border-radius: 16px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.3s ease;
+      color: var(--text-muted);
+      font-size: clamp(15px, 4vw, 17px);
+      font-weight: 600;
+    }
+    .submit:hover{
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(16, 185, 129, 0.4);
+      color: #fff;
+      transform: translateX(5px);
+    }
     .options li {
       background: rgba(255, 255, 255, 0.05);
       padding: clamp(16px, 4vw, 20px);
