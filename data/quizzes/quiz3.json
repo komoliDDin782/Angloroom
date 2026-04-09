@@ -23,11 +23,11 @@
     { "question": "There is ___ orange.", "options": ["an", "a", "some", "any"] },
     { "question": "There are two ___.", "options": ["dogs", "dog", "doges", "dog's"] },
     { "question": "She has three ___.", "options": ["books", "book", "bookes", "book's"] },
-    { "question": "I like ___.", "options": ["cats", "cat", "cates", "cat's"] },
+    { "question": "I like a ___.", "options": ["cat", "cats", "cates", "cat's"] },
 
     { "question": "We ___ not at school today.", "options": ["are", "is", "am", "be"] },
     { "question": "___ she your teacher?", "options": ["Is", "Are", "Am", "Be"] },
-    { "question": "I ___ not got any friends here.", "options": ["have", "has", "am", "is"] },
+    { "question": "I ___ not got any friends here.", "options": ["have", "has", "are", "is"] },
     { "question": "He ___ got some homework.", "options": ["has", "have", "having", "had"] },
     { "question": "They ___ not busy.", "options": ["are", "is", "am", "be"] },
 
