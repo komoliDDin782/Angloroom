@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AngloRoom - Vocabulary Bank</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="assets/js/firebase.js" defer></script>
+  <script src="assets/js/auth.js" defer></script>
+
+  <style>
+    :root {
+      --bg-base: #022c22;
+      --accent: #10b981;
+      --accent-glow: rgba(16, 185, 129, 0.4);
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Ambient Glow */
+    body::before {
+      content: ''; position: fixed; top: -10%; left: -10%; width: 60vw; height: 60vw;
+      background: radial-gradient(circle, rgba(16,185,129,0.1) 0%, transparent 70%);
+      filter: blur(100px); z-index: -1;
+    }
+
+    header {
+      padding: 15px 20px;
+      display: flex;
+      justify-content: center;
+      background: rgba(2, 44, 34, 0.85);
+      backdrop-filter: blur(15px);
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    nav { display: flex; gap: clamp(10px, 4vw, 25px); }
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+      font-size: 14px;
+    }
+    nav a:hover, nav a.active { color: var(--accent); }
+
+    main {
+      flex: 1;
+      padding: 30px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(28px, 6vw, 48px);
+      text-align: center;
+      margin-bottom: 30px;
+      background: linear-gradient(to right, #fff, var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ===== VOCABULARY GRID ===== */
+    .vocab-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .vocab-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 25px;
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .vocab-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .vocab-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      margin-bottom: 15px;
+      color: var(--accent);
+      border-bottom: 1px solid var(--glass-border);
+      padding-bottom: 10px;
+    }
+
+    .vocab-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .vocab-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .vocab-list li:last-child {
+      border-bottom: none;
+    }
+
+    .vocab-en {
+      color: var(--text-main);
+      font-weight: 600;
+      max-width: 50%;
+    }
+
+    .vocab-ru {
+      color: var(--text-muted);
+      text-align: right;
+      max-width: 45%;
+    }
+
+    @media (max-width: 650px) {
+      .vocab-section { grid-template-columns: 1fr; }
+      h1 { font-size: 32px; }
+      .vocab-card { padding: 20px; }
+    }
+
+    footer {
+      background: rgba(0,0,0,0.2);
+      padding: 30px 20px;
+      margin-top: 50px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 25px;
+      border-top: 1px solid var(--glass-border);
+      font-size: 14px;
+    }
+
+    footer h3 { color: var(--accent); margin-bottom: 12px; font-size: 17px; }
+    footer a { color: var(--text-muted); text-decoration: none; transition: 0.3s; }
+    footer a:hover { color: #fff; }
+    footer p { line-height: 1.5; }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <a href="main.html">Main</a>
+      <a href="vocab.html" class="active">Vocabulary</a>
+      <a href="quiz.html">Quizzes</a>
+      <a href="results.html">Results</a>
+      <a href="profile.html">Profile</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Vocabulary Bank</h1>
+
+    <section class="vocab-section">
+      
+      <div class="vocab-card">
+        <h3>Семья</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">mother</span><span class="vocab-ru">мать</span></li>
+          <li><span class="vocab-en">mum</span><span class="vocab-ru">мама</span></li>
+          <li><span class="vocab-en">father</span><span class="vocab-ru">отец</span></li>
+          <li><span class="vocab-en">dad</span><span class="vocab-ru">папа</span></li>
+          <li><span class="vocab-en">parents</span><span class="vocab-ru">родители</span></li>
+          <li><span class="vocab-en">grandfather</span><span class="vocab-ru">дедушка</span></li>
+          <li><span class="vocab-en">grandad</span><span class="vocab-ru">дедушка (разг.)</span></li>
+          <li><span class="vocab-en">grandmother</span><span class="vocab-ru">бабушка</span></li>
+          <li><span class="vocab-en">granny</span><span class="vocab-ru">бабушка (разг.)</span></li>
+          <li><span class="vocab-en">son</span><span class="vocab-ru">сын</span></li>
+          <li><span class="vocab-en">daughter</span><span class="vocab-ru">дочь</span></li>
+          <li><span class="vocab-en">brother</span><span class="vocab-ru">брат</span></li>
+          <li><span class="vocab-en">sister</span><span class="vocab-ru">сестра</span></li>
+          <li><span class="vocab-en">aunt</span><span class="vocab-ru">тётя</span></li>
+          <li><span class="vocab-en">uncle</span><span class="vocab-ru">дядя</span></li>
+          <li><span class="vocab-en">cousin</span><span class="vocab-ru">двоюродный брат / сестра</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Места</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">at home</span><span class="vocab-ru">дома</span></li>
+          <li><span class="vocab-en">at school</span><span class="vocab-ru">в школе</span></li>
+          <li><span class="vocab-en">at a party</span><span class="vocab-ru">на вечеринке</span></li>
+          <li><span class="vocab-en">in the garden</span><span class="vocab-ru">в саду</span></li>
+          <li><span class="vocab-en">in the park</span><span class="vocab-ru">в парке</span></li>
+          <li><span class="vocab-en">on holiday</span><span class="vocab-ru">на каникулах / в отпуске</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Одежда</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">boots</span><span class="vocab-ru">ботинки</span></li>
+          <li><span class="vocab-en">shirt</span><span class="vocab-ru">рубашка</span></li>
+          <li><span class="vocab-en">cap</span><span class="vocab-ru">кепка</span></li>
+          <li><span class="vocab-en">shoes</span><span class="vocab-ru">туфли</span></li>
+          <li><span class="vocab-en">coat</span><span class="vocab-ru">пальто</span></li>
+          <li><span class="vocab-en">skirt</span><span class="vocab-ru">юбка</span></li>
+          <li><span class="vocab-en">dress</span><span class="vocab-ru">платье</span></li>
+          <li><span class="vocab-en">T-shirt</span><span class="vocab-ru">футболка</span></li>
+          <li><span class="vocab-en">hoodie</span><span class="vocab-ru">худи</span></li>
+          <li><span class="vocab-en">top</span><span class="vocab-ru">топ</span></li>
+          <li><span class="vocab-en">jacket</span><span class="vocab-ru">куртка</span></li>
+          <li><span class="vocab-en">tracksuit</span><span class="vocab-ru">спортивный костюм</span></li>
+          <li><span class="vocab-en">jeans</span><span class="vocab-ru">джинсы</span></li>
+          <li><span class="vocab-en">trainers</span><span class="vocab-ru">кроссовки</span></li>
+          <li><span class="vocab-en">jumper</span><span class="vocab-ru">джемпер</span></li>
+          <li><span class="vocab-en">trousers</span><span class="vocab-ru">брюки</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Страны и национальности</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">the UK / British</span><span class="vocab-ru">Великобритания / британец</span></li>
+          <li><span class="vocab-en">Spain / Spanish</span><span class="vocab-ru">Испания / испанец</span></li>
+          <li><span class="vocab-en">Poland / Polish</span><span class="vocab-ru">Польша / поляк</span></li>
+          <li><span class="vocab-en">the USA / American</span><span class="vocab-ru">США / американец</span></li>
+          <li><span class="vocab-en">Italy / Italian</span><span class="vocab-ru">Италия / итальянец</span></li>
+          <li><span class="vocab-en">France / French</span><span class="vocab-ru">Франция / француз</span></li>
+          <li><span class="vocab-en">China / Chinese</span><span class="vocab-ru">Китай / китаец</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Прилагательные</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">big</span><span class="vocab-ru">большой</span></li>
+          <li><span class="vocab-en">new</span><span class="vocab-ru">новый</span></li>
+          <li><span class="vocab-en">boring</span><span class="vocab-ru">скучный</span></li>
+          <li><span class="vocab-en">old</span><span class="vocab-ru">старый</span></li>
+          <li><span class="vocab-en">cool</span><span class="vocab-ru">крутой</span></li>
+          <li><span class="vocab-en">short</span><span class="vocab-ru">короткий</span></li>
+          <li><span class="vocab-en">long</span><span class="vocab-ru">длинный</span></li>
+          <li><span class="vocab-en">small</span><span class="vocab-ru">маленький</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Мои вещи</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">backpack</span><span class="vocab-ru">рюкзак</span></li>
+          <li><span class="vocab-en">games console</span><span class="vocab-ru">игровая приставка</span></li>
+          <li><span class="vocab-en">laptop computer</span><span class="vocab-ru">ноутбук</span></li>
+          <li><span class="vocab-en">mobile phone</span><span class="vocab-ru">мобильный телефон</span></li>
+          <li><span class="vocab-en">mountain bike</span><span class="vocab-ru">горный велосипед</span></li>
+          <li><span class="vocab-en">skateboard</span><span class="vocab-ru">скейтборд</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Знакомство</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">Mum, this is Lucas.</span><span class="vocab-ru">Мама, это Лукас.</span></li>
+          <li><span class="vocab-en">He’s my friend/classmate.</span><span class="vocab-ru">Он мой друг/одноклассник.</span></li>
+          <li><span class="vocab-en">Lucas, this is my mum.</span><span class="vocab-ru">Лукас, это моя мама.</span></li>
+          <li><span class="vocab-en">Nice to meet you.</span><span class="vocab-ru">Приятно познакомиться.</span></li>
+          <li><span class="vocab-en">Nice to meet you too.</span><span class="vocab-ru">Мне тоже приятно.</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Вопросы</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">What’s your name?</span><span class="vocab-ru">Как тебя зовут?</span></li>
+          <li><span class="vocab-en">How old are you?</span><span class="vocab-ru">Сколько тебе лет?</span></li>
+          <li><span class="vocab-en">Where are you from?</span><span class="vocab-ru">Откуда ты?</span></li>
+          <li><span class="vocab-en">What’s your favourite music/sport/film?</span><span class="vocab-ru">Какая твоя любимая музыка/вид спорта/фильм?</span></li>
+          <li><span class="vocab-en">Who’s your favourite actor/singer/sportsperson?</span><span class="vocab-ru">Кто твой любимый актёр/певец/спортсмен?</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Части дома</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">bathroom</span><span class="vocab-ru">ванная комната</span></li>
+          <li><span class="vocab-en">garden</span><span class="vocab-ru">сад</span></li>
+          <li><span class="vocab-en">bedroom</span><span class="vocab-ru">спальня</span></li>
+          <li><span class="vocab-en">kitchen</span><span class="vocab-ru">кухня</span></li>
+          <li><span class="vocab-en">door</span><span class="vocab-ru">дверь</span></li>
+          <li><span class="vocab-en">living room</span><span class="vocab-ru">гостиная</span></li>
+          <li><span class="vocab-en">floor</span><span class="vocab-ru">пол</span></li>
+          <li><span class="vocab-en">wall</span><span class="vocab-ru">стена</span></li>
+          <li><span class="vocab-en">garage</span><span class="vocab-ru">гараж</span></li>
+          <li><span class="vocab-en">window</span><span class="vocab-ru">окно</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Внутри дома</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">armchair</span><span class="vocab-ru">кресло</span></li>
+          <li><span class="vocab-en">fridge</span><span class="vocab-ru">холодильник</span></li>
+          <li><span class="vocab-en">bath</span><span class="vocab-ru">ванна</span></li>
+          <li><span class="vocab-en">sofa</span><span class="vocab-ru">диван</span></li>
+          <li><span class="vocab-en">bed</span><span class="vocab-ru">кровать</span></li>
+          <li><span class="vocab-en">table</span><span class="vocab-ru">стол</span></li>
+          <li><span class="vocab-en">chair</span><span class="vocab-ru">стул</span></li>
+          <li><span class="vocab-en">wardrobe</span><span class="vocab-ru">гардероб</span></li>
+          <li><span class="vocab-en">desk</span><span class="vocab-ru">письменный стол</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Предлоги места</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">behind</span><span class="vocab-ru">за</span></li>
+          <li><span class="vocab-en">next to</span><span class="vocab-ru">рядом с</span></li>
+          <li><span class="vocab-en">in</span><span class="vocab-ru">в</span></li>
+          <li><span class="vocab-en">on</span><span class="vocab-ru">на</span></li>
+          <li><span class="vocab-en">in front of</span><span class="vocab-ru">перед</span></li>
+          <li><span class="vocab-en">under</span><span class="vocab-ru">под</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Предметы домашнего обихода</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">carpet</span><span class="vocab-ru">ковёр</span></li>
+          <li><span class="vocab-en">cushion</span><span class="vocab-ru">подушка (диванная)</span></li>
+          <li><span class="vocab-en">lamp</span><span class="vocab-ru">лампа</span></li>
+          <li><span class="vocab-en">plant</span><span class="vocab-ru">растение</span></li>
+          <li><span class="vocab-en">poster</span><span class="vocab-ru">плакат</span></li>
+          <li><span class="vocab-en">television (TV)</span><span class="vocab-ru">телевизор</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Прилагательные характера</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">clever</span><span class="vocab-ru">умный</span></li>
+          <li><span class="vocab-en">funny</span><span class="vocab-ru">смешной</span></li>
+          <li><span class="vocab-en">friendly</span><span class="vocab-ru">дружелюбный</span></li>
+          <li><span class="vocab-en">helpful</span><span class="vocab-ru">отзывчивый</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Лицо</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">ears</span><span class="vocab-ru">уши</span></li>
+          <li><span class="vocab-en">eyes</span><span class="vocab-ru">глаза</span></li>
+          <li><span class="vocab-en">mouth</span><span class="vocab-ru">рот</span></li>
+          <li><span class="vocab-en">nose</span><span class="vocab-ru">нос</span></li>
+          <li><span class="vocab-en">teeth</span><span class="vocab-ru">зубы</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Волосы</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">curly</span><span class="vocab-ru">вьющиеся</span></li>
+          <li><span class="vocab-en">spiky</span><span class="vocab-ru">торчащие (ёжиком)</span></li>
+          <li><span class="vocab-en">straight</span><span class="vocab-ru">прямые</span></li>
+          <li><span class="vocab-en">wavy</span><span class="vocab-ru">волнистые</span></li>
+          <li><span class="vocab-en">blond</span><span class="vocab-ru">светлые</span></li>
+          <li><span class="vocab-en">dark</span><span class="vocab-ru">тёмные</span></li>
+          <li><span class="vocab-en">red</span><span class="vocab-ru">рыжие</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Части тела</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">arm</span><span class="vocab-ru">рука (от плеча до кисти)</span></li>
+          <li><span class="vocab-en">body</span><span class="vocab-ru">тело</span></li>
+          <li><span class="vocab-en">fingers</span><span class="vocab-ru">пальцы (рук)</span></li>
+          <li><span class="vocab-en">foot</span><span class="vocab-ru">ступня</span></li>
+          <li><span class="vocab-en">hand</span><span class="vocab-ru">кисть руки</span></li>
+          <li><span class="vocab-en">head</span><span class="vocab-ru">голова</span></li>
+          <li><span class="vocab-en">leg</span><span class="vocab-ru">нога (от бедра до ступни)</span></li>
+          <li><span class="vocab-en">neck</span><span class="vocab-ru">шея</span></li>
+          <li><span class="vocab-en">toes</span><span class="vocab-ru">пальцы ног</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Приём гостя</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">Hello. Please, come in.</span><span class="vocab-ru">Здравствуйте. Пожалуйста, заходите.</span></li>
+          <li><span class="vocab-en">Thank you.</span><span class="vocab-ru">Спасибо.</span></li>
+          <li><span class="vocab-en">Would you like a sandwich?</span><span class="vocab-ru">Не хотите ли бутерброд?</span></li>
+          <li><span class="vocab-en">Yes, please. / No, thanks.</span><span class="vocab-ru">Да, пожалуйста. / Нет, спасибо.</span></li>
+          <li><span class="vocab-en">Where’s the bathroom, please?</span><span class="vocab-ru">Где ванная, пожалуйста?</span></li>
+          <li><span class="vocab-en">It’s upstairs/downstairs.</span><span class="vocab-ru">Она наверху / внизу.</span></li>
+          <li><span class="vocab-en">It’s next to the living room.</span><span class="vocab-ru">Она рядом с гостиной.</span></li>
+          <li><span class="vocab-en">Let me show you.</span><span class="vocab-ru">Позвольте показать вам.</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Извинения</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">I’m so sorry.</span><span class="vocab-ru">Мне очень жаль.</span></li>
+          <li><span class="vocab-en">Sorry about that!</span><span class="vocab-ru">Извините за это!</span></li>
+          <li><span class="vocab-en">Sorry, my mistake.</span><span class="vocab-ru">Извините, моя ошибка.</span></li>
+          <li><span class="vocab-en">Are you OK?</span><span class="vocab-ru">Ты в порядке?</span></li>
+          <li><span class="vocab-en">It’s OK.</span><span class="vocab-ru">Всё в порядке.</span></li>
+          <li><span class="vocab-en">That’s all right.</span><span class="vocab-ru">Ничего страшного.</span></li>
+          <li><span class="vocab-en">No problem.</span><span class="vocab-ru">Без проблем.</span></li>
+          <li><span class="vocab-en">I’m fine.</span><span class="vocab-ru">Я в порядке.</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Глаголы действия</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">act</span><span class="vocab-ru">играть (роль)</span></li>
+          <li><span class="vocab-en">climb</span><span class="vocab-ru">лазать</span></li>
+          <li><span class="vocab-en">cook</span><span class="vocab-ru">готовить</span></li>
+          <li><span class="vocab-en">dive</span><span class="vocab-ru">нырять</span></li>
+          <li><span class="vocab-en">fly</span><span class="vocab-ru">летать</span></li>
+          <li><span class="vocab-en">jump</span><span class="vocab-ru">прыгать</span></li>
+          <li><span class="vocab-en">read</span><span class="vocab-ru">читать</span></li>
+          <li><span class="vocab-en">ride</span><span class="vocab-ru">ездить верхом / кататься</span></li>
+          <li><span class="vocab-en">run</span><span class="vocab-ru">бегать</span></li>
+          <li><span class="vocab-en">sing</span><span class="vocab-ru">петь</span></li>
+          <li><span class="vocab-en">skateboard</span><span class="vocab-ru">кататься на скейтборде</span></li>
+          <li><span class="vocab-en">swim</span><span class="vocab-ru">плавать</span></li>
+          <li><span class="vocab-en">write</span><span class="vocab-ru">писать</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Make, Play, Ride</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">make a poster</span><span class="vocab-ru">делать плакат</span></li>
+          <li><span class="vocab-en">make cupcakes</span><span class="vocab-ru">делать кексы</span></li>
+          <li><span class="vocab-en">play computer games</span><span class="vocab-ru">играть в компьютерные игры</span></li>
+          <li><span class="vocab-en">play football</span><span class="vocab-ru">играть в футбол</span></li>
+          <li><span class="vocab-en">play the piano</span><span class="vocab-ru">играть на пианино</span></li>
+          <li><span class="vocab-en">ride a bike</span><span class="vocab-ru">кататься на велосипеде</span></li>
+          <li><span class="vocab-en">ride a horse</span><span class="vocab-ru">кататься на лошади</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Дни недели</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">Monday</span><span class="vocab-ru">понедельник</span></li>
+          <li><span class="vocab-en">Tuesday</span><span class="vocab-ru">вторник</span></li>
+          <li><span class="vocab-en">Wednesday</span><span class="vocab-ru">среда</span></li>
+          <li><span class="vocab-en">Thursday</span><span class="vocab-ru">четверг</span></li>
+          <li><span class="vocab-en">Friday</span><span class="vocab-ru">пятница</span></li>
+          <li><span class="vocab-en">Saturday</span><span class="vocab-ru">суббота</span></li>
+          <li><span class="vocab-en">Sunday</span><span class="vocab-ru">воскресенье</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Ежедневные занятия</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">do my homework</span><span class="vocab-ru">делать домашнее задание</span></li>
+          <li><span class="vocab-en">get up</span><span class="vocab-ru">вставать</span></li>
+          <li><span class="vocab-en">go to bed</span><span class="vocab-ru">ложиться спать</span></li>
+          <li><span class="vocab-en">go to school</span><span class="vocab-ru">идти в школу</span></li>
+          <li><span class="vocab-en">have lessons</span><span class="vocab-ru">быть на уроках</span></li>
+          <li><span class="vocab-en">hang out with my friends</span><span class="vocab-ru">тусоваться с друзьями</span></li>
+          <li><span class="vocab-en">have a shower</span><span class="vocab-ru">принимать душ</span></li>
+          <li><span class="vocab-en">have breakfast</span><span class="vocab-ru">завтракать</span></li>
+          <li><span class="vocab-en">have dinner</span><span class="vocab-ru">ужинать</span></li>
+          <li><span class="vocab-en">have lunch</span><span class="vocab-ru">обедать</span></li>
+          <li><span class="vocab-en">listen to music</span><span class="vocab-ru">слушать музыку</span></li>
+          <li><span class="vocab-en">tidy my room</span><span class="vocab-ru">убирать в комнате</span></li>
+          <li><span class="vocab-en">watch TV</span><span class="vocab-ru">смотреть телевизор</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Месяцы</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">January</span><span class="vocab-ru">январь</span></li>
+          <li><span class="vocab-en">February</span><span class="vocab-ru">февраль</span></li>
+          <li><span class="vocab-en">March</span><span class="vocab-ru">март</span></li>
+          <li><span class="vocab-en">April</span><span class="vocab-ru">апрель</span></li>
+          <li><span class="vocab-en">May</span><span class="vocab-ru">май</span></li>
+          <li><span class="vocab-en">June</span><span class="vocab-ru">июнь</span></li>
+          <li><span class="vocab-en">July</span><span class="vocab-ru">июль</span></li>
+          <li><span class="vocab-en">August</span><span class="vocab-ru">август</span></li>
+          <li><span class="vocab-en">September</span><span class="vocab-ru">сентябрь</span></li>
+          <li><span class="vocab-en">October</span><span class="vocab-ru">октябрь</span></li>
+          <li><span class="vocab-en">November</span><span class="vocab-ru">ноябрь</span></li>
+          <li><span class="vocab-en">December</span><span class="vocab-ru">декабрь</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Предложения</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">Let's do something fun!</span><span class="vocab-ru">Давай сделаем что-нибудь веселое!</span></li>
+          <li><span class="vocab-en">Let's go ice-skating!</span><span class="vocab-ru">Пойдём кататься на коньках!</span></li>
+          <li><span class="vocab-en">We can go to the park.</span><span class="vocab-ru">Мы можем пойти в парк.</span></li>
+          <li><span class="vocab-en">I agree!</span><span class="vocab-ru">Я согласен!</span></li>
+          <li><span class="vocab-en">Let's do that!</span><span class="vocab-ru">Давай сделаем это!</span></li>
+          <li><span class="vocab-en">Great idea!</span><span class="vocab-ru">Отличная идея!</span></li>
+          <li><span class="vocab-en">I'm not sure.</span><span class="vocab-ru">Я не уверен.</span></li>
+          <li><span class="vocab-en">It's not a good idea.</span><span class="vocab-ru">Это не очень хорошая идея.</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Время</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">What time is it?</span><span class="vocab-ru">Который час?</span></li>
+          <li><span class="vocab-en">It's four o'clock.</span><span class="vocab-ru">Четыре часа.</span></li>
+          <li><span class="vocab-en">What time is the film/match?</span><span class="vocab-ru">Во сколько фильм/матч?</span></li>
+          <li><span class="vocab-en">It's at ten (minutes) past four.</span><span class="vocab-ru">В десять минут пятого.</span></li>
+          <li><span class="vocab-en">It's at quarter past four.</span><span class="vocab-ru">В четверть пятого.</span></li>
+          <li><span class="vocab-en">It's at half past four.</span><span class="vocab-ru">В половине пятого.</span></li>
+          <li><span class="vocab-en">It's at quarter to five.</span><span class="vocab-ru">Без четверти пять.</span></li>
+          <li><span class="vocab-en">It's at ten (minutes) to five.</span><span class="vocab-ru">Без десяти пять.</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Дикие животные</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">bird</span><span class="vocab-ru">птица</span></li>
+          <li><span class="vocab-en">butterfly</span><span class="vocab-ru">бабочка</span></li>
+          <li><span class="vocab-en">crocodile</span><span class="vocab-ru">крокодил</span></li>
+          <li><span class="vocab-en">elephant</span><span class="vocab-ru">слон</span></li>
+          <li><span class="vocab-en">fish</span><span class="vocab-ru">рыба</span></li>
+          <li><span class="vocab-en">fly</span><span class="vocab-ru">муха</span></li>
+          <li><span class="vocab-en">frog</span><span class="vocab-ru">лягушка</span></li>
+          <li><span class="vocab-en">giraffe</span><span class="vocab-ru">жираф</span></li>
+          <li><span class="vocab-en">kangaroo</span><span class="vocab-ru">кенгуру</span></li>
+          <li><span class="vocab-en">lion</span><span class="vocab-ru">лев</span></li>
+          <li><span class="vocab-en">monkey</span><span class="vocab-ru">обезьяна</span></li>
+          <li><span class="vocab-en">snake</span><span class="vocab-ru">змея</span></li>
+          <li><span class="vocab-en">spider</span><span class="vocab-ru">паук</span></li>
+          <li><span class="vocab-en">tiger</span><span class="vocab-ru">тигр</span></li>
+          <li><span class="vocab-en">whale</span><span class="vocab-ru">кит</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Виды спорта</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">badminton</span><span class="vocab-ru">бадминтон</span></li>
+          <li><span class="vocab-en">basketball</span><span class="vocab-ru">баскетбол</span></li>
+          <li><span class="vocab-en">cycling</span><span class="vocab-ru">велоспорт</span></li>
+          <li><span class="vocab-en">football</span><span class="vocab-ru">футбол</span></li>
+          <li><span class="vocab-en">hockey</span><span class="vocab-ru">хоккей</span></li>
+          <li><span class="vocab-en">ice-skating</span><span class="vocab-ru">катание на коньках</span></li>
+          <li><span class="vocab-en">roller skating</span><span class="vocab-ru">катание на роликах</span></li>
+          <li><span class="vocab-en">sailing</span><span class="vocab-ru">парусный спорт</span></li>
+          <li><span class="vocab-en">skateboarding</span><span class="vocab-ru">катание на скейтборде</span></li>
+          <li><span class="vocab-en">skiing</span><span class="vocab-ru">катание на лыжах</span></li>
+          <li><span class="vocab-en">swimming</span><span class="vocab-ru">плавание</span></li>
+          <li><span class="vocab-en">table tennis</span><span class="vocab-ru">настольный теннис</span></li>
+          <li><span class="vocab-en">taekwondo</span><span class="vocab-ru">тхэквондо</span></li>
+          <li><span class="vocab-en">tennis</span><span class="vocab-ru">теннис</span></li>
+          <li><span class="vocab-en">volleyball</span><span class="vocab-ru">волейбол</span></li>
+          <li><span class="vocab-en">windsurfing</span><span class="vocab-ru">виндсёрфинг</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Домашние питомцы</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">cat</span><span class="vocab-ru">кошка</span></li>
+          <li><span class="vocab-en">dog</span><span class="vocab-ru">собака</span></li>
+          <li><span class="vocab-en">goldfish</span><span class="vocab-ru">золотая рыбка</span></li>
+          <li><span class="vocab-en">hamster</span><span class="vocab-ru">хомяк</span></li>
+          <li><span class="vocab-en">iguana</span><span class="vocab-ru">игуана</span></li>
+          <li><span class="vocab-en">parrot</span><span class="vocab-ru">попугай</span></li>
+          <li><span class="vocab-en">rabbit</span><span class="vocab-ru">кролик</span></li>
+          <li><span class="vocab-en">tortoise</span><span class="vocab-ru">черепаха</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Прилагательные (Животные/Спорт)</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">cute</span><span class="vocab-ru">милый</span></li>
+          <li><span class="vocab-en">dangerous</span><span class="vocab-ru">опасный</span></li>
+          <li><span class="vocab-en">fast</span><span class="vocab-ru">быстрый</span></li>
+          <li><span class="vocab-en">slow</span><span class="vocab-ru">медленный</span></li>
+          <li><span class="vocab-en">strong</span><span class="vocab-ru">сильный</span></li>
+          <li><span class="vocab-en">ugly</span><span class="vocab-ru">уродливый</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Покупка билета</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">Can I help you?</span><span class="vocab-ru">Я могу вам помочь?</span></li>
+          <li><span class="vocab-en">Can I have a ticket to the zoo?</span><span class="vocab-ru">Можно мне билет в зоопарк?</span></li>
+          <li><span class="vocab-en">That’s eighteen pounds fifty.</span><span class="vocab-ru">Восемнадцать фунтов пятьдесят.</span></li>
+          <li><span class="vocab-en">Here you are.</span><span class="vocab-ru">Пожалуйста (вот, возьмите).</span></li>
+          <li><span class="vocab-en">Here is your ticket.</span><span class="vocab-ru">Ваш билет.</span></li>
+          <li><span class="vocab-en">Thanks.</span><span class="vocab-ru">Спасибо.</span></li>
+        </ul>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Разговор о погоде</h3>
+        <ul class="vocab-list">
+          <li><span class="vocab-en">What’s the weather like?</span><span class="vocab-ru">Какая погода?</span></li>
+          <li><span class="vocab-en">It’s cloudy</span><span class="vocab-ru">Облачно</span></li>
+          <li><span class="vocab-en">cold</span><span class="vocab-ru">Холодно</span></li>
+          <li><span class="vocab-en">hot</span><span class="vocab-ru">Жарко</span></li>
+          <li><span class="vocab-en">rainy</span><span class="vocab-ru">Дождливо</span></li>
+          <li><span class="vocab-en">snowy</span><span class="vocab-ru">Снежно</span></li>
+          <li><span class="vocab-en">sunny</span><span class="vocab-ru">Солнечно</span></li>
+          <li><span class="vocab-en">warm</span><span class="vocab-ru">Тепло</span></li>
+          <li><span class="vocab-en">windy</span><span class="vocab-ru">Ветрено</span></li>
+          <li><span class="vocab-en">It’s cold in winter.</span><span class="vocab-ru">Зимой холодно.</span></li>
+        </ul>
+      </div>
+
+    </section>
+  </main>
+
+  <footer>
+    <div>
+      <h3>AngloRoom</h3>
+      <p>Quality English education for all ages.</p>
+    </div>
+    <div>
+      <h3>Contact</h3>
+      <p>Admin: <a href="https://t.me/angloroom_and">@angloroom_and</a></p>
+      <p>Phone: +998 94 719 19 87</p>
+    </div>
+    <div>
+      <h3>Follow Us</h3>
+      <p><a href="https://t.me/angloroom"><i class="fab fa-telegram"></i> Telegram</a></p>
+      <p><a href="https://www.instagram.com/angloroom_and/"><i class="fab fa-instagram"></i> Instagram</a></p>
+    </div>
+  </footer>
+  <script src="./assets/js/main.js"></script>
+
+</body>
+</html>
