@@ -27,14 +27,7 @@
       --text-muted: #94a3b8;
     }
 
-    /* ===== BASE STYLES ===== */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    html, body {
-      width: 100%;
-      overflow-x: hidden;
-      -webkit-tap-highlight-color: transparent;
-    }
 
     body {
       min-height: 100vh;
@@ -43,239 +36,177 @@
       color: var(--text-main);
       display: flex;
       flex-direction: column;
+      overflow-x: hidden;
     }
 
-    /* Ambient Glow Background */
+    /* Ambient Glow (unchanged) */
     body::before {
-      content: ''; position: fixed; top: -10%; left: -10%; width: 50vw; height: 50vw;
-      background: radial-gradient(circle, rgba(16,185,129,0.15) 0%, transparent 70%);
+      content: ''; position: fixed; top: -10%; left: -10%; width: 60vw; height: 60vw;
+      background: radial-gradient(circle, rgba(16,185,129,0.1) 0%, transparent 70%);
       filter: blur(100px); z-index: -1;
-      animation: pulseGlow 8s infinite alternate;
     }
 
-    @keyframes pulseGlow {
-      0% { opacity: 0.7; transform: scale(1); }
-      100% { opacity: 1; transform: scale(1.1); }
-    }
-
-    /* ===== NAVIGATION ===== */
     header {
-      padding: clamp(15px, 3vw, 20px);
+      padding: 15px 20px; /* Reduced header padding */
       display: flex;
       justify-content: center;
       background: rgba(2, 44, 34, 0.85);
       backdrop-filter: blur(15px);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      position: sticky; top: 0; z-index: 100;
       border-bottom: 1px solid var(--glass-border);
     }
 
-    nav { 
-      display: flex; 
-      gap: clamp(15px, 5vw, 30px); 
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
+    nav { display: flex; gap: clamp(10px, 4vw, 25px); } /* Reduced nav gap */
     nav a {
       color: var(--text-muted);
       text-decoration: none;
       font-weight: 600;
-      font-size: clamp(14px, 3vw, 15px);
-      transition: all 0.3s ease;
-      position: relative;
-      padding: 5px;
+      transition: 0.3s;
+      font-size: 14px; /* Reduced font size in nav */
     }
+    nav a:hover, nav a[href="main.html"] { color: var(--accent); }
 
-    nav a:hover, nav a[href="main.html"] {
-      color: var(--accent);
-      text-shadow: 0 0 10px var(--accent-glow);
-    }
-
-    /* ===== MAIN CONTENT ===== */
     main {
       flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: clamp(30px, 6vw, 60px) clamp(16px, 4vw, 24px);
+      padding: 30px 20px; /* Reduced main padding */
       max-width: 1200px;
       margin: 0 auto;
       width: 100%;
-      animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
     h1 {
       font-family: 'Outfit', sans-serif;
-      font-size: clamp(32px, 8vw, 48px);
-      font-weight: 900;
-      margin-bottom: clamp(20px, 5vw, 40px);
-      letter-spacing: -1px;
+      font-size: clamp(28px, 6vw, 48px); /* Reduced title size */
       text-align: center;
-      background: linear-gradient(135deg, #fff, var(--accent));
+      margin-bottom: 30px; /* Reduced title margin */
+      background: linear-gradient(to right, #fff, var(--accent));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    #user-info {
-      width: 100%;
-      max-width: 500px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      padding: clamp(20px, 5vw, 30px);
-      border-radius: 24px;
-      text-align: center;
-      margin-bottom: 40px;
-      backdrop-filter: blur(20px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2), inset 0 0 20px rgba(16, 185, 129, 0.05);
-      word-break: break-word; /* Prevents long emails from breaking layout on phones */
-    }
-
-    #user-info h2 {
-      font-size: clamp(16px, 4vw, 18px);
-      color: var(--text-muted);
-      margin-bottom: 15px;
-    }
-
-    #user-email { color: var(--accent); font-weight: 700; }
-
-    /* ===== BUTTONS ===== */
-    button {
-      background: var(--accent);
-      color: #022c22;
-      border: none;
-      padding: 14px 32px;
-      font-size: 16px;
-      font-weight: 800;
-      border-radius: 14px;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 10px 20px var(--accent-glow);
-      width: clamp(150px, 50%, 200px);
-    }
-
-    button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 25px var(--accent-glow);
-      filter: brightness(1.1);
-    }
-
-    button:active {
-      transform: scale(0.95);
-    }
-
-    /* ===== INFO SECTION & CARDS ===== */
+    /* ===== COMPACT CREATIVE GRID ===== */
     .info-section {
       display: grid;
-      /* Uses 250px so it forces a stack on smaller phones like iPhone SE */
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: clamp(16px, 4vw, 24px);
-      width: 100%;
-      margin-top: 20px;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: minmax(140px, auto); /* Reduced default row height */
+      gap: 15px; /* Reduced grid gap */
+      max-width: 1000px; /* Constrain grid width on desktop */
+      margin: 0 auto; /* Center the grid */
     }
 
     .info-card {
       background: var(--glass-bg);
       border: 1px solid var(--glass-border);
-      border-radius: 24px;
-      padding: clamp(25px, 6vw, 40px);
-      backdrop-filter: blur(30px);
-      transition: all 0.4s ease;
-      position: relative;
+      border-radius: 20px; /* Reduced corner radius */
       overflow: hidden;
-    }
-
-    .info-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: -100%;
-      width: 50%; height: 100%;
-      background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
-      transform: skewX(-20deg);
-      transition: 0.5s;
+      display: flex;
+      /* On desktop: image next to text for compactness */
+      flex-direction: row; 
+      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      position: relative;
     }
 
     .info-card:hover {
-      transform: translateY(-8px);
-      border-color: rgba(16, 185, 129, 0.3);
-      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+      transform: translateY(-5px) scale(1.01); /* Subtle hover lift */
+      border-color: var(--accent);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     }
 
-    .info-card:hover::before {
-      left: 150%;
+    /* Dynamic Tiling Sizes (unchanged structure, just smaller scale) */
+    .card-about { grid-column: span 2; }
+    .card-mission { grid-column: span 2; }
+    .card-courses { grid-column: span 2; grid-row: span 2; }
+    .card-gogetter { grid-column: span 2; grid-row: span 2; }
+
+    .card-img-wrapper {
+      position: relative;
+      /* Smaller image width in row layout */
+      flex: 0 0 140px; 
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* Featured/tall cards retain taller images */
+    .card-courses .card-img-wrapper, 
+    .card-gogetter .card-img-wrapper { flex: 0 0 180px; }
+
+    .card-img-wrapper img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s ease;
+    }
+
+    .info-card:hover img { transform: scale(1.08); } /* Subtle hover zoom */
+
+    .card-content {
+      padding: 18px; /* Reduced internal padding */
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      /* Gradient overlay moves to content area in row layout */
+      background: linear-gradient(to right, transparent, rgba(2, 44, 34, 0.9));
     }
 
     .info-card h3 {
       font-family: 'Outfit', sans-serif;
-      font-size: clamp(20px, 5vw, 24px);
+      font-size: 18px; /* Reduced h3 size */
+      margin-bottom: 8px; /* Reduced title margin */
       color: #fff;
-      margin-bottom: 16px;
     }
 
     .info-card p {
       color: var(--text-muted);
-      font-size: clamp(14px, 3.5vw, 16px);
-      line-height: 1.7;
+      font-size: 13px; /* Reduced paragraph size */
+      line-height: 1.5; /* Reduced line height */
     }
 
-    /* ===== FOOTER ===== */
+    /* Featured Colors (unchanged) */
+    .card-courses h3 { color: var(--accent); }
+    .card-gogetter h3 { color: #38bdf8; }
+
+    /* ===== MOBILE FLEXIBILITY ( snaps back to column layout ) ===== */
+    @media (max-width: 992px) {
+      .info-section { grid-template-columns: repeat(2, 1fr); max-width: 100%; }
+    }
+
+    @media (max-width: 650px) {
+      .info-section {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .info-card {
+        grid-column: span 1 !important; grid-row: auto !important;
+        flex-direction: column; /* Stack vertically on mobile */
+      }
+      .card-img-wrapper {
+        flex: 0 0 auto;
+        height: 160px !important;
+      }
+      .card-content {
+        padding: 20px;
+        background: linear-gradient(to bottom, transparent, rgba(2, 44, 34, 0.9));
+      }
+      h1 { font-size: 32px; }
+    }
+
     footer {
-      width: 100%;
-      background: rgba(0, 0, 0, 0.2);
-      border-top: 1px solid var(--glass-border);
-      padding: clamp(40px, 8vw, 60px) clamp(20px, 5vw, 24px);
+      background: rgba(0,0,0,0.2);
+      padding: 30px 20px; /* Reduced footer padding */
+      margin-top: 50px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 40px;
-      margin-top: auto; /* Pushes footer to bottom if content is short */
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjusted columns */
+      gap: 25px; /* Reduced gap */
+      border-top: 1px solid var(--glass-border);
+      font-size: 14px; /* Default footer text size reduced */
     }
 
-    footer h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 20px;
-      color: var(--accent);
-      margin-bottom: 20px;
-    }
+    footer h3 { color: var(--accent); margin-bottom: 12px; font-size: 17px; }
+    footer a { color: var(--text-muted); text-decoration: none; transition: 0.3s; }
+    footer a:hover { color: #fff; }
+    footer p { line-height: 1.5; }
 
-    footer p, footer a {
-      color: var(--text-muted);
-      font-size: 15px;
-      text-decoration: none;
-      line-height: 1.6;
-      transition: color 0.3s ease;
-      display: inline-block;
-    }
-
-    footer a:hover { color: #fff; transform: translateX(5px); }
-
-    footer i {
-      font-size: 20px;
-      margin-right: 12px;
-      vertical-align: middle;
-      color: var(--accent);
-    }
-
-    /* ===== MOBILE-SPECIFIC ADJUSTMENTS ===== */
-    @media (max-width: 600px) {
-      footer {
-        text-align: center; /* Center align text on small screens */
-        gap: 30px;
-      }
-      
-      footer a:hover {
-        transform: translateY(-2px); /* Vertical hover instead of horizontal on centered layout */
-      }
-      
-      .info-card:hover {
-        transform: translateY(-4px); /* Less dramatic movement on touch screens */
-      }
-    }
   </style>
 </head>
 <body>
@@ -290,64 +221,69 @@
   </header>
 
   <main>
-    <h1>Welcome to AngloRoom</h1>
-
-    <div id="user-info" style="display:none;">
-      <h2>Logged in as <br><span id="user-email"></span></h2>
-      <button id="logout-btn">Logout</button>
-    </div>
+    <h1>AngloRoom</h1>
 
     <section class="info-section">
-      <div class="info-card">
-        <h3>About Us</h3>
-        <p>AngloRoom is a leading English education center providing programs for all ages. Our experienced teachers help students achieve fluency and confidence in English.</p>
+      
+      <div class="info-card card-about">
+        <div class="card-img-wrapper">
+          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="Team">
+        </div>
+        <div class="card-content">
+          <h3>About Us</h3>
+          <p>AngloRoom is a leading English education center in Andijan. Our experienced teachers help students achieve fluency.</p>
+        </div>
       </div>
 
-      <div class="info-card">
-        <h3>Our Courses</h3>
-        <p>We offer courses in general English, IELTS preparation, conversation practice, and business English. Classes are interactive, practical, and focused on real-life skills.</p>
+      <div class="info-card card-courses">
+        <div class="card-img-wrapper">
+          <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="Students">
+        </div>
+        <div class="card-content">
+          <h3>Our Courses</h3>
+          <p>From IELTS preparation to conversational English. Our classes are interactive, practical, and focused on real-life success.</p>
+        </div>
       </div>
 
-      <div class="info-card">
-        <h3>Our Mission</h3>
-        <p>Our mission is to empower students with language skills that open doors to global opportunities. We focus on quality, engagement, and individual student progress.</p>
+      <div class="info-card card-gogetter">
+        <div class="card-img-wrapper">
+          <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80" alt="Go Getter">
+        </div>
+        <div class="card-content">
+          <h3>Go Getter 1</h3>
+          <p>The ultimate program for young achievers. This course builds a rock-solid foundation through high-energy mastery.</p>
+        </div>
       </div>
+
+      <div class="info-card card-mission">
+        <div class="card-img-wrapper">
+          <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=800&q=80" alt="Mission">
+        </div>
+        <div class="card-content">
+          <h3>Our Mission</h3>
+          <p>To empower students with language skills that open doors to global opportunities.</p>
+        </div>
+      </div>
+
     </section>
   </main>
 
   <footer>
     <div>
-      <h3>AngloRoom Center</h3>
-      <p>Providing quality English education for students of all ages. Join our programs to enhance your skills and reach your potential.</p>
+      <h3>AngloRoom</h3>
+      <p>Quality English education for all ages.</p>
     </div>
-
     <div>
-      <h3>Contact Us</h3>
-      <p>Admin: <a href="https://t.me/angloroom_and" target="_blank">@angloroom_and</a></p>
+      <h3>Contact</h3>
+      <p>Admin: <a href="https://t.me/angloroom_and">@angloroom_and</a></p>
       <p>Phone: +998 94 719 19 87</p>
     </div>
-
     <div>
       <h3>Follow Us</h3>
-      <p><a href="https://t.me/angloroom" target="_blank"><i class="fab fa-telegram"></i> Telegram</a></p>
-      <p><a href="https://www.instagram.com/angloroom_and/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></p>
+      <p><a href="https://t.me/angloroom"><i class="fab fa-telegram"></i> Telegram</a></p>
+      <p><a href="https://www.instagram.com/angloroom_and/"><i class="fab fa-instagram"></i> Instagram</a></p>
     </div>
   </footer>
-
-  <script>
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        document.getElementById('user-info').style.display = 'block';
-        document.getElementById('user-email').textContent = user.email;
-
-        document.getElementById('logout-btn').addEventListener('click', () => {
-          auth.signOut().then(() => window.location.href = "index.html");
-        });
-      } else {
-        window.location.href = "login.html";
-      }
-    });
-  </script>
 
 </body>
 </html>
