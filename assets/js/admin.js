@@ -1,16 +1,24 @@
-
-const btnStudents = document.getElementById('btn-students');
-
-
-const studentsOverlay = document.getElementById('students-overlay');
-
-
-const closeStudentsBtn = document.getElementById('close-students');
-
+// --- Configuration & Global Variables ---
 const adminEmail = "komoliddinkevin@gmail.com";
 let currentUser;
 
-// Student tables - ADDED ELEMENTARY
+// --- Elements ---
+const resultsContainer = document.getElementById('results-container');
+const btnStudents = document.getElementById('btn-students');
+const studentsOverlay = document.getElementById('students-overlay');
+const closeStudentsBtn = document.getElementById('close-students');
+const saveAllLevelsBtn = document.getElementById('save-all-levels');
+
+const btnNewStudents = document.getElementById('btn-new-students');
+const newStudentsOverlay = document.getElementById('new-students-overlay');
+const closeNewStudentsBtn = document.getElementById('close-new-students');
+const newStudentsTableBody = document.querySelector('#new-students-table tbody');
+
+const btnResults = document.getElementById('btn-results');
+const resultsOverlay = document.getElementById('results-overlay');
+const closeResultsBtn = document.getElementById('close-results');
+const resultsTableBody = document.querySelector('#results-table tbody');
+
 const studentTables = {
   elementary: document.querySelector('#students-elementary tbody'),
   beginner: document.querySelector('#students-beginner tbody'),
@@ -18,14 +26,12 @@ const studentTables = {
   advanced: document.querySelector('#students-advanced tbody')
 };
 
-
-
-const saveAllLevelsBtn = document.getElementById('save-all-levels');
-
-
-// Auth check
+// --- Auth Check ---
 auth.onAuthStateChanged(user => {
-  if (!user) { window.location.href = "login.html"; return; }
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
   currentUser = user;
   if (user.email !== adminEmail) {
     alert("Access denied.");
@@ -34,35 +40,36 @@ auth.onAuthStateChanged(user => {
   }
 });
 
-// Show overlays
-btnStudents.addEventListener('click', () => { studentsOverlay.style.display = "block"; loadStudents(); });
+// --- Utility: Capitalize ---
+function capitalize(word) {
+  if (!word) return 'N/A';
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
 
-// Close overlays
+// --- 1. Manage Current Students (Level Assignments) ---
+
+btnStudents.addEventListener('click', () => {
+  studentsOverlay.style.display = "block";
+  loadStudents();
+});
+
 closeStudentsBtn.addEventListener('click', () => studentsOverlay.style.display = "none");
 
-// Load students - UPDATED FOR ELEMENTARY
 async function loadStudents() {
   try {
     const snapshot = await db.collection('users').get();
     
-    // Clear all tables including elementary
+    // Clear all tables
     for (let key in studentTables) {
-      if (studentTables[key]) {
-        studentTables[key].innerHTML = '';
-      }
+      if (studentTables[key]) studentTables[key].innerHTML = '';
     }
 
     snapshot.forEach(doc => {
       const u = doc.data();
-      const level = u.level || 'elementary'; // Default to elementary instead of beginner
+      let level = u.level || 'elementary';
       
-      // Check if the table exists for this level
-      if (!studentTables[level]) {
-        console.warn(`No table found for level: ${level}, defaulting to elementary`);
-        level = 'elementary';
-      }
+      if (!studentTables[level]) level = 'elementary';
       
-      // Create dropdown options - ADDED ELEMENTARY OPTION
       const levelOptions = [
         { value: 'beginner', label: 'Beginner' },
         { value: 'elementary', label: 'Elementary' },
@@ -70,193 +77,136 @@ async function loadStudents() {
         { value: 'advanced', label: 'Advanced' }
       ];
       
-      // Generate dropdown HTML
       let dropdownHTML = '<select class="level-select">';
-      levelOptions.forEach(option => {
-        dropdownHTML += `<option value="${option.value}" ${level === option.value ? 'selected' : ''}>${option.label}</option>`;
+      levelOptions.forEach(opt => {
+        dropdownHTML += `<option value="${opt.value}" ${level === opt.value ? 'selected' : ''}>${opt.label}</option>`;
       });
       dropdownHTML += '</select>';
       
-      const row = `<tr data-id="${doc.id}">
-        <td><img src="${u.profilePic || 'assets/img/default-pic.png'}" class="student-pic" alt="${u.nickname}"></td>
-        <td>${u.nickname || 'N/A'}</td>
-        <td>${dropdownHTML}</td>
-      </tr>`;
+      const row = `
+        <tr data-id="${doc.id}">
+          <td><img src="${u.profilePic || 'assets/img/default-pic.png'}" class="student-pic"></td>
+          <td>${u.nickname || 'N/A'}</td>
+          <td>${dropdownHTML}</td>
+        </tr>`;
       
-      // Insert into the correct table
-      if (studentTables[level]) {
-        studentTables[level].insertAdjacentHTML('beforeend', row);
-      }
+      studentTables[level].insertAdjacentHTML('beforeend', row);
     });
   } catch (err) {
-    console.error(err);
-    for (let key in studentTables) {
-      if (studentTables[key]) {
-        studentTables[key].innerHTML = '<tr><td colspan="3">Failed to load students.</td></tr>';
-      }
-    }
+    console.error("Load Students Error:", err);
   }
 }
 
-// Save all student levels - UPDATED FOR ELEMENTARY
 saveAllLevelsBtn.addEventListener('click', async () => {
   try {
     const batch = db.batch();
     let updateCount = 0;
     
-    // Iterate through all level tables including elementary
     for (let key in studentTables) {
       const rows = studentTables[key].querySelectorAll('tr');
       rows.forEach(row => {
         const userId = row.dataset.id;
         const newLevel = row.querySelector('.level-select').value;
-        const userRef = db.collection('users').doc(userId);
-        batch.update(userRef, { level: newLevel });
+        batch.update(db.collection('users').doc(userId), { level: newLevel });
         updateCount++;
       });
     }
     
-    if (updateCount === 0) {
-      alert("No students to update!");
-      return;
-    }
-    
     await batch.commit();
-    alert(`Updated ${updateCount} student levels!`);
-    loadStudents(); // Reload to reflect changes
+    alert(`Updated ${updateCount} levels!`);
+    loadStudents();
   } catch (err) {
-    console.error(err);
-    alert("Failed to update levels.");
+    alert("Update failed.");
   }
 });
 
+// --- 2. Manage New Student Registrations ---
 
-// Logout - FUNCTION REMAINS THE SAME
-document.getElementById('logout-btn').addEventListener('click', async () => {
-  try { 
-    await auth.signOut(); 
-    window.location.href = "index.html"; 
-  } catch(err) { 
-    console.error(err); 
-    alert("Failed to log out."); 
-  }
-});
-
-// Optional: Add keyboard shortcuts to close overlays
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    studentsOverlay.style.display = "none";
-  }
-});
-const btnNewStudents = document.getElementById('btn-new-students');
-const newStudentsOverlay = document.getElementById('new-students-overlay');
-const closeNewStudentsBtn = document.getElementById('close-new-students');
-const newStudentsTableBody = document.querySelector('#new-students-table tbody');
-
-// Show overlay
 btnNewStudents.addEventListener('click', () => {
   newStudentsOverlay.style.display = 'block';
   loadNewStudents();
 });
 
-// Close overlay
-closeNewStudentsBtn.addEventListener('click', () => {
-  newStudentsOverlay.style.display = 'none';
-});
+closeNewStudentsBtn.addEventListener('click', () => newStudentsOverlay.style.display = 'none');
 
-// Load New Students from Firebase
 async function loadNewStudents() {
   try {
     const snapshot = await db.collection('NewStudents').get();
     newStudentsTableBody.innerHTML = '';
 
     if (snapshot.empty) {
-      newStudentsTableBody.innerHTML = '<tr><td colspan="3">No new students found.</td></tr>';
+      newStudentsTableBody.innerHTML = '<tr><td colspan="3">No new students.</td></tr>';
       return;
     }
 
     snapshot.forEach(doc => {
-      const student = doc.data();
-      const name = student.name || 'N/A';
-      const phone = student.phone || 'N/A';
-      const level = student.level || 'N/A';
-
-      const row = `<tr>
-        <td>${name}</td>
-        <td>${phone}</td>
-        <td>${level}</td>
-      </tr>`;
+      const s = doc.data();
+      const row = `
+        <tr>
+          <td>${s.name || 'N/A'}</td>
+          <td>${s.phone || 'N/A'}</td>
+          <td>${s.level || 'N/A'}</td>
+        </tr>`;
       newStudentsTableBody.insertAdjacentHTML('beforeend', row);
     });
   } catch (err) {
     console.error(err);
-    newStudentsTableBody.innerHTML = '<tr><td colspan="3">Failed to load new students.</td></tr>';
   }
 }
-// Remove all students from Firebase
-async function removeAllStudents() {
-  if (!confirm('Are you sure you want to remove all students? This cannot be undone.')) return;
 
-  try {
-    const snapshot = await db.collection('NewStudents').get();
+// --- 3. Quiz Results Management (Fixes "Anonymous" & Percentages) ---
 
-    if (snapshot.empty) {
-      alert('No students to remove.');
-      return;
-    }
-
-    // Batch delete for efficiency
-    const batch = db.batch();
-    snapshot.forEach(doc => {
-      batch.delete(doc.ref);
-    });
-
-    await batch.commit();
-    alert('All students have been removed.');
-    // Refresh the table after deletion
-    loadNewStudents();
-  } catch (err) {
-    console.error(err);
-    alert('Failed to remove students.');
-  }
-}
-// --- Elements ---
-const btnResults = document.getElementById('btn-results');
-const resultsOverlay = document.getElementById('results-overlay');
-const closeResultsBtn = document.getElementById('close-results');
-const resultsTableBody = document.querySelector('#results-table tbody');
-
-// --- Show/Hide ---
 btnResults.addEventListener('click', () => {
   resultsOverlay.style.display = 'block';
   loadResults();
 });
 
-closeResultsBtn.addEventListener('click', () => {
-  resultsOverlay.style.display = 'none';
-});
+closeResultsBtn.addEventListener('click', () => resultsOverlay.style.display = 'none');
 
-// --- Load Data from Firebase ---
 async function loadResults() {
   try {
-    // Assuming your collection is named 'results'
     const snapshot = await db.collection('results').orderBy('timestamp', 'desc').get();
     resultsTableBody.innerHTML = '';
 
     if (snapshot.empty) {
-      resultsTableBody.innerHTML = '<tr><td colspan="5">No results recorded yet.</td></tr>';
+      resultsTableBody.innerHTML = '<tr><td colspan="5">No results found.</td></tr>';
       return;
     }
 
-    snapshot.forEach(doc => {
+    const userCache = {}; // Cache to store nicknames and avoid redundant DB hits
+
+    for (const doc of snapshot.docs) {
       const res = doc.data();
       const date = res.timestamp ? new Date(res.timestamp.seconds * 1000).toLocaleDateString() : 'N/A';
       
+      // Fix: Resolve "Who is Who"
+      let displayName = "Anonymous";
+      const uid = res.userId; 
+
+      if (uid) {
+        if (userCache[uid]) {
+          displayName = userCache[uid];
+        } else {
+          const userDoc = await db.collection('users').doc(uid).get();
+          if (userDoc.exists) {
+            displayName = userDoc.data().nickname || res.userEmail || "Anonymous";
+            userCache[uid] = displayName;
+          } else {
+            displayName = res.userEmail || "Anonymous";
+          }
+        }
+      } else {
+        displayName = res.userEmail || "Anonymous";
+      }
+
+      // Fix: Show Score (e.g., 47/50) instead of Percentage
+      const scoreDisplay = res.total ? `${res.score} / ${res.total}` : res.score;
+
       const row = `
         <tr>
-          <td>${res.userEmail || 'Anonymous'}</td>
-          <td>${res.quizName || 'General Quiz'}</td>
-          <td style="color: var(--accent); font-weight: bold;">${res.score}%</td>
+          <td>${displayName}</td>
+          <td>${res.quizName || res.quizId || 'General Quiz'}</td>
+          <td style="color: var(--accent); font-weight: bold;">${scoreDisplay}</td>
           <td>${date}</td>
           <td>
             <button class="delete-result-btn" onclick="deleteResult('${doc.id}')">
@@ -265,20 +215,25 @@ async function loadResults() {
           </td>
         </tr>`;
       resultsTableBody.insertAdjacentHTML('beforeend', row);
-    });
+    }
   } catch (err) {
-    console.error("Error loading results:", err);
+    console.error("Results Load Error:", err);
     resultsTableBody.innerHTML = '<tr><td colspan="5">Error loading data.</td></tr>';
   }
 }
 
-// --- Delete Single Result ---
 async function deleteResult(id) {
   if (!confirm('Delete this result permanently?')) return;
   try {
     await db.collection('results').doc(id).delete();
-    loadResults(); // Refresh table
+    loadResults();
   } catch (err) {
-    alert("Failed to delete result.");
+    alert("Failed to delete.");
   }
 }
+
+// --- Logout ---
+document.getElementById('logout-btn').addEventListener('click', async () => {
+  await auth.signOut();
+  window.location.href = "index.html";
+});

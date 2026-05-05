@@ -98,6 +98,22 @@ async function loadResults() {
       return;
     }
 
+    // --- NEW SORTING LOGIC TO HANDLE TIES ---
+    // Sort primarily by score (descending), and secondarily by timeTaken (ascending)
+    filteredDocs.sort((a, b) => {
+      const dataA = a.data();
+      const dataB = b.data();
+
+      // If scores are different, sort by highest score first
+      if (dataB.score !== dataA.score) {
+        return dataB.score - dataA.score; 
+      }
+      
+      // If scores are a tie, sort by lowest time first
+      return (dataA.timeTaken || 0) - (dataB.timeTaken || 0); 
+    });
+    // ----------------------------------------
+
     // 2. Build the Leaderboard Table
     // Slice the results to show only the top 10 players
     const topTen = filteredDocs.slice(0, 10);
