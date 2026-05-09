@@ -1,7 +1,7 @@
 [
   {
-    "id": "Vocabulary Quiz",
-    "title": "Vocabulary Quiz",
+    "id": "Grammar check",
+    "title": "Grammar check",
     "file": "quiz3.json",
     "level": "beginner"
   },
@@ -19,7 +19,7 @@
   },
   {
     "id": "Present Perfect",
-    "title": "Present Perfect",
+    "title": "Present Perfect ",
     "file": "quiz0.json",
     "level": "elementary"
   }

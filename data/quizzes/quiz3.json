@@ -1,76 +1,275 @@
 {
-  "title": "Vocabulary Quiz",
+  "title": "Grammar check",
   "questions": [
-    { "question": "mother", "options": ["мать", "отец", "брат", "сестра"] },
-    { "question": "father", "options": ["отец", "мать", "дядя", "дедушка"] },
-    { "question": "brother", "options": ["брат", "сестра", "сын", "дочь"] },
-    { "question": "sister", "options": ["сестра", "брат", "мама", "тётя"] },
-    { "question": "uncle", "options": ["дядя", "тётя", "дедушка", "папа"] },
-
-    { "question": "at home", "options": ["дома", "в школе", "в парке", "на работе"] },
-    { "question": "in the park", "options": ["в парке", "в саду", "дома", "в школе"] },
-    { "question": "on holiday", "options": ["на каникулах", "в школе", "дома", "на работе"] },
-
-    { "question": "shirt", "options": ["рубашка", "юбка", "куртка", "обувь"] },
-    { "question": "jacket", "options": ["куртка", "платье", "шапка", "носки"] },
-    { "question": "jeans", "options": ["джинсы", "шорты", "пальто", "обувь"] },
-
-    { "question": "Spain", "options": ["Испания", "Франция", "Италия", "Китай"] },
-    { "question": "France", "options": ["Франция", "Испания", "США", "Польша"] },
-
-    { "question": "big", "options": ["большой", "маленький", "длинный", "старый"] },
-    { "question": "small", "options": ["маленький", "большой", "длинный", "новый"] },
-
-    { "question": "backpack", "options": ["рюкзак", "телефон", "велосипед", "компьютер"] },
-    { "question": "mobile phone", "options": ["мобильный телефон", "ноутбук", "игра", "рюкзак"] },
-
-    { "question": "Nice to meet you.", "options": ["Приятно познакомиться", "До свидания", "Спасибо", "Привет"] },
-    { "question": "What’s your name?", "options": ["Как тебя зовут?", "Сколько тебе лет?", "Где ты?", "Что ты делаешь?"] },
-
-    { "question": "bathroom", "options": ["ванная комната", "кухня", "спальня", "гостиная"] },
-    { "question": "kitchen", "options": ["кухня", "ванная", "сад", "гараж"] },
-
-    { "question": "sofa", "options": ["диван", "стол", "стул", "кровать"] },
-    { "question": "bed", "options": ["кровать", "стол", "шкаф", "диван"] },
-
-    { "question": "behind", "options": ["за", "перед", "под", "в"] },
-    { "question": "under", "options": ["под", "на", "рядом", "перед"] },
-
-    { "question": "lamp", "options": ["лампа", "ковёр", "телевизор", "растение"] },
-    { "question": "television", "options": ["телевизор", "лампа", "стол", "диван"] },
-
-    { "question": "friendly", "options": ["дружелюбный", "злой", "грустный", "слабый"] },
-    { "question": "clever", "options": ["умный", "глупый", "сильный", "быстрый"] },
-
-    { "question": "eyes", "options": ["глаза", "уши", "нос", "рот"] },
-    { "question": "nose", "options": ["нос", "рот", "глаза", "уши"] },
-
-    { "question": "curly", "options": ["вьющиеся", "прямые", "длинные", "короткие"] },
-    { "question": "straight", "options": ["прямые", "вьющиеся", "тёмные", "светлые"] },
-
-    { "question": "arm", "options": ["рука", "нога", "голова", "шея"] },
-    { "question": "leg", "options": ["нога", "рука", "голова", "тело"] },
-
-    { "question": "Hello. Please, come in.", "options": ["Здравствуйте, заходите", "До свидания", "Спасибо", "Привет"] },
-    { "question": "Thank you.", "options": ["Спасибо", "Пожалуйста", "Извините", "Привет"] },
-
-    { "question": "I’m so sorry.", "options": ["Мне очень жаль", "Спасибо", "Привет", "Пока"] },
-    { "question": "No problem.", "options": ["Без проблем", "Спасибо", "Извините", "Пока"] },
-
-    { "question": "run", "options": ["бегать", "прыгать", "плавать", "летать"] },
-    { "question": "swim", "options": ["плавать", "бегать", "прыгать", "летать"] },
-
-    { "question": "play football", "options": ["играть в футбол", "бегать", "плавать", "читать"] },
-    { "question": "ride a bike", "options": ["кататься на велосипеде", "бегать", "играть", "читать"] },
-
-    { "question": "Monday", "options": ["понедельник", "вторник", "среда", "четверг"] },
-    { "question": "Friday", "options": ["пятница", "суббота", "воскресенье", "понедельник"] },
-
-    { "question": "get up", "options": ["вставать", "спать", "есть", "играть"] },
-    { "question": "go to bed", "options": ["ложиться спать", "вставать", "бегать", "читать"] },
-
-    { "question": "January", "options": ["январь", "февраль", "март", "апрель"] },
-    { "question": "June", "options": ["июнь", "май", "июль", "август"] },
-    { "question": "boots", "options": ["ботинки", "туфли", "шапка", "рубашка"] }
+    {
+      "question": "Choose the correct sentence.",
+      "options": [
+        "There is a book on the table.",
+        "There are a book on the table.",
+        "There is book on table.",
+        "There book is on the table."
+      ]
+    },
+    {
+      "question": "Choose the correct sentence.",
+      "options": [
+        "There are two cats in the garden.",
+        "There is two cats in the garden.",
+        "There are two cat in the garden.",
+        "There two cats are in the garden."
+      ]
+    },
+    {
+      "question": "Choose the correct question.",
+      "options": [
+        "Is there a sofa in the room?",
+        "Are there a sofa in the room?",
+        "There is a sofa in the room?",
+        "Is a sofa there in the room?"
+      ]
+    },
+    {
+      "question": "Choose the correct question.",
+      "options": [
+        "Are there any apples?",
+        "Is there any apples?",
+        "There are any apples?",
+        "Any apples are there?"
+      ]
+    },
+    {
+      "question": "Choose the correct sentence.",
+      "options": [
+        "There isn’t any milk in the fridge.",
+        "There aren’t any milk in the fridge.",
+        "There isn’t some milk in the fridge.",
+        "There not any milk in the fridge."
+      ]
+    },
+    {
+      "question": "Choose the correct sentence.",
+      "options": [
+        "There are some chairs in the classroom.",
+        "There is some chairs in the classroom.",
+        "There are any chairs in the classroom.",
+        "There some chairs in the classroom."
+      ]
+    },
+    {
+      "question": "Choose the correct sentence.",
+      "options": [
+        "I have got a dog.",
+        "I has got a dog.",
+        "I have got dog.",
+        "I got have a dog."
+      ]
+    },
+    {
+      "question": "Choose the correct sentence.",
+      "options": [
+        "She has got a sister.",
+        "She have got a sister.",
+        "She got has a sister.",
+        "She has got sister."
+      ]
+    },
+    {
+      "question": "Choose the correct question.",
+      "options": [
+        "Have you got a bike?",
+        "Has you got a bike?",
+        "Do you have got a bike?",
+        "You have got a bike?"
+      ]
+    },
+    {
+      "question": "Choose the correct sentence.",
+      "options": [
+        "He hasn’t got a computer.",
+        "He haven’t got a computer.",
+        "He not got a computer.",
+        "He doesn’t got a computer."
+      ]
+    },
+    {
+      "question": "Choose the correct short answer.",
+      "options": [
+        "Yes, I have.",
+        "Yes, I am.",
+        "Yes, I do.",
+        "Yes, I can."
+      ]
+    },
+    {
+      "question": "Choose the correct short answer.",
+      "options": [
+        "No, she hasn’t.",
+        "No, she don’t.",
+        "No, she isn’t.",
+        "No, she can’t."
+      ]
+    },
+    {
+      "question": "Choose the correct sentence.",
+      "options": [
+        "This is your bag.",
+        "This is you bag.",
+        "This your bag is.",
+        "This bag your is."
+      ]
+    },
+    {
+      "question": "Choose the correct sentence.",
+      "options": [
+        "His name is Tom.",
+        "Him name is Tom.",
+        "He name is Tom.",
+        "His is name Tom."
+      ]
+    },
+    {
+      "question": "Choose the correct sentence.",
+      "options": [
+        "Her cat is black.",
+        "She cat is black.",
+        "Hers cat is black.",
+        "Her is cat black."
+      ]
+    },
+    {
+      "question": "Choose the correct question.",
+      "options": [
+        "Can you swim?",
+        "Do you can swim?",
+        "You can swim?",
+        "Can swim you?"
+      ]
+    },
+    {
+      "question": "Choose the correct sentence.",
+      "options": [
+        "I can play tennis.",
+        "I can to play tennis.",
+        "I cans play tennis.",
+        "I play can tennis."
+      ]
+    },
+    {
+      "question": "Choose the correct sentence.",
+      "options": [
+        "She can’t drive a car.",
+        "She doesn’t can drive a car.",
+        "She can’t drives a car.",
+        "She not can drive a car."
+      ]
+    },
+    {
+      "question": "Choose the correct question.",
+      "options": [
+        "Can he speak English?",
+        "Does he can speak English?",
+        "He can speak English?",
+        "Can speak he English?"
+      ]
+    },
+    {
+      "question": "Choose the correct sentence.",
+      "options": [
+        "I play football every Sunday.",
+        "I plays football every Sunday.",
+        "I am play football every Sunday.",
+        "I play football every Sundays."
+      ]
+    },
+    {
+      "question": "Choose the correct sentence.",
+      "options": [
+        "She goes to school by bus.",
+        "She go to school by bus.",
+        "She going to school by bus.",
+        "She goes school by bus."
+      ]
+    },
+    {
+      "question": "Choose the correct sentence.",
+      "options": [
+        "We don’t watch TV in the morning.",
+        "We doesn’t watch TV in the morning.",
+        "We not watch TV in the morning.",
+        "We aren’t watch TV in the morning."
+      ]
+    },
+    {
+      "question": "Choose the correct question.",
+      "options": [
+        "Does he like pizza?",
+        "Do he like pizza?",
+        "He does like pizza?",
+        "Does likes he pizza?"
+      ]
+    },
+    {
+      "question": "Choose the correct sentence.",
+      "options": [
+        "My father always drinks coffee.",
+        "My father always drink coffee.",
+        "My father drink always coffee.",
+        "My father is always drink coffee."
+      ]
+    },
+    {
+      "question": "Choose the correct sentence.",
+      "options": [
+        "I usually get up at 7 o’clock.",
+        "I usually gets up at 7 o’clock.",
+        "I get usually up at 7 o’clock.",
+        "I am usually get up at 7 o’clock."
+      ]
+    },
+    {
+      "question": "Choose the correct sentence.",
+      "options": [
+        "She often reads books.",
+        "She often read books.",
+        "She reads often books.",
+        "She is often reads books."
+      ]
+    },
+    {
+      "question": "Choose the correct sentence.",
+      "options": [
+        "They sometimes play computer games.",
+        "They sometimes plays computer games.",
+        "They play sometimes computer games.",
+        "They are sometimes play computer games."
+      ]
+    },
+    {
+      "question": "Choose the correct sentence.",
+      "options": [
+        "He never eats fish.",
+        "He never eat fish.",
+        "He eats never fish.",
+        "He is never eat fish."
+      ]
+    },
+    {
+      "question": "Choose the correct sentence.",
+      "options": [
+        "There are some books on your desk.",
+        "There is some books on your desk.",
+        "There are any books on your desk.",
+        "There books are on your desk."
+      ]
+    },
+    {
+      "question": "Choose the correct question.",
+      "options": [
+        "Have they got any children?",
+        "Has they got any children?",
+        "Do they have got any children?",
+        "They have got any children?"
+      ]
+    }
   ]
 }

@@ -6,7 +6,7 @@
       "options": ["have finished", "has finished", "finished", "finish"]
     },
     {
-      "question": "She ___ to London twice.",
+      "question": "She ___ to London twice. ",
       "options": ["has been", "have been", "was", "is"]
     },
     {
@@ -16,7 +16,7 @@
     {
       "question": "He ___ his keys.",
       "options": ["has lost", "have lost", "lost", "loses"]
-    },
+    }, 
     {
       "question": "We ___ dinner already.",
       "options": ["have eaten", "has eaten", "ate", "eat"]
