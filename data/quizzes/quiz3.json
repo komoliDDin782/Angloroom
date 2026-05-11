@@ -1,275 +1,125 @@
 {
-  "title": "Grammar check",
+  "title": "Easy Grammar Quiz",
   "questions": [
     {
-      "question": "Choose the correct sentence.",
-      "options": [
-        "There is a book on the table.",
-        "There are a book on the table.",
-        "There is book on table.",
-        "There book is on the table."
-      ]
+      "question": "I ___ a pen.",
+      "options": ["have", "has", "am", "is"]
     },
     {
-      "question": "Choose the correct sentence.",
-      "options": [
-        "There are two cats in the garden.",
-        "There is two cats in the garden.",
-        "There are two cat in the garden.",
-        "There two cats are in the garden."
-      ]
+      "question": "She ___ a sister.",
+      "options": ["has", "have", "is", "are"]
     },
     {
-      "question": "Choose the correct question.",
-      "options": [
-        "Is there a sofa in the room?",
-        "Are there a sofa in the room?",
-        "There is a sofa in the room?",
-        "Is a sofa there in the room?"
-      ]
+      "question": "They ___ happy.",
+      "options": ["are", "is", "am", "be"]
     },
     {
-      "question": "Choose the correct question.",
-      "options": [
-        "Are there any apples?",
-        "Is there any apples?",
-        "There are any apples?",
-        "Any apples are there?"
-      ]
+      "question": "He ___ my friend.",
+      "options": ["is", "are", "am", "be"]
     },
     {
-      "question": "Choose the correct sentence.",
-      "options": [
-        "There isn’t any milk in the fridge.",
-        "There aren’t any milk in the fridge.",
-        "There isn’t some milk in the fridge.",
-        "There not any milk in the fridge."
-      ]
+      "question": "We ___ students.",
+      "options": ["are", "is", "am", "be"]
     },
     {
-      "question": "Choose the correct sentence.",
-      "options": [
-        "There are some chairs in the classroom.",
-        "There is some chairs in the classroom.",
-        "There are any chairs in the classroom.",
-        "There some chairs in the classroom."
-      ]
+      "question": "I ___ from Uzbekistan.",
+      "options": ["am", "is", "are", "be"]
     },
     {
-      "question": "Choose the correct sentence.",
-      "options": [
-        "I have got a dog.",
-        "I has got a dog.",
-        "I have got dog.",
-        "I got have a dog."
-      ]
+      "question": "The cat is ___ the box.",
+      "options": ["in", "on", "behind", "next to"]
     },
     {
-      "question": "Choose the correct sentence.",
-      "options": [
-        "She has got a sister.",
-        "She have got a sister.",
-        "She got has a sister.",
-        "She has got sister."
-      ]
+      "question": "The book is ___ the table.",
+      "options": ["on", "in", "behind", "under"]
     },
     {
-      "question": "Choose the correct question.",
-      "options": [
-        "Have you got a bike?",
-        "Has you got a bike?",
-        "Do you have got a bike?",
-        "You have got a bike?"
-      ]
+      "question": "The car is ___ the house.",
+      "options": ["in front of", "on", "in", "under"]
     },
     {
-      "question": "Choose the correct sentence.",
-      "options": [
-        "He hasn’t got a computer.",
-        "He haven’t got a computer.",
-        "He not got a computer.",
-        "He doesn’t got a computer."
-      ]
+      "question": "The dog is ___ the chair.",
+      "options": ["behind", "on", "in", "at"]
     },
     {
-      "question": "Choose the correct short answer.",
-      "options": [
-        "Yes, I have.",
-        "Yes, I am.",
-        "Yes, I do.",
-        "Yes, I can."
-      ]
+      "question": "The lamp is ___ the sofa.",
+      "options": ["next to", "behind", "in", "under"]
     },
     {
-      "question": "Choose the correct short answer.",
-      "options": [
-        "No, she hasn’t.",
-        "No, she don’t.",
-        "No, she isn’t.",
-        "No, she can’t."
-      ]
+      "question": "She ___ coffee every morning.",
+      "options": ["drinks", "drink", "drinking", "drank"]
     },
     {
-      "question": "Choose the correct sentence.",
-      "options": [
-        "This is your bag.",
-        "This is you bag.",
-        "This your bag is.",
-        "This bag your is."
-      ]
+      "question": "I ___ football on Sundays.",
+      "options": ["play", "plays", "playing", "played"]
     },
     {
-      "question": "Choose the correct sentence.",
-      "options": [
-        "His name is Tom.",
-        "Him name is Tom.",
-        "He name is Tom.",
-        "His is name Tom."
-      ]
+      "question": "He ___ English very well.",
+      "options": ["speaks", "speak", "speaking", "spoken"]
     },
     {
-      "question": "Choose the correct sentence.",
-      "options": [
-        "Her cat is black.",
-        "She cat is black.",
-        "Hers cat is black.",
-        "Her is cat black."
-      ]
+      "question": "We ___ TV at night.",
+      "options": ["watch", "watches", "watching", "watched"]
     },
     {
-      "question": "Choose the correct question.",
-      "options": [
-        "Can you swim?",
-        "Do you can swim?",
-        "You can swim?",
-        "Can swim you?"
-      ]
+      "question": "___ you swim?",
+      "options": ["Can", "Do", "Are", "Have"]
     },
     {
-      "question": "Choose the correct sentence.",
-      "options": [
-        "I can play tennis.",
-        "I can to play tennis.",
-        "I cans play tennis.",
-        "I play can tennis."
-      ]
+      "question": "I can ___ a bike.",
+      "options": ["ride", "rides", "riding", "rode"]
     },
     {
-      "question": "Choose the correct sentence.",
-      "options": [
-        "She can’t drive a car.",
-        "She doesn’t can drive a car.",
-        "She can’t drives a car.",
-        "She not can drive a car."
-      ]
+      "question": "She can ___ English.",
+      "options": ["speak", "speaks", "speaking", "spoke"]
     },
     {
-      "question": "Choose the correct question.",
-      "options": [
-        "Can he speak English?",
-        "Does he can speak English?",
-        "He can speak English?",
-        "Can speak he English?"
-      ]
+      "question": "He can ___ very fast.",
+      "options": ["run", "runs", "running", "ran"]
     },
     {
-      "question": "Choose the correct sentence.",
-      "options": [
-        "I play football every Sunday.",
-        "I plays football every Sunday.",
-        "I am play football every Sunday.",
-        "I play football every Sundays."
-      ]
+      "question": "We can ___ football.",
+      "options": ["play", "plays", "playing", "played"]
     },
     {
-      "question": "Choose the correct sentence.",
-      "options": [
-        "She goes to school by bus.",
-        "She go to school by bus.",
-        "She going to school by bus.",
-        "She goes school by bus."
-      ]
+      "question": "They ___ got a dog.",
+      "options": ["have", "has", "is", "are"]
     },
     {
-      "question": "Choose the correct sentence.",
-      "options": [
-        "We don’t watch TV in the morning.",
-        "We doesn’t watch TV in the morning.",
-        "We not watch TV in the morning.",
-        "We aren’t watch TV in the morning."
-      ]
+      "question": "He ___ got a computer.",
+      "options": ["has", "have", "is", "are"]
     },
     {
-      "question": "Choose the correct question.",
-      "options": [
-        "Does he like pizza?",
-        "Do he like pizza?",
-        "He does like pizza?",
-        "Does likes he pizza?"
-      ]
+      "question": "This is ___ book.",
+      "options": ["my", "me", "I", "mine"]
     },
     {
-      "question": "Choose the correct sentence.",
-      "options": [
-        "My father always drinks coffee.",
-        "My father always drink coffee.",
-        "My father drink always coffee.",
-        "My father is always drink coffee."
-      ]
+      "question": "___ name is Tom.",
+      "options": ["His", "He", "Him", "Himself"]
     },
     {
-      "question": "Choose the correct sentence.",
-      "options": [
-        "I usually get up at 7 o’clock.",
-        "I usually gets up at 7 o’clock.",
-        "I get usually up at 7 o’clock.",
-        "I am usually get up at 7 o’clock."
-      ]
+      "question": "We ___ to school every day.",
+      "options": ["go", "goes", "going", "went"]
     },
     {
-      "question": "Choose the correct sentence.",
-      "options": [
-        "She often reads books.",
-        "She often read books.",
-        "She reads often books.",
-        "She is often reads books."
-      ]
+      "question": "She ___ tennis on Saturdays.",
+      "options": ["plays", "play", "playing", "played"]
     },
     {
-      "question": "Choose the correct sentence.",
-      "options": [
-        "They sometimes play computer games.",
-        "They sometimes plays computer games.",
-        "They play sometimes computer games.",
-        "They are sometimes play computer games."
-      ]
+      "question": "I ___ not tired.",
+      "options": ["am", "is", "are", "be"]
     },
     {
-      "question": "Choose the correct sentence.",
-      "options": [
-        "He never eats fish.",
-        "He never eat fish.",
-        "He eats never fish.",
-        "He is never eat fish."
-      ]
+      "question": "They ___ apples every day.",
+      "options": ["eat", "eats", "eating", "ate"]
     },
     {
-      "question": "Choose the correct sentence.",
-      "options": [
-        "There are some books on your desk.",
-        "There is some books on your desk.",
-        "There are any books on your desk.",
-        "There books are on your desk."
-      ]
+      "question": "He ___ breakfast at 8 o’clock.",
+      "options": ["eats", "eat", "eating", "ate"]
     },
     {
-      "question": "Choose the correct question.",
-      "options": [
-        "Have they got any children?",
-        "Has they got any children?",
-        "Do they have got any children?",
-        "They have got any children?"
-      ]
+      "question": "We ___ a big house.",
+      "options": ["have", "has", "are", "is"]
     }
   ]
 }
