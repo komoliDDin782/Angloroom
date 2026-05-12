@@ -1,5 +1,5 @@
 {
-  "title": "Go Getter 1 - Grammar Quiz",
+  "title": "Grammar Quiz",
   "questions": [
     {
       "question": "I ___ a student.",
@@ -19,7 +19,7 @@
     },
     {
       "question": "I have two ___.",
-      "options": ["books", "book", "bookes", "books"]
+      "options": ["books", "book", "bookes", "booking"]
     },
     {
       "question": "This is Tom ___ bag.",
