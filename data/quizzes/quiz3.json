@@ -1,29 +1,61 @@
 {
-  "title": "Easy Grammar Quiz",
+  "title": "Go Getter 1 - Grammar Quiz",
   "questions": [
     {
-      "question": "I ___ a pen.",
-      "options": ["have", "has", "am", "is"]
+      "question": "I ___ a student.",
+      "options": ["am", "is", "are", "be"]
     },
     {
-      "question": "She ___ a sister.",
-      "options": ["has", "have", "is", "are"]
+      "question": "She ___ my friend.",
+      "options": ["is", "am", "are", "be"]
     },
     {
       "question": "They ___ happy.",
       "options": ["are", "is", "am", "be"]
     },
     {
-      "question": "He ___ my friend.",
+      "question": "This is ___ apple.",
+      "options": ["an", "a", "the", "some"]
+    },
+    {
+      "question": "I have two ___.",
+      "options": ["books", "book", "bookes", "books"]
+    },
+    {
+      "question": "This is Tom ___ bag.",
+      "options": ["'s", "s'", "is", "are"]
+    },
+    {
+      "question": "___ name is Anna.",
+      "options": ["Her", "She", "Him", "He"]
+    },
+    {
+      "question": "This ___ my pen.",
       "options": ["is", "are", "am", "be"]
     },
     {
-      "question": "We ___ students.",
+      "question": "___ are my shoes.",
+      "options": ["These", "This", "That", "It"]
+    },
+    {
+      "question": "The bag is too ___.",
+      "options": ["big", "bigger", "biggest", "beautifully"]
+    },
+    {
+      "question": "There ___ a cat in the room.",
+      "options": ["is", "are", "am", "be"]
+    },
+    {
+      "question": "There ___ three chairs.",
       "options": ["are", "is", "am", "be"]
     },
     {
-      "question": "I ___ from Uzbekistan.",
-      "options": ["am", "is", "are", "be"]
+      "question": "I have ___ money.",
+      "options": ["some", "an", "a", "is"]
+    },
+    {
+      "question": "Do you have ___ brothers?",
+      "options": ["any", "a", "an", "some"]
     },
     {
       "question": "The cat is ___ the box.",
@@ -31,95 +63,63 @@
     },
     {
       "question": "The book is ___ the table.",
-      "options": ["on", "in", "behind", "under"]
+      "options": ["on", "under", "behind", "in"]
     },
     {
       "question": "The car is ___ the house.",
-      "options": ["in front of", "on", "in", "under"]
-    },
-    {
-      "question": "The dog is ___ the chair.",
-      "options": ["behind", "on", "in", "at"]
-    },
-    {
-      "question": "The lamp is ___ the sofa.",
-      "options": ["next to", "behind", "in", "under"]
-    },
-    {
-      "question": "She ___ coffee every morning.",
-      "options": ["drinks", "drink", "drinking", "drank"]
-    },
-    {
-      "question": "I ___ football on Sundays.",
-      "options": ["play", "plays", "playing", "played"]
-    },
-    {
-      "question": "He ___ English very well.",
-      "options": ["speaks", "speak", "speaking", "spoken"]
-    },
-    {
-      "question": "We ___ TV at night.",
-      "options": ["watch", "watches", "watching", "watched"]
+      "options": ["in front of", "under", "on", "in"]
     },
     {
       "question": "___ you swim?",
       "options": ["Can", "Do", "Are", "Have"]
     },
     {
-      "question": "I can ___ a bike.",
-      "options": ["ride", "rides", "riding", "rode"]
-    },
-    {
       "question": "She can ___ English.",
       "options": ["speak", "speaks", "speaking", "spoke"]
     },
     {
-      "question": "He can ___ very fast.",
-      "options": ["run", "runs", "running", "ran"]
-    },
-    {
-      "question": "We can ___ football.",
+      "question": "I ___ football every Sunday.",
       "options": ["play", "plays", "playing", "played"]
     },
     {
-      "question": "They ___ got a dog.",
-      "options": ["have", "has", "is", "are"]
-    },
-    {
-      "question": "He ___ got a computer.",
-      "options": ["has", "have", "is", "are"]
-    },
-    {
-      "question": "This is ___ book.",
-      "options": ["my", "me", "I", "mine"]
-    },
-    {
-      "question": "___ name is Tom.",
-      "options": ["His", "He", "Him", "Himself"]
+      "question": "He ___ TV at night.",
+      "options": ["watches", "watch", "watching", "watched"]
     },
     {
       "question": "We ___ to school every day.",
       "options": ["go", "goes", "going", "went"]
     },
     {
-      "question": "She ___ tennis on Saturdays.",
-      "options": ["plays", "play", "playing", "played"]
+      "question": "She ___ not like milk.",
+      "options": ["does", "do", "is", "are"]
     },
     {
-      "question": "I ___ not tired.",
-      "options": ["am", "is", "are", "be"]
+      "question": "___ you like pizza?",
+      "options": ["Do", "Does", "Are", "Can"]
     },
     {
-      "question": "They ___ apples every day.",
-      "options": ["eat", "eats", "eating", "ate"]
+      "question": "I ___ get up at 7:00.",
+      "options": ["always", "yesterday", "now", "tomorrow"]
     },
     {
-      "question": "He ___ breakfast at 8 o’clock.",
-      "options": ["eats", "eat", "eating", "ate"]
+      "question": "___ is your name?",
+      "options": ["What", "Where", "When", "Why"]
     },
     {
-      "question": "We ___ a big house.",
-      "options": ["have", "has", "are", "is"]
+      "question": "___ do you live?",
+      "options": ["Where", "What", "Who", "How"]
+    },
+    {
+      "question": "I can see Anna. I can see ___.",
+      "options": ["her", "she", "he", "his"]
+    },
+    {
+      "question": "They like ___.",
+      "options": ["swimming", "swim", "swims", "swam"]
+    },
+    {
+      "question": "He ___ got a bike.",
+      "options": ["has", "have", "is", "are"]
     }
   ]
 }
