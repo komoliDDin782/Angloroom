@@ -5,15 +5,22 @@ const closeModal = document.getElementById('close-modal');
 
 let currentUser;
 let userLevel;
-let startTime, endTime;
 
-/* ---------- Utils ---------- */
+let startTime;
+let endTime;
+
+/* =========================
+   UTILS
+========================= */
+
 function shuffle(array) {
   const arr = [...array];
+
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
+
   return arr;
 }
 
@@ -24,7 +31,10 @@ function formatTime(ms) {
   return `${minutes}m ${seconds}s`;
 }
 
-/* ---------- Auth ---------- */
+/* =========================
+   AUTH
+========================= */
+
 auth.onAuthStateChanged(async user => {
   if (!user) {
     window.location.href = 'login.html';
@@ -35,22 +45,28 @@ auth.onAuthStateChanged(async user => {
 
   try {
     const userDoc = await db.collection('users').doc(user.uid).get();
-    userLevel = userDoc.exists ? userDoc.data().level || 'beginner' : 'beginner';
-    
-    // Show video lesson only for intermediate users
+
+    userLevel = userDoc.exists
+      ? userDoc.data().level || 'beginner'
+      : 'beginner';
+
     const videoLesson = document.getElementById('video-lesson');
     if (videoLesson && userLevel === 'intermediate') {
       videoLesson.style.display = 'block';
     }
-    
+
     loadQuizCards();
+
   } catch (err) {
     console.error(err);
-    alert('Failed to load user data.');
+    alert('Failed to load user.');
   }
 });
 
-/* ---------- Load quiz cards ---------- */
+/* =========================
+   LOAD QUIZ CARDS
+========================= */
+
 async function loadQuizCards() {
   try {
     const res = await fetch('data/quizzes/index.json');
@@ -59,25 +75,42 @@ async function loadQuizCards() {
     quizContainer.innerHTML = '';
 
     for (const quiz of quizzes) {
-      // Only show quizzes matching the user's level
       if (quiz.level !== userLevel) continue;
 
       const card = document.createElement('div');
       card.className = 'quiz-card';
-      card.textContent = quiz.title;
 
-      const completed = await db.collection('results')
+      card.innerHTML = `
+        <div class="quiz-title">${quiz.title}</div>
+        <div class="quiz-status">Loading...</div>
+      `;
+
+      const status = card.querySelector('.quiz-status');
+
+      const completed = await db
+        .collection('results')
         .where('userId', '==', currentUser.uid)
         .where('quizId', '==', quiz.id)
         .get();
+
       if (!completed.empty) {
-        card.style.opacity = '0.5';
-        card.style.cursor = 'not-allowed';
-        card.title = 'Quiz already completed';
+
+        const resultData = completed.docs[0].data();
+
+        card.classList.add('completed');
+        status.textContent = 'Completed • Tap to review';
+
+        card.addEventListener('click', () => {
+          openReviewModal(resultData);
+        });
+
       } else {
-        card.addEventListener('click', () =>
-          openQuizModal(`data/quizzes/${quiz.file}`, quiz.id)
-        );
+
+        status.textContent = 'Ready to start';
+
+        card.addEventListener('click', () => {
+          openQuizModal(`data/quizzes/${quiz.file}`, quiz.id);
+        });
       }
 
       quizContainer.appendChild(card);
@@ -89,133 +122,244 @@ async function loadQuizCards() {
   }
 }
 
-/* ---------- Open quiz ---------- */
+/* =========================
+   OPEN QUIZ
+========================= */
+
 async function openQuizModal(jsonFile, quizId) {
   try {
-    // 1. Fetch and Prepare Data
     const res = await fetch(jsonFile);
-    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+    if (!res.ok) throw new Error('Quiz file not found');
+
     const quizData = await res.json();
     const questions = shuffle(quizData.questions);
 
-    // 2. Setup Form Container
     modalQuizContainer.innerHTML = '';
+
     const form = document.createElement('form');
+
     form.id = 'quiz-form';
 
-    // 3. Build Questions
+    /* =========================
+       QUESTIONS
+    ========================= */
+
     questions.forEach((q, index) => {
       const correctAnswer = q.options[0];
       const shuffledOptions = shuffle(q.options);
 
-      const qCard = document.createElement('div');
-      qCard.className = 'question-card';
-      qCard.dataset.correct = correctAnswer;
+      const card = document.createElement('div');
+      card.className = 'question-card';
+      card.dataset.correct = correctAnswer;
 
-      // Add Question Text
-      qCard.innerHTML = `<p class="question-text">${index + 1}. ${q.question}</p>`;
-      
-      // Add Options (Using a DocumentFragment for better performance)
+      card.innerHTML = `
+        <p class="question-text">
+          ${index + 1}. ${q.question}
+        </p>
+      `;
+
       const ul = document.createElement('ul');
       ul.className = 'options';
-      
-      shuffledOptions.forEach(opt => {
+
+      shuffledOptions.forEach(option => {
         const li = document.createElement('li');
-        li.textContent = opt;
+        li.textContent = option;
         ul.appendChild(li);
       });
 
-      // EVENT DELEGATION: Attach one listener to the UL instead of every LI
-      ul.addEventListener('click', (e) => {
-        if (e.target.tagName === 'LI') {
-          ul.querySelectorAll('li').forEach(el => el.classList.remove('selected'));
-          e.target.classList.add('selected');
-        }
+      ul.addEventListener('click', e => {
+        if (e.target.tagName !== 'LI') return;
+
+        ul.querySelectorAll('li').forEach(li =>
+          li.classList.remove('selected')
+        );
+
+        e.target.classList.add('selected');
       });
 
-      qCard.appendChild(ul);
-      form.appendChild(qCard);
+      card.appendChild(ul);
+      form.appendChild(card);
     });
 
-    // 4. Build Submit Button
+    /* =========================
+       SUBMIT BUTTON
+    ========================= */
+
     const submitBtn = document.createElement('button');
     submitBtn.type = 'submit';
+    submitBtn.className = 'submit-btn';
     submitBtn.textContent = 'Submit Quiz';
-    submitBtn.className = 'submit';
+
     form.appendChild(submitBtn);
 
-    // 5. Start Timer
     startTime = Date.now();
 
-    // 6. Handle Submission
-    form.addEventListener('submit', async (e) => {
+    /* =========================
+       SUBMIT LOGIC
+    ========================= */
+
+    form.addEventListener('submit', async e => {
       e.preventDefault();
-      
-      // Prevent double-submissions
+
       submitBtn.disabled = true;
       submitBtn.textContent = 'Processing...';
 
       endTime = Date.now();
+
       const timeTakenMs = endTime - startTime;
       const totalQuestions = questions.length;
 
-      // Calculate Score
       let score = 0;
-      form.querySelectorAll('.question-card').forEach(card => {
+      const answers = [];
+
+      form.querySelectorAll('.question-card').forEach((card, index) => {
         const selected = card.querySelector('.selected');
-        if (selected && selected.textContent === card.dataset.correct) {
-          score++;
-        }
+
+        const selectedAnswer = selected
+          ? selected.textContent
+          : null;
+
+        const correctAnswer = card.dataset.correct;
+
+        const isCorrect = selectedAnswer === correctAnswer;
+
+        if (isCorrect) score++;
+
+        answers.push({
+          question: questions[index].question,
+          selectedAnswer,
+          correctAnswer,
+          isCorrect,
+          options: questions[index].options
+        });
       });
 
-      // Save to Firebase
       try {
         await db.collection('results').add({
           userId: currentUser.uid,
-          quizId: quizId,
-          score: score,
-          total: totalQuestions,
+          quizId,
           level: userLevel,
+          score,
+          total: totalQuestions,
           timeTaken: timeTakenMs,
+          answers,
           timestamp: firebase.firestore.FieldValue.serverTimestamp()
         });
 
-        alert(`Result: ${score} / ${totalQuestions} in ${formatTime(timeTakenMs)}`);
-        
-        // Cleanup UI on success
-        quizModal.style.display = 'none';
-        modalQuizContainer.innerHTML = '';
+        openReviewModal({
+          score,
+          total: totalQuestions,
+          answers
+        });
+
         loadQuizCards();
-        
+
       } catch (err) {
-        console.error("Firebase save error:", err);
-        alert('Failed to submit quiz. Please check your connection and try again.');
-        
-        // Re-enable button so they can try submitting again
+        console.error(err);
+        alert('Failed to submit quiz.');
+
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit Quiz';
       }
     });
 
-    // 7. Render to Screen
     modalQuizContainer.appendChild(form);
     quizModal.style.display = 'block';
 
   } catch (err) {
-    console.error("Quiz load error:", err);
-    alert('Failed to load quiz. Please try again later.');
+    console.error(err);
+    alert('Failed to load quiz.');
   }
 }
 
-/* ---------- Close modal ---------- */
-closeModal.addEventListener('click', () => {
-  quizModal.style.display = 'none';
+/* =========================
+   REVIEW MODE
+========================= */
+
+function openReviewModal(resultData) {
   modalQuizContainer.innerHTML = '';
-});
+
+  const wrapper = document.createElement('div');
+
+  wrapper.innerHTML = `
+    <div style="margin-bottom:30px;">
+      <h2 style="font-size:32px; margin-bottom:10px;">
+        Quiz Review
+      </h2>
+
+      <p style="color:#94a3b8;">
+        Score: ${resultData.score} / ${resultData.total}
+      </p>
+    </div>
+  `;
+
+  resultData.answers.forEach((answer, index) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+
+    let optionsHTML = '';
+
+    answer.options.forEach(option => {
+      let className = '';
+
+      if (option === answer.correctAnswer) {
+        className = 'correct-answer';
+      }
+
+      if (
+        option === answer.selectedAnswer &&
+        !answer.isCorrect
+      ) {
+        className = 'wrong-answer';
+      }
+
+      optionsHTML += `
+        <li class="${className}">
+          ${option}
+          ${option === answer.correctAnswer ? ' ✅' : ''}
+          ${option === answer.selectedAnswer && !answer.isCorrect ? ' ❌' : ''}
+        </li>
+      `;
+    });
+
+    const notAnsweredHTML = !answer.selectedAnswer
+      ? `<p style="margin-top:10px; color:#fbbf24; font-weight:600;">
+          ⚠ Not answered
+        </p>`
+      : '';
+
+    card.innerHTML = `
+      <p class="question-text">
+        ${index + 1}. ${answer.question}
+      </p>
+
+      <ul class="options review-options">
+        ${optionsHTML}
+      </ul>
+
+      ${notAnsweredHTML}
+    `;
+
+    wrapper.appendChild(card);
+  });
+
+  modalQuizContainer.appendChild(wrapper);
+  quizModal.style.display = 'block';
+}
+
+/* =========================
+   CLOSE MODAL
+========================= */
+
+closeModal.addEventListener('click', closeQuizModal);
 
 window.addEventListener('click', e => {
   if (e.target === quizModal) {
-    quizModal.style.display = 'none';
-    modalQuizContainer.innerHTML = '';
+    closeQuizModal();
   }
 });
+
+function closeQuizModal() {
+  quizModal.style.display = 'none';
+  modalQuizContainer.innerHTML = '';
+}
