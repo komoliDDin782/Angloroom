@@ -97,17 +97,13 @@
       background: var(--glass-bg);
       border: 1px solid var(--glass-border);
       border-radius: 20px;
-      padding: 25px;
+      padding: 30px;
       transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
       display: flex;
       flex-direction: column;
     }
 
-    .vocab-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--accent);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    }
+
 
     .vocab-card h3 {
       font-family: 'Outfit', sans-serif;
@@ -172,7 +168,103 @@
     footer a { color: var(--text-muted); text-decoration: none; transition: 0.3s; }
     footer a:hover { color: #fff; }
     footer p { line-height: 1.5; }
+/* ===== ACCORDION CARD ===== */
+details.vocab-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(12px);
+}
 
+/* hover glow */
+details.vocab-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 10px 30px rgba(16, 185, 129, 0.15);
+  transform: translateY(-3px);
+}
+
+/* ===== TITLE (CLICK AREA) ===== */
+summary.vocab-title {
+  list-style: none;
+  cursor: pointer;
+  padding: 18px 25px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 18px;
+  color: var(--text-main);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+  transition: 0.3s;
+}
+
+/* remove default marker */
+summary::-webkit-details-marker {
+  display: none;
+}
+
+/* accent hover */
+summary.vocab-title:hover {
+  color: var(--accent);
+}
+
+/* ===== ARROW ANIMATION ===== */
+.arrow {
+  transition: transform 0.3s ease;
+  color: var(--accent);
+  font-size: 18px;
+}
+
+/* rotate arrow when open */
+details[open] .arrow {
+  transform: rotate(180deg);
+}
+
+/* ===== CONTENT ===== */
+.vocab-content {
+  padding: 0 20px 20px 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+/* smooth fade animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== GRAMMAR BOX ===== */
+.grammar-box {
+  margin-top: 15px;
+  padding: 12px;
+  border-left: 3px solid var(--accent);
+  background: rgba(16, 185, 129, 0.08);
+  border-radius: 10px;
+}
+
+.grammar-box h4 {
+  margin-bottom: 5px;
+  color: var(--accent);
+  font-size: 14px;
+}
+.grammar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.vocab-card {
+  padding: 12px;
+  border-radius: 10px;
+}
   </style>
 </head>
 <body>
@@ -188,8 +280,10 @@
   </header>
 
   <main>
-    <h1>Vocabulary Bank</h1>
+    <h1>Go Getter 1</h1>
 
+    <details class="vocab-card">
+      <summary>Vocabulary</summary><br>
     <section class="vocab-section">
       
       <div class="vocab-card">
@@ -649,6 +743,209 @@
       </div>
 
     </section>
+  </details>
+
+
+<details class="vocab-card">
+  <summary>Grammar</summary><br>
+
+  <div class="grammar-container">
+
+    <div class="vocab-card">
+      <h3>1. Verb “to be” (am / is / are)</h3>
+
+      <p><b>Русский:</b><br>
+      Глагол “to be” используется для описания состояния, личности, возраста, профессии и характеристик человека или предмета.</p>
+
+      <p><b>Rule:</b><br>
+      I → am<br>
+      He / She / It → is<br>
+      We / You / They → are</p>
+
+      <p><b>Examples:</b><br>
+      <span style="color:#10b981;">• I am a student.</span><br>
+      <span style="color:#10b981;">• She is very happy today.</span><br>
+      <span style="color:#10b981;">• They are in the classroom now.</span></p>
+    </div>
+
+    <div class="vocab-card">
+      <h3>2. Subject & Possessive Pronouns</h3>
+
+      <p><b>Русский:</b><br>
+      Личные местоимения показывают, кто выполняет действие, а притяжательные — кому что принадлежит.</p>
+
+      <p><b>Rule:</b><br>
+      Subject: I, you, he, she, it, we, they<br>
+      Possessive: my, your, his, her, its, our, their</p>
+
+      <p><b>Examples:</b><br>
+      <span style="color:#10b981;">• He is my brother.</span><br>
+      <span style="color:#10b981;">• This is her notebook.</span><br>
+      <span style="color:#10b981;">• They are our classmates.</span></p>
+    </div>
+
+    <div class="vocab-card">
+      <h3>3. Articles (a / an / the)</h3>
+
+      <p><b>Русский:</b><br>
+      Артикли ставятся перед существительными и помогают уточнить значение.</p>
+
+      <p><b>Rule:</b><br>
+      a → consonant sound<br>
+      an → vowel sound<br>
+      the → specific / known object</p>
+
+      <p><b>Examples:</b><br>
+      <span style="color:#10b981;">• a cat</span><br>
+      <span style="color:#10b981;">• an apple</span><br>
+      <span style="color:#10b981;">• the sun</span></p>
+    </div>
+
+    <div class="vocab-card">
+      <h3>4. This / That / These / Those</h3>
+
+      <p><b>Русский:</b><br>
+      Указательные местоимения показывают расстояние и число предметов.</p>
+
+      <p><b>Rule:</b><br>
+      This / These = near (близко)<br>
+      That / Those = far (далеко)</p>
+
+      <p><b>Examples:</b><br>
+      <span style="color:#10b981;">• This is my pen.</span><br>
+      <span style="color:#10b981;">• That is your bag.</span><br>
+      <span style="color:#10b981;">• These are my shoes.</span></p>
+    </div>
+
+    <div class="vocab-card">
+      <h3>5. Plural Nouns</h3>
+
+      <p><b>Русский:</b><br>
+      Множественное число образуется добавлением -s / -es, но есть исключения.</p>
+
+      <p><b>Rule:</b><br>
+      book → books<br>
+      box → boxes<br>
+      child → children</p>
+    </div>
+
+    <div class="vocab-card">
+      <h3>6. There is / There are</h3>
+
+      <p><b>Русский:</b><br>
+      Используется для описания существования предметов.</p>
+
+      <p><b>Rule:</b><br>
+      There is → singular<br>
+      There are → plural</p>
+
+      <p><b>Examples:</b><br>
+      <span style="color:#10b981;">• There is a book on the table.</span><br>
+      <span style="color:#10b981;">• There are two chairs in the room.</span></p>
+    </div>
+
+    <div class="vocab-card">
+      <h3>7. Possessive ‘s</h3>
+
+      <p><b>Русский:</b><br>
+      Показывает принадлежность (чей предмет).</p>
+
+      <p><b>Rule:</b><br>
+      Add ’s to noun</p>
+
+      <p><b>Examples:</b><br>
+      <span style="color:#10b981;">• John’s bag</span><br>
+      <span style="color:#10b981;">• my mum’s car</span></p>
+    </div>
+
+    <div class="vocab-card">
+      <h3>8. Can / Can’t</h3>
+
+      <p><b>Русский:</b><br>
+      Используется для способностей и разрешений.</p>
+
+      <p><b>Rule:</b><br>
+      can = ability<br>
+      can’t = inability</p>
+
+      <p><b>Examples:</b><br>
+      <span style="color:#10b981;">• I can swim.</span><br>
+      <span style="color:#10b981;">• She can’t drive.</span></p>
+    </div>
+
+    <div class="vocab-card">
+      <h3>9. Present Simple</h3>
+
+      <p><b>Русский:</b><br>
+      Используется для привычек и фактов.</p>
+
+      <p><b>Rule:</b><br>
+      used for daily actions, habits, facts</p>
+
+      <p><b>Examples:</b><br>
+      <span style="color:#10b981;">• I go to school every day.</span><br>
+      <span style="color:#10b981;">• He likes football.</span></p>
+    </div>
+
+    <div class="vocab-card">
+      <h3>10. Adverbs of Frequency</h3>
+
+      <p><b>Русский:</b><br>
+      Показывают частоту действия.</p>
+
+      <p><b>Rule:</b><br>
+      always → never (scale of frequency)</p>
+
+      <p><b>Examples:</b><br>
+      <span style="color:#10b981;">• I always go to school.</span><br>
+      <span style="color:#10b981;">• She never drinks coffee.</span></p>
+    </div>
+
+    <div class="vocab-card">
+      <h3>11. Like / Love / Hate + -ing</h3>
+
+      <p><b>Русский:</b><br>
+      Используется для выражения предпочтений.</p>
+
+      <p><b>Rule:</b><br>
+      verb + -ing after like/love/hate</p>
+
+      <p><b>Examples:</b><br>
+      <span style="color:#10b981;">• I like playing football.</span><br>
+      <span style="color:#10b981;">• She loves reading books.</span></p>
+    </div>
+
+    <div class="vocab-card">
+      <h3>12. Prepositions of Place</h3>
+
+      <p><b>Русский:</b><br>
+      Показывают местоположение предметов.</p>
+
+      <p><b>Rule:</b><br>
+      in / on / under / next to / behind</p>
+
+      <p><b>Examples:</b><br>
+      <span style="color:#10b981;">• The book is on the table.</span><br>
+      <span style="color:#10b981;">• The cat is under the chair.</span></p>
+    </div>
+
+    <div class="vocab-card">
+      <h3>13. Adjectives + too</h3>
+
+      <p><b>Русский:</b><br>
+      “Too” = слишком (больше нормы).</p>
+
+      <p><b>Rule:</b><br>
+      too + adjective</p>
+
+      <p><b>Examples:</b><br>
+      <span style="color:#10b981;">• It is too big.</span><br>
+      <span style="color:#10b981;">• The water is too cold.</span></p>
+    </div>
+
+  </div>
+</details>
+
   </main>
 
   <footer>
