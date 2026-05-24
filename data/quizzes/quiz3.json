@@ -107,7 +107,7 @@
       "options": ["playing", "play", "plays", "played"]
     },
     {
-      "question": "They dislike ___ homework late at night.",
+      "question": "They like ___ homework late at night.",
       "options": ["doing", "do", "does", "did"]
     },
     {
@@ -123,7 +123,7 @@
       "options": ["her", "she", "he", "his"]
     },
     {
-      "question": "They enjoy ___ in the swimming pool.",
+      "question": "They like ___ in the swimming pool.",
       "options": ["swimming", "swim", "swims", "swam"]
     },
     {
