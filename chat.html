@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AngloRoom - Global Chat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+  <script src="assets/js/firebase.js" defer></script>
+  <script src="assets/js/chat.js" defer></script>
+
+  <style>
+    :root {
+      --bg-base: #022c22;
+      --accent: #10b981;
+      --accent-glow: rgba(16, 185, 129, 0.3);
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--bg-base);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* --- Navbar Styling --- */
+    header {
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      background: rgba(2, 44, 34, 0.85);
+      backdrop-filter: blur(15px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    nav { display: flex; gap: clamp(15px, 4vw, 30px); }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    nav a:hover, nav a[href="chat.html"] {
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    /* --- Chat Layout --- */
+    .chat-container {
+      flex: 1;
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      background: var(--glass-bg);
+      border-left: 1px solid var(--glass-border);
+      border-right: 1px solid var(--glass-border);
+      overflow: hidden;
+    }
+
+    .chat-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--glass-border);
+      text-align: center;
+    }
+    .chat-header h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      background: linear-gradient(135deg, #fff, var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .chat-header p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* --- Messages Area --- */
+    .messages-box {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Custom Scrollbar */
+    .messages-box::-webkit-scrollbar { width: 6px; }
+    .messages-box::-webkit-scrollbar-track { background: transparent; }
+    .messages-box::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
+
+    .msg-wrapper {
+      display: flex;
+      gap: 12px;
+      max-width: 75%;
+    }
+
+    /* Incoming Messages (Left side) */
+    .msg-wrapper.incoming { align-self: flex-start; }
+    
+    /* Outgoing Messages (Right side) */
+    .msg-wrapper.outgoing {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50px;
+      object-fit: cover;
+      border: 1px solid var(--glass-border);
+    }
+
+    .msg-body {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .msg-wrapper.outgoing .msg-body { align-items: flex-end; }
+
+    .meta-info {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .bubble {
+      padding: 12px 16px;
+      border-radius: 18px;
+      font-size: 15px;
+      line-height: 1.4;
+      word-break: break-word;
+    }
+
+    .incoming .bubble {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      border-top-left-radius: 4px;
+    }
+
+    .outgoing .bubble {
+      background: linear-gradient(135deg, #0f766e, var(--bg-base));
+      border: 1px solid var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+      border-top-right-radius: 4px;
+    }
+
+    /* --- Input Area --- */
+    .input-area {
+      padding: 20px;
+      border-top: 1px solid var(--glass-border);
+      background: rgba(2, 44, 34, 0.5);
+    }
+
+    .input-form {
+      display: flex;
+      gap: 12px;
+    }
+
+    .input-form input {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--glass-border);
+      padding: 14px 20px;
+      border-radius: 30px;
+      color: #fff;
+      font-size: 15px;
+      font-family: inherit;
+      transition: 0.3s;
+    }
+
+    .input-form input:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .send-btn {
+      background: var(--accent);
+      color: #022c22;
+      border: none;
+      width: 48px;
+      height: 48px;
+      border-radius: 50px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: 0.3s;
+    }
+
+    .send-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px var(--accent);
+    }
+    /* --- Meta Row & Admin Moderation Layouts --- */
+.meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.msg-wrapper.outgoing .meta-row {
+  flex-direction: row-reverse;
+}
+
+.admin-delete-btn {
+  background: transparent;
+  border: none;
+  color: #ef4444; /* Premium crimson alert color */
+  cursor: pointer;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  opacity: 0.4;
+  transition: 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-delete-btn:hover {
+  opacity: 1;
+  background: rgba(239, 68, 68, 0.15);
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.2);
+}
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <a href="main.html">Main</a>
+      <a href="quiz.html">Quizzes</a>
+      <a href="results.html">Results</a>
+      <a href="profile.html">Profile</a>
+      <a href="chat.html" class="active">Chat</a>
+    </nav>
+  </header>
+
+  <main class="chat-container">
+    <div class="chat-header">
+      <h1>English Speaking Club</h1>
+      <p>Challenge yourself! Text only in English 🇬🇧</p>
+    </div>
+
+    <div class="messages-box" id="messages-box">
+      </div>
+
+    <div class="input-area">
+      <form class="input-form" id="chat-form">
+        <input type="text" id="msg-input" placeholder="Type a message in English..." autocomplete="off" required maxlength="500">
+        <button type="submit" class="send-btn"><i class="fas fa-paper-plane"></i></button>
+      </form>
+    </div>
+  </main>
+
+</body>
+</html>
