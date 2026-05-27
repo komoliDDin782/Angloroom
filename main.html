@@ -219,6 +219,9 @@
     footer a { color: var(--text-muted); text-decoration: none; transition: 0.3s; }
     footer a:hover { color: #fff; }
     footer p { line-height: 1.5; }
+    #chatCard {
+  cursor: pointer;
+}
 
   </style>
 </head>
@@ -241,7 +244,8 @@
       
       <div class="info-card card-about">
         <div class="card-img-wrapper">
-          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="Team">
+          <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="Students">
+
         </div>
         <div class="card-content">
           <h3>About Us</h3>
@@ -249,13 +253,13 @@
         </div>
       </div>
 
-      <div class="info-card card-courses">
+      <div class="info-card card-courses" id="chatCard">
         <div class="card-img-wrapper">
-          <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="Students">
+           <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="Team">
         </div>
         <div class="card-content">
-          <h3>Our Courses</h3>
-          <p>From IELTS preparation to conversational English. Our classes are interactive, practical, and focused on real-life success.</p>
+          <h3>Online Chat Group</h3>
+<p>Practice real English with students from our community. Chat, communicate, and improve your speaking skills every day.</p>
         </div>
       </div>
 
@@ -315,6 +319,17 @@
     </div>
   </footer>
   <script src="./assets/js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const chatCard = document.getElementById("chatCard");
+  
+      if (chatCard) {
+        chatCard.addEventListener("click", () => {
+          window.location.href = "chat.html";
+        });
+      }
+    });
+  </script>
 
 </body>
 </html>
