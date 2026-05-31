@@ -26,6 +26,7 @@ const actionClearBtn = document.getElementById('action-clear-reaction');
 const reactionButtons = document.querySelectorAll('.reaction-btn');
 let activeActionBubble = null;
 
+
 /* ---------- Application State Config ---------- */
 let currentUser;
 let cachedUserData = {
@@ -227,13 +228,16 @@ async function getProfileCardData(uid) {
   try {
     const userDoc = await db.collection('users').doc(uid).get();
     if (userDoc.exists) {
-      const data = userDoc.data();
+      const data = userDoc.data(); 
       globalProfileCache[uid] = {
-        nickname: data.nickname || "Student",
-        profilePic: data.profilePic || "assets/image/logo.jpg",
-        level: data.level || 'beginner',
-        profileBg: data.profileBg || 'assets/image/back4.jpg',
-        about: data.about || 'No information yet.'
+            nickname: data.nickname || uid,
+            profilePic: data.profilePic || "assets/image/logo.jpg",
+            level: data.level || 'beginner',
+            profileBg: data.profileBg || 'assets/image/back4.jpg',
+            about: data.about || 'No information yet.',
+            quizzesCompleted: data.quizzesCompleted || 0,
+            totalCorrectAnswers: data.totalCorrectAnswers || 0
+        
       };
       return globalProfileCache[uid];
     }
@@ -264,6 +268,11 @@ messagesBox.addEventListener('click', async (e) => {
     modalNickname.textContent = profile.nickname;
     modalLevel.textContent = `Level: ${capitalize(profile.level)}`;
     modalAbout.textContent = profile.about || 'No information yet.';
+
+    // ✅ Correct - 'profile' is the variable you fetched
+document.getElementById('preview-quizzes').textContent = profile.quizzesCompleted;
+document.getElementById('preview-correct').textContent = profile.totalCorrectAnswers;
+    
 
     modalSteps.forEach(step => step.classList.remove('active'));
     const classificationIndex = levelOrder.indexOf(profile.level.toLowerCase());

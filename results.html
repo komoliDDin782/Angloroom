@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>AngloRoom - Leaderboard</title>
@@ -7,7 +8,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Outfit:wght@700;900&display=swap"
+    rel="stylesheet">
 
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
@@ -29,7 +32,11 @@
       --bronze: #b45309;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
       min-height: 100vh;
@@ -44,9 +51,15 @@
     }
 
     body::before {
-      content: ''; position: fixed; top: -10%; left: -10%; width: 70vw; height: 70vw;
-      background: radial-gradient(circle, rgba(16,185,129,0.12) 0%, transparent 70%);
-      filter: blur(80px); z-index: -1;
+      content: '';
+      position: fixed;
+      top: -10%;
+      left: -10%;
+      width: 70vw;
+      height: 70vw;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, transparent 70%);
+      filter: blur(80px);
+      z-index: -1;
     }
 
     header {
@@ -60,7 +73,12 @@
       border-bottom: 1px solid var(--glass-border);
     }
 
-    nav { display: flex; justify-content: center; gap: clamp(10px, 5vw, 30px); }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: clamp(10px, 5vw, 30px);
+    }
+
     nav a {
       color: var(--text-muted);
       text-decoration: none;
@@ -69,7 +87,12 @@
       transition: 0.3s;
       padding: 8px 4px;
     }
-    nav a:hover, nav a.active { color: var(--accent); text-shadow: 0 0 10px var(--accent-glow); }
+
+    nav a:hover,
+    nav a.active {
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+    }
 
     h1 {
       font-family: 'Outfit', sans-serif;
@@ -90,11 +113,23 @@
     }
 
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
-    .results-table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
+    .results-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 10px;
+    }
+
     .results-table th {
       padding: 12px;
       color: var(--text-muted);
@@ -119,16 +154,41 @@
       border-bottom: 1px solid var(--glass-border);
     }
 
-    .results-table td:first-child { border-left: 1px solid var(--glass-border); border-top-left-radius: 14px; border-bottom-left-radius: 14px; }
-    .results-table td:last-child { border-right: 1px solid var(--glass-border); border-top-right-radius: 14px; border-bottom-right-radius: 14px; }
+    .results-table td:first-child {
+      border-left: 1px solid var(--glass-border);
+      border-top-left-radius: 14px;
+      border-bottom-left-radius: 14px;
+    }
 
-    .rank { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 18px; }
+    .results-table td:last-child {
+      border-right: 1px solid var(--glass-border);
+      border-top-right-radius: 14px;
+      border-bottom-right-radius: 14px;
+    }
+
+    .rank {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 900;
+      font-size: 18px;
+    }
 
     /* Row Coloring Fix */
-    .gold-row { border: 1px solid var(--gold) !important; box-shadow: inset 0 0 15px rgba(251, 191, 36, 0.1); }
-    .gold-row .rank { color: var(--gold); }
-    .silver-row .rank { color: var(--silver); }
-    .bronze-row .rank { color: var(--bronze); }
+    .gold-row {
+      border: 1px solid var(--gold) !important;
+      box-shadow: inset 0 0 15px rgba(251, 191, 36, 0.1);
+    }
+
+    .gold-row .rank {
+      color: var(--gold);
+    }
+
+    .silver-row .rank {
+      color: var(--silver);
+    }
+
+    .bronze-row .rank {
+      color: var(--bronze);
+    }
 
     .nickname-cell {
       display: flex;
@@ -159,7 +219,10 @@
       align-items: center;
       padding: 16px;
     }
-    #profile-preview-modal.active { display: flex; }
+
+    #profile-preview-modal.active {
+      display: flex;
+    }
 
     .modal-content {
       background: #043c2f;
@@ -173,66 +236,161 @@
     }
 
     @keyframes modalPop {
-      0% { opacity: 0; transform: scale(0.92) translateY(20px); }
-      100% { opacity: 1; transform: scale(1) translateY(0); }
+      0% {
+        opacity: 0;
+        transform: scale(0.92) translateY(20px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
     }
 
-    .modal-bg { height: 130px; background-size: cover; background-position: center; }
+    .modal-bg {
+      height: 130px;
+      background-size: cover;
+      background-position: center;
+    }
+
     .modal-profile-pic {
-      width: 110px; height: 110px; border-radius: 50%;
-      object-fit: cover; border: 4px solid #043c2f;
-      margin: -55px auto 0; display: block; position: relative;
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #043c2f;
+      margin: -55px auto 0;
+      display: block;
+      position: relative;
     }
 
-    .modal-info { padding: 20px 24px 30px; text-align: center; }
-    .modal-info h2 { font-family: 'Outfit', sans-serif; font-size: 24px; }
-    #preview-level { color: var(--accent); font-weight: 700; margin-bottom: 10px; font-size: 13px; }
-    #preview-about { margin: 0 auto 18px; max-width: 320px; color: var(--text-muted); font-size: 14px; line-height: 1.6; white-space: pre-wrap; }
+    .modal-info {
+      padding: 20px 24px 30px;
+      text-align: center;
+    }
 
-    .modal-level-progress { display: flex; gap: 6px; justify-content: center; }
-    .level-step { flex: 1; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.1); }
-    .level-step.active { background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+    .modal-info h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+    }
 
-    .close { position: absolute; top: 12px; right: 18px; font-size: 28px; color: #fff; cursor: pointer; z-index: 10; opacity: 0.6; }
+    #preview-level {
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+
+    #preview-about {
+      margin: 0 auto 18px;
+      max-width: 320px;
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .modal-level-progress {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+    }
+
+    .level-step {
+      flex: 1;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .level-step.active {
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+
+    .close {
+      position: absolute;
+      top: 12px;
+      right: 18px;
+      font-size: 28px;
+      color: #fff;
+      cursor: pointer;
+      z-index: 10;
+      opacity: 0.6;
+    }
 
     @media (max-width: 500px) {
-      h1 { margin: 15px 0 5px; font-size: 24px; }
-      
-      #results-container { padding: 0 8px; }
+      h1 {
+        margin: 15px 0 5px;
+        font-size: 24px;
+      }
 
-      .results-table { border-spacing: 0 4px; }
+      #results-container {
+        padding: 0 8px;
+      }
+
+      .results-table {
+        border-spacing: 0 4px;
+      }
 
       /* Hide "Quiz" and "Total" on small screens to save space */
-      .results-table th:nth-child(3), 
+      .results-table th:nth-child(3),
       .results-table td:nth-child(3),
       .results-table th:nth-child(6),
       .results-table td:nth-child(6) {
         display: none;
       }
 
-      .results-table th { padding: 5px; font-size: 10px; }
-      
-      .results-table td { 
-        padding: 8px 4px; 
-        font-size: 12px; 
+      .results-table th {
+        padding: 5px;
+        font-size: 10px;
       }
 
-      .profile-icon { width: 28px; height: 28px; border-width: 1px; }
+      .results-table td {
+        padding: 8px 4px;
+        font-size: 12px;
+      }
 
-      .nickname-cell { 
-        gap: 6px; 
-        max-width: 100px; /* Prevents long names from breaking the line */
+      .profile-icon {
+        width: 28px;
+        height: 28px;
+        border-width: 1px;
+      }
+
+      .nickname-cell {
+        gap: 6px;
+        max-width: 100px;
+        /* Prevents long names from breaking the line */
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
 
-      .rank { font-size: 14px; width: 40px; }
+      .rank {
+        font-size: 14px;
+        width: 40px;
+      }
     }
 
-    .loader { display: flex; justify-content: center; padding: 40px; }
-    .loader span { animation: hideAndSeek 1s alternate infinite; }
-    @keyframes hideAndSeek { 0% { opacity: 0.3; } 100% { opacity: 1; } }
+    .loader {
+      display: flex;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .loader span {
+      animation: hideAndSeek 1s alternate infinite;
+    }
+
+    @keyframes hideAndSeek {
+      0% {
+        opacity: 0.3;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
   </style>
 </head>
 
@@ -254,25 +412,78 @@
     </div>
   </div>
 
-  <div id="profile-preview-modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <div class="modal-bg" id="preview-bg"></div>
-      <img id="preview-pic" class="modal-profile-pic" src="" alt="Profile">
-      <div class="modal-info">
-        <h2 id="preview-nickname">Nickname</h2>
-        <p id="preview-level">Level: —</p>
-        <p id="preview-about">About me is not set yet.</p>
-        <div class="modal-level-progress">
-          <div class="level-step"></div><div class="level-step"></div><div class="level-step"></div><div class="level-step"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="profile-preview-modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div class="modal-bg" id="preview-bg"></div>
+    <img id="preview-pic" class="modal-profile-pic" src="" alt="Profile">
+    <div class="modal-info">
+      <h2 id="preview-nickname">Nickname</h2>
+      <p id="preview-level">Level: —</p>
+      <p id="preview-about">About me is not set yet.</p>
+      
+      <!-- Stats -->
+      <div class="modal-stats" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px auto; max-width: 280px; text-align: center;">
+        <div>
+          <p style="font-size: 22px; font-weight: 700; color: var(--accent); margin-bottom: 4px;" id="preview-quizzes">0</p>
+          <p style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Quizzes</p>
         </div>
+        <div>
+          <p style="font-size: 22px; font-weight: 700; color: var(--accent); margin-bottom: 4px;" id="preview-correct">0</p>
+          <p style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Correct</p>
+        </div>
+      </div>
+
+      <!-- Level Progress -->
+      <div class="modal-level-progress">
+        <div class="level-step"></div>
+        <div class="level-step"></div>
+        <div class="level-step"></div>
+        <div class="level-step"></div>
       </div>
     </div>
   </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   <script>
     document.querySelector('.close').onclick = () => document.getElementById('profile-preview-modal').classList.remove('active');
     window.onclick = (e) => { if (e.target.id === 'profile-preview-modal') e.target.classList.remove('active'); };
   </script>
 </body>
+
 </html>

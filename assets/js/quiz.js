@@ -246,6 +246,12 @@ async function openQuizModal(jsonFile, quizId) {
           timestamp: firebase.firestore.FieldValue.serverTimestamp()
         });
 
+        // Update user profile with quiz statistics
+        await db.collection('users').doc(currentUser.uid).update({
+          quizzesCompleted: firebase.firestore.FieldValue.increment(1),
+          totalCorrectAnswers: firebase.firestore.FieldValue.increment(score)
+        });
+
         openReviewModal({
           score,
           total: totalQuestions,

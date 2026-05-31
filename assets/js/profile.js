@@ -57,6 +57,14 @@ async function loadProfile() {
     aboutDisplay.textContent = data.about || 'Tell something about yourself.';
     aboutInput.value = data.about || '';
 
+    // Update stats if they exist
+    if (data.quizzesCompleted !== undefined) {
+      document.getElementById('quizzes-count').textContent = data.quizzesCompleted;
+    }
+    if (data.totalCorrectAnswers !== undefined) {
+      document.getElementById('correct-answers-count').textContent = data.totalCorrectAnswers;
+    }
+
     if (data.level) {
       levelDisplay.textContent = `Level: ${capitalize(data.level)}`;
       updateLevelProgress(data.level);

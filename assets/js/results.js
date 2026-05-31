@@ -76,7 +76,9 @@ async function loadResults() {
             profilePic: data.profilePic || "assets/image/logo.jpg",
             level: data.level || 'beginner',
             profileBg: data.profileBg || 'assets/image/back4.jpg',
-            about: data.about || 'No information yet.'
+            about: data.about || 'No information yet.',
+            quizzesCompleted: data.quizzesCompleted || 0,
+            totalCorrectAnswers: data.totalCorrectAnswers || 0
           };
           return userCache[uid];
         }
@@ -109,11 +111,11 @@ async function loadResults() {
 
       // If scores are different, sort by highest score first
       if (dataB.score !== dataA.score) {
-        return dataB.score - dataA.score; 
+        return dataB.score - dataA.score;
       }
-      
+
       // If scores are a tie, sort by lowest time first
-      return (dataA.timeTaken || 0) - (dataB.timeTaken || 0); 
+      return (dataA.timeTaken || 0) - (dataB.timeTaken || 0);
     });
     // ----------------------------------------
 
@@ -181,6 +183,9 @@ async function loadResults() {
         modalNickname.textContent = user.nickname;
         modalLevel.textContent = `Level: ${capitalize(user.level)}`;
         modalAbout.textContent = user.about || 'No information yet.';
+
+        document.getElementById('preview-quizzes').textContent = user.quizzesCompleted;
+        document.getElementById('preview-correct').textContent = user.totalCorrectAnswers;
 
         // Update progress steps
         modalSteps.forEach(step => step.className = 'level-step');
