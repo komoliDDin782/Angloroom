@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AngloRoom - Main</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="assets/js/firebase.js" defer></script>
+  <script src="assets/js/auth.js" defer></script>
+
+  <style>
+    :root {
+      --bg-base: #022c22;
+      --accent: #10b981;
+      --accent-glow: rgba(16, 185, 129, 0.4);
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Ambient Glow */
+    body::before {
+      content: ''; position: fixed; top: -10%; left: -10%; width: 60vw; height: 60vw;
+      background: radial-gradient(circle, rgba(16,185,129,0.1) 0%, transparent 70%);
+      filter: blur(100px); z-index: -1;
+    }
+
+    header {
+      padding: 15px 20px;
+      display: flex;
+      justify-content: center;
+      background: rgba(2, 44, 34, 0.85);
+      backdrop-filter: blur(15px);
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    nav { display: flex; gap: clamp(10px, 4vw, 25px); }
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+      font-size: 14px;
+    }
+    nav a:hover, nav a[href="main.html"] { color: var(--accent); }
+
+    main {
+      flex: 1;
+      padding: 30px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    h1, h2.section-title {
+      font-family: 'Outfit', sans-serif;
+      text-align: center;
+      background: linear-gradient(to right, #fff, var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    h1 {
+      font-size: clamp(28px, 6vw, 48px);
+      margin-bottom: 30px;
+    }
+
+    h2.section-title {
+      font-size: clamp(24px, 5vw, 36px);
+      margin: 60px 0 30px;
+    }
+
+    /* ===== COMPACT CREATIVE GRID (Top Section) ===== */
+    .info-section {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: minmax(140px, auto);
+      gap: 15px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* ===== BOOKS SECTION (Bottom Section) ===== */
+    .books-section {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .info-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: row; 
+      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      position: relative;
+    }
+
+    .info-card:hover {
+      transform: translateY(-5px) scale(1.01);
+      border-color: var(--accent);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    /* Dynamic Tiling Sizes for Top Grid */
+    .card-about { grid-column: span 2; }
+    .card-mission { grid-column: span 2; }
+    .card-courses { grid-column: span 2; grid-row: span 2; }
+
+    .card-img-wrapper {
+      position: relative;
+      flex: 0 0 140px; 
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* Featured/tall cards retain taller images */
+    .card-courses .card-img-wrapper { flex: 0 0 180px; }
+
+    .card-img-wrapper img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s ease;
+    }
+
+    .info-card:hover img { transform: scale(1.08); }
+
+    .card-content {
+      padding: 18px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: linear-gradient(to right, transparent, rgba(2, 44, 34, 0.9));
+    }
+
+    .info-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .info-card p {
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* Featured Colors */
+    .card-courses h3 { color: var(--accent); }
+    .card-gogetter h3 { color: #38bdf8; }
+
+    /* ===== MOBILE FLEXIBILITY ===== */
+    @media (max-width: 992px) {
+      .info-section { grid-template-columns: repeat(2, 1fr); max-width: 100%; }
+      .books-section { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 650px) {
+      .info-section, .books-section {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .info-card {
+        grid-column: span 1 !important; grid-row: auto !important;
+        flex-direction: column;
+      }
+      .card-img-wrapper {
+        flex: 0 0 auto;
+        height: 160px !important;
+        cursor: pointer;
+      }
+      .card-content {
+        padding: 20px;
+        background: linear-gradient(to bottom, transparent, rgba(2, 44, 34, 0.9));
+      }
+    }
+
+    footer {
+      background: rgba(0,0,0,0.2);
+      padding: 30px 20px;
+      margin-top: 50px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 25px;
+      border-top: 1px solid var(--glass-border);
+      font-size: 14px;
+    }
+
+    footer h3 { color: var(--accent); margin-bottom: 12px; font-size: 17px; }
+    footer a { color: var(--text-muted); text-decoration: none; transition: 0.3s; }
+    footer a:hover { color: #fff; }
+    footer p { line-height: 1.5; }
+    #chatCard {
+  cursor: pointer;
+}
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <a href="main.html">Main</a>
+      <a href="quiz.html">Quizzes</a>
+      <a href="results.html">Results</a>
+      <a href="profile.html">Profile</a>
+      <a href="chat.html">Chat</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>AngloRoom</h1>
+
+    <section class="info-section">
+      
+      <div class="info-card card-about">
+        <div class="card-img-wrapper">
+          <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="Students">
+
+        </div>
+        <div class="card-content">
+          <h3>About Us</h3>
+          <p>AngloRoom is a leading English education center in Andijan. Our experienced teachers help students achieve fluency.</p>
+        </div>
+      </div>
+
+      <div class="info-card card-courses" id="chatCard">
+        <div class="card-img-wrapper">
+           <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="Team">
+        </div>
+        <div class="card-content">
+          <h3>Online Chat Group</h3>
+<p>Practice real English with students from our community. Chat, communicate, and improve your speaking skills every day.</p>
+        </div>
+      </div>
+
+      <div class="info-card card-mission">
+        <div class="card-img-wrapper">
+          <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=800&q=80" alt="Mission">
+        </div>
+        <div class="card-content">
+          <h3>Our Mission</h3>
+          <p>To empower students with language skills that open doors to global opportunities.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <h2 class="section-title">The Library </h2>
+    <section class="books-section">
+
+      <div class="info-card card-gogetter" id="GG1">
+        <div class="card-img-wrapper">
+          <img src="assets/image/GG1.png" alt="Go Getter 1">
+        </div>
+        <div class="card-content">
+          <h3>Go Getter 1</h3>
+          <p>a beginner-level English coursebook for young learners that teaches basic vocabulary, grammar, and communication skills through interactive and engaging activities.</p>
+        </div>
+      </div>
+
+      <div class="info-card card-gogetter" id="GG2">
+        <div class="card-img-wrapper">
+          <img src="assets/image/GG2.png" alt="Go Getter 2">
+        </div>
+        <div class="card-content">
+          <h3>Go Getter 2</h3>
+          <p>an elementary-level English coursebook that helps students improve vocabulary, grammar, and basic speaking and listening skills through interactive activities.</p>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer>
+    <div>
+      <h3>AngloRoom</h3>
+      <p>Quality English education for all ages.</p>
+    </div>
+    <div>
+      <h3>Contact</h3>
+      <p>Admin: <a href="https://t.me/angloroom_and">@angloroom_and</a></p>
+      <p>Phone: +998 94 719 19 87</p>
+    </div>
+    <div>
+      <h3>Follow Us</h3>
+      <p><a href="https://t.me/angloroom"><i class="fab fa-telegram"></i> Telegram</a></p>
+      <p><a href="https://www.instagram.com/angloroom_and/"><i class="fab fa-instagram"></i> Instagram</a></p>
+    </div>
+  </footer>
+  <script src="./assets/js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const chatCard = document.getElementById("chatCard");
+  
+      if (chatCard) {
+        chatCard.addEventListener("click", () => {
+          window.location.href = "chat.html";
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>

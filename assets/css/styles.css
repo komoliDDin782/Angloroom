@@ -1,0 +1,397 @@
+/* ---------------- Reset & Base ---------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+body {
+  background: linear-gradient(to bottom, #e6f2e6, #cce6cc);
+  color: #1b3b1b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 10px;
+}
+
+/* ---------------- Container ---------------- */
+.container, #profile-container, #auth-container {
+  width: 95%;
+  max-width: 500px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* ---------------- Headings ---------------- */
+h1 {
+  color: #145214;
+  font-size: 40px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+h2, h3 {
+  color: #145214;
+  margin-bottom: 15px;
+}
+
+/* ---------------- Paragraphs ---------------- */
+p {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+/* ---------------- Navigation ---------------- */
+nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px; /* moderate spacing */
+  margin-bottom: 25px;
+  margin-top: 35px;
+}
+
+nav a {
+  padding: 1.5em 3.2em;     /* moderate size */
+  font-size: 18px;           /* readable but not huge */
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 600;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 50px;       /* rounded but not extreme */
+  box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+}
+
+nav a:hover {
+  background-color: #145214;
+  box-shadow: 0px 14px 20px rgba(46, 229, 157, 0.35);
+  color: #fff;
+  transform: translateY(-8px);
+}
+
+nav a:active {
+  transform: translateY(-2px);
+}
+
+/* Mobile scaling */
+@media (max-width: 480px) {
+  nav a {
+    padding: 1.2em 2.5em;
+    font-size: 16px;
+    letter-spacing: 2px;
+  }
+}
+
+/* ---------------- Buttons ---------------- */
+button {
+  background-color: #2e7d32;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  margin: 10px 0;
+  font-size: 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #145214;
+}
+
+/* ---------------- Input Fields ---------------- */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+/* ---------------- Tables ---------------- */
+/* Modern Leaderboard Table */
+table {
+  width: 100%;
+  max-width: 700px;           /* keeps it centered and not too wide */
+  margin: 25px auto;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  font-size: 20px;            /* bigger text */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Header */
+th {
+  background-color: #2cb619;
+  color: white;
+  padding: 26px 18px; 
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Rows */
+td {
+  padding: 22px 20px;  
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 30px;
+}
+tr {
+  height: 90px;        /* gives breathing room */
+}
+/* Hover effect */
+tr:hover {
+  background-color: #e8f5e9;
+}
+
+/* Remove last row border */
+tr:last-child td {
+  border-bottom: none;
+}
+
+/* Mobile friendly */
+@media (max-width: 480px) {
+
+  table {
+    font-size: 22px;           /* much larger on phones */
+  }
+
+  th {
+    font-size: 24px;
+    padding: 20px 10px;
+  }
+
+  td {
+    padding: 18px 8px;
+  }
+}
+
+
+/* ---------------- Profile Picture ---------------- */
+.profile-pic {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border: 3px solid #145214;
+}
+
+/* ---------------- Unified Mobile Styles ---------------- */
+@media screen and (max-width: 480px) {
+  body {
+      padding: 15px;
+      font-size: 18px;
+  }
+
+  h1 { font-size: 32px; }
+  h2 { font-size: 28px; }
+  h3 { font-size: 24px; }
+
+  p {
+      font-size: 20px;
+      line-height: 1.6;
+  }
+
+  nav a {
+      font-size: 20px;
+      padding: 15px 25px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+      font-size: 18px;
+      padding: 15px;
+  }
+
+  button {
+      font-size: 20px;
+      padding: 15px 30px;
+  }
+
+  .container, #profile-container, #auth-container {
+      padding: 25px;
+  }
+
+  .profile-pic {
+      width: 160px;
+      height: 160px;
+  }
+
+  table th, table td {
+      font-size: 16px;
+      padding: 12px;
+  }
+}
+
+/* Centering wrapper */
+.auth-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+
+/* Container */
+#auth-container.form-container {
+  width: 320px;
+  max-width: 90%;
+  background: linear-gradient(145deg, #2e7d32, #4caf50);
+  border-radius: 18px;
+  padding: 35px 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  color: #fff;
+  text-align: center;
+}
+
+/* Title inside container */
+#auth-container h1 {
+  color: white;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+/* Small heading */
+#auth-container p {
+  font-size: 22px;
+  font-weight: 900;
+  margin-bottom: 30px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Form */
+#auth-container .form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels */
+#auth-container label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  text-align: left;
+  width: 100%;
+  display: block;
+}
+
+/* Inputs */
+#auth-container .input {
+  padding: 12px;
+  margin-bottom: 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+}
+
+/* Focus effect */
+#auth-container .input:focus {
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3);
+}
+
+/* Button */
+#auth-container button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #1b5e20;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#auth-container button:hover {
+  background-color: #145214;
+  transform: scale(1.03);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  #auth-container {
+    padding: 25px 18px;
+  }
+
+  #auth-container h1 {
+    font-size: 24px;
+  }
+
+  #auth-container p {
+    font-size: 20px;
+  }
+
+  #auth-container .input,
+  #auth-container button {
+    font-size: 16px;
+    padding: 10px;
+  }
+}
+/* Make results container bigger for all screens */
+#results-container {
+  width: 100%;
+  max-width: 800px;   /* bigger than before */
+  margin: 25px auto;
+  padding: 20px;
+  font-size: 20px;    /* default bigger font */
+}
+
+/* Table styling */
+#results-container table {
+  width: 100%;
+  font-size: 22px;     /* bigger text inside table */
+}
+
+#results-container th, 
+#results-container td {
+  padding: 18px 12px;  /* bigger padding */
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 600px) {
+  #results-container {
+    width: 95%;         /* almost full width */
+    padding: 15px;
+    font-size: 22px;    /* bigger text for mobile */
+  }
+
+  #results-container table {
+    font-size: 24px;    /* really readable on small phones */
+  }
+
+  #results-container th, 
+  #results-container td {
+    padding: 20px 10px; /* more spacing for touch readability */
+  }
+
+  .profile-icon {
+    width: 50px;        /* bigger profile pics */
+    height: 50px;
+  }
+}

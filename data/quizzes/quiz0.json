@@ -1,0 +1,85 @@
+{
+  "title": "Present Perfect",
+  "questions": [
+    {
+      "question": "I ___ my homework already.",
+      "options": ["have finished", "has finished", "finished", "finish"]
+    },
+    {
+      "question": "She ___ to London twice. ",
+      "options": ["has been", "have been", "was", "is"]
+    },
+    {
+      "question": "They ___ the movie yet.",
+      "options": ["haven't watched", "hasn't watched", "didn't watched", "don't watch"]
+    },
+    {
+      "question": "He ___ his keys.",
+      "options": ["has lost", "have lost", "lost", "loses"]
+    }, 
+    {
+      "question": "We ___ dinner already.",
+      "options": ["have eaten", "has eaten", "ate", "eat"]
+    },
+    {
+      "question": "___ you ever visited Paris?",
+      "options": ["Have", "Has", "Did", "Do"]
+    },
+    {
+      "question": "My brother ___ a new phone.",
+      "options": ["has bought", "have bought", "bought", "buys"]
+    },
+    {
+      "question": "I ___ this book before.",
+      "options": ["have read", "has read", "readed", "reads"]
+    },
+    {
+      "question": "She ___ her project yet.",
+      "options": ["hasn't finished", "haven't finished", "didn't finish", "doesn't finish"]
+    },
+    {
+      "question": "They ___ here since morning.",
+      "options": ["have been", "has been", "were", "are"]
+    },
+    {
+      "question": "He ___ never ___ sushi.",
+      "options": ["has / tried", "have / tried", "did / try", "is / trying"]
+    },
+    {
+      "question": "We ___ each other for years.",
+      "options": ["have known", "has known", "knew", "know"]
+    },
+    {
+      "question": "___ she finished her work?",
+      "options": ["Has", "Have", "Did", "Does"]
+    },
+    {
+      "question": "I ___ my bag somewhere.",
+      "options": ["have left", "has left", "left", "leave"]
+    },
+    {
+      "question": "Tom ___ the test successfully.",
+      "options": ["has passed", "have passed", "passed", "passes"]
+    },
+    {
+      "question": "They ___ not replied to my message.",
+      "options": ["have", "has", "did", "do"]
+    },
+    {
+      "question": "She ___ in this city since 2020.",
+      "options": ["has lived", "have lived", "lived", "lives"]
+    },
+    {
+      "question": "We ___ our work yet.",
+      "options": ["haven't completed", "hasn't completed", "didn't complete", "don't complete"]
+    },
+    {
+      "question": "___ they ever met a celebrity?",
+      "options": ["Have", "Has", "Did", "Do"]
+    },
+    {
+      "question": "My parents ___ abroad many times.",
+      "options": ["have traveled", "has traveled", "traveled", "travel"]
+    }
+  ]
+}
