@@ -17,7 +17,14 @@ const modalBg = document.getElementById('preview-bg');
 const modalPic = document.getElementById('preview-pic');
 const modalNickname = document.getElementById('preview-nickname');
 const modalLevel = document.getElementById('preview-level');
+const modalAbout = document.getElementById('preview-about');
 const modalSteps = modal.querySelectorAll('.level-step');
+
+const actionMenu = document.getElementById('message-action-menu');
+const actionReplyBtn = document.getElementById('action-reply');
+const actionClearBtn = document.getElementById('action-clear-reaction');
+const reactionButtons = document.querySelectorAll('.reaction-btn');
+let activeActionBubble = null;
 
 /* ---------- Application State Config ---------- */
 let currentUser;
@@ -95,7 +102,10 @@ function renderMessage(msg, msgId) {
     quoteHTML = `<div class="reply-quote"><span class="reply-user-label">@${msg.parentMsg.nickname}</span>${escapeHTML(msg.parentMsg.text)}</div>`;
   }
 
-  // Stamped data-uid attribute onto the avatar to ensure modal event tracking maps cleanly
+  // Build reaction row from server-side payload
+  const reactionHTML = buildReactionBar(msg.reactions || {});
+  const userReaction = currentUser && msg.reactions ? msg.reactions[currentUser.uid] || '' : '';
+
   const msgHTML = `
   <div class="msg-wrapper ${alignmentClass}">
     <img src="${msg.profilePic || 'assets/image/logo.jpg'}" alt="${msg.nickname}" class="user-avatar" data-uid="${msg.uid}">
@@ -104,11 +114,29 @@ function renderMessage(msg, msgId) {
         <span class="meta-info">${msg.nickname}</span>
         ${deleteBtnHTML}
       </div>
-      <div class="bubble" onclick="setReplyTarget('${msgId}', '${escapeQuotes(msg.nickname)}', '${escapeQuotes(msg.text)}')">${quoteHTML}${escapeHTML(msg.text)}</div>
+      <div class="bubble" data-msg-id="${msgId}" data-msg-user="${escapeQuotes(msg.nickname)}" data-msg-text="${escapeQuotes(msg.text)}" data-current-reaction="${escapeQuotes(userReaction)}">${quoteHTML}${escapeHTML(msg.text)}</div>
+      ${reactionHTML}
     </div>
   </div>`;
   
   messagesBox.insertAdjacentHTML('beforeend', msgHTML);
+}
+
+function buildReactionBar(reactions) {
+  const entries = Object.values(reactions).filter(Boolean);
+  if (!entries.length) return '';
+
+  const counts = entries.reduce((acc, emoji) => {
+    acc[emoji] = (acc[emoji] || 0) + 1;
+    return acc;
+  }, {});
+
+  let reactionHTML = '<div class="reaction-bar">';
+  for (const [emoji, count] of Object.entries(counts)) {
+    reactionHTML += `<span class="reaction-pill">${escapeHTML(emoji)}${count > 1 ? count : ''}</span>`;
+  }
+  reactionHTML += '</div>';
+  return reactionHTML;
 }
 
 /* ---------- Asynchronous Profile Cache Worker ---------- */
@@ -123,7 +151,8 @@ async function getProfileCardData(uid) {
         nickname: data.nickname || "Student",
         profilePic: data.profilePic || "assets/image/logo.jpg",
         level: data.level || 'beginner',
-        profileBg: data.profileBg || 'assets/image/back4.jpg'
+        profileBg: data.profileBg || 'assets/image/back4.jpg',
+        about: data.about || 'No information yet.'
       };
       return globalProfileCache[uid];
     }
@@ -136,7 +165,8 @@ async function getProfileCardData(uid) {
     nickname: "User",
     profilePic: "assets/image/logo.jpg",
     level: 'beginner',
-    profileBg: 'assets/image/back4.jpg'
+    profileBg: 'assets/image/back4.jpg',
+    about: 'No information yet.'
   };
 }
 
@@ -147,26 +177,30 @@ messagesBox.addEventListener('click', async (e) => {
     const targetUID = e.target.dataset.uid;
     if (!targetUID) return;
 
-    // Fetch details from local memory cash layers or run Firestore documentation fetches
     const profile = await getProfileCardData(targetUID);
-
-    // Map properties across template DOM fields
     modalPic.src = profile.profilePic;
     modalBg.style.backgroundImage = `url(${profile.profileBg})`;
     modalNickname.textContent = profile.nickname;
     modalLevel.textContent = `Level: ${capitalize(profile.level)}`;
+    modalAbout.textContent = profile.about || 'No information yet.';
 
-    // Reset progress tracker tracking lines
     modalSteps.forEach(step => step.classList.remove('active'));
-    
-    // Calculate milestone indicators matching current user classification index tier markers
     const classificationIndex = levelOrder.indexOf(profile.level.toLowerCase());
     for (let i = 0; i <= classificationIndex; i++) {
       if (modalSteps[i]) modalSteps[i].classList.add('active');
     }
 
-    // Toggle overlay system into view bounds
     modal.style.display = 'flex';
+    return;
+  }
+
+  const bubble = e.target.closest('.bubble');
+  if (bubble) {
+    const msgId = bubble.dataset.msgId;
+    const nickname = bubble.dataset.msgUser;
+    const text = bubble.dataset.msgText;
+    openMessageActionMenu(bubble, msgId, nickname, text);
+    return;
   }
 });
 
@@ -190,12 +224,90 @@ function clearReplyTarget() {
 
 cancelReplyBtn.addEventListener('click', clearReplyTarget);
 
+actionReplyBtn.addEventListener('click', () => {
+  if (!activeActionBubble) return;
+  const msgId = activeActionBubble.dataset.msgId;
+  const nickname = activeActionBubble.dataset.msgUser;
+  const text = activeActionBubble.dataset.msgText;
+  setReplyTarget(msgId, nickname, text);
+  hideActionMenu();
+});
+
+reactionButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    if (!activeActionBubble) return;
+    const msgId = activeActionBubble.dataset.msgId;
+    const currentReaction = activeActionBubble.dataset.currentReaction || '';
+    const emoji = button.dataset.emoji;
+    setMessageReaction(msgId, currentReaction === emoji ? '' : emoji);
+  });
+});
+
+actionClearBtn.addEventListener('click', () => {
+  if (!activeActionBubble) return;
+  const msgId = activeActionBubble.dataset.msgId;
+  setMessageReaction(msgId, '');
+});
+
+window.addEventListener('click', (e) => {
+  if (actionMenu && !actionMenu.contains(e.target) && !e.target.closest('.bubble')) {
+    hideActionMenu();
+  }
+});
+
 /* ---------- Modal Close Actions ---------- */
 modalClose.addEventListener('click', () => modal.style.display = 'none');
 
 window.addEventListener('click', (e) => {
   if (e.target === modal) modal.style.display = 'none';
 });
+
+function openMessageActionMenu(bubble, msgId, nickname, text) {
+  if (!actionMenu) return;
+
+  activeActionBubble = bubble;
+  highlightActionMenuSelection(bubble.dataset.currentReaction || '');
+  actionMenu.style.display = 'grid';
+  actionMenu.setAttribute('aria-hidden', 'false');
+
+  const bubbleRect = bubble.getBoundingClientRect();
+  actionMenu.style.left = `${Math.min(Math.max(bubbleRect.left + bubbleRect.width / 2, 12), window.innerWidth - actionMenu.offsetWidth - 12)}px`;
+  actionMenu.style.top = `${Math.max(bubbleRect.top - actionMenu.offsetHeight - 10, 10)}px`;
+}
+
+function highlightActionMenuSelection(currentReaction) {
+  reactionButtons.forEach(button => {
+    button.classList.toggle('selected', button.dataset.emoji === currentReaction);
+  });
+}
+
+async function setMessageReaction(msgId, emoji) {
+  if (!currentUser) return;
+
+  const fieldPath = `reactions.${currentUser.uid}`;
+  const updatePayload = {};
+  if (!emoji) {
+    updatePayload[fieldPath] = firebase.firestore.FieldValue.delete();
+  } else {
+    updatePayload[fieldPath] = emoji;
+  }
+
+  try {
+    await db.collection('messages').doc(msgId).update(updatePayload);
+  } catch (err) {
+    console.error('Failed to update message reaction:', err);
+    alert('Could not update reaction. Please try again.');
+  } finally {
+    hideActionMenu();
+  }
+}
+
+function hideActionMenu() {
+  if (!actionMenu) return;
+  actionMenu.style.display = 'none';
+  actionMenu.setAttribute('aria-hidden', 'true');
+  activeActionBubble = null;
+}
 
 /* ---------- Admin Action Vector: Delete Document ---------- */
 window.deleteMessage = async function(msgId) {

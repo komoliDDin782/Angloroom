@@ -9,6 +9,7 @@ const modalBg = document.getElementById('preview-bg');
 const modalPic = document.getElementById('preview-pic');
 const modalNickname = document.getElementById('preview-nickname');
 const modalLevel = document.getElementById('preview-level');
+const modalAbout = document.getElementById('preview-about');
 const modalSteps = modal.querySelectorAll('.level-step');
 
 // Utility Functions
@@ -74,7 +75,8 @@ async function loadResults() {
             nickname: data.nickname || uid,
             profilePic: data.profilePic || "assets/image/logo.jpg",
             level: data.level || 'beginner',
-            profileBg: data.profileBg || 'assets/image/back4.jpg'
+            profileBg: data.profileBg || 'assets/image/back4.jpg',
+            about: data.about || 'No information yet.'
           };
           return userCache[uid];
         }
@@ -86,7 +88,8 @@ async function loadResults() {
         nickname: uid.substring(0, 8) + '...',
         profilePic: "assets/image/logo.jpg",
         level: 'beginner',
-        profileBg: 'assets/image/back4.jpg'
+        profileBg: 'assets/image/back4.jpg',
+        about: 'No information yet.'
       };
     }
 
@@ -177,6 +180,7 @@ async function loadResults() {
         modalBg.style.backgroundImage = `url(${user.profileBg})`;
         modalNickname.textContent = user.nickname;
         modalLevel.textContent = `Level: ${capitalize(user.level)}`;
+        modalAbout.textContent = user.about || 'No information yet.';
 
         // Update progress steps
         modalSteps.forEach(step => step.className = 'level-step');

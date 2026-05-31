@@ -1,9 +1,12 @@
 const settingsBtn = document.getElementById('settings-btn');
 const settingsDropdown = document.getElementById('settings-dropdown');
 const changeNicknameBtn = document.getElementById('change-nickname');
+const editAboutBtn = document.getElementById('edit-about');
 const nicknameDisplay = document.getElementById('nickname-display');
 const nicknameInput = document.getElementById('nickname');
 const saveProfileBtn = document.getElementById('save-profile-btn');
+const aboutDisplay = document.getElementById('about-display');
+const aboutInput = document.getElementById('about');
 
 const profilePicInput = document.getElementById('profile-pic-input');
 const profilePicImage = document.getElementById('profile-pic');
@@ -50,6 +53,9 @@ async function loadProfile() {
     if (data.nickname) nicknameDisplay.textContent = data.nickname;
     if (data.profilePic) profilePicImage.src = data.profilePic;
     if (data.profileBg) profileTopBg.style.backgroundImage = `url(${data.profileBg})`;
+
+    aboutDisplay.textContent = data.about || 'Tell something about yourself.';
+    aboutInput.value = data.about || '';
 
     if (data.level) {
       levelDisplay.textContent = `Level: ${capitalize(data.level)}`;
@@ -108,6 +114,17 @@ changeNicknameBtn.addEventListener('click', () => {
   saveProfileBtn.style.display = 'inline-block';
 });
 
+editAboutBtn.addEventListener('click', () => {
+  aboutInput.value = aboutDisplay.textContent === 'Tell something about yourself.' ? '' : aboutDisplay.textContent;
+  aboutDisplay.style.display = 'none';
+  aboutInput.style.display = 'block';
+  saveProfileBtn.style.display = 'inline-block';
+});
+
+aboutInput.addEventListener('input', () => {
+  saveProfileBtn.style.display = 'inline-block';
+});
+
 /* ---------- Change profile pic ---------- */
 profilePicInput.addEventListener('change', () => {
   const file = profilePicInput.files[0];
@@ -162,6 +179,10 @@ saveProfileBtn.addEventListener('click', async () => {
       updates.nickname = nickname;
     }
 
+    if (aboutInput.style.display === 'block') {
+      updates.about = aboutInput.value.trim();
+    }
+
     if (profilePicInput.files[0]) {
       const imageUrl = await uploadImageToImgBB(profilePicInput.files[0]);
       updates.profilePic = imageUrl;
@@ -180,6 +201,12 @@ saveProfileBtn.addEventListener('click', async () => {
       nicknameDisplay.textContent = updates.nickname;
       nicknameDisplay.style.display = 'block';
       nicknameInput.style.display = 'none';
+    }
+
+    if (updates.about !== undefined) {
+      aboutDisplay.textContent = updates.about || 'Tell something about yourself.';
+      aboutDisplay.style.display = 'block';
+      aboutInput.style.display = 'none';
     }
 
     saveProfileBtn.style.display = 'none';

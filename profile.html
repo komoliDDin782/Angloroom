@@ -268,6 +268,51 @@
       color: var(--text-muted);
     }
 
+    .about-section {
+      display: grid;
+      gap: 16px;
+      text-align: left;
+      margin: 30px auto;
+      max-width: 600px;
+    }
+
+    .about-section label {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    #about-display {
+      min-height: 120px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--text-main);
+      font-size: 15px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+    #about {
+      width: 100%;
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      color: var(--text-main);
+      font-size: 15px;
+      outline: none;
+      resize: vertical;
+      min-height: 120px;
+      display: none;
+    }
+
+    #about:focus {
+      border-color: var(--accent);
+      background: rgba(16, 185, 129, 0.08);
+    }
+
     #save-profile-btn {
       display: none;
       font-family: 'Plus Jakarta Sans', sans-serif;
@@ -329,6 +374,10 @@
             <i class="fas fa-user-edit"></i> Change Nickname
           </div>
 
+          <div class="dropdown-item" id="edit-about">
+            <i class="fas fa-pen"></i> Edit About Me
+          </div>
+
           <div class="dropdown-item" id="logout-btn">
             <i class="fas fa-sign-out-alt"></i> Log Out
           </div>
@@ -346,6 +395,12 @@
         <div class="level-step"></div>
         <div class="level-step"></div>
         <div class="level-step"></div>
+      </div>
+
+      <div class="about-section">
+        <label for="about">About Me</label>
+        <p id="about-display">Tell something about yourself.</p>
+        <textarea id="about" rows="4" placeholder="Write about yourself"></textarea>
       </div>
 
       <input type="text" id="nickname" placeholder="Enter nickname">
