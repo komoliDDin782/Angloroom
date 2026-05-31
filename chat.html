@@ -249,10 +249,13 @@
     }
 
     .incoming .bubble {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
       border-top-left-radius: 4px;
+      color: #e2e8f0;
     }
+
+    .outgoing .bubble {
       background: linear-gradient(135deg, #0f766e, var(--bg-base));
       border: 1px solid var(--accent);
       box-shadow: 0 0 15px var(--accent-glow);
@@ -262,14 +265,13 @@
 
     /* --- Reply Box Context UI --- */
     .reply-quote {
-      background: rgba(0, 0, 0, 0.2);
-      border-left: 3px solid var(--accent);
-      padding: 6px 10px;
-      border-radius: 6px;
+      background: rgba(16, 185, 129, 0.12);
+      border-left: 4px solid var(--accent);
+      padding: 10px 14px;
+      border-radius: 14px;
       font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-      max-height: 60px;
+      color: #e2e8f0;
+      margin-bottom: 10px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
