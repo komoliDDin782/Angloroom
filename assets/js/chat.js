@@ -73,14 +73,33 @@ function listenForMessages() {
     .orderBy('createdAt', 'asc')
     .limitToLast(50)
     .onSnapshot((snapshot) => {
+      const scrollPos = messagesBox.scrollTop;
+      const scrollHeight = messagesBox.scrollHeight;
+      const isAtBottom = messagesBox.scrollTop + messagesBox.clientHeight >= scrollHeight - 50;
+      
       messagesBox.innerHTML = '';
+      let lastDate = null;
 
       snapshot.forEach((doc) => {
         const msg = doc.data();
+        const msgDate = msg.createdAt ? getDateOnly(msg.createdAt) : null;
+        
+        // Insert date separator if day changed
+        if (msgDate && (!lastDate || msgDate !== lastDate)) {
+          const separator = formatDateSeparator(msg.createdAt);
+          messagesBox.insertAdjacentHTML('beforeend', separator);
+          lastDate = msgDate;
+        }
+        
         renderMessage(msg, doc.id);
       });
 
-      messagesBox.scrollTop = messagesBox.scrollHeight;
+      // Preserve scroll position unless user was at bottom
+      if (isAtBottom) {
+        messagesBox.scrollTop = messagesBox.scrollHeight;
+      } else {
+        messagesBox.scrollTop = scrollPos;
+      }
     }, (error) => {
       console.error("Snapshot network failure tracking messages:", error);
     });
@@ -105,6 +124,7 @@ function renderMessage(msg, msgId) {
   // Build reaction row from server-side payload
   const reactionHTML = buildReactionBar(msg.reactions || {});
   const userReaction = currentUser && msg.reactions ? msg.reactions[currentUser.uid] || '' : '';
+  const timestamp = msg.createdAt ? formatMessageTime(msg.createdAt) : '';
 
   const msgHTML = `
   <div class="msg-wrapper ${alignmentClass}">
@@ -115,6 +135,7 @@ function renderMessage(msg, msgId) {
         ${deleteBtnHTML}
       </div>
       <div class="bubble" data-msg-id="${msgId}" data-msg-user="${escapeQuotes(msg.nickname)}" data-msg-text="${escapeQuotes(msg.text)}" data-current-reaction="${escapeQuotes(userReaction)}">${quoteHTML}${escapeHTML(msg.text)}</div>
+      <span class="msg-timestamp">${timestamp}</span>
       ${reactionHTML}
     </div>
   </div>`;
@@ -138,6 +159,66 @@ function buildReactionBar(reactions) {
   reactionHTML += '</div>';
   return reactionHTML;
 }
+
+function formatMessageTime(timestamp) {
+  if (!timestamp) return '';
+  
+  let date;
+  if (timestamp.toDate) {
+    date = timestamp.toDate();
+  } else if (timestamp instanceof Date) {
+    date = timestamp;
+  } else {
+    return '';
+  }
+
+  return date.toLocaleTimeString('en-US', { 
+    hour: '2-digit', 
+    minute: '2-digit',
+    hour12: true
+  });
+}
+
+function getDateOnly(timestamp) {
+  if (!timestamp) return null;
+  
+  let date;
+  if (timestamp.toDate) {
+    date = timestamp.toDate();
+  } else if (timestamp instanceof Date) {
+    date = timestamp;
+  } else {
+    return null;
+  }
+
+  return date.toDateString();
+}
+
+function formatDateSeparator(timestamp) {
+  if (!timestamp) return '';
+  
+  let date;
+  if (timestamp.toDate) {
+    date = timestamp.toDate();
+  } else if (timestamp instanceof Date) {
+    date = timestamp;
+  } else {
+    return '';
+  }
+
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  if (date.toDateString() === today.toDateString()) {
+    return '<div class="date-separator">Today</div>';
+  } else if (date.toDateString() === yesterday.toDateString()) {
+    return '<div class="date-separator">Yesterday</div>';
+  } else {
+    return `<div class="date-separator">${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: date.getFullYear() !== today.getFullYear() ? 'numeric' : undefined })}</div>`;
+  }
+}
+
 
 /* ---------- Asynchronous Profile Cache Worker ---------- */
 async function getProfileCardData(uid) {
@@ -267,12 +348,32 @@ function openMessageActionMenu(bubble, msgId, nickname, text) {
 
   activeActionBubble = bubble;
   highlightActionMenuSelection(bubble.dataset.currentReaction || '');
-  actionMenu.style.display = 'grid';
+  actionMenu.style.display = 'flex';
   actionMenu.setAttribute('aria-hidden', 'false');
 
   const bubbleRect = bubble.getBoundingClientRect();
-  actionMenu.style.left = `${Math.min(Math.max(bubbleRect.left + bubbleRect.width / 2, 12), window.innerWidth - actionMenu.offsetWidth - 12)}px`;
-  actionMenu.style.top = `${Math.max(bubbleRect.top - actionMenu.offsetHeight - 10, 10)}px`;
+  const menuWidth = 240;
+  const menuHeight = actionMenu.offsetHeight;
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+  
+  let left = bubbleRect.left + bubbleRect.width / 2 - menuWidth / 2;
+  let top = bubbleRect.top - menuHeight - 10;
+  
+  // Clamp horizontal position
+  left = Math.max(10, Math.min(left, viewportWidth - menuWidth - 10));
+  
+  // Clamp vertical position
+  if (top < 10) {
+    top = bubbleRect.bottom + 10;
+  }
+  if (top + menuHeight > viewportHeight) {
+    top = Math.max(10, viewportHeight - menuHeight - 10);
+  }
+  
+  actionMenu.style.left = `${left}px`;
+  actionMenu.style.top = `${top}px`;
+  actionMenu.style.transform = 'none';
 }
 
 function highlightActionMenuSelection(currentReaction) {
