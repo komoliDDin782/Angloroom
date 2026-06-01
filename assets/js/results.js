@@ -78,7 +78,8 @@ async function loadResults() {
             profileBg: data.profileBg || 'assets/image/back4.jpg',
             about: data.about || 'No information yet.',
             quizzesCompleted: data.quizzesCompleted || 0,
-            totalCorrectAnswers: data.totalCorrectAnswers || 0
+            totalCorrectAnswers: data.totalCorrectAnswers || 0,
+            lightAchievements: data.lightAchievements || 0
           };
           return userCache[uid];
         }
@@ -186,6 +187,7 @@ async function loadResults() {
 
         document.getElementById('preview-quizzes').textContent = user.quizzesCompleted;
         document.getElementById('preview-correct').textContent = user.totalCorrectAnswers;
+        document.getElementById('preview-lightning').textContent = user.lightAchievements;
 
         // Update progress steps
         modalSteps.forEach(step => step.className = 'level-step');

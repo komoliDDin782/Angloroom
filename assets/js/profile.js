@@ -64,6 +64,9 @@ async function loadProfile() {
     if (data.totalCorrectAnswers !== undefined) {
       document.getElementById('correct-answers-count').textContent = data.totalCorrectAnswers;
     }
+    if (data.lightAchievements !== undefined) {
+      document.getElementById('light-achievements').textContent = data.lightAchievements;
+    }
 
     if (data.level) {
       levelDisplay.textContent = `Level: ${capitalize(data.level)}`;

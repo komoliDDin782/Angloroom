@@ -247,10 +247,19 @@ async function openQuizModal(jsonFile, quizId) {
         });
 
         // Update user profile with quiz statistics
-        await db.collection('users').doc(currentUser.uid).update({
+        const updateData = {
           quizzesCompleted: firebase.firestore.FieldValue.increment(1),
           totalCorrectAnswers: firebase.firestore.FieldValue.increment(score)
-        });
+        };
+
+        // Check if light achievement unlocked (completed in under 2 minutes)
+        const twoMinutesMs = 120000;
+        if (timeTakenMs < twoMinutesMs) {
+          updateData.lightAchievements = firebase.firestore.FieldValue.increment(1);
+          alert('⚡ You got the Lightning Achievement! Completed quiz in under 2 minutes!');
+        }
+
+        await db.collection('users').doc(currentUser.uid).update(updateData);
 
         openReviewModal({
           score,

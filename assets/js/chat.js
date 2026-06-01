@@ -236,7 +236,8 @@ async function getProfileCardData(uid) {
             profileBg: data.profileBg || 'assets/image/back4.jpg',
             about: data.about || 'No information yet.',
             quizzesCompleted: data.quizzesCompleted || 0,
-            totalCorrectAnswers: data.totalCorrectAnswers || 0
+            totalCorrectAnswers: data.totalCorrectAnswers || 0,
+            lightAchievements: data.lightAchievements || 0
         
       };
       return globalProfileCache[uid];
@@ -272,6 +273,7 @@ messagesBox.addEventListener('click', async (e) => {
     // ✅ Correct - 'profile' is the variable you fetched
 document.getElementById('preview-quizzes').textContent = profile.quizzesCompleted;
 document.getElementById('preview-correct').textContent = profile.totalCorrectAnswers;
+document.getElementById('preview-lightning').textContent = profile.lightAchievements;
     
 
     modalSteps.forEach(step => step.classList.remove('active'));
