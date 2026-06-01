@@ -71,11 +71,11 @@
     },
     {
       "question": "It is ___ hot today.",
-      "options": ["very", "too", "to", "two"]
+      "options": ["very", "in front of", "to", "two"]
     },
     {
-      "question": "She ___ always goes to school.",
-      "options": ["always", "never", "too", "very"]
+      "question": "She ___ goes to school.",
+      "options": ["always", "to", "too", "very"]
     },
     {
       "question": "There is ___ apple on the table.",
