@@ -8,8 +8,10 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Outfit:wght@700;900&display=swap"
+    rel="stylesheet">
+
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -33,7 +35,11 @@
     }
 
     /* ===== BASE STYLES ===== */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
       min-height: 100vh;
@@ -48,9 +54,15 @@
 
     /* Ambient Background */
     body::before {
-      content: ''; position: fixed; top: -10%; left: -10%; width: 50vw; height: 50vw;
-      background: radial-gradient(circle, rgba(16,185,129,0.1) 0%, transparent 70%);
-      filter: blur(100px); z-index: -1;
+      content: '';
+      position: fixed;
+      top: -10%;
+      left: -10%;
+      width: 50vw;
+      height: 50vw;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+      filter: blur(100px);
+      z-index: -1;
     }
 
     /* ===== NAVIGATION ===== */
@@ -66,7 +78,10 @@
       border-bottom: 1px solid var(--glass-border);
     }
 
-    nav { display: flex; gap: clamp(15px, 4vw, 30px); }
+    nav {
+      display: flex;
+      gap: clamp(15px, 4vw, 30px);
+    }
 
     nav a {
       color: var(--text-muted);
@@ -76,7 +91,8 @@
       transition: 0.3s;
     }
 
-    nav a:hover, nav a[href="profile.html"] {
+    nav a:hover,
+    nav a[href="profile.html"] {
       color: var(--accent);
       text-shadow: 0 0 10px var(--accent-glow);
     }
@@ -109,12 +125,20 @@
     }
 
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .profile-top-bg {
-      height: 200px; /* Slightly shorter for modern proportions */
+      height: 200px;
+      /* Slightly shorter for modern proportions */
       background-image: url(assets/image/back4.jpg);
       background-size: cover;
       background-position: center;
@@ -127,7 +151,8 @@
       height: 160px;
       border-radius: 50%;
       object-fit: cover;
-      border: 6px solid var(--bg-base); /* Matches background instead of stark white */
+      border: 6px solid var(--bg-base);
+      /* Matches background instead of stark white */
       position: absolute;
       bottom: -80px;
       left: 50%;
@@ -153,7 +178,7 @@
       cursor: pointer;
       z-index: 10;
       transition: color 0.3s;
-      text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     }
 
     .settings-menu:hover {
@@ -194,16 +219,19 @@
     }
 
     #logout-btn {
-      color: #ef4444; /* Soft red for dark mode */
+      color: #ef4444;
+      /* Soft red for dark mode */
       border-top: 1px solid var(--glass-border);
     }
+
     #logout-btn:hover {
       background-color: rgba(239, 68, 68, 0.1);
     }
 
     /* ===== PROFILE BOTTOM ===== */
     .profile-bottom {
-      padding: 100px 25px 50px; /* Adjusted padding to fit new avatar size */
+      padding: 100px 25px 50px;
+      /* Adjusted padding to fit new avatar size */
     }
 
     #nickname-display {
@@ -240,10 +268,25 @@
     }
 
     /* Utilizing the exact classes from your JS */
-    .level-step.active.beginner { background: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
-    .level-step.active.elementary { background: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
-    .level-step.active.intermediate { background: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
-    .level-step.active.advanced { background: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
+    .level-step.active.beginner {
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .level-step.active.elementary {
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .level-step.active.intermediate {
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .level-step.active.advanced {
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
 
     /* ===== INPUTS & BUTTONS ===== */
     #nickname {
@@ -261,9 +304,9 @@
       margin: 0 auto 20px;
       text-align: center;
       outline: none;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
     }
-    
+
     #nickname::placeholder {
       color: var(--text-muted);
     }
@@ -286,8 +329,8 @@
       min-height: 120px;
       padding: 18px 20px;
       border-radius: 18px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       color: var(--text-main);
       font-size: 15px;
       line-height: 1.7;
@@ -298,8 +341,8 @@
       width: 100%;
       padding: 16px 18px;
       border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
       color: var(--text-main);
       font-size: 15px;
       outline: none;
@@ -323,14 +366,17 @@
       border: none;
       cursor: pointer;
       background: var(--accent);
-      color: #000; /* Dark text on bright accent button */
+      color: #000;
+      /* Dark text on bright accent button */
       transition: transform 0.2s, background 0.3s, box-shadow 0.3s;
       box-shadow: 0 4px 15px var(--accent-glow);
     }
 
     #save-profile-btn:hover {
-      background: #0ea5e9; /* Switch to a bright blue/teal on hover or stay green */
-      background: #059669; /* Slightly darker green */
+      background: #0ea5e9;
+      /* Switch to a bright blue/teal on hover or stay green */
+      background: #059669;
+      /* Slightly darker green */
       transform: translateY(-2px);
       color: #fff;
     }
@@ -398,14 +444,21 @@
       </div>
 
       <!-- Quiz Statistics Section -->
-      <div class="stats-section" style="margin: 30px auto; max-width: 600px; padding: 20px; background: rgba(16, 185, 129, 0.08); border-radius: 16px; border: 1px solid rgba(16, 185, 129, 0.2); display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: center;">
+      <div class="stats-section"
+        style="margin: 30px auto; max-width: 600px; padding: 20px; background: rgba(16, 185, 129, 0.08); border-radius: 16px; border: 1px solid rgba(16, 185, 129, 0.2); display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: center;">
         <div>
-          <p style="font-size: 28px; font-weight: 700; color: var(--accent); margin-bottom: 8px;" id="quizzes-count">0</p>
-          <p style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Quizzes Completed</p>
+          <p style="font-size: 28px; font-weight: 700; color: var(--accent); margin-bottom: 8px;" id="quizzes-count">0
+          </p>
+          <p style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">
+            📝 Quizzes Completed
+          </p>
         </div>
         <div>
-          <p style="font-size: 28px; font-weight: 700; color: var(--accent); margin-bottom: 8px;" id="correct-answers-count">0</p>
-          <p style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Correct Answers</p>
+          <p style="font-size: 28px; font-weight: 700; color: var(--accent); margin-bottom: 8px;"
+            id="correct-answers-count">0</p>
+          <p style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">
+            ✅ Correct Answers
+          </p>
         </div>
       </div>
 
@@ -421,4 +474,5 @@
   </div>
 
 </body>
+
 </html>
