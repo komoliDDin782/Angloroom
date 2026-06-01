@@ -11,7 +11,7 @@
     },
     {
       "question": "It ___ a nice day.",
-      "options": ["is", "are", "am", "be"]
+      "options": ["is", "are", "am", "be "]
     },
     {
       "question": "This ___ your bag.",
@@ -54,7 +54,7 @@
       "options": ["ride", "rides", "riding", "rode"]
     },
     {
-      "question": "She loves ___ pictures.",
+      "question": "She loves ___ pictures",
       "options": ["drawing", "draw", "draws", "drew"]
     },
     {
@@ -75,7 +75,7 @@
     },
     {
       "question": "She ___ goes to school.",
-      "options": ["always", "to", "too", "very"]
+      "options": ["always", "two", "too", "very"]
     },
     {
       "question": "There is ___ apple on the table.",
