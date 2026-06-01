@@ -207,6 +207,191 @@
       cursor: pointer;
     }
 
+    .winner-cards {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr 1fr;
+      grid-template-areas: "third first second";
+      gap: 18px;
+      margin: 22px 0 28px;
+      align-items: end;
+    }
+
+    .winner-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 18px;
+      text-align: center;
+      min-height: 240px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      position: relative;
+    }
+
+    .winner-card.first {
+      grid-area: first;
+      transform: translateY(-8px);
+      background: rgba(251, 191, 36, 0.08);
+      border-color: rgba(251, 191, 36, 0.3);
+    }
+
+    .winner-card.second {
+      grid-area: second;
+      background: rgba(148, 163, 184, 0.08);
+      border-color: rgba(148, 163, 184, 0.3);
+    }
+
+    .winner-card.third {
+      grid-area: third;
+      background: rgba(180, 83, 9, 0.08);
+      border-color: rgba(180, 83, 9, 0.3);
+    }
+
+    .winner-card .winner-rank {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      font-size: 10px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .winner-card .winner-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--accent);
+      cursor: pointer;
+      box-shadow: 0 18px 38px rgba(0, 0, 0, 0.14);
+    }
+
+    .winner-card.first .winner-avatar {
+      width: 110px;
+      height: 110px;
+    }
+
+    .winner-card h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .winner-card p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .winner-card .winner-score {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+
+    .winner-card .winner-meta {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 860px) {
+      .winner-cards {
+        grid-template-columns: 1fr 1.2fr 1fr;
+        gap: 12px;
+        margin: 20px 0 24px;
+      }
+
+      .winner-card {
+        padding: 14px;
+        min-height: 200px;
+        gap: 10px;
+      }
+
+      .winner-card h3 {
+        font-size: 15px;
+      }
+
+      .winner-card .winner-avatar {
+        width: 70px;
+        height: 70px;
+      }
+
+      .winner-card.first .winner-avatar {
+        width: 85px;
+        height: 85px;
+      }
+
+      .winner-card .winner-score {
+        font-size: 20px;
+      }
+
+      .winner-card p {
+        font-size: 12px;
+      }
+
+      .winner-card .winner-meta {
+        font-size: 11px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .winner-cards {
+        grid-template-columns: 1fr 1.1fr 1fr;
+        gap: 8px;
+        margin: 16px 0 20px;
+      }
+
+      .winner-card {
+        padding: 12px;
+        min-height: 160px;
+        gap: 8px;
+        border-radius: 18px;
+      }
+
+      .winner-card h3 {
+        font-size: 13px;
+      }
+
+      .winner-card .winner-avatar {
+        width: 50px;
+        height: 50px;
+        border-width: 2px;
+      }
+
+      .winner-card.first .winner-avatar {
+        width: 60px;
+        height: 60px;
+      }
+
+      .winner-card .winner-score {
+        font-size: 18px;
+      }
+
+      .winner-card p {
+        font-size: 11px;
+      }
+
+      .winner-card .winner-meta {
+        font-size: 10px;
+        gap: 6px;
+      }
+
+      .winner-card .winner-rank {
+        font-size: 9px;
+        top: 10px;
+        left: 10px;
+      }
+    }
+
     /* ===== MODAL ===== */
     #profile-preview-modal {
       position: fixed;

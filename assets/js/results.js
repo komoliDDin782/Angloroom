@@ -120,14 +120,47 @@ async function loadResults() {
     });
     // ----------------------------------------
 
-    // 2. Build the Leaderboard Table
-    // Slice the results to show only the top 10 players
+    // 2. Build the Winner cards and Leaderboard Table
     const topTen = filteredDocs.slice(0, 10);
+    const topWinners = topTen.slice(0, 3);
+    const otherResults = topTen.slice(3);
 
     let html = `<br>
     <h2 style="text-align:center; font-size: 18px; margin-bottom: 10px;">
                   Top 10: ${capitalize(userLevel)}
                 </h2>`;
+
+    if (topWinners.length) {
+      html += '<div class="winner-cards">';
+
+      const winnerOrder = [
+        { position: 'third', label: '3rd Place', index: 2 },
+        { position: 'first', label: '1st Place', index: 0 },
+        { position: 'second', label: '2nd Place', index: 1 }
+      ];
+
+      for (const winner of winnerOrder) {
+        const doc = topWinners[winner.index];
+        if (!doc) continue;
+
+        const data = doc.data();
+        const userData = await getUserData(data.userId);
+        const rankLabel = winner.index === 0 ? '1st' : winner.index === 1 ? '2nd' : '3rd';
+
+        html += `
+          <article class="winner-card ${winner.position}">
+            <span class="winner-rank">${winner.label}</span>
+            <img src="${userData.profilePic}" class="winner-avatar" data-uid="${data.userId}" alt="${userData.nickname}">
+            <h3>${userData.nickname}</h3>
+            <div class="winner-score">${data.score}</div>
+            <div class="winner-meta">${data.quizId} · ${formatTime(data.timeTaken)}</div>
+            <p>Rank ${rankLabel} • Total ${data.total}</p>
+          </article>`;
+      }
+
+      html += '</div>';
+    }
+
     html += `
       <table class="results-table">
         <thead>
@@ -142,8 +175,8 @@ async function loadResults() {
         </thead>
         <tbody>`;
 
-    let rank = 1;
-    for (const doc of topTen) {
+    let rank = 4;
+    for (const doc of otherResults) {
       const data = doc.data();
       const userData = await getUserData(data.userId);
 
@@ -174,7 +207,7 @@ async function loadResults() {
     resultsContainer.innerHTML = html;
 
     // 3. Re-attach Click Events for Profile Preview
-    document.querySelectorAll('.profile-icon').forEach(img => {
+    document.querySelectorAll('.profile-icon, .winner-avatar').forEach(img => {
       img.addEventListener('click', async e => {
         const uid = e.target.dataset.uid;
         const user = await getUserData(uid);
