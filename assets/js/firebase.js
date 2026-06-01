@@ -18,4 +18,33 @@ const firebaseConfig = {
   const auth = firebase.auth();
   const db = firebase.firestore();
   const storage = firebase.storage();
-  
+window.updatePresenceStatus = async function(isOnline = true) {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  try {
+    await db.collection('users').doc(user.uid).set({
+      online: isOnline,
+      lastSeen: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+  } catch (err) {
+    console.error('Presence update failed:', err);
+  }
+};
+
+window.initializePresenceTracking = function() {
+  if (window._presenceTrackingInitialized) return;
+  window._presenceTrackingInitialized = true;
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      updatePresenceStatus(true);
+    } else {
+      updatePresenceStatus(false);
+    }
+  });
+
+  window.addEventListener('beforeunload', () => {
+    updatePresenceStatus(false);
+  });
+};  

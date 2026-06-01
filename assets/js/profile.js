@@ -39,6 +39,8 @@ auth.onAuthStateChanged(async user => {
     return;
   }
   currentUser = user;
+  updatePresenceStatus(true);
+  initializePresenceTracking();
   loadProfile();
 });
 

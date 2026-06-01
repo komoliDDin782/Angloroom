@@ -197,6 +197,11 @@
         <span>Exam Results</span>
       </button>
       
+      <button id="btn-attendance">
+        <i class="fas fa-user-clock"></i>
+        <span>Attendance</span>
+      </button>
+
       <button id="btn-students">
         <i class="fas fa-users"></i>
         <span>Manage Students</span>
@@ -220,6 +225,24 @@
           <th>Score</th>
           <th>Date</th>
           <th>Action</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <button class="action-btn" id="clear-all-results-btn" style="background: var(--danger); color: white; margin-top: 12px;">
+      Clear All Results
+    </button>
+  </div>
+
+  <div id="attendance-overlay" class="overlay">
+    <button class="close-btn" id="close-attendance">✕</button>
+    <h2>Student Attendance</h2>
+    <table id="attendance-table" style="width:100%; margin-top: 12px; border-collapse: collapse;">
+      <thead>
+        <tr>
+          <th style="text-align:left; padding: 10px;">Student</th>
+          <th style="text-align:left; padding: 10px;">Status</th>
+          <th style="text-align:left; padding: 10px;">Last Seen</th>
         </tr>
       </thead>
       <tbody></tbody>

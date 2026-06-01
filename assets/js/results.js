@@ -35,6 +35,8 @@ auth.onAuthStateChanged(async user => {
     return;
   }
   currentUser = user;
+  updatePresenceStatus(true);
+  initializePresenceTracking();
 
   try {
     const userDoc = await db.collection('users').doc(user.uid).get();

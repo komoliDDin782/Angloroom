@@ -15,9 +15,14 @@ const closeNewStudentsBtn = document.getElementById('close-new-students');
 const newStudentsTableBody = document.querySelector('#new-students-table tbody');
 
 const btnResults = document.getElementById('btn-results');
+const btnAttendance = document.getElementById('btn-attendance');
 const resultsOverlay = document.getElementById('results-overlay');
 const closeResultsBtn = document.getElementById('close-results');
+const attendanceOverlay = document.getElementById('attendance-overlay');
+const closeAttendanceBtn = document.getElementById('close-attendance');
 const resultsTableBody = document.querySelector('#results-table tbody');
+const clearAllResultsBtn = document.getElementById('clear-all-results-btn');
+const attendanceTableBody = document.querySelector('#attendance-table tbody');
 
 const studentTables = {
   elementary: document.querySelector('#students-elementary tbody'),
@@ -161,7 +166,16 @@ btnResults.addEventListener('click', () => {
   loadResults();
 });
 
+btnAttendance.addEventListener('click', () => {
+  attendanceOverlay.style.display = 'block';
+  loadAttendance();
+});
+
+closeAttendanceBtn.addEventListener('click', () => attendanceOverlay.style.display = 'none');
+
 closeResultsBtn.addEventListener('click', () => resultsOverlay.style.display = 'none');
+
+clearAllResultsBtn.addEventListener('click', deleteAllResults);
 
 async function loadResults() {
   try {
@@ -219,6 +233,60 @@ async function loadResults() {
   } catch (err) {
     console.error("Results Load Error:", err);
     resultsTableBody.innerHTML = '<tr><td colspan="5">Error loading data.</td></tr>';
+  }
+}
+
+async function deleteAllResults() {
+  if (!confirm('Delete all quiz results permanently?')) return;
+
+  try {
+    const snapshot = await db.collection('results').get();
+    if (snapshot.empty) {
+      alert('There are no results to delete.');
+      return;
+    }
+
+    const batch = db.batch();
+    snapshot.docs.forEach(doc => batch.delete(db.collection('results').doc(doc.id)));
+    await batch.commit();
+    alert('All results have been deleted.');
+    loadResults();
+    loadAttendance();
+  } catch (err) {
+    console.error('Delete all results failed:', err);
+    alert('Failed to delete all results. Try again.');
+  }
+}
+
+async function loadAttendance() {
+  try {
+    const snapshot = await db.collection('users').orderBy('nickname').get();
+    attendanceTableBody.innerHTML = '';
+
+    if (snapshot.empty) {
+      attendanceTableBody.innerHTML = '<tr><td colspan="3">No students found.</td></tr>';
+      return;
+    }
+
+    snapshot.forEach(doc => {
+      const user = doc.data();
+      const lastSeenTimestamp = user.lastSeen ? user.lastSeen.toDate() : null;
+      const lastSeenText = lastSeenTimestamp ? lastSeenTimestamp.toLocaleString() : 'Never';
+      const isOnline = user.online === true || (lastSeenTimestamp && (Date.now() - lastSeenTimestamp.getTime() < 5 * 60 * 1000));
+      const statusLabel = isOnline ? 'Online' : 'Offline';
+      const statusColor = isOnline ? 'var(--accent)' : '#e2e8f0';
+
+      const row = `
+        <tr>
+          <td>${user.nickname || 'Unknown Student'}</td>
+          <td style="color: ${statusColor}; font-weight: 700;">${statusLabel}</td>
+          <td>${lastSeenText}</td>
+        </tr>`;
+      attendanceTableBody.insertAdjacentHTML('beforeend', row);
+    });
+  } catch (err) {
+    console.error('Attendance Load Error:', err);
+    attendanceTableBody.innerHTML = '<tr><td colspan="3">Unable to load attendance.</td></tr>';
   }
 }
 
