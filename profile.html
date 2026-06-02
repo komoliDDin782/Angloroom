@@ -336,14 +336,17 @@
     }
 
     .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(100px, 1fr));
-      gap: 14px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
       margin: 24px auto 32px;
       max-width: 640px;
     }
 
     .stat-card {
+      min-width: 100px;
+      flex: 1 1 100px;
       padding: 18px 16px;
       border-radius: 20px;
       background: rgba(255,255,255,0.06);
@@ -382,11 +385,10 @@
       .about-section { max-width: 100%; margin: 24px auto; }
       .stats-grid {
         display: flex;
-        justify-content: space-between;
-        gap: 10px;
-        overflow-x: auto;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
         margin: 20px auto 28px;
-        padding-bottom: 4px;
       }
       .stat-card {
         flex: 1 1 100px;
@@ -408,11 +410,10 @@
       #nickname-display { font-size: 24px; }
       .stats-grid {
         display: flex;
-        justify-content: space-between;
-        gap: 10px;
-        overflow-x: auto;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
         margin: 18px auto 24px;
-        padding-bottom: 4px;
       }
       .stat-card {
         flex: 1 1 95px;
