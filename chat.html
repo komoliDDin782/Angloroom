@@ -598,14 +598,6 @@
   border: 1px solid var(--glass-border);
   animation: modalPop 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.modal-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin: 18px auto;
-  max-width: 280px;
-  text-align: center;
-}
 
 @keyframes modalPop {
   0% { opacity: 0; transform: scale(0.92) translateY(20px); }
@@ -623,6 +615,10 @@
 .modal-info h2 { font-family: 'Outfit', sans-serif; font-size: 24px; color: var(--text-main); }
     #preview-level { color: var(--accent); font-weight: 700; margin-bottom: 10px; font-size: 13px; }
     #preview-about { margin: 0 auto 18px; max-width: 320px; color: var(--text-muted); font-size: 14px; line-height: 1.6; white-space: pre-wrap; }
+    .modal-stats { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+    .modal-stat-card { min-width: 100px; flex: 1 1 100px; padding: 14px 12px; border-radius: 18px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 10px 30px rgba(0,0,0,0.12); }
+    .modal-stat-card strong { display: block; font-size: 24px; font-weight: 800; margin-bottom: 6px; color: #fff; }
+    .modal-stat-card span { display: block; color: #d1d5db; font-size: 13px; }
     .modal-level-progress { display: flex; gap: 6px; justify-content: center; }
 .level-step { flex: 1; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.1); }
 .level-step.active { background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
@@ -685,42 +681,39 @@
   </main>
 
 
-<div id="profile-preview-modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <div class="modal-bg" id="preview-bg"></div>
-    <img id="preview-pic" class="modal-profile-pic" src="" alt="Profile">
-    <div class="modal-info">
-      <h2 id="preview-nickname">Nickname</h2>
-      <p id="preview-level">Level: —</p>
-      <p id="preview-about">About me is not set yet.</p>
-      
-      <!-- Stats -->
-      <div class="modal-stats" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 18px auto; max-width: 380px; text-align: center;">
-        <div>
-          <p style="font-size: 22px; font-weight: 700; color: var(--accent); margin-bottom: 4px;" id="preview-quizzes">0</p>
-          <p style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Quizzes</p>
-        </div>
-        <div>
-          <p style="font-size: 22px; font-weight: 700; color: var(--accent); margin-bottom: 4px;" id="preview-correct">0</p>
-          <p style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Correct</p>
-        </div>
-        <div>
-          <p style="font-size: 22px; font-weight: 700; color: var(--accent); margin-bottom: 4px;" id="preview-lightning">0</p>
-          <p style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">⚡</p>
-        </div>
-      </div>
+  <div id="profile-preview-modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="modal-bg" id="preview-bg"></div>
+      <img id="preview-pic" class="modal-profile-pic" src="" alt="Profile">
+      <div class="modal-info">
+        <h2 id="preview-nickname">Nickname</h2>
+        <p id="preview-level">Level: —</p>
+        <p id="preview-about">About me is not set yet.</p>
 
-      <!-- Level Progress -->
-      <div class="modal-level-progress">
-        <div class="level-step"></div>
-        <div class="level-step"></div>
-        <div class="level-step"></div>
-        <div class="level-step"></div>
+        <div class="modal-level-progress">
+          <div class="level-step"></div>
+          <div class="level-step"></div>
+          <div class="level-step"></div>
+          <div class="level-step"></div>
+        </div>
+                <div class="modal-stats">
+          <div class="modal-stat-card">
+            <strong id="preview-quiz-count">0</strong>
+            <span>🎓 Quizzes</span>
+          </div>
+          <div class="modal-stat-card">
+            <strong id="preview-correct-count">0</strong>
+            <span>✅ Correct Answers</span>
+          </div>
+          <div class="modal-stat-card">
+            <strong id="preview-lightning-count">0</strong>
+            <span>⚡ Lightning</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 </body>
 </html>

@@ -18,6 +18,9 @@ const modalPic = document.getElementById('preview-pic');
 const modalNickname = document.getElementById('preview-nickname');
 const modalLevel = document.getElementById('preview-level');
 const modalAbout = document.getElementById('preview-about');
+const modalQuizCount = document.getElementById('preview-quiz-count');
+const modalCorrectCount = document.getElementById('preview-correct-count');
+const modalLightningCount = document.getElementById('preview-lightning-count');
 const modalSteps = modal.querySelectorAll('.level-step');
 
 const actionMenu = document.getElementById('message-action-menu');
@@ -25,7 +28,6 @@ const actionReplyBtn = document.getElementById('action-reply');
 const actionClearBtn = document.getElementById('action-clear-reaction');
 const reactionButtons = document.querySelectorAll('.reaction-btn');
 let activeActionBubble = null;
-
 
 /* ---------- Application State Config ---------- */
 let currentUser;
@@ -53,8 +55,6 @@ auth.onAuthStateChanged(async (user) => {
   }
   
   currentUser = user;
-  updatePresenceStatus(true);
-  initializePresenceTracking();
   
   try {
     const userDoc = await db.collection('users').doc(user.uid).get();
@@ -230,17 +230,16 @@ async function getProfileCardData(uid) {
   try {
     const userDoc = await db.collection('users').doc(uid).get();
     if (userDoc.exists) {
-      const data = userDoc.data(); 
+      const data = userDoc.data();
       globalProfileCache[uid] = {
-            nickname: data.nickname || uid,
-            profilePic: data.profilePic || "assets/image/logo.jpg",
-            level: data.level || 'beginner',
-            profileBg: data.profileBg || 'assets/image/back4.jpg',
-            about: data.about || 'No information yet.',
-            quizzesCompleted: data.quizzesCompleted || 0,
-            totalCorrectAnswers: data.totalCorrectAnswers || 0,
-            lightAchievements: data.lightAchievements || 0
-        
+        nickname: data.nickname || "Student",
+        profilePic: data.profilePic || "assets/image/logo.jpg",
+        level: data.level || 'beginner',
+        profileBg: data.profileBg || 'assets/image/back4.jpg',
+        about: data.about || 'No information yet.',
+        quizCount: data.quizCount || 0,
+        correctAnswers: data.correctAnswers || 0,
+        lightningCount: data.lightningCount || 0
       };
       return globalProfileCache[uid];
     }
@@ -254,7 +253,10 @@ async function getProfileCardData(uid) {
     profilePic: "assets/image/logo.jpg",
     level: 'beginner',
     profileBg: 'assets/image/back4.jpg',
-    about: 'No information yet.'
+    about: 'No information yet.',
+    quizCount: 0,
+    correctAnswers: 0,
+    lightningCount: 0
   };
 }
 
@@ -271,12 +273,9 @@ messagesBox.addEventListener('click', async (e) => {
     modalNickname.textContent = profile.nickname;
     modalLevel.textContent = `Level: ${capitalize(profile.level)}`;
     modalAbout.textContent = profile.about || 'No information yet.';
-
-    // ✅ Correct - 'profile' is the variable you fetched
-document.getElementById('preview-quizzes').textContent = profile.quizzesCompleted;
-document.getElementById('preview-correct').textContent = profile.totalCorrectAnswers;
-document.getElementById('preview-lightning').textContent = profile.lightAchievements;
-    
+    if (modalQuizCount) modalQuizCount.textContent = profile.quizCount;
+    if (modalCorrectCount) modalCorrectCount.textContent = profile.correctAnswers;
+    if (modalLightningCount) modalLightningCount.textContent = profile.lightningCount;
 
     modalSteps.forEach(step => step.classList.remove('active'));
     const classificationIndex = levelOrder.indexOf(profile.level.toLowerCase());

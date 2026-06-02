@@ -42,8 +42,6 @@ auth.onAuthStateChanged(async user => {
   }
 
   currentUser = user;
-  updatePresenceStatus(true);
-  initializePresenceTracking();
 
   try {
     const userDoc = await db.collection('users').doc(user.uid).get();
@@ -237,6 +235,8 @@ async function openQuizModal(jsonFile, quizId) {
       });
 
       try {
+        const lightningEarned = timeTakenMs <= 180000;
+
         await db.collection('results').add({
           userId: currentUser.uid,
           quizId,
@@ -248,26 +248,18 @@ async function openQuizModal(jsonFile, quizId) {
           timestamp: firebase.firestore.FieldValue.serverTimestamp()
         });
 
-        // Update user profile with quiz statistics
-        const updateData = {
-          quizzesCompleted: firebase.firestore.FieldValue.increment(1),
-          totalCorrectAnswers: firebase.firestore.FieldValue.increment(score)
-        };
-
-        // Check if light achievement unlocked (completed in under 2 minutes)
-        const twoMinutesMs = 120000;
-        if (timeTakenMs < twoMinutesMs) {
-          updateData.lightAchievements = firebase.firestore.FieldValue.increment(1);
-          alert('⚡ You got the Lightning Achievement! Completed quiz in under 2 minutes!');
-        }
-
-        await db.collection('users').doc(currentUser.uid).update(updateData);
+        const userRef = db.collection('users').doc(currentUser.uid);
+        await userRef.set({
+          quizCount: firebase.firestore.FieldValue.increment(1),
+          correctAnswers: firebase.firestore.FieldValue.increment(score),
+          lightningCount: firebase.firestore.FieldValue.increment(lightningEarned ? 1 : 0)
+        }, { merge: true });
 
         openReviewModal({
           score,
           total: totalQuestions,
           answers
-        });
+        }, lightningEarned ? '⚡ Lightning achievement earned!' : '');
 
         loadQuizCards();
 
@@ -293,7 +285,7 @@ async function openQuizModal(jsonFile, quizId) {
    REVIEW MODE
 ========================= */
 
-function openReviewModal(resultData) {
+function openReviewModal(resultData, achievementMessage = '') {
   modalQuizContainer.innerHTML = '';
 
   const wrapper = document.createElement('div');
@@ -307,6 +299,7 @@ function openReviewModal(resultData) {
       <p style="color:#94a3b8;">
         Score: ${resultData.score} / ${resultData.total}
       </p>
+      ${achievementMessage ? `<p style="margin-top:10px; color:#f59e0b; font-weight:700;">${achievementMessage}</p>` : ''}
     </div>
   `;
 

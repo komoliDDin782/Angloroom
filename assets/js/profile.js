@@ -13,6 +13,9 @@ const profilePicImage = document.getElementById('profile-pic');
 const logoutBtn = document.getElementById('logout-btn');
 const levelDisplay = document.getElementById('level-display');
 const levelSteps = document.querySelectorAll('.level-step');
+const quizCountDisplay = document.getElementById('quiz-count');
+const correctAnswersDisplay = document.getElementById('correct-answers-count');
+const lightningDisplay = document.getElementById('lightning-count');
 
 const changeBgBtn = document.getElementById('change-bg');
 const bgPicInput = document.getElementById('bg-pic-input');
@@ -39,8 +42,6 @@ auth.onAuthStateChanged(async user => {
     return;
   }
   currentUser = user;
-  updatePresenceStatus(true);
-  initializePresenceTracking();
   loadProfile();
 });
 
@@ -48,9 +49,7 @@ auth.onAuthStateChanged(async user => {
 async function loadProfile() {
   try {
     const doc = await db.collection('users').doc(currentUser.uid).get();
-    if (!doc.exists) return;
-
-    const data = doc.data();
+    const data = doc.exists ? doc.data() : {};
 
     if (data.nickname) nicknameDisplay.textContent = data.nickname;
     if (data.profilePic) profilePicImage.src = data.profilePic;
@@ -59,17 +58,6 @@ async function loadProfile() {
     aboutDisplay.textContent = data.about || 'Tell something about yourself.';
     aboutInput.value = data.about || '';
 
-    // Update stats if they exist
-    if (data.quizzesCompleted !== undefined) {
-      document.getElementById('quizzes-count').textContent = data.quizzesCompleted;
-    }
-    if (data.totalCorrectAnswers !== undefined) {
-      document.getElementById('correct-answers-count').textContent = data.totalCorrectAnswers;
-    }
-    if (data.lightAchievements !== undefined) {
-      document.getElementById('light-achievements').textContent = data.lightAchievements;
-    }
-
     if (data.level) {
       levelDisplay.textContent = `Level: ${capitalize(data.level)}`;
       updateLevelProgress(data.level);
@@ -77,6 +65,14 @@ async function loadProfile() {
       levelDisplay.textContent = 'Level: not set';
       resetLevelProgress();
     }
+
+    const quizCount = data.quizCount != null ? data.quizCount : 0;
+    const correctAnswers = data.correctAnswers != null ? data.correctAnswers : 0;
+    const lightningCount = data.lightningCount != null ? data.lightningCount : 0;
+
+    if (quizCountDisplay) quizCountDisplay.textContent = quizCount;
+    if (correctAnswersDisplay) correctAnswersDisplay.textContent = correctAnswers;
+    if (lightningDisplay) lightningDisplay.textContent = lightningCount;
   } catch (err) {
     console.error('Profile load error:', err);
   }

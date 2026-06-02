@@ -35,8 +35,6 @@ auth.onAuthStateChanged(async user => {
     return;
   }
   currentUser = user;
-  updatePresenceStatus(true);
-  initializePresenceTracking();
 
   try {
     const userDoc = await db.collection('users').doc(user.uid).get();
@@ -79,9 +77,9 @@ async function loadResults() {
             level: data.level || 'beginner',
             profileBg: data.profileBg || 'assets/image/back4.jpg',
             about: data.about || 'No information yet.',
-            quizzesCompleted: data.quizzesCompleted || 0,
-            totalCorrectAnswers: data.totalCorrectAnswers || 0,
-            lightAchievements: data.lightAchievements || 0
+            quizCount: data.quizCount || 0,
+            correctAnswers: data.correctAnswers || 0,
+            lightningCount: data.lightningCount || 0
           };
           return userCache[uid];
         }
@@ -94,7 +92,10 @@ async function loadResults() {
         profilePic: "assets/image/logo.jpg",
         level: 'beginner',
         profileBg: 'assets/image/back4.jpg',
-        about: 'No information yet.'
+        about: 'No information yet.',
+        quizCount: 0,
+        correctAnswers: 0,
+        lightningCount: 0
       };
     }
 
@@ -114,55 +115,22 @@ async function loadResults() {
 
       // If scores are different, sort by highest score first
       if (dataB.score !== dataA.score) {
-        return dataB.score - dataA.score;
+        return dataB.score - dataA.score; 
       }
-
+      
       // If scores are a tie, sort by lowest time first
-      return (dataA.timeTaken || 0) - (dataB.timeTaken || 0);
+      return (dataA.timeTaken || 0) - (dataB.timeTaken || 0); 
     });
     // ----------------------------------------
 
-    // 2. Build the Winner cards and Leaderboard Table
+    // 2. Build the Leaderboard Table
+    // Slice the results to show only the top 10 players
     const topTen = filteredDocs.slice(0, 10);
-    const topWinners = topTen.slice(0, 3);
-    const otherResults = topTen.slice(3);
 
     let html = `<br>
     <h2 style="text-align:center; font-size: 18px; margin-bottom: 10px;">
                   Top 10: ${capitalize(userLevel)}
                 </h2>`;
-
-    if (topWinners.length) {
-      html += '<div class="winner-cards">';
-
-      const winnerOrder = [
-        { position: 'third', label: '3rd Place', index: 2 },
-        { position: 'first', label: '1st Place', index: 0 },
-        { position: 'second', label: '2nd Place', index: 1 }
-      ];
-
-      for (const winner of winnerOrder) {
-        const doc = topWinners[winner.index];
-        if (!doc) continue;
-
-        const data = doc.data();
-        const userData = await getUserData(data.userId);
-        const rankLabel = winner.index === 0 ? '1st' : winner.index === 1 ? '2nd' : '3rd';
-
-        html += `
-          <article class="winner-card ${winner.position}">
-            <span class="winner-rank">${winner.label}</span>
-            <img src="${userData.profilePic}" class="winner-avatar" data-uid="${data.userId}" alt="${userData.nickname}">
-            <h3>${userData.nickname}</h3>
-            <div class="winner-score">${data.score}</div>
-            <div class="winner-meta">${data.quizId} · ${formatTime(data.timeTaken)}</div>
-            <p>Rank ${rankLabel} • Total ${data.total}</p>
-          </article>`;
-      }
-
-      html += '</div>';
-    }
-
     html += `
       <table class="results-table">
         <thead>
@@ -177,8 +145,8 @@ async function loadResults() {
         </thead>
         <tbody>`;
 
-    let rank = 4;
-    for (const doc of otherResults) {
+    let rank = 1;
+    for (const doc of topTen) {
       const data = doc.data();
       const userData = await getUserData(data.userId);
 
@@ -209,7 +177,7 @@ async function loadResults() {
     resultsContainer.innerHTML = html;
 
     // 3. Re-attach Click Events for Profile Preview
-    document.querySelectorAll('.profile-icon, .winner-avatar').forEach(img => {
+    document.querySelectorAll('.profile-icon').forEach(img => {
       img.addEventListener('click', async e => {
         const uid = e.target.dataset.uid;
         const user = await getUserData(uid);
@@ -219,10 +187,9 @@ async function loadResults() {
         modalNickname.textContent = user.nickname;
         modalLevel.textContent = `Level: ${capitalize(user.level)}`;
         modalAbout.textContent = user.about || 'No information yet.';
-
-        document.getElementById('preview-quizzes').textContent = user.quizzesCompleted;
-        document.getElementById('preview-correct').textContent = user.totalCorrectAnswers;
-        document.getElementById('preview-lightning').textContent = user.lightAchievements;
+        document.getElementById('preview-quiz-count').textContent = user.quizCount;
+        document.getElementById('preview-correct-count').textContent = user.correctAnswers;
+        document.getElementById('preview-lightning-count').textContent = user.lightningCount;
 
         // Update progress steps
         modalSteps.forEach(step => step.className = 'level-step');
