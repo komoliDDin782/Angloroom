@@ -365,6 +365,64 @@
       font-weight: 800;
       color: #fff;
     }
+
+    @media (max-width: 760px) {
+      header { padding: 14px 12px; }
+      nav { gap: 14px; flex-wrap: wrap; justify-content: center; }
+      nav a { font-size: 13px; }
+
+      #profile-container { width: 95%; margin: 16px auto 40px; }
+      .profile-top-bg { height: 160px; }
+      #profile-pic { width: 140px; height: 140px; bottom: -70px; }
+      .settings-menu { top: 16px; right: 16px; font-size: 22px; }
+      .profile-bottom { padding: 90px 18px 36px; }
+      #nickname-display { font-size: 28px; }
+      .user-level { margin-bottom: 20px; }
+      .level-progress { max-width: 100%; margin-bottom: 24px; }
+      .about-section { max-width: 100%; margin: 24px auto; }
+      .stats-grid {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        overflow-x: auto;
+        margin: 20px auto 28px;
+        padding-bottom: 4px;
+      }
+      .stat-card {
+        flex: 1 1 100px;
+        min-width: 100px;
+        padding: 16px 14px;
+      }
+      .stat-value { font-size: 26px; }
+    }
+
+    @media (max-width: 520px) {
+      h1 { margin: 28px 16px 14px; }
+      header { padding: 12px 10px; }
+      nav { gap: 10px; }
+      #profile-container { width: 100%; margin: 14px auto 30px; border-radius: 20px; }
+      .profile-top-bg { height: 140px; }
+      #profile-pic { width: 120px; height: 120px; bottom: -60px; }
+      .settings-menu { top: 14px; right: 14px; }
+      .profile-bottom { padding: 80px 16px 28px; }
+      #nickname-display { font-size: 24px; }
+      .stats-grid {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        overflow-x: auto;
+        margin: 18px auto 24px;
+        padding-bottom: 4px;
+      }
+      .stat-card {
+        flex: 1 1 95px;
+        min-width: 95px;
+        padding: 14px 12px;
+      }
+      .stat-value { font-size: 24px; }
+      #about-display, #about { min-height: 100px; }
+      #nickname, #about, #save-profile-btn { width: 100%; max-width: 100%; }
+    }
   </style>
 </head>
 
