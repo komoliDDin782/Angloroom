@@ -67,8 +67,46 @@ auth.onAuthStateChanged(async (user) => {
     console.error("Failed to parse student data card details:", err);
   }
 
+  // --- FIX: Bulletproof Presence Registration ---
+  try {
+    // Explicitly fallback to older naming fallback if compat layers struggle with the helper map
+    const serverFieldValue = (firebase.firestore && firebase.firestore.FieldValue) 
+      ? firebase.firestore.FieldValue.serverTimestamp() 
+      : new Date();
+
+    await db.collection('presences').doc(user.uid).set({
+      status: 'online',
+      lastActive: serverFieldValue
+    }, { merge: true });
+
+    // Mark offline if the user closes the window or tab
+    window.addEventListener('beforeunload', () => {
+      db.collection('presences').doc(user.uid).update({ status: 'offline' });
+    });
+  } catch (presenceErr) {
+    console.error("Presence status write failed:", presenceErr);
+  }
+
+  // Kick off both listeners
   listenForMessages();
+  listenForOnlineCount(); 
 });
+
+/* ---------- Real-Time Active Users Count ---------- */
+function listenForOnlineCount() {
+  const countCounterEl = document.getElementById('online-count');
+  if (!countCounterEl) return;
+
+  db.collection('presences')
+    .where('status', '==', 'online')
+    .onSnapshot((snapshot) => {
+      // Safely read the snapshot metadata size attribute directly
+      const count = snapshot ? snapshot.size : 0;
+      countCounterEl.textContent = `Online: ${count}`;
+    }, (error) => {
+      console.error("Failed to sync online user count:", error);
+    });
+}
 
 /* ---------- Real-Time Listener (Firestore Snapshot) ---------- */
 function listenForMessages() {
