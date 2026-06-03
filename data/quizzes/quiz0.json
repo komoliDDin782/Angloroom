@@ -2,83 +2,83 @@
   "title": "Present Perfect",
   "questions": [
     {
-      "question": "I ___ my homework already.",
-      "options": ["have finished", "has finished", "finished", "finish"]
+      "question": "I ___ my homework today.",
+      "options": ["have done", "has done", "did", "do"]
     },
     {
-      "question": "She ___ to London twice. ",
-      "options": ["has been", "have been", "was", "is"]
+      "question": "She ___ her breakfast already.",
+      "options": ["has eaten", "have eaten", "ate", "eats"]
     },
     {
-      "question": "They ___ the movie yet.",
-      "options": ["haven't watched", "hasn't watched", "didn't watched", "don't watch"]
+      "question": "We ___ this film before.",
+      "options": ["have seen", "has seen", "saw", "see"]
     },
     {
-      "question": "He ___ his keys.",
+      "question": "He ___ his wallet.",
       "options": ["has lost", "have lost", "lost", "loses"]
-    }, 
-    {
-      "question": "We ___ dinner already.",
-      "options": ["have eaten", "has eaten", "ate", "eat"]
     },
     {
-      "question": "___ you ever visited Paris?",
+      "question": "They ___ the project yet.",
+      "options": ["haven't finished", "hasn't finished", "didn't finish", "don't finish"]
+    },
+    {
+      "question": "___ you ever ridden a horse?",
       "options": ["Have", "Has", "Did", "Do"]
     },
     {
-      "question": "My brother ___ a new phone.",
+      "question": "My sister ___ a new laptop.",
       "options": ["has bought", "have bought", "bought", "buys"]
     },
     {
-      "question": "I ___ this book before.",
-      "options": ["have read", "has read", "readed", "reads"]
+      "question": "I ___ that song many times.",
+      "options": ["have heard", "has heard", "heard", "hear"]
     },
     {
-      "question": "She ___ her project yet.",
-      "options": ["hasn't finished", "haven't finished", "didn't finish", "doesn't finish"]
+      "question": "Tom ___ his room yet.",
+      "options": ["hasn't cleaned", "haven't cleaned", "didn't clean", "doesn't clean"]
     },
     {
-      "question": "They ___ here since morning.",
-      "options": ["have been", "has been", "were", "are"]
+      "question": "We ___ in this town since 2018.",
+      "options": ["have lived", "has lived", "lived", "live"]
     },
     {
-      "question": "He ___ never ___ sushi.",
-      "options": ["has / tried", "have / tried", "did / try", "is / trying"]
+      "question": "She ___ never ___ a plane.",
+      "options": ["has / flown", "have / flown", "did / fly", "is / flying"]
     },
     {
-      "question": "We ___ each other for years.",
+      "question": "They ___ each other for a long time.",
       "options": ["have known", "has known", "knew", "know"]
     },
     {
-      "question": "___ she finished her work?",
+      "question": "___ he completed the task?",
       "options": ["Has", "Have", "Did", "Does"]
     },
     {
-      "question": "I ___ my bag somewhere.",
+      "question": "I ___ my phone somewhere.",
       "options": ["have left", "has left", "left", "leave"]
     },
     {
-      "question": "Tom ___ the test successfully.",
+      "question": "Anna ___ all her exams.",
       "options": ["has passed", "have passed", "passed", "passes"]
     },
     {
-      "question": "They ___ not replied to my message.",
+      "question": "We ___ not received your email.",
       "options": ["have", "has", "did", "do"]
     },
     {
-      "question": "She ___ in this city since 2020.",
-      "options": ["has lived", "have lived", "lived", "lives"]
+      "question": "He ___ in this company for five years.",
+      "options": ["has worked", "have worked", "worked", "works"]
     },
     {
-      "question": "We ___ our work yet.",
-      "options": ["haven't completed", "hasn't completed", "didn't complete", "don't complete"]
+      "question": "They ___ their work yet.",
+      "options": ["haven't started", "hasn't started", "didn't start", "don't start"]
     },
     {
-      "question": "___ they ever met a celebrity?",
+      "question": "___ you ever met a famous person?",
       "options": ["Have", "Has", "Did", "Do"]
     },
     {
-      "question": "My parents ___ abroad many times.",
+      "question": "My parents ___ to many countries.",
       "options": ["have traveled", "has traveled", "traveled", "travel"]
     }
   ]
