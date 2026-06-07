@@ -131,7 +131,7 @@ function buildPodium(topThree) {
           <span class="podium-rank">${rankLabel}</span>
         </div>
         <span class="podium-nickname">${item.userData.nickname}</span>
-        <span class="podium-score">${item.score} pts</span>
+        <span class="podium-score">${item.data.score}</span>
       </div>
     `;
   });
