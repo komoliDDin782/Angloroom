@@ -105,40 +105,7 @@ async function showProfilePreview(uid) {
   modal.classList.add('active');
 }
 
-// Build podium HTML for top 3
-function buildPodium(topThree) {
-  if (topThree.length === 0) return '';
 
-  // Rearrange for podium display: [2nd, 1st, 3rd]
-  const podiumOrder = [];
-  if (topThree[1]) podiumOrder.push({ ...topThree[1], place: 'second-place', rank: 2 }); // 2nd
-  if (topThree[0]) podiumOrder.push({ ...topThree[0], place: 'first-place', rank: 1 });  // 1st
-  if (topThree[2]) podiumOrder.push({ ...topThree[2], place: 'third-place', rank: 3 });  // 3rd
-
-  let html = '<div class="podium-container">';
-  
-  podiumOrder.forEach(item => {
-    const rankLabel = getOrdinal(item.rank);
-    html += `
-      <div class="podium-item ${item.place}">
-        <img 
-          src="${item.userData.profilePic}" 
-          class="podium-avatar" 
-          data-uid="${item.uid}"
-          alt="${item.userData.nickname}'s avatar"
-        >
-        <div class="podium-bar">
-          <span class="podium-rank">${rankLabel}</span>
-        </div>
-        <span class="podium-nickname">${item.userData.nickname}</span>
-        <span class="podium-score">${item.data.score}</span>
-      </div>
-    `;
-  });
-  
-  html += '</div>';
-  return html;
-}
 
 // Build table HTML for remaining results
 function buildTable(results, startRank) {
@@ -341,3 +308,39 @@ window.addEventListener('keydown', (e) => {
     modal.classList.remove('active');
   }
 });
+// Build podium HTML for top 3
+function buildPodium(topThree) {
+  if (topThree.length === 0) return '';
+
+  // Rearrange for podium display: [2nd, 1st, 3rd]
+  const podiumOrder = [];
+  if (topThree[1]) podiumOrder.push({ ...topThree[1], place: 'second-place', rank: 2 }); // 2nd
+  if (topThree[0]) podiumOrder.push({ ...topThree[0], place: 'first-place', rank: 1 });  // 1st
+  if (topThree[2]) podiumOrder.push({ ...topThree[2], place: 'third-place', rank: 3 });  // 3rd
+
+  let html = '<div class="podium-container">';
+  
+  podiumOrder.forEach(item => {
+    const rankLabel = getOrdinal(item.rank);
+    
+    html += `
+      <div class="podium-item ${item.place}">
+        <img 
+          src="${item.userData.profilePic}" 
+          class="podium-avatar" 
+          data-uid="${item.uid}"
+          alt="${item.userData.nickname}'s avatar"
+        >
+        <div class="podium-bar">
+          <span class="podium-rank">${rankLabel}</span>
+        </div>
+        <span class="podium-nickname">${item.userData.nickname}</span>
+        <span class="podium-score">${item.data.score}</span>
+        <span class="podium-score">${formatTime(item.data.timeTaken)}</span>
+      </div>
+    `;
+  });
+  
+  html += '</div>';
+  return html;
+}
