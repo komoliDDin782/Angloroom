@@ -202,20 +202,27 @@
       order: -1;
     }
 
-    .podium-item.first-place .podium-bar {
-      height: clamp(80px, 20vw, 120px);
-      background: linear-gradient(180deg, #fbbf24 0%, rgba(251, 191, 36, 0.3) 100%);
-    }
+/* Define these in your root or container to make them easy to manage */
+.podium-item.first-place .podium-bar {
+  height: clamp(80px, 20vw, 120px);
+  /* Brighter Gold */
+  background: linear-gradient(180deg, #fbbf24 0%, rgba(251, 191, 36, 0.1) 100%);
+  border-top: 2px solid rgba(255, 255, 255, 0.3);
+}
 
-    .podium-item.second-place .podium-bar {
-      height: clamp(60px, 15vw, 90px);
-      background: linear-gradient(180deg, #94a3b8 0%, rgba(148, 163, 184, 0.3) 100%);
-    }
+.podium-item.second-place .podium-bar {
+  height: clamp(60px, 15vw, 90px);
+  /* Cooler Silver */
+  background: linear-gradient(180deg, #cbd5e1 0%, rgba(203, 213, 225, 0.1) 100%);
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
+}
 
-    .podium-item.third-place .podium-bar {
-      height: clamp(50px, 12vw, 75px);
-      background: linear-gradient(180deg, #b45309 0%, rgba(180, 83, 9, 0.3) 100%);
-    }
+.podium-item.third-place .podium-bar {
+  height: clamp(50px, 12vw, 75px);
+  /* Warmer, more vibrant Bronze */
+  background: linear-gradient(180deg, #d97706 0%, rgba(217, 119, 6, 0.1) 100%);
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
+}
 
     .podium-rank {
       font-family: 'Outfit', sans-serif;
@@ -569,6 +576,11 @@
         width: 40px;
       }
     }
+    @media (prefers-color-scheme: dark) {
+  .podium-bar {
+    filter: brightness(1.2) saturate(1.2);
+  }
+}
   </style>
 </head>
 
