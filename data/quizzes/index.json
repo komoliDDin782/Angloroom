@@ -7,7 +7,7 @@
   },
   {
     "id": "Infinitive and Gerund",
-    "title": "Infinitive and Gerund",
+    "title": "Infinitive and Gerund", 
     "file": "quiz2.json",
     "level": "intermediate"
   },
@@ -18,8 +18,8 @@
     "level": "advanced"
   },
   {
-    "id": "Present Perfect",
-    "title": "Present Perfect ",
+    "id": "Present Perfect and irregular verbs",
+    "title": "Present Perfect and irregular verbs",
     "file": "quiz0.json",
     "level": "elementary"
   }
