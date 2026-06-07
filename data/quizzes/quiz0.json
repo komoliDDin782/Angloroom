@@ -2,84 +2,104 @@
   "title": "Present Perfect",
   "questions": [
     {
-      "question": "I ___ my homework today.",
-      "options": ["have done", "has done", "did", "do"]
+      "question": "I have never ___ a horse.",
+      "options": ["ridden", "rode", "ride", "riding"]
     },
     {
-      "question": "She ___ her breakfast already.",
-      "options": ["has eaten", "have eaten", "ate", "eats"]
+      "question": "She has ___ her homework already.",
+      "options": ["done", "did", "do", "doing"]
     },
     {
-      "question": "We ___ this film before.",
-      "options": ["have seen", "has seen", "saw", "see"]
+      "question": "They have ___ to Paris three times.",
+      "options": ["been", "gone", "went", "being"]
     },
     {
-      "question": "He ___ his wallet.",
-      "options": ["has lost", "have lost", "lost", "loses"]
+      "question": "Tom has just ___ a new bike.",
+      "options": ["bought", "buy", "brought", "boughted"]
     },
     {
-      "question": "They ___ the project yet.",
-      "options": ["haven't finished", "hasn't finished", "didn't finish", "don't finish"]
+      "question": "We haven't ___ lunch yet.",
+      "options": ["had", "have", "having", "has"]
     },
     {
-      "question": "___ you ever ridden a horse?",
+      "question": "___ you ever seen a whale?",
       "options": ["Have", "Has", "Did", "Do"]
     },
     {
-      "question": "My sister ___ a new laptop.",
-      "options": ["has bought", "have bought", "bought", "buys"]
+      "question": "She has ___ her keys again.",
+      "options": ["lost", "lose", "loses", "losted"]
     },
     {
-      "question": "I ___ that song many times.",
-      "options": ["have heard", "has heard", "heard", "hear"]
+      "question": "I have just ___ a great film.",
+      "options": ["seen", "saw", "see", "seeing"]
     },
     {
-      "question": "Tom ___ his room yet.",
-      "options": ["hasn't cleaned", "haven't cleaned", "didn't clean", "doesn't clean"]
+      "question": "My brother has ___ all the cake.",
+      "options": ["eaten", "ate", "eat", "eating"]
     },
     {
-      "question": "We ___ in this town since 2018.",
-      "options": ["have lived", "has lived", "lived", "live"]
+      "question": "They have ___ the answer.",
+      "options": ["known", "knew", "know", "knowing"]
     },
     {
-      "question": "She ___ never ___ a plane.",
-      "options": ["has / flown", "have / flown", "did / fly", "is / flying"]
+      "question": "We have ___ our friends at the station.",
+      "options": ["met", "meet", "meeted", "meeting"]
     },
     {
-      "question": "They ___ each other for a long time.",
-      "options": ["have known", "has known", "knew", "know"]
+      "question": "She has never ___ to Japan.",
+      "options": ["been", "gone", "went", "go"]
     },
     {
-      "question": "___ he completed the task?",
+      "question": "I have ___ this book twice.",
+      "options": ["read", "readed", "reading", "reads"]
+    },
+    {
+      "question": "They have just ___ home.",
+      "options": ["come", "came", "coming", "comes"]
+    },
+    {
+      "question": "He has ___ a picture for the competition.",
+      "options": ["drawn", "drawed", "drew", "drawing"]
+    },
+    {
+      "question": "We have ___ a lot of photos this week.",
+      "options": ["taken", "took", "take", "taking"]
+    },
+    {
+      "question": "She hasn't ___ the email yet.",
+      "options": ["written", "wrote", "write", "writing"]
+    },
+    {
+      "question": "I have ___ my phone somewhere.",
+      "options": ["put", "putted", "puts", "putting"]
+    },
+    {
+      "question": "They have ___ the football match.",
+      "options": ["won", "winned", "win", "winning"]
+    },
+    {
+      "question": "He has ___ all the water.",
+      "options": ["drunk", "drank", "drink", "drinking"]
+    },
+    {
+      "question": "My parents have ___ to the supermarket.",
+      "options": ["gone", "went", "go", "going"]
+    },
+    {
+      "question": "She has just ___ me the good news.",
+      "options": ["told", "tell", "telled", "telling"]
+    },
+    {
+      "question": "We have ___ our project, so we can go home.",
+      "options": ["finished", "finish", "finisheded", "finishing"]
+    },
+    {
+      "question": "I haven't ___ my teacher yet.",
+      "options": ["seen", "saw", "see", "seeing"]
+    },
+    {
+      "question": "___ your sister ever ridden a bike in the mountains?",
       "options": ["Has", "Have", "Did", "Does"]
-    },
-    {
-      "question": "I ___ my phone somewhere.",
-      "options": ["have left", "has left", "left", "leave"]
-    },
-    {
-      "question": "Anna ___ all her exams.",
-      "options": ["has passed", "have passed", "passed", "passes"]
-    },
-    {
-      "question": "We ___ not received your email.",
-      "options": ["have", "has", "did", "do"]
-    },
-    {
-      "question": "He ___ in this company for five years.",
-      "options": ["has worked", "have worked", "worked", "works"]
-    },
-    {
-      "question": "They ___ their work yet.",
-      "options": ["haven't started", "hasn't started", "didn't start", "don't start"]
-    },
-    {
-      "question": "___ you ever met a famous person?",
-      "options": ["Have", "Has", "Did", "Do"]
-    },
-    {
-      "question": "My parents ___ to many countries.",
-      "options": ["have traveled", "has traveled", "traveled", "travel"]
     }
   ]
 }
