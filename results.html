@@ -104,6 +104,14 @@
       -webkit-text-fill-color: transparent;
     }
 
+    h2 {
+      font-family: 'Outfit', sans-serif;
+      text-align: center;
+      font-size: 16px;
+      margin: 10px 0;
+      color: var(--text-muted);
+    }
+
     #results-container {
       width: 100%;
       max-width: 900px;
@@ -123,14 +131,60 @@
       }
     }
 
+    /* ===== TAB SWITCHER ===== */
+    .tab-switcher {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin: 20px 16px 10px;
+      background: var(--glass-bg);
+      border-radius: 16px;
+      padding: 6px;
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .tab-btn {
+      flex: 1;
+      max-width: 150px;
+      padding: 10px 12px;
+      border: none;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: 0.3s;
+      white-space: nowrap;
+    }
+
+    .tab-btn.active {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 15px var(--accent-glow);
+    }
+
+    .tab-btn:hover:not(.active) {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* ===== LEADERBOARD CONTENT WRAPPER ===== */
+    #leaderboard-content {
+      animation: fadeUp 0.5s ease-out;
+    }
+
     /* ===== PODIUM ===== */
     .podium-container {
       display: flex;
       justify-content: center;
       align-items: flex-end;
-      gap: clamp(8px, 3vw, 20px);
-      padding: 10px 10px 30px;
-      margin: 20px 0 10px;
+      gap: clamp(6px, 2vw, 16px);
+      padding: 10px 8px 25px;
+      margin: 15px 0 5px;
     }
 
     .podium-item {
@@ -139,7 +193,7 @@
       align-items: center;
       text-align: center;
       flex: 1;
-      max-width: 150px;
+      max-width: 130px;
       animation: podiumRise 0.6s ease-out backwards;
     }
 
@@ -159,93 +213,88 @@
     }
 
     .podium-avatar {
-      width: clamp(55px, 12vw, 80px);
-      height: clamp(55px, 12vw, 80px);
+      width: clamp(50px, 10vw, 70px);
+      height: clamp(50px, 10vw, 70px);
       border-radius: 50%;
       object-fit: cover;
       border: 3px solid var(--glass-border);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       cursor: pointer;
       transition: transform 0.3s;
     }
 
     .podium-avatar:hover {
-      transform: scale(1.1);
+      transform: scale(1.15);
     }
 
     .podium-item.first-place .podium-avatar {
-      width: clamp(65px, 15vw, 95px);
-      height: clamp(65px, 15vw, 95px);
+      width: clamp(60px, 13vw, 85px);
+      height: clamp(60px, 13vw, 85px);
       border-color: var(--gold);
-      box-shadow: 0 0 25px rgba(251, 191, 36, 0.5);
+      box-shadow: 0 0 22px rgba(251, 191, 36, 0.5);
     }
 
     .podium-item.second-place .podium-avatar {
       border-color: var(--silver);
-      box-shadow: 0 0 20px rgba(148, 163, 184, 0.4);
+      box-shadow: 0 0 18px rgba(148, 163, 184, 0.4);
     }
 
     .podium-item.third-place .podium-avatar {
       border-color: var(--bronze);
-      box-shadow: 0 0 20px rgba(180, 83, 9, 0.4);
+      box-shadow: 0 0 18px rgba(180, 83, 9, 0.4);
     }
 
     .podium-bar {
       width: 100%;
       border-radius: 8px 8px 0 0;
-      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 10px 5px;
+      padding: 8px 4px;
       order: -1;
     }
 
-/* Define these in your root or container to make them easy to manage */
-.podium-item.first-place .podium-bar {
-  height: clamp(80px, 20vw, 120px);
-  /* Brighter Gold */
-  background: linear-gradient(180deg, #fbbf24 0%, rgba(251, 191, 36, 0.1) 100%);
-  border-top: 2px solid rgba(255, 255, 255, 0.3);
-}
+    .podium-item.first-place .podium-bar {
+      height: clamp(70px, 18vw, 110px);
+      background: linear-gradient(180deg, #fbbf24 0%, rgba(251, 191, 36, 0.1) 100%);
+      border-top: 2px solid rgba(255, 255, 255, 0.3);
+    }
 
-.podium-item.second-place .podium-bar {
-  height: clamp(60px, 15vw, 90px);
-  /* Cooler Silver */
-  background: linear-gradient(180deg, #cbd5e1 0%, rgba(203, 213, 225, 0.1) 100%);
-  border-top: 2px solid rgba(255, 255, 255, 0.2);
-}
+    .podium-item.second-place .podium-bar {
+      height: clamp(50px, 13vw, 80px);
+      background: linear-gradient(180deg, #cbd5e1 0%, rgba(203, 213, 225, 0.1) 100%);
+      border-top: 2px solid rgba(255, 255, 255, 0.2);
+    }
 
-.podium-item.third-place .podium-bar {
-  height: clamp(50px, 12vw, 75px);
-  /* Warmer, more vibrant Bronze */
-  background: linear-gradient(180deg, #d97706 0%, rgba(217, 119, 6, 0.1) 100%);
-  border-top: 2px solid rgba(255, 255, 255, 0.2);
-}
+    .podium-item.third-place .podium-bar {
+      height: clamp(42px, 10vw, 65px);
+      background: linear-gradient(180deg, #d97706 0%, rgba(217, 119, 6, 0.1) 100%);
+      border-top: 2px solid rgba(255, 255, 255, 0.2);
+    }
 
     .podium-rank {
       font-family: 'Outfit', sans-serif;
       font-weight: 900;
-      font-size: clamp(18px, 5vw, 28px);
+      font-size: clamp(16px, 4vw, 26px);
       color: #fff;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
 
     .podium-nickname {
       font-weight: 600;
-      font-size: clamp(11px, 3vw, 14px);
-      margin-top: 6px;
+      font-size: clamp(10px, 2.5vw, 13px);
+      margin-top: 4px;
       color: var(--text-main);
-      max-width: 120px;
+      max-width: 100px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    .podium-score {
-      font-size: clamp(10px, 2.5vw, 12px);
-      color: rgba(255,255,255,0.8);
+    .podium-metric {
+      font-size: clamp(9px, 2vw, 11px);
+      color: rgba(255, 255, 255, 0.7);
       font-weight: 700;
       margin-top: 2px;
     }
@@ -259,11 +308,11 @@
     .results-table {
       width: 100%;
       border-collapse: separate;
-      border-spacing: 0 10px;
+      border-spacing: 0 8px;
     }
 
     .results-table th {
-      padding: 12px;
+      padding: 10px 8px;
       color: var(--text-muted);
       font-weight: 600;
       text-transform: uppercase;
@@ -284,7 +333,7 @@
     }
 
     .results-table td {
-      padding: 14px;
+      padding: 12px 8px;
       text-align: center;
       border-top: 1px solid var(--glass-border);
       border-bottom: 1px solid var(--glass-border);
@@ -305,7 +354,7 @@
     .rank {
       font-family: 'Outfit', sans-serif;
       font-weight: 900;
-      font-size: 18px;
+      font-size: 16px;
     }
 
     .gold-row {
@@ -333,23 +382,42 @@
     .nickname-cell {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       text-align: left;
       font-weight: 600;
     }
 
     .profile-icon {
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid var(--glass-border);
       cursor: pointer;
       transition: transform 0.2s;
+      flex-shrink: 0;
     }
 
     .profile-icon:hover {
-      transform: scale(1.1);
+      transform: scale(1.15);
+    }
+
+    .metric-highlight {
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    /* ===== EMPTY STATE ===== */
+    .empty-state {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 50px 20px;
+    }
+
+    .empty-state .icon {
+      font-size: 48px;
+      display: block;
+      margin-bottom: 12px;
     }
 
     /* ===== MODAL ===== */
@@ -358,6 +426,7 @@
       inset: 0;
       background: rgba(2, 44, 34, 0.95);
       backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       z-index: 1000;
       display: none;
       justify-content: center;
@@ -416,6 +485,10 @@
     .modal-info h2 {
       font-family: 'Outfit', sans-serif;
       font-size: 24px;
+      background: none;
+      -webkit-text-fill-color: var(--text-main);
+      color: var(--text-main);
+      margin: 5px 0;
     }
 
     #preview-level {
@@ -526,35 +599,45 @@
         padding: 0 8px;
       }
 
+      .tab-switcher {
+        gap: 3px;
+        padding: 4px;
+        border-radius: 12px;
+      }
+
+      .tab-btn {
+        padding: 8px 6px;
+        font-size: 11px;
+        border-radius: 10px;
+      }
+
       .podium-container {
-        gap: 6px;
-        padding: 10px 4px 20px;
+        gap: 3px;
+        padding: 8px 2px 16px;
       }
 
       .podium-nickname {
-        font-size: 10px;
-        max-width: 80px;
+        font-size: 9px;
+        max-width: 70px;
+      }
+
+      .podium-metric {
+        font-size: 8px;
       }
 
       .results-table {
         border-spacing: 0 4px;
       }
 
-      .results-table th:nth-child(3),
-      .results-table td:nth-child(3),
-      .results-table th:nth-child(6),
-      .results-table td:nth-child(6) {
-        display: none;
-      }
-
       .results-table th {
-        padding: 5px;
-        font-size: 10px;
+        padding: 5px 3px;
+        font-size: 9px;
+        letter-spacing: 0.5px;
       }
 
       .results-table td {
         padding: 8px 4px;
-        font-size: 12px;
+        font-size: 11px;
       }
 
       .profile-icon {
@@ -564,23 +647,30 @@
       }
 
       .nickname-cell {
-        gap: 6px;
-        max-width: 100px;
+        gap: 5px;
+        max-width: 90px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
 
       .rank {
-        font-size: 14px;
-        width: 40px;
+        font-size: 13px;
+        width: 35px;
+      }
+
+      /* Hide less important columns on mobile */
+      .results-table th.col-extra,
+      .results-table td.col-extra {
+        display: none;
       }
     }
+
     @media (prefers-color-scheme: dark) {
-  .podium-bar {
-    filter: brightness(1.2) saturate(1.2);
-  }
-}
+      .podium-bar {
+        filter: brightness(1.2) saturate(1.2);
+      }
+    }
   </style>
 </head>
 
@@ -597,13 +687,23 @@
 
   <div id="results-container">
     <h1>Leaderboard</h1>
-    <!-- Podium will be inserted here by JS -->
-    <!-- Table will be inserted here by JS -->
-    <div class="loader">
-      <span style="color: var(--accent); font-weight: 900; letter-spacing: 3px; font-size: 12px;">LOADING...</span>
+
+    <!-- Tab Switcher -->
+    <div class="tab-switcher">
+      <button class="tab-btn active" data-tab="weekly">🏆 Weekly</button>
+      <button class="tab-btn" data-tab="correct">✅ Correct</button>
+      <button class="tab-btn" data-tab="lightning">⚡ Lightning</button>
+    </div>
+
+    <!-- Dynamic content loaded by JS -->
+    <div id="leaderboard-content">
+      <div class="loader">
+        <span style="color: var(--accent); font-weight: 900; letter-spacing: 3px; font-size: 12px;">LOADING...</span>
+      </div>
     </div>
   </div>
 
+  <!-- Profile Preview Modal -->
   <div id="profile-preview-modal" role="dialog" aria-modal="true" aria-labelledby="preview-nickname">
     <div class="modal-content">
       <span class="close" aria-label="Close modal">&times;</span>
@@ -626,7 +726,7 @@
           </div>
           <div class="modal-stat-card">
             <strong id="preview-correct-count">0</strong>
-            <span>✅ Correct Answers</span>
+            <span>✅ Correct</span>
           </div>
           <div class="modal-stat-card">
             <strong id="preview-lightning-count">0</strong>
@@ -636,19 +736,4 @@
       </div>
     </div>
   </div>
-
-  <script>
-    // Modal close handlers
-    document.querySelector('.close').addEventListener('click', () => {
-      document.getElementById('profile-preview-modal').classList.remove('active');
-    });
-    
-    window.addEventListener('click', (e) => {
-      if (e.target.id === 'profile-preview-modal') {
-        e.target.classList.remove('active');
-      }
-    });
-  </script>
-</body>
-
 </html>
