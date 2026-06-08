@@ -557,6 +557,106 @@
       }
 
     }
+    /* =========================
+   START QUIZ MODAL
+========================= */
+
+.start-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:2000;
+
+  background:rgba(0,0,0,.65);
+  backdrop-filter:blur(10px);
+
+  align-items:center;
+  justify-content:center;
+
+  padding:20px;
+}
+
+.start-modal.show{
+  display:flex;
+}
+
+.start-modal-content{
+  width:100%;
+  max-width:450px;
+
+  background:#043c2f;
+  border:1px solid rgba(16,185,129,.3);
+
+  border-radius:28px;
+  padding:32px;
+
+  text-align:center;
+
+  box-shadow:
+    0 20px 50px rgba(0,0,0,.45),
+    0 0 25px rgba(16,185,129,.15);
+
+  animation:startModalPop .3s ease;
+}
+
+.start-modal-content h2{
+  margin-bottom:14px;
+  font-size:28px;
+  font-family:'Outfit',sans-serif;
+}
+
+.start-modal-content p{
+  color:#94a3b8;
+  line-height:1.6;
+}
+
+.start-modal-buttons{
+  display:flex;
+  gap:12px;
+  margin-top:28px;
+}
+
+.start-modal-buttons button{
+  flex:1;
+  border:none;
+  border-radius:14px;
+  padding:14px;
+
+  font-weight:700;
+  cursor:pointer;
+  transition:.25s;
+}
+
+.cancel-btn{
+  background:rgba(255,255,255,.08);
+  color:#fff;
+}
+
+.cancel-btn:hover{
+  background:rgba(255,255,255,.14);
+}
+
+.confirm-btn{
+  background:#10b981;
+  color:#022c22;
+}
+
+.confirm-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 20px rgba(16,185,129,.35);
+}
+
+@keyframes startModalPop{
+  from{
+    opacity:0;
+    transform:scale(.9);
+  }
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+}
+    
 
   </style>
 </head>
@@ -574,7 +674,7 @@
   </header>
 
   <!-- TITLE -->
-  <h1 class="page-title">
+  <h1 class="page-title"> 
     Weekly Quizzes
   </h1>
 
@@ -605,6 +705,27 @@
     </div>
 
   </section>
+  <!-- START QUIZ MODAL -->
+<div id="start-confirm-modal" class="start-modal">
+  <div class="start-modal-content">
+    <h2>Start Quiz?</h2>
+
+    <p>
+      Once you begin, you cannot close, refresh, or leave this page
+      until the quiz is submitted.
+    </p>
+
+    <div class="start-modal-buttons">
+      <button id="cancel-start" class="cancel-btn">
+        Cancel
+      </button>
+
+      <button id="confirm-start" class="confirm-btn">
+        Start Quiz
+      </button>
+    </div>
+  </div>
+</div>
 
   <!-- MODAL -->
   <div class="quiz-modal" id="quiz-modal">

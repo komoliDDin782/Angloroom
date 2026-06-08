@@ -9,8 +9,11 @@ let userLevel;
 let startTime;
 let endTime;
 
+// Exam Lockdown State Variables
+let isQuizActive = false;
+
 /* =========================
-   UTILS
+   UTILS & WORKFLOW HELPER
 ========================= */
 
 function shuffle(array) {
@@ -29,6 +32,12 @@ function formatTime(ms) {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
   return `${minutes}m ${seconds}s`;
+}
+
+// Blocks browser/tab closure
+function preventExit(e) {
+  e.preventDefault();
+  e.returnValue = '';
 }
 
 /* =========================
@@ -94,7 +103,6 @@ async function loadQuizCards() {
         .get();
 
       if (!completed.empty) {
-
         const resultData = completed.docs[0].data();
 
         card.classList.add('completed');
@@ -105,11 +113,12 @@ async function loadQuizCards() {
         });
 
       } else {
-
         status.textContent = 'Ready to start';
-
         card.addEventListener('click', () => {
-          openQuizModal(`data/quizzes/${quiz.file}`, quiz.id);
+          showStartModal(
+            `data/quizzes/${quiz.file}`,
+            quiz.id
+          );
         });
       }
 
@@ -123,7 +132,7 @@ async function loadQuizCards() {
 }
 
 /* =========================
-   OPEN QUIZ
+   OPEN QUIZ (WITH LOCKDOWN)
 ========================= */
 
 async function openQuizModal(jsonFile, quizId) {
@@ -137,7 +146,6 @@ async function openQuizModal(jsonFile, quizId) {
     modalQuizContainer.innerHTML = '';
 
     const form = document.createElement('form');
-
     form.id = 'quiz-form';
 
     /* =========================
@@ -192,6 +200,11 @@ async function openQuizModal(jsonFile, quizId) {
 
     form.appendChild(submitBtn);
 
+    // ACTIVATE LOCKDOWN SYSTEM
+    isQuizActive = true;
+    closeModal.style.display = 'none';
+    window.addEventListener('beforeunload', preventExit);
+
     startTime = Date.now();
 
     /* =========================
@@ -220,7 +233,6 @@ async function openQuizModal(jsonFile, quizId) {
           : null;
 
         const correctAnswer = card.dataset.correct;
-
         const isCorrect = selectedAnswer === correctAnswer;
 
         if (isCorrect) score++;
@@ -236,6 +248,11 @@ async function openQuizModal(jsonFile, quizId) {
 
       try {
         const lightningEarned = timeTakenMs <= 180000;
+
+        // DEACTIVATE LOCKDOWN SYSTEM ON SUCCESSFUL SUBMISSION
+        isQuizActive = false;
+        closeModal.style.display = 'block';
+        window.removeEventListener('beforeunload', preventExit);
 
         await db.collection('results').add({
           userId: currentUser.uid,
@@ -361,9 +378,14 @@ function openReviewModal(resultData, achievementMessage = '') {
    CLOSE MODAL
 ========================= */
 
-closeModal.addEventListener('click', closeQuizModal);
+closeModal.addEventListener('click', () => {
+  if (!isQuizActive) closeQuizModal();
+});
 
 window.addEventListener('click', e => {
+  // If exam state is running, completely ignore outer backdrop clicks
+  if (isQuizActive) return;
+
   if (e.target === quizModal) {
     closeQuizModal();
   }
@@ -373,3 +395,29 @@ function closeQuizModal() {
   quizModal.style.display = 'none';
   modalQuizContainer.innerHTML = '';
 }
+const startModal = document.getElementById('start-confirm-modal');
+const confirmStartBtn = document.getElementById('confirm-start');
+const cancelStartBtn = document.getElementById('cancel-start');
+
+let pendingQuizFile = null;
+let pendingQuizId = null;
+
+function showStartModal(file, quizId) {
+  pendingQuizFile = file;
+  pendingQuizId = quizId;
+
+  startModal.classList.add('show');
+}
+
+cancelStartBtn.addEventListener('click', () => {
+  startModal.classList.remove('show');
+});
+
+confirmStartBtn.addEventListener('click', () => {
+  startModal.classList.remove('show');
+
+  openQuizModal(
+    pendingQuizFile,
+    pendingQuizId
+  );
+});
