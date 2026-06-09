@@ -16,6 +16,8 @@
 
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  
   <script src="assets/js/firebase.js" defer></script>
   <script src="assets/js/auth.js" defer></script>
 
@@ -161,11 +163,7 @@
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     }
 
-    .card-about {
-      grid-column: span 2;
-    }
-
-    .card-mission {
+    .card-about, .card-mission {
       grid-column: span 2;
     }
 
@@ -218,49 +216,36 @@
       line-height: 1.5;
     }
 
-    .card-courses h3 {
-      color: var(--accent);
-    }
-
-    .card-gogetter h3 {
-      color: #38bdf8;
-    }
+    .card-courses h3 { color: var(--accent); }
+    .card-gogetter h3 { color: #38bdf8; }
 
     @media (max-width: 992px) {
       .info-section {
         grid-template-columns: repeat(2, 1fr);
         max-width: 100%;
       }
-
       .books-section {
         grid-template-columns: repeat(2, 1fr);
       }
     }
 
     @media (max-width: 650px) {
-
       .info-section,
       .books-section {
         display: flex;
         flex-direction: column;
         gap: 20px;
       }
-
       .info-card {
         grid-column: span 1 !important;
         grid-row: auto !important;
       }
-
-      .card-inner {
-        flex-direction: column;
-      }
-
+      .card-inner { flex-direction: column; }
       .card-img-wrapper {
         flex: 0 0 auto;
         height: 160px !important;
         cursor: pointer;
       }
-
       .card-content {
         padding: 20px;
         background: linear-gradient(to bottom, rgba(2, 44, 34, 0.9));
@@ -290,20 +275,12 @@
       transition: 0.3s;
     }
 
-    footer a:hover {
-      color: #fff;
-    }
-
-    footer p {
-      line-height: 1.5;
-    }
-
-    #chatCard {
-      cursor: pointer;
-    }
+    footer a:hover { color: #fff; }
+    footer p { line-height: 1.5; }
+    #chatCard { cursor: pointer; }
 
     /* ==========================================================
-       EASTER EGG CAT STYLES (NATURAL & CUTE COLOR PALETTE)
+       EASTER EGG CAT STYLES 
        ========================================================== */
     .easter-cat {
       position: absolute;
@@ -317,21 +294,18 @@
       transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    /* Head – soft warm gray/taupe, like a real kitty */
     .cat-head {
       position: absolute;
       bottom: 0;
       width: 100%;
       height: 45px;
       background: #d4b595;
-      /* warm beige/taupe base */
       background: linear-gradient(145deg, #e2c9ad 0%, #c8a27a 100%);
       border: 2px solid #b08968;
       border-radius: 50% 50% 45% 45%;
       box-shadow: inset 0 -5px 8px rgba(0, 0, 0, 0.08);
     }
 
-    /* Ears – matching head color, with soft pink inner ear */
     .cat-ear {
       position: absolute;
       top: -2px;
@@ -340,7 +314,6 @@
       border-left: 14px solid transparent;
       border-right: 14px solid transparent;
       border-bottom: 22px solid #c8a27a;
-      /* matches head gradient */
     }
 
     .cat-ear::after {
@@ -351,20 +324,11 @@
       border-left: 8px solid transparent;
       border-right: 8px solid transparent;
       border-bottom: 14px solid #f4acb7;
-      /* soft natural pink inner ear */
     }
 
-    .cat-ear.left {
-      left: 2px;
-      transform: rotate(-15deg);
-    }
+    .cat-ear.left { left: 2px; transform: rotate(-15deg); }
+    .cat-ear.right { right: 2px; transform: rotate(15deg); }
 
-    .cat-ear.right {
-      right: 2px;
-      transform: rotate(15deg);
-    }
-
-    /* Eyes – bright, expressive greenish-hazel */
     .cat-eyes {
       position: absolute;
       top: 15px;
@@ -380,15 +344,12 @@
     .cat-eye {
       width: 9px;
       height: 9px;
-      background: #b5e48c;
-      /* light green base */
       background: radial-gradient(circle at 30% 30%, #d9f2b0, #76c893);
       border-radius: 50%;
       box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
       border: 1px solid #52796f;
     }
 
-    /* Smart Glasses – soft dark brown instead of harsh white */
     .cat-glasses {
       position: absolute;
       top: 9px;
@@ -420,7 +381,6 @@
       top: 9px;
     }
 
-    /* Blush cheeks – gentle rosy peach */
     .cat-blush {
       position: absolute;
       top: 23px;
@@ -434,16 +394,9 @@
       filter: blur(0.8px);
     }
 
-    .cat-blush.left {
-      left: 8px;
-    }
+    .cat-blush.left { left: 8px; }
+    .cat-blush.right { right: 8px; }
 
-    .cat-blush.right {
-      right: 8px;
-    }
-
-
-    /* Mouth – subtle warm tone */
     .cat-mouth {
       position: absolute;
       top: 25px;
@@ -465,30 +418,15 @@
       border-top: none;
     }
 
-    .cat-mouth::before {
-      border-right: none;
-      border-radius: 0 0 0 3px;
-    }
+    .cat-mouth::before { border-right: none; border-radius: 0 0 0 3px; }
+    .cat-mouth::after { border-left: none; border-radius: 0 0 3px 0; }
 
-    .cat-mouth::after {
-      border-left: none;
-      border-radius: 0 0 3px 0;
-    }
-
-    /* Reveal state */
-    .easter-cat.reveal {
-      transform: translateY(-5px);
-      z-index: 10;
-    }
-
+    .easter-cat.reveal { transform: translateY(-5px); z-index: 10; }
     .easter-cat.reveal .cat-eyes,
     .easter-cat.reveal .cat-glasses,
     .easter-cat.reveal .cat-blush,
-    .easter-cat.reveal .cat-mouth {
-      opacity: 1;
-    }
+    .easter-cat.reveal .cat-mouth { opacity: 1; }
 
-    /* Chat bubble – keeping it cohesive */
     .cat-bubble {
       position: absolute;
       bottom: 75px;
@@ -520,10 +458,7 @@
       width: 0;
     }
 
-    .easter-cat.reveal .cat-bubble {
-      opacity: 1;
-      transform: scale(1);
-    }
+    .easter-cat.reveal .cat-bubble { opacity: 1; transform: scale(1); }
   </style>
 </head>
 
@@ -543,17 +478,14 @@
     <h1 id="welcome-heading">AngloRoom</h1>
 
     <section class="info-section">
-
       <div class="info-card card-about">
         <div class="card-inner">
           <div class="card-img-wrapper">
-            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80"
-              alt="Students">
+            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="Students">
           </div>
           <div class="card-content">
             <h3>About Us</h3>
-            <p>AngloRoom is a leading English education center in Andijan. Our experienced teachers help students
-              achieve fluency.</p>
+            <p>AngloRoom is a leading English education center in Andijan. Our experienced teachers help students achieve fluency.</p>
           </div>
         </div>
       </div>
@@ -561,13 +493,11 @@
       <div class="info-card card-courses" id="chatCard">
         <div class="card-inner">
           <div class="card-img-wrapper">
-            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80"
-              alt="Team">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="Team">
           </div>
           <div class="card-content">
             <h3>Online Chat Group</h3>
-            <p>Practice real English with students from our community. Chat, communicate, and improve your speaking
-              skills every day.</p>
+            <p>Practice real English with students from our community. Chat, communicate, and improve your speaking skills every day.</p>
           </div>
         </div>
       </div>
@@ -575,8 +505,7 @@
       <div class="info-card card-mission">
         <div class="card-inner">
           <div class="card-img-wrapper">
-            <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=800&q=80"
-              alt="Mission">
+            <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=800&q=80" alt="Mission">
           </div>
           <div class="card-content">
             <h3>Our Mission</h3>
@@ -584,12 +513,10 @@
           </div>
         </div>
       </div>
-
     </section>
 
     <h2 class="section-title">The Library</h2>
     <section class="books-section">
-
       <div class="info-card card-gogetter" id="GG1">
         <div class="card-inner">
           <div class="card-img-wrapper">
@@ -597,8 +524,7 @@
           </div>
           <div class="card-content">
             <h3>Go Getter 1</h3>
-            <p>A beginner-level English coursebook for young learners that teaches basic vocabulary, grammar, and
-              communication skills through interactive and engaging activities.</p>
+            <p>A beginner-level English coursebook for young learners that teaches basic vocabulary, grammar, and communication skills through interactive and engaging activities.</p>
           </div>
         </div>
       </div>
@@ -610,12 +536,10 @@
           </div>
           <div class="card-content">
             <h3>Go Getter 2</h3>
-            <p>An elementary-level English coursebook that helps students improve vocabulary, grammar, and basic
-              speaking and listening skills through interactive activities.</p>
+            <p>An elementary-level English coursebook that helps students improve vocabulary, grammar, and basic speaking and listening skills through interactive activities.</p>
           </div>
         </div>
       </div>
-
     </section>
 
     <div class="easter-cat" id="easterCat">
@@ -637,7 +561,6 @@
         <div class="cat-mouth"></div>
       </div>
     </div>
-
   </main>
 
   <footer>
@@ -658,23 +581,63 @@
   </footer>
 
   <script src="./assets/js/main.js"></script>
+
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       let activeUserName = "Scholar";
 
-      if (typeof firebase !== 'undefined') {
-        firebase.auth().onAuthStateChanged((user) => {
-          const heading = document.getElementById("welcome-heading");
-          if (user) {
-            activeUserName = user.displayName || user.email.split('@')[0] || "Scholar";
-            heading.innerHTML = `Welcome, ${activeUserName}!`;
-          } else {
-            heading.innerHTML = "AngloRoom";
-            activeUserName = "Scholar";
-          }
-        });
+      function updateActiveUserName(name) {
+        activeUserName = name;
+        const heading = document.getElementById("welcome-heading");
+        if (heading) {
+          heading.innerHTML = `Welcome, ${name}!`;
+        }
       }
 
+      // Check if auth and db are defined from your external scripts
+      if (typeof auth !== 'undefined' && typeof db !== 'undefined') {
+        auth.onAuthStateChanged(async (user) => {
+          if (user) {
+            try {
+              console.log("Checking Firestore for user:", user.uid);
+              const doc = await db.collection('users').doc(user.uid).get();
+              
+              if (doc.exists) {
+                const data = doc.data();
+                console.log("Firestore data found:", data); // Debugging log
+                
+                if (data.nickname) {
+                  updateActiveUserName(data.nickname);
+                } else {
+                  console.warn("User document exists, but 'nickname' field is missing.");
+                  const fallback = user.displayName || user.email.split('@')[0] || "Scholar";
+                  updateActiveUserName(fallback);
+                }
+              } else {
+                console.warn("No document found in 'users' collection for this UID.");
+                const fallback = user.displayName || user.email.split('@')[0] || "Scholar";
+                updateActiveUserName(fallback);
+              }
+            } catch (err) {
+              console.error('Error fetching nickname. Check your Firestore Security Rules! Error details:', err);
+              const fallback = user.displayName || user.email.split('@')[0] || "Scholar";
+              updateActiveUserName(fallback);
+            }
+          } else {
+            updateActiveUserName("Scholar");
+            const heading = document.getElementById("welcome-heading");
+            if (heading) {
+              heading.innerHTML = "AngloRoom";
+            }
+          }
+        });
+      } else {
+        console.error("Firebase 'auth' or 'db' is not defined. Ensure your firebase.js and auth.js scripts are correct.");
+      }
+
+      // ==========================================
+      // UI Interactions & Easter Egg Logic
+      // ==========================================
       const chatCard = document.getElementById("chatCard");
       if (chatCard) {
         chatCard.addEventListener("click", (e) => {
@@ -707,18 +670,18 @@
           `You found me, ${activeUserName}! 🐾`,
           `Well done, ${activeUserName}! You clicked it!`,
           `Great job spotting me, ${activeUserName}! 😺`,
-          `Nice! You didn’t miss it, ${activeUserName}!`,
+          `Nice! You didn't miss it, ${activeUserName}!`,
           `Hello ${activeUserName}, secret unlocked! 🔓`,
           `Surprise, ${activeUserName}! You discovered it! 🎁`,
           `Good instincts, ${activeUserName}!`,
-          `You’re paying attention, ${activeUserName}! 👀`,
-          `Correct click, ${activeUserName}! Let’s go! 🚀`,
+          `You're paying attention, ${activeUserName}! 👀`,
+          `Correct click, ${activeUserName}! Let's go! 🚀`,
           `Boom! You got it, ${activeUserName}! 💥`,
           `Excellent reaction time, ${activeUserName}! ⏱️`,
           `You caught me, ${activeUserName}! 😼`,
           `Mission completed, ${activeUserName}! 🏆`,
           `Smart move, ${activeUserName}!`,
-          `You’re getting better, ${activeUserName}! 💡`,
+          `You're getting better, ${activeUserName}! 💡`,
           `That was the right one, ${activeUserName}!`,
           `Impressive, ${activeUserName}! Keep going!`,
           `You unlocked a bonus, ${activeUserName}! 🎉`,
@@ -735,7 +698,6 @@
       });
     });
   </script>
-
 </body>
 
 </html>
