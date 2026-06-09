@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>AngloRoom - Main</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Outfit:wght@700;900&display=swap"
+    rel="stylesheet">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
@@ -27,7 +30,11 @@
       --text-muted: #94a3b8;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
       min-height: 100vh;
@@ -39,11 +46,16 @@
       overflow-x: hidden;
     }
 
-    /* Ambient Glow */
     body::before {
-      content: ''; position: fixed; top: -10%; left: -10%; width: 60vw; height: 60vw;
-      background: radial-gradient(circle, rgba(16,185,129,0.1) 0%, transparent 70%);
-      filter: blur(100px); z-index: -1;
+      content: '';
+      position: fixed;
+      top: -10%;
+      left: -10%;
+      width: 60vw;
+      height: 60vw;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+      filter: blur(100px);
+      z-index: -1;
     }
 
     header {
@@ -52,11 +64,17 @@
       justify-content: center;
       background: rgba(2, 44, 34, 0.85);
       backdrop-filter: blur(15px);
-      position: sticky; top: 0; z-index: 100;
+      position: sticky;
+      top: 0;
+      z-index: 100;
       border-bottom: 1px solid var(--glass-border);
     }
 
-    nav { display: flex; gap: clamp(10px, 4vw, 25px); }
+    nav {
+      display: flex;
+      gap: clamp(10px, 4vw, 25px);
+    }
+
     nav a {
       color: var(--text-muted);
       text-decoration: none;
@@ -64,7 +82,11 @@
       transition: 0.3s;
       font-size: 14px;
     }
-    nav a:hover, nav a[href="main.html"] { color: var(--accent); }
+
+    nav a:hover,
+    nav a[href="main.html"] {
+      color: var(--accent);
+    }
 
     main {
       flex: 1;
@@ -74,7 +96,8 @@
       width: 100%;
     }
 
-    h1, h2.section-title {
+    h1,
+    h2.section-title {
       font-family: 'Outfit', sans-serif;
       text-align: center;
       background: linear-gradient(to right, #fff, var(--accent));
@@ -92,7 +115,6 @@
       margin: 60px 0 30px;
     }
 
-    /* ===== COMPACT CREATIVE GRID (Top Section) ===== */
     .info-section {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -102,7 +124,6 @@
       margin: 0 auto;
     }
 
-    /* ===== BOOKS SECTION (Bottom Section) ===== */
     .books-section {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -115,41 +136,65 @@
       background: var(--glass-bg);
       border: 1px solid var(--glass-border);
       border-radius: 20px;
-      overflow: hidden;
+      overflow: visible;
       display: flex;
-      flex-direction: row; 
+      flex-direction: row;
       transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
       position: relative;
+      z-index: 2;
+    }
+
+    .card-inner {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 20px;
+      background: transparent;
+      z-index: 3;
     }
 
     .info-card:hover {
       transform: translateY(-5px) scale(1.01);
       border-color: var(--accent);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     }
 
-    /* Dynamic Tiling Sizes for Top Grid */
-    .card-about { grid-column: span 2; }
-    .card-mission { grid-column: span 2; }
-    .card-courses { grid-column: span 2; grid-row: span 2; }
+    .card-about {
+      grid-column: span 2;
+    }
+
+    .card-mission {
+      grid-column: span 2;
+    }
+
+    .card-courses {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
 
     .card-img-wrapper {
       position: relative;
-      flex: 0 0 140px; 
+      flex: 0 0 140px;
       height: 100%;
       overflow: hidden;
     }
 
-    /* Featured/tall cards retain taller images */
-    .card-courses .card-img-wrapper { flex: 0 0 180px; }
+    .card-courses .card-img-wrapper {
+      flex: 0 0 180px;
+    }
 
     .card-img-wrapper img {
-      width: 100%; height: 100%;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       transition: transform 0.8s ease;
     }
 
-    .info-card:hover img { transform: scale(1.08); }
+    .info-card:hover img {
+      transform: scale(1.08);
+    }
 
     .card-content {
       padding: 18px;
@@ -157,7 +202,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      background: linear-gradient(to right, transparent, rgba(2, 44, 34, 0.9));
+      background: linear-gradient(to right, rgba(2, 44, 34, 0.9));
     }
 
     .info-card h3 {
@@ -173,39 +218,57 @@
       line-height: 1.5;
     }
 
-    /* Featured Colors */
-    .card-courses h3 { color: var(--accent); }
-    .card-gogetter h3 { color: #38bdf8; }
+    .card-courses h3 {
+      color: var(--accent);
+    }
 
-    /* ===== MOBILE FLEXIBILITY ===== */
+    .card-gogetter h3 {
+      color: #38bdf8;
+    }
+
     @media (max-width: 992px) {
-      .info-section { grid-template-columns: repeat(2, 1fr); max-width: 100%; }
-      .books-section { grid-template-columns: repeat(2, 1fr); }
+      .info-section {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 100%;
+      }
+
+      .books-section {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
     @media (max-width: 650px) {
-      .info-section, .books-section {
+
+      .info-section,
+      .books-section {
         display: flex;
         flex-direction: column;
         gap: 20px;
       }
+
       .info-card {
-        grid-column: span 1 !important; grid-row: auto !important;
+        grid-column: span 1 !important;
+        grid-row: auto !important;
+      }
+
+      .card-inner {
         flex-direction: column;
       }
+
       .card-img-wrapper {
         flex: 0 0 auto;
         height: 160px !important;
         cursor: pointer;
       }
+
       .card-content {
         padding: 20px;
-        background: linear-gradient(to bottom, transparent, rgba(2, 44, 34, 0.9));
+        background: linear-gradient(to bottom, rgba(2, 44, 34, 0.9));
       }
     }
 
     footer {
-      background: rgba(0,0,0,0.2);
+      background: rgba(0, 0, 0, 0.2);
       padding: 30px 20px;
       margin-top: 50px;
       display: grid;
@@ -215,16 +278,255 @@
       font-size: 14px;
     }
 
-    footer h3 { color: var(--accent); margin-bottom: 12px; font-size: 17px; }
-    footer a { color: var(--text-muted); text-decoration: none; transition: 0.3s; }
-    footer a:hover { color: #fff; }
-    footer p { line-height: 1.5; }
-    #chatCard {
-  cursor: pointer;
-}
+    footer h3 {
+      color: var(--accent);
+      margin-bottom: 12px;
+      font-size: 17px;
+    }
 
+    footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    footer a:hover {
+      color: #fff;
+    }
+
+    footer p {
+      line-height: 1.5;
+    }
+
+    #chatCard {
+      cursor: pointer;
+    }
+
+    /* ==========================================================
+       EASTER EGG CAT STYLES (NATURAL & CUTE COLOR PALETTE)
+       ========================================================== */
+    .easter-cat {
+      position: absolute;
+      bottom: 100%;
+      left: 20px;
+      width: 70px;
+      height: 60px;
+      z-index: 1;
+      cursor: pointer;
+      transform: translateY(40px);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    /* Head – soft warm gray/taupe, like a real kitty */
+    .cat-head {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 45px;
+      background: #d4b595;
+      /* warm beige/taupe base */
+      background: linear-gradient(145deg, #e2c9ad 0%, #c8a27a 100%);
+      border: 2px solid #b08968;
+      border-radius: 50% 50% 45% 45%;
+      box-shadow: inset 0 -5px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Ears – matching head color, with soft pink inner ear */
+    .cat-ear {
+      position: absolute;
+      top: -2px;
+      width: 0;
+      height: 0;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-bottom: 22px solid #c8a27a;
+      /* matches head gradient */
+    }
+
+    .cat-ear::after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: -8px;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 14px solid #f4acb7;
+      /* soft natural pink inner ear */
+    }
+
+    .cat-ear.left {
+      left: 2px;
+      transform: rotate(-15deg);
+    }
+
+    .cat-ear.right {
+      right: 2px;
+      transform: rotate(15deg);
+    }
+
+    /* Eyes – bright, expressive greenish-hazel */
+    .cat-eyes {
+      position: absolute;
+      top: 15px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 16px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      z-index: 2;
+    }
+
+    .cat-eye {
+      width: 9px;
+      height: 9px;
+      background: #b5e48c;
+      /* light green base */
+      background: radial-gradient(circle at 30% 30%, #d9f2b0, #76c893);
+      border-radius: 50%;
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+      border: 1px solid #52796f;
+    }
+
+    /* Smart Glasses – soft dark brown instead of harsh white */
+    .cat-glasses {
+      position: absolute;
+      top: 9px;
+      left: 8px;
+      width: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      z-index: 4;
+    }
+
+    .lens {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #5c4d3c;
+      border-radius: 50%;
+      background: rgba(92, 77, 60, 0.15);
+      box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .glasses-bridge {
+      width: 10px;
+      height: 2px;
+      background: #5c4d3c;
+      position: absolute;
+      left: 20px;
+      top: 9px;
+    }
+
+    /* Blush cheeks – gentle rosy peach */
+    .cat-blush {
+      position: absolute;
+      top: 23px;
+      width: 9px;
+      height: 5px;
+      background: rgba(244, 162, 132, 0.7);
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      z-index: 2;
+      filter: blur(0.8px);
+    }
+
+    .cat-blush.left {
+      left: 8px;
+    }
+
+    .cat-blush.right {
+      right: 8px;
+    }
+
+
+    /* Mouth – subtle warm tone */
+    .cat-mouth {
+      position: absolute;
+      top: 25px;
+      left: calc(50% - 6px);
+      width: 12px;
+      height: 6px;
+      display: flex;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      z-index: 3;
+    }
+
+    .cat-mouth::before,
+    .cat-mouth::after {
+      content: '';
+      width: 6px;
+      height: 5px;
+      border: 1.5px solid #8b6b4f;
+      border-top: none;
+    }
+
+    .cat-mouth::before {
+      border-right: none;
+      border-radius: 0 0 0 3px;
+    }
+
+    .cat-mouth::after {
+      border-left: none;
+      border-radius: 0 0 3px 0;
+    }
+
+    /* Reveal state */
+    .easter-cat.reveal {
+      transform: translateY(-5px);
+      z-index: 10;
+    }
+
+    .easter-cat.reveal .cat-eyes,
+    .easter-cat.reveal .cat-glasses,
+    .easter-cat.reveal .cat-blush,
+    .easter-cat.reveal .cat-mouth {
+      opacity: 1;
+    }
+
+    /* Chat bubble – keeping it cohesive */
+    .cat-bubble {
+      position: absolute;
+      bottom: 75px;
+      left: -20px;
+      background: #0f172a;
+      border: 1px solid var(--accent);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .cat-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 45px;
+      border-width: 6px 6px 0;
+      border-style: solid;
+      border-color: #0f172a transparent;
+      display: block;
+      width: 0;
+    }
+
+    .easter-cat.reveal .cat-bubble {
+      opacity: 1;
+      transform: scale(1);
+    }
   </style>
 </head>
+
 <body>
 
   <header>
@@ -238,67 +540,103 @@
   </header>
 
   <main>
-    <h1>AngloRoom</h1>
+    <h1 id="welcome-heading">AngloRoom</h1>
 
     <section class="info-section">
-      
-      <div class="info-card card-about">
-        <div class="card-img-wrapper">
-          <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="Students">
 
-        </div>
-        <div class="card-content">
-          <h3>About Us</h3>
-          <p>AngloRoom is a leading English education center in Andijan. Our experienced teachers help students achieve fluency.</p>
+      <div class="info-card card-about">
+        <div class="card-inner">
+          <div class="card-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80"
+              alt="Students">
+          </div>
+          <div class="card-content">
+            <h3>About Us</h3>
+            <p>AngloRoom is a leading English education center in Andijan. Our experienced teachers help students
+              achieve fluency.</p>
+          </div>
         </div>
       </div>
 
       <div class="info-card card-courses" id="chatCard">
-        <div class="card-img-wrapper">
-           <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="Team">
-        </div>
-        <div class="card-content">
-          <h3>Online Chat Group</h3>
-<p>Practice real English with students from our community. Chat, communicate, and improve your speaking skills every day.</p>
+        <div class="card-inner">
+          <div class="card-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80"
+              alt="Team">
+          </div>
+          <div class="card-content">
+            <h3>Online Chat Group</h3>
+            <p>Practice real English with students from our community. Chat, communicate, and improve your speaking
+              skills every day.</p>
+          </div>
         </div>
       </div>
 
       <div class="info-card card-mission">
-        <div class="card-img-wrapper">
-          <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=800&q=80" alt="Mission">
-        </div>
-        <div class="card-content">
-          <h3>Our Mission</h3>
-          <p>To empower students with language skills that open doors to global opportunities.</p>
+        <div class="card-inner">
+          <div class="card-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=800&q=80"
+              alt="Mission">
+          </div>
+          <div class="card-content">
+            <h3>Our Mission</h3>
+            <p>To empower students with language skills that open doors to global opportunities.</p>
+          </div>
         </div>
       </div>
 
     </section>
 
-    <h2 class="section-title">The Library </h2>
+    <h2 class="section-title">The Library</h2>
     <section class="books-section">
 
       <div class="info-card card-gogetter" id="GG1">
-        <div class="card-img-wrapper">
-          <img src="assets/image/GG1.png" alt="Go Getter 1">
-        </div>
-        <div class="card-content">
-          <h3>Go Getter 1</h3>
-          <p>a beginner-level English coursebook for young learners that teaches basic vocabulary, grammar, and communication skills through interactive and engaging activities.</p>
+        <div class="card-inner">
+          <div class="card-img-wrapper">
+            <img src="assets/image/GG1.png" alt="Go Getter 1">
+          </div>
+          <div class="card-content">
+            <h3>Go Getter 1</h3>
+            <p>A beginner-level English coursebook for young learners that teaches basic vocabulary, grammar, and
+              communication skills through interactive and engaging activities.</p>
+          </div>
         </div>
       </div>
 
       <div class="info-card card-gogetter" id="GG2">
-        <div class="card-img-wrapper">
-          <img src="assets/image/GG2.png" alt="Go Getter 2">
-        </div>
-        <div class="card-content">
-          <h3>Go Getter 2</h3>
-          <p>an elementary-level English coursebook that helps students improve vocabulary, grammar, and basic speaking and listening skills through interactive activities.</p>
+        <div class="card-inner">
+          <div class="card-img-wrapper">
+            <img src="assets/image/GG2.png" alt="Go Getter 2">
+          </div>
+          <div class="card-content">
+            <h3>Go Getter 2</h3>
+            <p>An elementary-level English coursebook that helps students improve vocabulary, grammar, and basic
+              speaking and listening skills through interactive activities.</p>
+          </div>
         </div>
       </div>
 
     </section>
+
+    <div class="easter-cat" id="easterCat">
+      <div class="cat-bubble" id="catBubble">Meow?</div>
+      <div class="cat-ear left"></div>
+      <div class="cat-ear right"></div>
+      <div class="cat-head">
+        <div class="cat-glasses">
+          <div class="lens"></div>
+          <div class="glasses-bridge"></div>
+          <div class="lens"></div>
+        </div>
+        <div class="cat-eyes">
+          <div class="cat-eye"></div>
+          <div class="cat-eye"></div>
+        </div>
+        <div class="cat-blush left"></div>
+        <div class="cat-blush right"></div>
+        <div class="cat-mouth"></div>
+      </div>
+    </div>
 
   </main>
 
@@ -318,18 +656,86 @@
       <p><a href="https://www.instagram.com/angloroom_and/"><i class="fab fa-instagram"></i> Instagram</a></p>
     </div>
   </footer>
+
   <script src="./assets/js/main.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+      let activeUserName = "Scholar";
+
+      if (typeof firebase !== 'undefined') {
+        firebase.auth().onAuthStateChanged((user) => {
+          const heading = document.getElementById("welcome-heading");
+          if (user) {
+            activeUserName = user.displayName || user.email.split('@')[0] || "Scholar";
+            heading.innerHTML = `Welcome, ${activeUserName}!`;
+          } else {
+            heading.innerHTML = "AngloRoom";
+            activeUserName = "Scholar";
+          }
+        });
+      }
+
       const chatCard = document.getElementById("chatCard");
-  
       if (chatCard) {
-        chatCard.addEventListener("click", () => {
+        chatCard.addEventListener("click", (e) => {
+          if (e.target.closest('#easterCat')) return;
           window.location.href = "chat.html";
         });
       }
+
+      const cat = document.getElementById("easterCat");
+      const bubble = document.getElementById("catBubble");
+      const cards = document.querySelectorAll(".info-card");
+
+      function hideCatInNewPlace() {
+        if (cards.length === 0) return;
+        const randomCard = cards[Math.floor(Math.random() * cards.length)];
+        cat.classList.remove("reveal");
+        randomCard.appendChild(cat);
+        cat.style.left = Math.floor(Math.random() * 60) + 20 + "%";
+      }
+
+      hideCatInNewPlace();
+
+      cat.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (cat.classList.contains("reveal")) return;
+
+        cat.classList.add("reveal");
+
+        const catPhrases = [
+          `You found me, ${activeUserName}! 🐾`,
+          `Well done, ${activeUserName}! You clicked it!`,
+          `Great job spotting me, ${activeUserName}! 😺`,
+          `Nice! You didn’t miss it, ${activeUserName}!`,
+          `Hello ${activeUserName}, secret unlocked! 🔓`,
+          `Surprise, ${activeUserName}! You discovered it! 🎁`,
+          `Good instincts, ${activeUserName}!`,
+          `You’re paying attention, ${activeUserName}! 👀`,
+          `Correct click, ${activeUserName}! Let’s go! 🚀`,
+          `Boom! You got it, ${activeUserName}! 💥`,
+          `Excellent reaction time, ${activeUserName}! ⏱️`,
+          `You caught me, ${activeUserName}! 😼`,
+          `Mission completed, ${activeUserName}! 🏆`,
+          `Smart move, ${activeUserName}!`,
+          `You’re getting better, ${activeUserName}! 💡`,
+          `That was the right one, ${activeUserName}!`,
+          `Impressive, ${activeUserName}! Keep going!`,
+          `You unlocked a bonus, ${activeUserName}! 🎉`,
+          `Sharp eyes, ${activeUserName}! 👁️`,
+          `Level up, ${activeUserName}! 🚀`
+        ];
+
+        const randomText = catPhrases[Math.floor(Math.random() * catPhrases.length)];
+        bubble.innerText = randomText;
+
+        setTimeout(() => {
+          hideCatInNewPlace();
+        }, 2400);
+      });
     });
   </script>
 
 </body>
+
 </html>
