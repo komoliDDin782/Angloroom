@@ -192,8 +192,7 @@ function buildPodium(topThree, tabType) {
     let metricValue = '';
 
     if (tabType === 'weekly') {
-      metricValue = item.data ? `${item.data.score}` : '';
-           metricValue = item.data ? `${formatTime(item.data.timeTaken)}` : '';
+      metricValue = item.data ? `${item.data.score} score` : '0 score';
     } else if (tabType === 'correct') {
       metricValue = `${item.userData.correctAnswers || 0} correct`;
     } else if (tabType === 'lightning') {
