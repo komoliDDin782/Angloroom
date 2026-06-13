@@ -2,104 +2,104 @@
   "title": "Revision Test",
   "questions": [
     {
-      "question": "Tom loves __ football.",
-      "options": ["playing", "play", "played", "plays"]
+      "question": "It is quarter past three",
+      "options": ["3:15", "3:45", "4:15", "4:45"]
     },
     {
-      "question": "Amy ___ a shower every day.",
-      "options": ["has", "have", "haves", "rides"]
+      "question": "My brother ___ very friendly.",
+      "options": ["is", "am", "are", "be"]
     },
     {
-      "question": "Lucas ___ posters on his wall.",
-      "options": ["makes", "listens", "eats", "swims"]
+      "question": "___ they from England?",
+      "options": ["Are", "Is", "Am", "Do"]
     },
     {
-      "question": "Amy hasn't got any brothers ___ sisters.",
-      "options": ["or", "too", "but", "so"]
+      "question": "This is Anna. ___ is my friend.",
+      "options": ["She", "We", "It", "They"]
     },
     {
-      "question": "___ you got a dog?",
+      "question": "We love our school. ___ teachers are great.",
+      "options": ["Our", "His", "Her", "Their"]
+    },
+    {
+      "question": "___ you got a bicycle?",
       "options": ["Have", "Has", "Are", "Do"]
     },
     {
-      "question": "Elena ___ sing and play the guitar.",
-      "options": ["can", "has", "is", "does"]
+      "question": "Tom ___ got a new computer.",
+      "options": ["has", "have", "is", "are"]
     },
     {
-      "question": "how ___ bottles of water do you drink every day?",
-      "options": ["many", "much", "do", "are"]
+      "question": "I haven't got ___ brothers.",
+      "options": ["any", "some", "a", "an"]
     },
     {
-      "question": "how ___ money do you have? ",
-      "options": ["much", "many", "is", "are"]
+      "question": "___ is my pen here.",
+      "options": ["This", "These", "Those", "They"]
     },
     {
-      "question": "There ___ two posters on the wall.",
+      "question": "how much ___ are there in the fridge?",
+      "options": ["milk", "books", "apples", "chairs"]
+    },
+    {
+      "question": "There ___ a desk in the classroom.",
+      "options": ["is", "are", "am", "be"]
+    },
+    {
+      "question": "There ___ twenty students in my class.",
       "options": ["are", "is", "am", "be"]
     },
     {
-      "question": "how many ___ of cola are there in the fridge?",
-      "options": ["cans", "bars", "can", "bottle"]
+      "question": "Lucy ___ play the piano.",
+      "options": ["can", "is", "has", "does"]
     },
     {
-      "question": "how much ___ is there ?",
-      "options": ["milk", "apples", "book", "bottles"]
+      "question": "___ your sister swim?",
+      "options": ["Can", "Do", "Is", "Has"]
     },
     {
-      "question": "What are ___ ? They're trainers.",
-      "options": ["these", "this", "that", "it"]
+      "question": "Tom usually ___ football after school.",
+      "options": ["plays", "play", "playing", "played"]
     },
     {
-      "question": "What is ___ ? It's a hat.",
-      "options": ["that", "those", "these", "they"]
-    },
-    {
-      "question": "how many ___ of jam are there ?",
-      "options": ["jars", "jar", "packets", "packet"]
-    },
-    {
-      "question": "Carla is very ___. She likes reading.",
-      "options": ["clever", "sporty", "old", "small"]
-    },
-    {
-      "question": "how many ___ of juice are there ?",
-      "options": ["cartons", "jar", "packets", "packet"]
-    },
-    {
-      "question": "Rocco loves skateboarding. He is very ___.",
-      "options": ["sporty", "old", "helpful", "funny"]
-    },
-    {
-      "question": "Tom always ___ breakfast at home.",
-      "options": ["has", "have", "having", "haves"]
-    },
-    {
-      "question": "Elena often ___ to music.",
-      "options": ["listens", "listen", "listening", "listened"]
-    },
-    {
-      "question": "Lucas sometimes ___ things.",
-      "options": ["loses", "lose", "losing", "lost"]
-    },
-    {
-      "question": "We ___ lunch at school.",
+      "question": "We ___ lunch at school every day.",
       "options": ["eat", "eats", "eating", "ate"]
+    }, 
+    {
+      "question": "___ Amy like science?",
+      "options": ["Does", "Do", "Is", "Has"]
     },
     {
-      "question": "Does Carla play sport? No, she ___.",
-      "options": ["doesn't", "don't", "isn't", "can't"]
+      "question": "My father ___ to work by car.",
+      "options": ["goes", "go", "going", "gone"]
     },
     {
-      "question": "Do you ___ football in your free time?",
-      "options": ["play", "do", "go", "have"]
+      "question": "I ___ get up at 7 o'clock.",
+      "options": ["always", "that", "yesterday", "now"]
     },
     {
-      "question": "what many ___ of biscuits are there ?",
-      "options": ["packets", "bars", "cans", "jars"]
+      "question": "The cat is ___ the table.",
+      "options": ["under", "many", "every", "often"]
     },
     {
-      "question": "Students have lunch in the ___.",
-      "options": ["canteen", "library", "gym", "playground"]
+      "question": "The picture is ___ the wall.",
+      "options": ["on", "under", "between", "behind"]
+    },
+    {
+      "question": "There are ___ apples in the bag.",
+      "options": ["some", "any", "a", "an"]
+    },
+    {
+      "question": "Have you got ___ homework today?",
+      "options": ["any", "some", "a", "an"]
+    },
+    {
+      "question": "___ is your birthday?",
+      "options": ["When", "Who", "Where", "Why"]
+    },
+    {
+      "question": "___ do you live?",
+      "options": ["Where", "When", "Who", "What"]
     }
   ]
 }
