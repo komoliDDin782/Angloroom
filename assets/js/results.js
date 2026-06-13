@@ -181,6 +181,7 @@ function buildPodium(topThree, tabType) {
   if (topThree.length === 0) return '';
 
   const podiumOrder = [];
+  // Adjusted to match CSS requirements and visual hierarchy
   if (topThree[1]) podiumOrder.push({ ...topThree[1], place: 'second-place', rank: 2 });
   if (topThree[0]) podiumOrder.push({ ...topThree[0], place: 'first-place', rank: 1 });
   if (topThree[2]) podiumOrder.push({ ...topThree[2], place: 'third-place', rank: 3 });
@@ -192,8 +193,13 @@ function buildPodium(topThree, tabType) {
     let metricValue = '';
 
     if (tabType === 'weekly') {
-      metricValue = item.data ? `${item.data.score} score` : '0 score';
-      metricValue = item.data ? `${formatTime(item.data.timeTaken) || 0}` : '0 minutes';
+      const score = item.data?.score || 0;
+      const timeStr = formatTime(item.data?.timeTaken);
+      const time = timeStr === '-' ? '0m 0s' : timeStr;
+      
+      // Fix: Combine score and time correctly so both display
+      metricValue = `${score} score • ${time}`;
+      
     } else if (tabType === 'correct') {
       metricValue = `${item.userData.correctAnswers || 0} correct`;
     } else if (tabType === 'lightning') {
@@ -210,11 +216,9 @@ function buildPodium(topThree, tabType) {
         >
         <div class="podium-bar">
           <span class="podium-rank">${rankLabel}</span>
-          
         </div>
         <span class="podium-nickname">${item.userData.nickname}</span>
         <span class="podium-metric">${metricValue}</span>
-        
       </div>
     `;
   });
