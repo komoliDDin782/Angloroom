@@ -1,105 +1,105 @@
 {
-  "title": "Present Perfect and irregular verbs",
+  "title": "Revision Test",
   "questions": [
     {
-      "question": "I have never ___ a horse.",
-      "options": ["ridden", "rode", "ride", "riding"]
+      "question": "It is quarter past three",
+      "options": ["3:15", "3:45", "4:15", "4:45"]
     },
     {
-      "question": "She has ___ her homework already.",
-      "options": ["done", "did", "do", "doing"]
+      "question": "My brother ___ very friendly.",
+      "options": ["is", "am", "are", "be"]
     },
     {
-      "question": "They have ___ to Paris three times.",
-      "options": ["been", "gone", "went", "being"]
+      "question": "___ they from England?",
+      "options": ["Are", "Is", "Am", "Do"]
     },
     {
-      "question": "Tom has just ___ a new bike.",
-      "options": ["bought", "buy", "brought", "boughted"]
+      "question": "This is Anna. ___ is my friend.",
+      "options": ["She", "We", "It", "They"]
     },
     {
-      "question": "We haven't ___ lunch yet.",
-      "options": ["had", "have", "having", "has"]
+      "question": "We love our school. ___ teachers are great.",
+      "options": ["Our", "His", "Her", "Their"]
     },
     {
-      "question": "___ you ever seen a whale?",
-      "options": ["Have", "Has", "Did", "Do"]
+      "question": "___ you got a bicycle?",
+      "options": ["Have", "Has", "Are", "Do"]
     },
     {
-      "question": "She has ___ her keys again.",
-      "options": ["lost", "lose", "loses", "losted"]
+      "question": "Tom ___ got a new computer.",
+      "options": ["has", "have", "is", "are"]
     },
     {
-      "question": "I have just ___ a great film.",
-      "options": ["seen", "saw", "see", "seeing"]
+      "question": "I haven't got ___ brothers.",
+      "options": ["any", "some", "a", "an"]
     },
     {
-      "question": "My brother has ___ all the cake.",
-      "options": ["eaten", "ate", "eat", "eating"]
+      "question": "___ is my pen here.",
+      "options": ["This", "These", "Those", "They"]
     },
     {
-      "question": "They have ___ the answer.",
-      "options": ["known", "knew", "know", "knowing"]
+      "question": "how much ___ are there in the fridge?",
+      "options": ["milk", "books", "apples", "chairs"]
     },
     {
-      "question": "We have ___ our friends at the station.",
-      "options": ["met", "meet", "meeted", "meeting"]
+      "question": "There ___ a desk in the classroom.",
+      "options": ["is", "are", "am", "be"]
     },
     {
-      "question": "She has never ___ to Japan.",
-      "options": ["been", "gone", "went", "go"]
+      "question": "There ___ twenty students in my class.",
+      "options": ["are", "is", "am", "be"]
     },
     {
-      "question": "I have ___ this book twice.",
-      "options": ["read", "readed", "reading", "reads"]
+      "question": "Lucy ___ play the piano.",
+      "options": ["can", "is", "has", "does"]
     },
     {
-      "question": "They have just ___ home.",
-      "options": ["come", "came", "coming", "comes"]
+      "question": "___ your sister swim?",
+      "options": ["Can", "Do", "Is", "Has"]
     },
     {
-      "question": "He has ___ a picture for the competition.",
-      "options": ["drawn", "drawed", "drew", "drawing"]
+      "question": "Tom usually ___ football after school.",
+      "options": ["plays", "play", "playing", "played"]
     },
     {
-      "question": "We have ___ a lot of photos this week.",
-      "options": ["taken", "took", "take", "taking"]
+      "question": "We ___ lunch at school every day.",
+      "options": ["eat", "eats", "eating", "ate"]
+    }, 
+    {
+      "question": "___ Amy like science?",
+      "options": ["Does", "Do", "Is", "Has"]
     },
     {
-      "question": "She hasn't ___ the email yet.",
-      "options": ["written", "wrote", "write", "writing"]
+      "question": "My father ___ to work by car.",
+      "options": ["goes", "go", "going", "gone"]
     },
     {
-      "question": "I have ___ my phone somewhere.",
-      "options": ["put", "putted", "puts", "putting"]
+      "question": "I ___ get up at 7 o'clock.",
+      "options": ["always", "that", "yesterday", "now"]
     },
     {
-      "question": "They have ___ the football match.",
-      "options": ["won", "winned", "win", "winning"]
+      "question": "The cat is ___ the table.",
+      "options": ["under", "many", "every", "often"]
     },
     {
-      "question": "He has ___ all the water.",
-      "options": ["drunk", "drank", "drink", "drinking"]
+      "question": "The picture is ___ the wall.",
+      "options": ["on", "under", "between", "behind"]
     },
     {
-      "question": "My parents have ___ to the supermarket.",
-      "options": ["gone", "went", "go", "going"]
+      "question": "There are ___ apples in the bag.",
+      "options": ["some", "any", "a", "an"]
     },
     {
-      "question": "She has just ___ me the good news.",
-      "options": ["told", "tell", "telled", "telling"]
+      "question": "Have you got ___ homework today?",
+      "options": ["any", "some", "a", "an"]
     },
     {
-      "question": "We have ___ our project, so we can go home.",
-      "options": ["finished", "finish", "finisheded", "finishing"]
+      "question": "___ is your birthday?",
+      "options": ["When", "Who", "Where", "Why"]
     },
     {
-      "question": "I haven't ___ my teacher yet.",
-      "options": ["seen", "saw", "see", "seeing"]
-    },
-    {
-      "question": "___ your sister ever ridden a bike in the mountains?",
-      "options": ["Has", "Have", "Did", "Does"]
+      "question": "___ do you live?",
+      "options": ["Where", "When", "Who", "What"]
     }
   ]
 }

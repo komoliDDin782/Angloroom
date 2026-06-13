@@ -2,25 +2,25 @@
   {
     "id": "Revision Test",
     "title": "Revision Test",
-    "file": "quiz3.json",
+    "file": "quiz0.json",
     "level": "beginner"
   },
   {
+    "id": "Present Perfect",
+    "title": "Present Perfect",
+    "file": "quiz1.json",
+    "level": "elementary"
+  },
+  {
     "id": "Infinitive and Gerund",
-    "title": "Infinitive and Gerund", 
+    "title": "Infinitive and Gerund",
     "file": "quiz2.json",
     "level": "intermediate"
   },
   {
     "id": "advanced",
     "title": "Passive voice",
-    "file": "quiz1.json",
+    "file": "quiz3.json",
     "level": "advanced"
-  },
-  {
-    "id": "Present Perfect and irregular verbs",
-    "title": "Present Perfect and irregular verbs",
-    "file": "quiz0.json",
-    "level": "elementary"
   }
 ]

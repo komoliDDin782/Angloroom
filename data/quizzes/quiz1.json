@@ -1,0 +1,125 @@
+{
+  "title": "Present Perfect",
+  "questions": [
+    {
+      "question": "I have ___ my homework. (do)",
+      "options": ["done", "did", "do", "does"]
+    },
+    {
+      "question": "She has ___ a new bicycle. (buy)",
+      "options": ["bought", "buyed", "brought", "buys"]
+    },
+    {
+      "question": "We have ___ that film before. (see)",
+      "options": ["seen", "saw", "see", "seened"]
+    },
+    {
+      "question": "Have you finished your homework ___?",
+      "options": ["yet", "just", "already", "ever"]
+    },
+    {
+      "question": "Tom has ___ been to London. He went last year.",
+      "options": ["already", "yet", "ever", "never"]
+    },
+    {
+      "question": "They have ___ lunch. Now, they can go out",
+      "options": ["just had", "yet had", "ever had", "never had"]
+    },
+    {
+      "question": "I have ___ ridden a horse in my life.",
+      "options": ["never", "ever", "yet", "just"]
+    },
+    {
+      "question": "She has lived here ___ 2015.",
+      "options": ["since", "for", "in", "from"]
+    },
+    {
+      "question": "She has ___ her keys again. (lose)",
+      "options": ["lost", "losed", "lose", "loses"]
+    },
+    {
+      "question": "Have you ___ been to Japan?",
+      "options": ["ever", "never", "yet", "just"]
+    },
+    {
+      "question": "My brother has ___ a letter. (write)",
+      "options": ["written", "wrote", "writed", "write"]
+    },
+    {
+      "question": "We have known each other ___ ten years.",
+      "options": ["for", "since", "from", "in"]
+    },
+    {
+      "question": "She has ___ the window. (break)",
+      "options": ["broken", "broke", "breaked", "break"]
+    },
+    {
+      "question": "I have ___ this book three times. (read)",
+      "options": ["read", "red", "readed", "reading"]
+    },
+    {
+      "question": "They haven't arrived ___.",
+      "options": ["yet", "already", "just", "ever"]
+    },
+    {
+      "question": "He has ___ his phone. Look, he's happy!",
+      "options": ["just found", "yet found", "ever found", "never found"]
+    },
+    {
+      "question": "Have you ___ your bed ___?",
+      "options": ["made / yet", "make / already", "made / just", "making / ever"]
+    },
+    {
+      "question": "She has ___ all the milk. (drink)",
+      "options": ["drunk", "drank", "drinked", "drink"]
+    },
+    {
+      "question": "We haven't seen him ___ last week.",
+      "options": ["since", "for", "from", "in"]
+    },
+    {
+      "question": "I have ___ my friend a gift. (give)",
+      "options": ["given", "gave", "gived", "give"]
+    },
+    {
+      "question": "Tom has ___ very fast in the race. (run)",
+      "options": ["run", "ran", "runned", "runs"]
+    },
+    {
+      "question": "They have ___ visited that hotel. It's their first time.",
+      "options": ["never", "ever", "yet", "already"]
+    },
+    {
+      "question": "She has ___ her breakfast, so she isn't hungry.",
+      "options": ["already had", "yet had", "ever had", "never had"]
+    },
+    {
+      "question": "I have ___ that song on the radio.",
+      "options": ["just heard", "yet heard", "ever heard", "never heart"] 
+    },
+    {
+      "question": "We have ___ three emails so far today.",
+      "options": ["sent", "sended", "send", "sends"]
+    },
+    {
+      "question": "He has ___ a lot of pictures since morning. (take)",
+      "options": ["taken", "took", "taked", "take"]
+    },
+    {
+      "question": "Have they ___ the game ___?",
+      "options": ["won / yet", "win / already", "won / ever", "winning / just"]
+    },
+    {
+      "question": "My parents have been married ___ 20 years.",
+      "options": ["for", "since", "from", "in"]
+    },
+    {
+      "question": "She has ___ eaten sushi before, so she's a little nervous.",
+      "options": ["never", "ever", "just", "already"]
+    },
+    {
+      "question": "We have ___ our homework, so we can play now.",
+      "options": ["already done", "yet done", "ever done", "never done"]
+    }
+  ]
+}
