@@ -193,6 +193,7 @@ function buildPodium(topThree, tabType) {
 
     if (tabType === 'weekly') {
       metricValue = item.data ? `${item.data.score} score` : '0 score';
+      metricValue = item.data ? `${formatTime(item.data.timeTaken) || 0}` : '0 minutes';
     } else if (tabType === 'correct') {
       metricValue = `${item.userData.correctAnswers || 0} correct`;
     } else if (tabType === 'lightning') {
@@ -209,9 +210,11 @@ function buildPodium(topThree, tabType) {
         >
         <div class="podium-bar">
           <span class="podium-rank">${rankLabel}</span>
+          
         </div>
         <span class="podium-nickname">${item.userData.nickname}</span>
         <span class="podium-metric">${metricValue}</span>
+        
       </div>
     `;
   });
