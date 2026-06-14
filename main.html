@@ -21,7 +21,7 @@
   <script src="assets/js/firebase.js" defer></script>
   <script src="assets/js/auth.js" defer></script>
 
-<style>
+  <style>
     :root {
       --bg-base: #022c22;
       --accent: #10b981;
@@ -46,6 +46,8 @@
       display: flex;
       flex-direction: column;
       overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+      padding-bottom: env(safe-area-inset-bottom);
     }
 
     body::before {
@@ -66,6 +68,7 @@
       justify-content: center;
       background: rgba(2, 44, 34, 0.85);
       backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
       position: sticky;
       top: 0;
       z-index: 100;
@@ -83,11 +86,13 @@
       font-weight: 600;
       transition: 0.3s;
       font-size: 14px;
+      padding: 8px 4px;
     }
 
     nav a:hover,
-    nav a[href="main.html"] {
+    nav a.active {
       color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
     }
 
     main {
@@ -98,23 +103,76 @@
       width: 100%;
     }
 
-    h1,
-    h2.section-title {
+    h1 {
       font-family: 'Outfit', sans-serif;
       text-align: center;
       background: linear-gradient(to right, #fff, var(--accent));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-    }
-
-    h1 {
       font-size: clamp(28px, 6vw, 48px);
-      margin-bottom: 30px;
+      margin-bottom: 10px;
     }
 
-    h2.section-title {
-      font-size: clamp(24px, 5vw, 36px);
-      margin: 60px 0 30px;
+    /* ===== SECTION TAB SWITCHER ===== */
+    .section-tab-switcher {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin: 20px auto 30px;
+      background: var(--glass-bg);
+      border-radius: 16px;
+      padding: 6px;
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      max-width: 450px;
+    }
+
+    .section-tab-btn {
+      flex: 1;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: 0.3s;
+      white-space: nowrap;
+    }
+
+    .section-tab-btn.active {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 15px var(--accent-glow);
+    }
+
+    .section-tab-btn:hover:not(.active) {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* ===== SECTION CONTENT ===== */
+    .section-content {
+      display: none;
+      animation: fadeUp 0.5s ease-out;
+    }
+
+    .section-content.active {
+      display: block;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .info-section {
@@ -134,16 +192,22 @@
       margin: 0 auto;
     }
 
+    .news-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
     .info-card {
       background: var(--glass-bg);
       border: 1px solid var(--glass-border);
       border-radius: 20px;
-      overflow: visible;
+      overflow: hidden;
       display: flex;
       flex-direction: row;
       transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-      position: relative;
-      z-index: 2;
     }
 
     .card-inner {
@@ -153,8 +217,6 @@
       height: 100%;
       overflow: hidden;
       border-radius: 20px;
-      background: transparent;
-      z-index: 3;
     }
 
     .info-card:hover {
@@ -219,6 +281,28 @@
     .card-courses h3 { color: var(--accent); }
     .card-gogetter h3 { color: #38bdf8; }
 
+    /* News card specific styles */
+    .news-card .card-inner {
+      flex-direction: column;
+    }
+
+    .news-card .card-img-wrapper {
+      flex: 0 0 200px;
+      width: 100%;
+    }
+
+    .news-card .card-content {
+      padding: 22px;
+      background: linear-gradient(to bottom, rgba(2, 44, 34, 0.95), var(--bg-base));
+      justify-content: flex-start;
+    }
+
+    .news-card h3 {
+      color: #fcd34d; 
+      margin-bottom: 12px;
+      font-size: 20px;
+    }
+
     @media (max-width: 992px) {
       .info-section {
         grid-template-columns: repeat(2, 1fr);
@@ -230,25 +314,51 @@
     }
 
     @media (max-width: 650px) {
+      main {
+        padding: 20px 12px;
+      }
+
+      .section-tab-switcher {
+        gap: 3px;
+        padding: 4px;
+        border-radius: 12px;
+        margin: 15px 10px 20px;
+        max-width: 100%;
+      }
+
+      .section-tab-btn {
+        padding: 8px 6px;
+        font-size: 11px;
+        border-radius: 10px;
+      }
+
       .info-section,
       .books-section {
         display: flex;
         flex-direction: column;
         gap: 20px;
       }
+
       .info-card {
         grid-column: span 1 !important;
         grid-row: auto !important;
       }
+
       .card-inner { flex-direction: column; }
+
       .card-img-wrapper {
         flex: 0 0 auto;
         height: 160px !important;
         cursor: pointer;
       }
+
       .card-content {
         padding: 20px;
         background: linear-gradient(to bottom, rgba(2, 44, 34, 0.9));
+      }
+
+      .news-section {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -278,213 +388,6 @@
     footer a:hover { color: #fff; }
     footer p { line-height: 1.5; }
     #chatCard { cursor: pointer; }
-
-    /* ==========================================================
-       EASTER EGG CAT STYLES 
-       ========================================================== */
-    .easter-cat {
-      position: absolute;
-      bottom: 100%;
-      left: 20px;
-      width: 70px;
-      height: 60px;
-      z-index: 1;
-      cursor: pointer;
-      transform: translateY(40px);
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .cat-head {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      height: 45px;
-      background: #d4b595;
-      background: linear-gradient(145deg, #e2c9ad 0%, #c8a27a 100%);
-      border: 2px solid #b08968;
-      border-radius: 50% 50% 45% 45%;
-      box-shadow: inset 0 -5px 8px rgba(0, 0, 0, 0.08);
-    }
-
-    .cat-ear {
-      position: absolute;
-      top: -2px;
-      width: 0;
-      height: 0;
-      border-left: 14px solid transparent;
-      border-right: 14px solid transparent;
-      border-bottom: 22px solid #c8a27a;
-    }
-
-    .cat-ear::after {
-      content: '';
-      position: absolute;
-      top: 5px;
-      left: -8px;
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-bottom: 14px solid #f4acb7;
-    }
-
-    .cat-ear.left { left: 2px; transform: rotate(-15deg); }
-    .cat-ear.right { right: 2px; transform: rotate(15deg); }
-
-    .cat-eyes {
-      position: absolute;
-      top: 15px;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      padding: 0 16px;
-      opacity: 0;
-      transition: opacity 0.2s ease;
-      z-index: 2;
-    }
-
-    .cat-eye {
-      width: 9px;
-      height: 9px;
-      background: radial-gradient(circle at 30% 30%, #d9f2b0, #76c893);
-      border-radius: 50%;
-      box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-      border: 1px solid #52796f;
-    }
-
-    .cat-glasses {
-      position: absolute;
-      top: 9px;
-      left: 8px;
-      width: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      opacity: 0;
-      transition: opacity 0.2s ease;
-      z-index: 4;
-    }
-
-    .lens {
-      width: 20px;
-      height: 20px;
-      border: 2px solid #5c4d3c;
-      border-radius: 50%;
-      background: rgba(92, 77, 60, 0.15);
-      box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2);
-    }
-
-    .glasses-bridge {
-      width: 10px;
-      height: 2px;
-      background: #5c4d3c;
-      position: absolute;
-      left: 20px;
-      top: 9px;
-    }
-
-    .cat-blush {
-      position: absolute;
-      top: 23px;
-      width: 9px;
-      height: 5px;
-      background: rgba(244, 162, 132, 0.7);
-      border-radius: 50%;
-      opacity: 0;
-      transition: opacity 0.2s ease;
-      z-index: 2;
-      filter: blur(0.8px);
-    }
-
-    .cat-blush.left { left: 8px; }
-    .cat-blush.right { right: 8px; }
-
-    .cat-mouth {
-      position: absolute;
-      top: 25px;
-      left: calc(50% - 6px);
-      width: 12px;
-      height: 6px;
-      display: flex;
-      opacity: 0;
-      transition: opacity 0.2s ease;
-      z-index: 3;
-    }
-
-    .cat-mouth::before,
-    .cat-mouth::after {
-      content: '';
-      width: 6px;
-      height: 5px;
-      border: 1.5px solid #8b6b4f;
-      border-top: none;
-    }
-
-    .cat-mouth::before { border-right: none; border-radius: 0 0 0 3px; }
-    .cat-mouth::after { border-left: none; border-radius: 0 0 3px 0; }
-
-    .easter-cat.reveal { transform: translateY(-5px); z-index: 10; }
-    .easter-cat.reveal .cat-eyes,
-    .easter-cat.reveal .cat-glasses,
-    .easter-cat.reveal .cat-blush,
-    .easter-cat.reveal .cat-mouth { opacity: 1; }
-
-    .cat-bubble {
-      position: absolute;
-      bottom: 75px;
-      left: 50%;
-      transform: translateX(-50%) scale(0.8);
-      background: #0f172a;
-      border: 1px solid var(--accent);
-      color: #fff;
-      padding: 8px 12px;
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 600;
-      white-space: normal;
-      width: max-content;
-      max-width: 220px;
-      text-align: center;
-      pointer-events: none;
-      opacity: 0;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-      z-index: 20;
-    }
-
-    .cat-bubble::after {
-      content: '';
-      position: absolute;
-      bottom: -6px;
-      left: 50%;
-      transform: translateX(-50%);
-      border-width: 6px 6px 0;
-      border-style: solid;
-      border-color: #0f172a transparent;
-      display: block;
-      width: 0;
-    }
-
-    .easter-cat.reveal .cat-bubble { 
-      opacity: 1; 
-      transform: translateX(-50%) scale(1); 
-    }
-
-    /* ==========================================================
-       MOBILE RESPONSIVENESS FOR THE CAT
-       ========================================================== */
-    @media (max-width: 650px) {
-      .easter-cat {
-        transform: translateY(30px) scale(0.75); 
-      }
-      
-      .easter-cat.reveal {
-        transform: translateY(-5px) scale(0.75); 
-      }
-
-      .cat-bubble {
-        max-width: 160px; 
-        bottom: 70px; 
-      }
-    }
   </style>
 </head>
 
@@ -492,7 +395,7 @@
 
   <header>
     <nav>
-      <a href="main.html">Main</a>
+      <a href="main.html" class="active">Main</a>
       <a href="quiz.html">Quizzes</a>
       <a href="results.html">Results</a>
       <a href="profile.html">Profile</a>
@@ -503,89 +406,108 @@
   <main>
     <h1 id="welcome-heading">AngloRoom</h1>
 
-    <section class="info-section">
-      <div class="info-card card-about">
-        <div class="card-inner">
-          <div class="card-img-wrapper">
-            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="Students">
-          </div>
-          <div class="card-content">
-            <h3>About Us</h3>
-            <p>AngloRoom is a leading English education center in Andijan. Our experienced teachers help students achieve fluency.</p>
-          </div>
-        </div>
-      </div>
+    <!-- Section Tab Switcher -->
+    <div class="section-tab-switcher">
+      <button class="section-tab-btn active" data-section="main-content">🏠 Main</button>
+      <button class="section-tab-btn" data-section="library-content">📚 Library</button>
+      <button class="section-tab-btn" data-section="news-content">📰 News</button>
+    </div>
 
-      <div class="info-card card-courses" id="chatCard">
-        <div class="card-inner">
-          <div class="card-img-wrapper">
-            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="Team">
-          </div>
-          <div class="card-content">
-            <h3>Online Chat Group</h3>
-            <p>Practice real English with students from our community. Chat, communicate, and improve your speaking skills every day.</p>
+    <!-- ========== MAIN CONTENT SECTION ========== -->
+    <div class="section-content active" id="main-content">
+      <section class="info-section">
+        <div class="info-card card-about">
+          <div class="card-inner">
+            <div class="card-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="Students">
+            </div>
+            <div class="card-content">
+              <h3>About Us</h3>
+              <p>AngloRoom is a leading English education center in Andijan. Our experienced teachers help students achieve fluency.</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="info-card card-mission">
-        <div class="card-inner">
-          <div class="card-img-wrapper">
-            <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=800&q=80" alt="Mission">
-          </div>
-          <div class="card-content">
-            <h3>Our Mission</h3>
-            <p>To empower students with language skills that open doors to global opportunities.</p>
+        <div class="info-card card-courses" id="chatCard">
+          <div class="card-inner">
+            <div class="card-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="Team">
+            </div>
+            <div class="card-content">
+              <h3>Online Chat Group</h3>
+              <p>Practice real English with students from our community. Chat, communicate, and improve your speaking skills every day.</p>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
 
-    <h2 class="section-title">The Library</h2>
-    <section class="books-section">
-      <div class="info-card card-gogetter" id="GG1">
-        <div class="card-inner">
-          <div class="card-img-wrapper">
-            <img src="assets/image/GG1.png" alt="Go Getter 1">
-          </div>
-          <div class="card-content">
-            <h3>Go Getter 1</h3>
-            <p>A beginner-level English coursebook for young learners that teaches basic vocabulary, grammar, and communication skills through interactive and engaging activities.</p>
+        <div class="info-card card-mission">
+          <div class="card-inner">
+            <div class="card-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=800&q=80" alt="Mission">
+            </div>
+            <div class="card-content">
+              <h3>Our Mission</h3>
+              <p>To empower students with language skills that open doors to global opportunities.</p>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
+    </div>
 
-      <div class="info-card card-gogetter" id="GG2">
-        <div class="card-inner">
-          <div class="card-img-wrapper">
-            <img src="assets/image/GG2.png" alt="Go Getter 2">
-          </div>
-          <div class="card-content">
-            <h3>Go Getter 2</h3>
-            <p>An elementary-level English coursebook that helps students improve vocabulary, grammar, and basic speaking and listening skills through interactive activities.</p>
+    <!-- ========== LIBRARY SECTION ========== -->
+    <div class="section-content" id="library-content">
+      <section class="books-section">
+        <div class="info-card card-gogetter" id="GG1">
+          <div class="card-inner">
+            <div class="card-img-wrapper">
+              <img src="assets/image/GG1.png" alt="Go Getter 1">
+            </div>
+            <div class="card-content">
+              <h3>Go Getter 1</h3>
+              <p>A beginner-level English coursebook for young learners that teaches basic vocabulary, grammar, and communication skills through interactive and engaging activities.</p>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
 
-    <div class="easter-cat" id="easterCat">
-      <div class="cat-bubble" id="catBubble">Meow?</div>
-      <div class="cat-ear left"></div>
-      <div class="cat-ear right"></div>
-      <div class="cat-head">
-        <div class="cat-glasses">
-          <div class="lens"></div>
-          <div class="glasses-bridge"></div>
-          <div class="lens"></div>
+        <div class="info-card card-gogetter" id="GG2">
+          <div class="card-inner">
+            <div class="card-img-wrapper">
+              <img src="assets/image/GG2.png" alt="Go Getter 2">
+            </div>
+            <div class="card-content">
+              <h3>Go Getter 2</h3>
+              <p>An elementary-level English coursebook that helps students improve vocabulary, grammar, and basic speaking and listening skills through interactive activities.</p>
+            </div>
+          </div>
         </div>
-        <div class="cat-eyes">
-          <div class="cat-eye"></div>
-          <div class="cat-eye"></div>
-        </div>
-        <div class="cat-blush left"></div>
-        <div class="cat-blush right"></div>
-        <div class="cat-mouth"></div>
+      </section>
+    </div>
+
+    <!-- ========== NEWS SECTION ========== -->
+    <div class="section-content" id="news-content">
+
+
+<section class="news-section">
+  <div class="info-card news-card">
+    <div class="card-inner">
+      <div class="card-img-wrapper">
+        <img src="https://i.ibb.co/bMs792YM/download-2.webp" alt="Monopoly Event">
       </div>
+      <div class="card-content">
+        <h3>Lighting reward!</h3>
+        <p>Join us this week for our new intensive speaking club. Practice with native speakers and level up your fluency.</p>
+        
+        <div class="rewards-info" style="margin-top: 15px;">
+          <p>🎓⚡️ Every student who answers questions in the chat gets a lightning reward!</p>
+          <p>💬⚡️ Каждый студент, который отвечает на вопросы в чате, получит значок молнии!</p>
+          <p>💬⚡️ Chatdagi savollarga javob bergan har bir talaba chaqmoq nishoniga ega bo‘ladi!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
     </div>
   </main>
 
@@ -605,8 +527,7 @@
       <p><a href="https://www.instagram.com/angloroom_and/"><i class="fab fa-instagram"></i> Instagram</a></p>
     </div>
   </footer>
-
-  <script src="./assets/js/main.js"></script>
+  <script src="assets/js/main.js"></script>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -620,7 +541,7 @@
         }
       }
 
-      // Check if auth and db are defined from your external scripts
+      // ===== FIREBASE AUTH - FETCH USER NICKNAME =====
       if (typeof auth !== 'undefined' && typeof db !== 'undefined') {
         auth.onAuthStateChanged(async (user) => {
           if (user) {
@@ -630,7 +551,7 @@
               
               if (doc.exists) {
                 const data = doc.data();
-                console.log("Firestore data found:", data); // Debugging log
+                console.log("Firestore data found:", data);
                 
                 if (data.nickname) {
                   updateActiveUserName(data.nickname);
@@ -645,7 +566,7 @@
                 updateActiveUserName(fallback);
               }
             } catch (err) {
-              console.error('Error fetching nickname. Check your Firestore Security Rules! Error details:', err);
+              console.error('Error fetching nickname:', err);
               const fallback = user.displayName || user.email.split('@')[0] || "Scholar";
               updateActiveUserName(fallback);
             }
@@ -658,70 +579,34 @@
           }
         });
       } else {
-        console.error("Firebase 'auth' or 'db' is not defined. Ensure your firebase.js and auth.js scripts are correct.");
+        console.error("Firebase 'auth' or 'db' is not defined. Ensure firebase.js and auth.js are correct.");
       }
 
-      // ==========================================
-      // UI Interactions & Easter Egg Logic
-      // ==========================================
+      // ===== SECTION TAB SWITCHING =====
+      const sectionTabBtns = document.querySelectorAll('.section-tab-btn');
+      const sectionContents = document.querySelectorAll('.section-content');
+
+      sectionTabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetSection = btn.dataset.section;
+          
+          // Remove active from all buttons and sections
+          sectionTabBtns.forEach(b => b.classList.remove('active'));
+          sectionContents.forEach(s => s.classList.remove('active'));
+          
+          // Add active to clicked button and target section
+          btn.classList.add('active');
+          document.getElementById(targetSection).classList.add('active');
+        });
+      });
+
+      // ===== CHAT CARD CLICK =====
       const chatCard = document.getElementById("chatCard");
       if (chatCard) {
-        chatCard.addEventListener("click", (e) => {
-          if (e.target.closest('#easterCat')) return;
+        chatCard.addEventListener("click", () => {
           window.location.href = "chat.html";
         });
       }
-
-      const cat = document.getElementById("easterCat");
-      const bubble = document.getElementById("catBubble");
-      const cards = document.querySelectorAll(".info-card");
-
-      function hideCatInNewPlace() {
-        if (cards.length === 0) return;
-        const randomCard = cards[Math.floor(Math.random() * cards.length)];
-        cat.classList.remove("reveal");
-        randomCard.appendChild(cat);
-        cat.style.left = Math.floor(Math.random() * 60) + 20 + "%";
-      }
-
-      hideCatInNewPlace();
-
-      cat.addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (cat.classList.contains("reveal")) return;
-
-        cat.classList.add("reveal");
-
-        const catPhrases = [
-          `You found me, ${activeUserName}! 🐾`,
-          `Well done, ${activeUserName}! You clicked it!`,
-          `Great job spotting me, ${activeUserName}! 😺`,
-          `Nice! You didn't miss it, ${activeUserName}!`,
-          `Hello ${activeUserName}, secret unlocked! 🔓`,
-          `Surprise, ${activeUserName}! You discovered it! 🎁`,
-          `Good instincts, ${activeUserName}!`,
-          `You're paying attention, ${activeUserName}! 👀`,
-          `Correct click, ${activeUserName}! Let's go! 🚀`,
-          `Boom! You got it, ${activeUserName}! 💥`,
-          `Excellent reaction time, ${activeUserName}! ⏱️`,
-          `You caught me, ${activeUserName}! 😼`,
-          `Mission completed, ${activeUserName}! 🏆`,
-          `Smart move, ${activeUserName}!`,
-          `You're getting better, ${activeUserName}! 💡`,
-          `That was the right one, ${activeUserName}!`,
-          `Impressive, ${activeUserName}! Keep going!`,
-          `You unlocked a bonus, ${activeUserName}! 🎉`,
-          `Sharp eyes, ${activeUserName}! 👁️`,
-          `Level up, ${activeUserName}! 🚀`
-        ];
-
-        const randomText = catPhrases[Math.floor(Math.random() * catPhrases.length)];
-        bubble.innerText = randomText;
-
-        setTimeout(() => {
-          hideCatInNewPlace();
-        }, 2400);
-      });
     });
   </script>
 </body>
