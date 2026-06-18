@@ -10,13 +10,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
   
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
 
   <script src="assets/js/firebase.js" defer></script>
   <script src="assets/js/profile.js" defer></script>
@@ -30,10 +28,48 @@
       --glass-border: rgba(255, 255, 255, 0.08);
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
+      --scrollbar-track: rgba(255, 255, 255, 0.03);
+      --scrollbar-thumb: rgba(16, 185, 129, 0.3);
+      --scrollbar-thumb-hover: rgba(16, 185, 129, 0.5);
     }
 
-    /* ===== BASE STYLES ===== */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ===== MODERN SCROLLBAR ===== */
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+    }
+
+    *::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    *::-webkit-scrollbar-track {
+      background: var(--scrollbar-track);
+      border-radius: 10px;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-thumb);
+      border-radius: 10px;
+      transition: background 0.3s ease;
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+      background: var(--scrollbar-thumb-hover);
+    }
+
+    /* For Firefox */
+    html {
+      scrollbar-width: thin;
+      scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+    }
 
     body {
       min-height: 100vh;
@@ -46,11 +82,16 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* Ambient Background */
     body::before {
-      content: ''; position: fixed; top: -10%; left: -10%; width: 50vw; height: 50vw;
-      background: radial-gradient(circle, rgba(16,185,129,0.1) 0%, transparent 70%);
-      filter: blur(100px); z-index: -1;
+      content: '';
+      position: fixed;
+      top: -10%;
+      left: -10%;
+      width: 50vw;
+      height: 50vw;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+      filter: blur(100px);
+      z-index: -1;
     }
 
     /* ===== NAVIGATION ===== */
@@ -66,7 +107,10 @@
       border-bottom: 1px solid var(--glass-border);
     }
 
-    nav { display: flex; gap: clamp(15px, 4vw, 30px); }
+    nav {
+      display: flex;
+      gap: clamp(15px, 4vw, 30px);
+    }
 
     nav a {
       color: var(--text-muted);
@@ -76,12 +120,12 @@
       transition: 0.3s;
     }
 
-    nav a:hover, nav a[href="profile.html"] {
+    nav a:hover,
+    nav a[href="profile.html"] {
       color: var(--accent);
       text-shadow: 0 0 10px var(--accent-glow);
     }
 
-    /* ===== HEADER ===== */
     h1 {
       font-family: 'Outfit', sans-serif;
       text-align: center;
@@ -92,11 +136,32 @@
       -webkit-text-fill-color: transparent;
     }
 
-    /* ===== PROFILE CONTAINER ===== */
-    #profile-container {
+    /* ===== 3D FLIP CARD CONTAINER ===== */
+    .flip-container {
       width: 90%;
       max-width: 650px;
       margin: 20px auto 60px;
+      perspective: 1200px;
+      /* Zoom out the card */
+      transform: scale(0.85);
+      transform-origin: top center;
+    }
+
+    .flipper {
+      position: relative;
+      width: 100%;
+      transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform-style: preserve-3d;
+    }
+
+    .flipper.flipped {
+      transform: rotateY(180deg);
+    }
+
+    /* ===== FRONT & BACK COMMON STYLES ===== */
+    .card-front,
+    .card-back {
+      width: 100%;
       background: var(--glass-bg);
       backdrop-filter: blur(15px);
       border: 1px solid var(--glass-border);
@@ -105,17 +170,57 @@
       box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
       text-align: center;
       position: relative;
+    }
+
+    .card-front {
+      backface-visibility: hidden;
       animation: fadeUp 0.8s ease-out;
     }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      backface-visibility: hidden;
+      transform: rotateY(180deg);
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
     }
 
+    .card-back::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .card-back::-webkit-scrollbar-track {
+      background: transparent;
+      border-radius: 10px;
+    }
+
+    .card-back::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-thumb);
+      border-radius: 10px;
+    }
+
+    .card-back::-webkit-scrollbar-thumb:hover {
+      background: var(--scrollbar-thumb-hover);
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ===== FRONT CARD STYLES ===== */
     .profile-top-bg {
-      height: 200px; /* Slightly shorter for modern proportions */
-      background-image: url(assets/image/back4.jpg);
+      height: 200px;
       background-size: cover;
       background-position: center;
       position: relative;
@@ -127,7 +232,7 @@
       height: 160px;
       border-radius: 50%;
       object-fit: cover;
-      border: 6px solid var(--bg-base); /* Matches background instead of stark white */
+      border: 6px solid var(--bg-base);
       position: absolute;
       bottom: -80px;
       left: 50%;
@@ -143,67 +248,42 @@
       border-color: var(--accent);
     }
 
-    /* ===== DROPDOWN MENU ===== */
-    .settings-menu {
+    .settings-trigger {
       position: absolute;
       top: 20px;
       right: 20px;
-      font-size: 24px;
-      color: rgba(255, 255, 255, 0.8);
-      cursor: pointer;
-      z-index: 10;
-      transition: color 0.3s;
-      text-shadow: 0 2px 5px rgba(0,0,0,0.5);
-    }
-
-    .settings-menu:hover {
-      color: var(--accent);
-    }
-
-    .settings-dropdown {
-      display: none;
-      position: absolute;
-      top: 40px;
-      right: 0;
-      background: rgba(4, 60, 47, 0.95);
-      backdrop-filter: blur(15px);
-      border: 1px solid var(--glass-border);
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      min-width: 200px;
-      z-index: 100;
-      text-align: left;
-      overflow: hidden;
-    }
-
-    .dropdown-item {
-      padding: 14px 20px;
-      cursor: pointer;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       display: flex;
       align-items: center;
-      gap: 12px;
-      color: var(--text-main);
-      font-weight: 600;
-      font-size: 14px;
-      transition: background 0.2s, color 0.2s;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.3s;
     }
 
-    .dropdown-item:hover {
-      background-color: rgba(16, 185, 129, 0.15);
-      color: var(--accent);
+    .settings-trigger i {
+      font-size: 20px;
+      color: rgba(255, 255, 255, 0.9);
+      transition: transform 0.3s;
     }
 
-    #logout-btn {
-      color: #ef4444; /* Soft red for dark mode */
-      border-top: 1px solid var(--glass-border);
-    }
-    #logout-btn:hover {
-      background-color: rgba(239, 68, 68, 0.1);
+    .settings-trigger:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
     }
 
-    /* ===== PROFILE BOTTOM ===== */
+    .settings-trigger:hover i {
+      transform: rotate(90deg);
+    }
+
     .profile-bottom {
-      padding: 100px 25px 50px; /* Adjusted padding to fit new avatar size */
+      padding: 100px 25px 50px;
     }
 
     #nickname-display {
@@ -239,102 +319,12 @@
       transition: background 0.4s ease, box-shadow 0.4s ease;
     }
 
-    /* Utilizing the exact classes from your JS */
     .level-step.active.beginner { background: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
     .level-step.active.elementary { background: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
     .level-step.active.intermediate { background: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
     .level-step.active.advanced { background: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
 
-    /* ===== INPUTS & BUTTONS ===== */
-    #nickname {
-      display: none;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 18px;
-      font-weight: 600;
-      padding: 14px;
-      width: 100%;
-      max-width: 350px;
-      border-radius: 12px;
-      border: 1px solid var(--accent);
-      background: rgba(0, 0, 0, 0.2);
-      color: var(--text-main);
-      margin: 0 auto 20px;
-      text-align: center;
-      outline: none;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
-    }
-    
-    #nickname::placeholder {
-      color: var(--text-muted);
-    }
-
-    .about-section {
-      display: grid;
-      gap: 16px;
-      text-align: left;
-      margin: 30px auto;
-      max-width: 600px;
-    }
-
-    .about-section label {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text-muted);
-    }
-
-    #about-display {
-      min-height: 120px;
-      padding: 18px 20px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.12);
-      color: var(--text-main);
-      font-size: 15px;
-      line-height: 1.7;
-      white-space: pre-wrap;
-    }
-
-    #about {
-      width: 100%;
-      padding: 16px 18px;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.06);
-      color: var(--text-main);
-      font-size: 15px;
-      outline: none;
-      resize: vertical;
-      min-height: 120px;
-      display: none;
-    }
-
-    #about:focus {
-      border-color: var(--accent);
-      background: rgba(16, 185, 129, 0.08);
-    }
-
-    #save-profile-btn {
-      display: none;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 700;
-      font-size: 16px;
-      padding: 14px 40px;
-      border-radius: 12px;
-      border: none;
-      cursor: pointer;
-      background: var(--accent);
-      color: #000; /* Dark text on bright accent button */
-      transition: transform 0.2s, background 0.3s, box-shadow 0.3s;
-      box-shadow: 0 4px 15px var(--accent-glow);
-    }
-
-    #save-profile-btn:hover {
-      background: #0ea5e9; /* Switch to a bright blue/teal on hover or stay green */
-      background: #059669; /* Slightly darker green */
-      transform: translateY(-2px);
-      color: #fff;
-    }
-
+    /* ===== STATS GRID ===== */
     .stats-grid {
       display: flex;
       justify-content: center;
@@ -349,8 +339,8 @@
       flex: 1 1 100px;
       padding: 18px 16px;
       border-radius: 20px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       text-align: center;
     }
 
@@ -369,60 +359,262 @@
       color: #fff;
     }
 
+    #about-display {
+      min-height: 120px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-main);
+      font-size: 15px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      text-align: left;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ===== BACK CARD STYLES ===== */
+    .card-back-inner {
+      padding: 40px 30px;
+    }
+
+    .back-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 35px;
+    }
+
+    .back-header h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .back-close-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      color: var(--text-main);
+      font-size: 18px;
+    }
+
+    .back-close-btn:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+      color: #ef4444;
+    }
+
+    .setting-group {
+      margin-bottom: 28px;
+      text-align: left;
+    }
+
+    .setting-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    .setting-group input[type="text"],
+    .setting-group textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 15px;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    .setting-group input[type="text"]:focus,
+    .setting-group textarea:focus {
+      border-color: var(--accent);
+      background: rgba(16, 185, 129, 0.08);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    }
+
+    .setting-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .image-upload-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .upload-btn {
+      flex: 1;
+      min-width: 150px;
+      padding: 14px 20px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      color: var(--text-main);
+      cursor: pointer;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-align: center;
+    }
+
+    .upload-btn:hover {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .back-save-btn {
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      background: var(--accent);
+      color: #000;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px var(--accent-glow);
+      margin-top: 10px;
+    }
+
+    .back-save-btn:hover {
+      background: #059669;
+      transform: translateY(-2px);
+      color: #fff;
+    }
+
+    .back-save-btn:active {
+      transform: translateY(0);
+    }
+
+    .back-save-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .logout-section {
+      margin-top: 30px;
+      padding-top: 25px;
+      border-top: 1px solid var(--glass-border);
+      text-align: center;
+    }
+
+    .logout-btn-back {
+      padding: 12px 30px;
+      border-radius: 12px;
+      background: transparent;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #ef4444;
+      cursor: pointer;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logout-btn-back:hover {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: #ef4444;
+    }
+
+    /* ===== TOAST NOTIFICATION ===== */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: #000;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 999;
+      pointer-events: none;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-5px);
+    }
+
+    .toast.error {
+      background: #ef4444;
+      color: #fff;
+    }
+
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 760px) {
       header { padding: 14px 12px; }
       nav { gap: 14px; flex-wrap: wrap; justify-content: center; }
       nav a { font-size: 13px; }
 
-      #profile-container { width: 95%; margin: 16px auto 40px; }
+      .flip-container { 
+        width: 95%; 
+        margin: 16px auto 40px; 
+        transform: scale(0.9);
+      }
       .profile-top-bg { height: 160px; }
       #profile-pic { width: 140px; height: 140px; bottom: -70px; }
-      .settings-menu { top: 16px; right: 16px; font-size: 22px; }
+      .settings-trigger { top: 16px; right: 16px; width: 38px; height: 38px; }
+      .settings-trigger i { font-size: 18px; }
       .profile-bottom { padding: 90px 18px 36px; }
       #nickname-display { font-size: 28px; }
-      .user-level { margin-bottom: 20px; }
-      .level-progress { max-width: 100%; margin-bottom: 24px; }
-      .about-section { max-width: 100%; margin: 24px auto; }
-      .stats-grid {
-        display: flex;
-        justify-content: center;
-        gap: 12px;
-        flex-wrap: wrap;
-        margin: 20px auto 28px;
-      }
-      .stat-card {
-        flex: 1 1 100px;
-        min-width: 100px;
-        padding: 16px 14px;
-      }
-      .stat-value { font-size: 26px; }
+      .card-back-inner { padding: 30px 20px; }
+      .back-header h2 { font-size: 20px; }
     }
 
     @media (max-width: 520px) {
       h1 { margin: 28px 16px 14px; }
       header { padding: 12px 10px; }
       nav { gap: 10px; }
-      #profile-container { width: 100%; margin: 14px auto 30px; border-radius: 20px; }
+      .flip-container { 
+        width: 100%; 
+        margin: 14px auto 30px; 
+        transform: scale(0.85);
+      }
+      .card-front, .card-back { border-radius: 20px; }
       .profile-top-bg { height: 140px; }
       #profile-pic { width: 120px; height: 120px; bottom: -60px; }
-      .settings-menu { top: 14px; right: 14px; }
+      .settings-trigger { top: 14px; right: 14px; width: 34px; height: 34px; }
+      .settings-trigger i { font-size: 16px; }
       .profile-bottom { padding: 80px 16px 28px; }
       #nickname-display { font-size: 24px; }
-      .stats-grid {
-        display: flex;
-        justify-content: center;
-        gap: 12px;
-        flex-wrap: wrap;
-        margin: 18px auto 24px;
-      }
-      .stat-card {
-        flex: 1 1 95px;
-        min-width: 95px;
-        padding: 14px 12px;
-      }
-      .stat-value { font-size: 24px; }
-      #about-display, #about { min-height: 100px; }
-      #nickname, #about, #save-profile-btn { width: 100%; max-width: 100%; }
+      .card-back-inner { padding: 24px 16px; }
+      .back-header h2 { font-size: 18px; }
+      .image-upload-group { flex-direction: column; }
     }
   </style>
 </head>
@@ -441,77 +633,107 @@
 
   <h1>Profile</h1>
 
-  <div id="profile-container">
-    <div class="profile-top-bg">
+  <!-- ===== FLIP CARD CONTAINER ===== -->
+  <div class="flip-container">
+    <div class="flipper" id="flipper">
 
-      <img id="profile-pic" src="assets/image/logo.jpg" alt="Profile Picture">
+      <!-- ========== FRONT CARD ========== -->
+      <div class="card-front">
+        <div class="profile-top-bg" id="profile-top-bg">
+          <img id="profile-pic" src="assets/image/logo.jpg" alt="Profile Picture">
 
-      <div class="settings-menu" id="settings-btn">
-        <i class="fas fa-ellipsis-v"></i>
-
-        <div class="settings-dropdown" id="settings-dropdown">
-          <label for="profile-pic-input" class="dropdown-item">
-            <i class="fas fa-upload"></i> Change Picture
-          </label>
-          <input type="file" id="profile-pic-input" accept="image/*" hidden>
-
-          <div class="dropdown-item" id="change-bg">
-            <i class="fas fa-image"></i> Change Background
-          </div>
-          <input type="file" id="bg-pic-input" accept="image/*" hidden>
-
-          <div class="dropdown-item" id="change-nickname">
-            <i class="fas fa-user-edit"></i> Change Nickname
-          </div>
-
-          <div class="dropdown-item" id="edit-about">
-            <i class="fas fa-pen"></i> Edit About Me
-          </div>
-
-          <div class="dropdown-item" id="logout-btn">
-            <i class="fas fa-sign-out-alt"></i> Log Out
+          <div class="settings-trigger" id="flip-to-back-btn">
+            <i class="fas fa-ellipsis-v"></i>
           </div>
         </div>
-      </div>
-    </div>
 
-    <div class="profile-bottom">
-      <h2 id="nickname-display">Student</h2>
+        <div class="profile-bottom">
+          <h2 id="nickname-display">Student</h2>
+          <p id="level-display" class="user-level">Level: —</p>
 
-      <p id="level-display" class="user-level">Level: —</p>
+          <div class="level-progress">
+            <div class="level-step"></div>
+            <div class="level-step"></div>
+            <div class="level-step"></div>
+            <div class="level-step"></div>
+          </div>
 
-      <div class="level-progress">
-        <div class="level-step"></div>
-        <div class="level-step"></div>
-        <div class="level-step"></div>
-        <div class="level-step"></div>
-      </div>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <p class="stat-label">🎓 Quizzes</p>
+              <p class="stat-value" id="quiz-count">0</p>
+            </div>
+            <div class="stat-card">
+              <p class="stat-label">✅ Correct Answers</p>
+              <p class="stat-value" id="correct-answers-count">0</p>
+            </div>
+            <div class="stat-card">
+              <p class="stat-label">⚡ Lightning</p>
+              <p class="stat-value" id="lightning-count">0</p>
+            </div>
+          </div>
 
-      <div class="stats-grid">
-        <div class="stat-card">
-          <p class="stat-label">🎓 Quizzes</p>
-          <p class="stat-value" id="quiz-count">0</p>
-        </div>
-        <div class="stat-card">
-          <p class="stat-label">✅ Correct Answers</p>
-          <p class="stat-value" id="correct-answers-count">0</p>
-        </div>
-        <div class="stat-card">
-          <p class="stat-label">⚡ Lightning</p>
-          <p class="stat-value" id="lightning-count">0</p>
+          <p id="about-display">Tell something about yourself.</p>
         </div>
       </div>
 
-      <div class="about-section">
-        <label for="about">About Me</label>
-        <p id="about-display">Tell something about yourself.</p>
-        <textarea id="about" rows="4" placeholder="Write about yourself"></textarea>
+      <!-- ========== BACK CARD (SETTINGS) ========== -->
+      <div class="card-back">
+        <div class="card-back-inner">
+          <div class="back-header">
+            <h2>⚙️ Settings</h2>
+            <button class="back-close-btn" id="flip-to-front-btn">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+
+          <div class="setting-group">
+            <label for="nickname-input">Nickname</label>
+            <input type="text" id="nickname-input" placeholder="Enter your nickname">
+          </div>
+
+          <div class="setting-group">
+            <label>Profile Picture</label>
+            <div class="image-upload-group">
+              <label class="upload-btn" for="profile-pic-input">
+                <i class="fas fa-camera"></i> Choose Picture
+              </label>
+              <input type="file" id="profile-pic-input" accept="image/*" hidden>
+            </div>
+          </div>
+
+          <div class="setting-group">
+            <label>Background Image</label>
+            <div class="image-upload-group">
+              <label class="upload-btn" for="bg-pic-input">
+                <i class="fas fa-image"></i> Choose Background
+              </label>
+              <input type="file" id="bg-pic-input" accept="image/*" hidden>
+            </div>
+          </div>
+
+          <div class="setting-group">
+            <label for="about-input">About Me</label>
+            <textarea id="about-input" rows="4" placeholder="Tell something about yourself..."></textarea>
+          </div>
+
+          <button class="back-save-btn" id="save-settings-btn">
+            <i class="fas fa-check"></i> Save Changes
+          </button>
+
+          <div class="logout-section">
+            <button class="logout-btn-back" id="logout-btn">
+              <i class="fas fa-sign-out-alt"></i> Log Out
+            </button>
+          </div>
+        </div>
       </div>
 
-      <input type="text" id="nickname" placeholder="Enter nickname">
-      <button id="save-profile-btn">Save Changes</button>
     </div>
   </div>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
 
 </body>
 </html>

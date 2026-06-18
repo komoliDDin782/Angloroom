@@ -1,51 +1,90 @@
-const settingsBtn = document.getElementById('settings-btn');
-const settingsDropdown = document.getElementById('settings-dropdown');
-const changeNicknameBtn = document.getElementById('change-nickname');
-const editAboutBtn = document.getElementById('edit-about');
-const nicknameDisplay = document.getElementById('nickname-display');
-const nicknameInput = document.getElementById('nickname');
-const saveProfileBtn = document.getElementById('save-profile-btn');
-const aboutDisplay = document.getElementById('about-display');
-const aboutInput = document.getElementById('about');
+// ===== DOM ELEMENTS =====
+const flipper = document.getElementById('flipper');
+const flipToBackBtn = document.getElementById('flip-to-back-btn');
+const flipToFrontBtn = document.getElementById('flip-to-front-btn');
+const saveSettingsBtn = document.getElementById('save-settings-btn');
 
-const profilePicInput = document.getElementById('profile-pic-input');
-const profilePicImage = document.getElementById('profile-pic');
-const logoutBtn = document.getElementById('logout-btn');
+// Front card elements
+const nicknameDisplay = document.getElementById('nickname-display');
+const aboutDisplay = document.getElementById('about-display');
 const levelDisplay = document.getElementById('level-display');
+const profilePicImage = document.getElementById('profile-pic');
+const profileTopBg = document.getElementById('profile-top-bg');
 const levelSteps = document.querySelectorAll('.level-step');
 const quizCountDisplay = document.getElementById('quiz-count');
 const correctAnswersDisplay = document.getElementById('correct-answers-count');
 const lightningDisplay = document.getElementById('lightning-count');
 
-const changeBgBtn = document.getElementById('change-bg');
+// Back card elements
+const nicknameInput = document.getElementById('nickname-input');
+const aboutInput = document.getElementById('about-input');
+const profilePicInput = document.getElementById('profile-pic-input');
 const bgPicInput = document.getElementById('bg-pic-input');
-const profileTopBg = document.querySelector('.profile-top-bg');
+const logoutBtn = document.getElementById('logout-btn');
 
-let currentUser;
+const toast = document.getElementById('toast');
+
+// ===== STATE =====
+let currentUser = null;
 let isSaving = false;
+let isFlipped = false;
+let toastTimer = null;
 
-/* ---------- Dropdown ---------- */
-settingsBtn.addEventListener('click', e => {
+// ===== TOAST SYSTEM =====
+function showToast(message, isError = false) {
+  if (toastTimer) clearTimeout(toastTimer);
+  toast.textContent = message;
+  toast.className = 'toast ' + (isError ? 'error' : '') + ' show';
+  toastTimer = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3000);
+}
+
+// ===== FLIP LOGIC =====
+function flipToBack() {
+  if (isSaving) return;
+  
+  // Populate back card with current values
+  nicknameInput.value = nicknameDisplay.textContent;
+  aboutInput.value = aboutDisplay.textContent === 'Tell something about yourself.' 
+    ? '' 
+    : aboutDisplay.textContent;
+  
+  // Reset file inputs
+  profilePicInput.value = '';
+  bgPicInput.value = '';
+  
+  flipper.classList.add('flipped');
+  isFlipped = true;
+}
+
+function flipToFront() {
+  if (isSaving) return;
+  
+  flipper.classList.remove('flipped');
+  isFlipped = false;
+}
+
+flipToBackBtn.addEventListener('click', (e) => {
   e.stopPropagation();
-  settingsDropdown.style.display =
-    settingsDropdown.style.display === 'block' ? 'none' : 'block';
+  flipToBack();
 });
 
-window.addEventListener('click', () => {
-  settingsDropdown.style.display = 'none';
+flipToFrontBtn.addEventListener('click', () => {
+  flipToFront();
 });
 
-/* ---------- Auth ---------- */
-auth.onAuthStateChanged(async user => {
+// ===== AUTH =====
+auth.onAuthStateChanged(async (user) => {
   if (!user) {
     window.location.href = 'login.html';
     return;
   }
   currentUser = user;
-  loadProfile();
+  await loadProfile();
 });
 
-/* ---------- Load profile ---------- */
+// ===== LOAD PROFILE =====
 async function loadProfile() {
   try {
     const doc = await db.collection('users').doc(currentUser.uid).get();
@@ -56,7 +95,6 @@ async function loadProfile() {
     if (data.profileBg) profileTopBg.style.backgroundImage = `url(${data.profileBg})`;
 
     aboutDisplay.textContent = data.about || 'Tell something about yourself.';
-    aboutInput.value = data.about || '';
 
     if (data.level) {
       levelDisplay.textContent = `Level: ${capitalize(data.level)}`;
@@ -75,87 +113,40 @@ async function loadProfile() {
     if (lightningDisplay) lightningDisplay.textContent = lightningCount;
   } catch (err) {
     console.error('Profile load error:', err);
+    showToast('Failed to load profile', true);
   }
 }
 
-/* ---------- Level progress ---------- */
+// ===== LEVEL PROGRESS =====
 function updateLevelProgress(level) {
   resetLevelProgress();
-
   switch (level) {
     case 'beginner':
       levelSteps[0].classList.add('active', 'beginner');
       break;
-
     case 'elementary':
       levelSteps[0].classList.add('active', 'beginner');
       levelSteps[1].classList.add('active', 'elementary');
       break;
-
     case 'intermediate':
       levelSteps[0].classList.add('active', 'beginner');
       levelSteps[1].classList.add('active', 'elementary');
       levelSteps[2].classList.add('active', 'intermediate');
       break;
-
     case 'advanced':
       levelSteps[0].classList.add('active', 'beginner');
       levelSteps[1].classList.add('active', 'elementary');
       levelSteps[2].classList.add('active', 'intermediate');
       levelSteps[3].classList.add('active', 'advanced');
       break;
-
-    default:
-      resetLevelProgress();
   }
 }
-
 
 function resetLevelProgress() {
   levelSteps.forEach(step => step.className = 'level-step');
 }
 
-/* ---------- Change nickname ---------- */
-changeNicknameBtn.addEventListener('click', () => {
-  nicknameInput.value = nicknameDisplay.textContent;
-  nicknameInput.style.display = 'block';
-  nicknameDisplay.style.display = 'none';
-  saveProfileBtn.style.display = 'inline-block';
-});
-
-editAboutBtn.addEventListener('click', () => {
-  aboutInput.value = aboutDisplay.textContent === 'Tell something about yourself.' ? '' : aboutDisplay.textContent;
-  aboutDisplay.style.display = 'none';
-  aboutInput.style.display = 'block';
-  saveProfileBtn.style.display = 'inline-block';
-});
-
-aboutInput.addEventListener('input', () => {
-  saveProfileBtn.style.display = 'inline-block';
-});
-
-/* ---------- Change profile pic ---------- */
-profilePicInput.addEventListener('change', () => {
-  const file = profilePicInput.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => profilePicImage.src = e.target.result;
-  reader.readAsDataURL(file);
-  saveProfileBtn.style.display = 'inline-block';
-});
-
-/* ---------- Change background pic ---------- */
-changeBgBtn.addEventListener('click', () => bgPicInput.click());
-bgPicInput.addEventListener('change', () => {
-  const file = bgPicInput.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => profileTopBg.style.backgroundImage = `url(${e.target.result})`;
-  reader.readAsDataURL(file);
-  saveProfileBtn.style.display = 'inline-block';
-});
-
-/* ---------- ImgBB upload ---------- */
+// ===== IMGBB UPLOAD =====
 async function uploadImageToImgBB(file) {
   const API_KEY = '7a4357485dc65af8bbe234efb1c3803a';
   const base64 = await new Promise((resolve, reject) => {
@@ -173,74 +164,83 @@ async function uploadImageToImgBB(file) {
   return data.data.url;
 }
 
-/* ---------- Save profile ---------- */
-saveProfileBtn.addEventListener('click', async () => {
+// ===== SAVE SETTINGS =====
+saveSettingsBtn.addEventListener('click', async () => {
   if (isSaving) return;
   isSaving = true;
-  saveProfileBtn.textContent = 'Saving...';
+  saveSettingsBtn.disabled = true;
+  saveSettingsBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
 
   try {
     const updates = {};
+    const nickname = nicknameInput.value.trim();
+    
+    if (!nickname) {
+      throw new Error('Nickname cannot be empty');
+    }
 
-    if (nicknameInput.style.display === 'block') {
-      const nickname = nicknameInput.value.trim();
-      if (!nickname) throw new Error('Nickname required');
+    if (nickname !== nicknameDisplay.textContent) {
       updates.nickname = nickname;
     }
 
-    if (aboutInput.style.display === 'block') {
-      updates.about = aboutInput.value.trim();
+    const about = aboutInput.value.trim();
+    if (about !== (aboutDisplay.textContent === 'Tell something about yourself.' ? '' : aboutDisplay.textContent)) {
+      updates.about = about;
     }
 
     if (profilePicInput.files[0]) {
       const imageUrl = await uploadImageToImgBB(profilePicInput.files[0]);
       updates.profilePic = imageUrl;
-      profilePicImage.src = imageUrl;
     }
 
     if (bgPicInput.files[0]) {
       const imageUrl = await uploadImageToImgBB(bgPicInput.files[0]);
       updates.profileBg = imageUrl;
-      profileTopBg.style.backgroundImage = `url(${imageUrl})`;
+    }
+
+    if (Object.keys(updates).length === 0) {
+      showToast('No changes to save');
+      flipToFront();
+      return;
     }
 
     await db.collection('users').doc(currentUser.uid).set(updates, { merge: true });
 
-    if (updates.nickname) {
-      nicknameDisplay.textContent = updates.nickname;
-      nicknameDisplay.style.display = 'block';
-      nicknameInput.style.display = 'none';
-    }
+    // Update front card display
+    if (updates.nickname) nicknameDisplay.textContent = updates.nickname;
+    if (updates.about !== undefined) aboutDisplay.textContent = updates.about || 'Tell something about yourself.';
+    if (updates.profilePic) profilePicImage.src = updates.profilePic;
+    if (updates.profileBg) profileTopBg.style.backgroundImage = `url(${updates.profileBg})`;
 
-    if (updates.about !== undefined) {
-      aboutDisplay.textContent = updates.about || 'Tell something about yourself.';
-      aboutDisplay.style.display = 'block';
-      aboutInput.style.display = 'none';
-    }
-
-    saveProfileBtn.style.display = 'none';
-    alert('Profile updated');
+    showToast('Profile updated successfully! 🎉');
+    
+    // Auto flip back to front after successful save
+    setTimeout(() => {
+      flipToFront();
+    }, 800); // Slight delay so user sees the success toast before flip
+    
   } catch (err) {
-    console.error(err);
-    alert(err.message || 'Failed to update profile');
+    console.error('Save error:', err);
+    showToast(err.message || 'Failed to save changes', true);
   } finally {
     isSaving = false;
-    saveProfileBtn.textContent = 'Save Changes';
+    saveSettingsBtn.disabled = false;
+    saveSettingsBtn.innerHTML = '<i class="fas fa-check"></i> Save Changes';
   }
 });
 
-/* ---------- Logout ---------- */
+// ===== LOGOUT =====
 logoutBtn.addEventListener('click', async () => {
   try {
     await auth.signOut();
     window.location.href = 'index.html';
   } catch (err) {
-    console.error(err);
-    alert('Logout failed');
+    console.error('Logout error:', err);
+    showToast('Logout failed', true);
   }
 });
 
-/* ---------- Utils ---------- */
+// ===== UTILS =====
 function capitalize(word) {
   return word.charAt(0).toUpperCase() + word.slice(1);
 }
