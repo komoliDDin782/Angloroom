@@ -438,6 +438,196 @@
     }
     .card:hover .mortarboard-svg { transform: translateY(-5px) scale(1.1) rotate(5deg); }
 
+    /* ============================================================ */
+    /* ===== DARK MODE FIX - FOR TELEGRAM & ALL BROWSERS ========== */
+    /* ============================================================ */
+    /* This forces your website to ALWAYS show your original dark   */
+    /* green theme, even when phones are in dark mode.             */
+    /* ============================================================ */
+
+    /* Force html and body to keep your original background */
+    html {
+      background-color: #022c22 !important;
+    }
+
+    body {
+      background-color: #022c22 !important;
+      color: #f8fafc !important;
+    }
+
+    /* Prevent any browser/Telegram from inverting or changing colors */
+    body * {
+      background-color: transparent !important;
+      color: inherit !important;
+    }
+
+    /* But we need to specifically set backgrounds for elements that 
+       MUST have a background (cards, header, etc.) */
+    header {
+      background: rgba(2, 44, 34, 0.7) !important;
+      backdrop-filter: blur(20px) !important;
+      -webkit-backdrop-filter: blur(20px) !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.03) !important;
+      backdrop-filter: blur(20px) !important;
+      -webkit-backdrop-filter: blur(20px) !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .card:hover {
+      background: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    .card h3 {
+      color: #ffffff !important;
+    }
+
+    .card p {
+      color: #94a3b8 !important;
+    }
+
+    .step-content {
+      background: rgba(255, 255, 255, 0.03) !important;
+      backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px) !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .step-content h3 {
+      color: #ffffff !important;
+    }
+
+    .step-content p {
+      color: #94a3b8 !important;
+    }
+
+    .story-step {
+      border-left-color: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .story-step h3 {
+      color: #ffffff !important;
+    }
+
+    .story-step p {
+      color: #94a3b8 !important;
+    }
+
+    .story-step:hover {
+      background: rgba(255, 255, 255, 0.03) !important;
+    }
+
+    .quote {
+      background: linear-gradient(135deg, rgba(2, 44, 34, 0.8), rgba(6, 78, 59, 0.5)) !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .quote blockquote {
+      color: #ffffff !important;
+    }
+
+    .ar-footer {
+      background: rgba(0, 0, 0, 0.4) !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .footer-contact a {
+      color: #f8fafc !important;
+      background: rgba(255, 255, 255, 0.03) !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .footer-contact a:hover {
+      color: #10b981 !important;
+      border-color: #10b981 !important;
+    }
+
+    .footer-copy {
+      color: #94a3b8 !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    /* Keep the logo gradient working */
+    .logo {
+      background: linear-gradient(135deg, #fff, #10b981) !important;
+      background-clip: text !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+    }
+
+    /* Keep the CTA title gradient working */
+    .cta h1 {
+      background: linear-gradient(180deg, #ffffff 0%, #a7f3d0 100%) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+    }
+
+    /* Keep nav links looking good */
+    nav a {
+      color: #94a3b8 !important;
+    }
+
+    nav a:hover {
+      color: #ffffff !important;
+    }
+
+    /* Keep language buttons */
+    .lang button {
+      background: rgba(255, 255, 255, 0.05) !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+      color: #ffffff !important;
+    }
+
+    .lang button:hover {
+      background: #10b981 !important;
+      border-color: #10b981 !important;
+      color: #000000 !important;
+    }
+
+    /* Keep the menu button visible */
+    .menu-btn {
+      color: #ffffff !important;
+    }
+
+    /* Mobile nav background */
+    @media (max-width: 900px) {
+      nav {
+        background: rgba(2, 44, 34, 0.95) !important;
+        border-color: rgba(255, 255, 255, 0.08) !important;
+      }
+    }
+
+    /* Protect ALL images from being inverted by dark mode */
+    img, video, iframe, svg, canvas {
+      filter: none !important;
+      -webkit-filter: none !important;
+      background: transparent !important;
+    }
+
+    /* Protect the mortarboard SVGs */
+    .mortarboard-svg {
+      filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.4)) !important;
+      -webkit-filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.4)) !important;
+    }
+
+    /* Cycle numbers stay visible */
+    .cycle {
+      background: #022c22 !important;
+      border-color: #10b981 !important;
+      color: #10b981 !important;
+    }
+
+    /* The CTA background image stays visible */
+    .cta::before {
+      opacity: 0.15 !important;
+    }
+
+    /* ===== END DARK MODE FIX ==================================== */
+    /* ============================================================ */
+
   </style>
 </head>
 <body>
