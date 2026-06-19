@@ -20,20 +20,128 @@
 
   <style>
     :root {
+      /* Background & Base */
       --bg-base: #022c22;
+      --bg-glass: rgba(255, 255, 255, 0.03);
+      --bg-glass-hover: rgba(255, 255, 255, 0.04);
+      --bg-glass-strong: rgba(255, 255, 255, 0.06);
+      --bg-input: rgba(255, 255, 255, 0.04);
+      --bg-input-focus: rgba(255, 255, 255, 0.08);
+      --bg-avatar: rgba(255, 255, 255, 0.1);
+      --bg-menu: rgba(5, 78, 63, 0.96);
+      --bg-menu-btn: rgba(255, 255, 255, 0.08);
+      --bg-menu-btn-hover: rgba(16, 185, 129, 0.18);
+      --bg-reaction: rgba(255, 255, 255, 0.08);
+      --bg-reaction-hover: rgba(16, 185, 129, 0.2);
+      --bg-reaction-grid: rgba(255, 255, 255, 0.04);
+      --bg-reply-preview: rgba(16, 185, 129, 0.08);
+      --bg-input-area: rgba(2, 44, 34, 0.7);
+      --bg-modal: #043c2f;
+      --bg-modal-overlay: rgba(2, 44, 34, 0.95);
+      --bg-stat-card: rgba(255, 255, 255, 0.08);
+      --bg-level-inactive: rgba(255, 255, 255, 0.1);
+      
+      /* Accent */
       --accent: #10b981;
       --accent-glow: rgba(16, 185, 129, 0.3);
-      --glass-bg: rgba(255, 255, 255, 0.03);
+      --accent-glow-strong: rgba(16, 185, 129, 0.5);
+      --accent-bg-light: rgba(16, 185, 129, 0.12);
+      --accent-border-light: rgba(16, 185, 129, 0.2);
+      --accent-pill-bg: rgba(16, 185, 129, 0.22);
+      --accent-pill-border: rgba(16, 185, 129, 0.5);
+      
+      /* Danger */
+      --danger: #ef4444;
+      --danger-bg: rgba(220, 38, 38, 0.15);
+      --danger-border: rgba(220, 38, 38, 0.3);
+      --danger-hover-bg: #dc2626;
+      --danger-hover-text: #fff;
+      
+      /* Glass & Borders */
       --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-border-light: rgba(255, 255, 255, 0.12);
+      --glass-border-medium: rgba(255, 255, 255, 0.14);
+      --glass-border-strong: rgba(255, 255, 255, 0.16);
+      --date-separator-line: rgba(255, 255, 255, 0.1);
+      --reaction-bar-border: rgba(255, 255, 255, 0.08);
+      
+      /* Text */
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
+      --text-white: #fff;
+      --text-on-accent: #022c22;
+      --text-bubble-incoming: #e2e8f0;
+      --text-bubble-outgoing: #fff;
+      --text-reply-quote: #e2e8f0;
+      --text-modal-stat: #d1d5db;
+      
+      /* Bubbles */
+      --bubble-incoming-bg: rgba(255, 255, 255, 0.06);
+      --bubble-incoming-border: rgba(255, 255, 255, 0.14);
+      --bubble-outgoing-bg-start: #0f766e;
+      --bubble-outgoing-bg-end: #022c22;
+      
+      /* Reply */
+      --reply-quote-bg: rgba(16, 185, 129, 0.12);
+      --reply-quote-outgoing-bg: rgba(255, 255, 255, 0.08);
+      --reply-user-label: var(--accent);
+      --reply-user-label-outgoing: #fff;
+      --reply-quote-border-outgoing: #fff;
+      
+      /* Shadows */
+      --shadow-send-btn: 0 4px 10px rgba(16, 185, 129, 0.2);
+      --shadow-send-btn-hover: 0 0 18px var(--accent);
+      --shadow-menu: 0 24px 48px rgba(0, 0, 0, 0.32);
+      --shadow-stat-card: 0 10px 30px rgba(0, 0, 0, 0.12);
+      
+      /* Header */
+      --header-bg: rgba(2, 44, 34, 0.9);
+      
+      /* Gradient Text */
+      --gradient-text-start: #fff;
+      
+      /* Modal */
+      --modal-pic-border: #043c2f;
+      --modal-close-color: #fff;
+      --modal-close-opacity: 0.6;
+      
+      /* Scrollbar */
+      --scrollbar-thumb: rgba(255, 255, 255, 0.08);
+      --scrollbar-track: transparent;
+      --reaction-scrollbar-thumb: rgba(255, 255, 255, 0.24);
+      --reaction-scrollbar-track: rgba(255, 255, 255, 0.06);
+      
+      /* Online Counter */
+      --pulse-dot-color: var(--accent);
+      --pulse-glow-color: rgba(16, 185, 129, 0.5);
+      
+      /* Typography */
+      --font-primary: 'Plus Jakarta Sans', sans-serif;
+      --font-display: 'Outfit', sans-serif;
+      
+      /* Border Radius */
+      --avatar-radius: 50px;
+      --bubble-radius: 18px;
+      --bubble-radius-small: 4px;
+      --input-radius: 30px;
+      --btn-radius: 50px;
+      --menu-radius: 18px;
+      --menu-btn-radius: 14px;
+      --reaction-btn-radius: 50%;
+      --reaction-pill-radius: 999px;
+      --modal-radius: 28px;
+      --stat-radius: 18px;
+      --level-step-radius: 3px;
+      --admin-btn-radius: 6px;
+      --reply-quote-radius: 14px;
+      --reaction-grid-radius: 16px;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       background-color: var(--bg-base);
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: var(--font-primary);
       color: var(--text-main);
       display: flex;
       flex-direction: column;
@@ -48,7 +156,7 @@
       padding: 16px 12px;
       display: flex;
       justify-content: center;
-      background: rgba(2, 44, 34, 0.9);
+      background: var(--header-bg);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       position: sticky;
@@ -96,7 +204,7 @@
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      background: var(--glass-bg);
+      background: var(--bg-glass);
       border-left: 1px solid var(--glass-border);
       border-right: 1px solid var(--glass-border);
       overflow: hidden;
@@ -111,9 +219,9 @@
     }
 
     .chat-header h1 {
-      font-family: 'Outfit', sans-serif;
+      font-family: var(--font-display);
       font-size: clamp(20px, 5vw, 26px);
-      background: linear-gradient(135deg, #fff, var(--accent));
+      background: linear-gradient(135deg, var(--gradient-text-start), var(--accent));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -133,8 +241,8 @@
     }
 
     .messages-box::-webkit-scrollbar { width: 5px; }
-    .messages-box::-webkit-scrollbar-track { background: transparent; }
-    .messages-box::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
+    .messages-box::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+    .messages-box::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 10px; }
 
     .msg-wrapper {
       display: flex;
@@ -159,10 +267,10 @@
       width: 38px;
       height: 38px;
       min-width: 38px;
-      border-radius: 50px;
+      border-radius: var(--avatar-radius);
       object-fit: cover;
       border: 1px solid var(--glass-border);
-      background: rgba(255,255,255,0.1);
+      background: var(--bg-avatar);
       flex-shrink: 0;
       align-self: flex-end;
     }
@@ -205,7 +313,7 @@
 
     .bubble {
       padding: 12px 16px;
-      border-radius: 18px;
+      border-radius: var(--bubble-radius);
       font-size: 15px;
       line-height: 1.45;
       word-break: break-word;
@@ -224,7 +332,7 @@
 
     .msg-timestamp {
       font-size: 12px;
-      color: #94a3b8;
+      color: var(--text-muted);
       margin-top: 6px;
       display: block;
     }
@@ -236,7 +344,7 @@
       gap: 12px;
       margin: 20px 0;
       font-size: 13px;
-      color: #94a3b8;
+      color: var(--text-muted);
       font-weight: 600;
     }
 
@@ -245,32 +353,32 @@
       content: '';
       flex: 1;
       height: 1px;
-      background: rgba(255, 255, 255, 0.1);
+      background: var(--date-separator-line);
     }
 
     .incoming .bubble {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      border-top-left-radius: 4px;
-      color: #e2e8f0;
+      background: var(--bubble-incoming-bg);
+      border: 1px solid var(--bubble-incoming-border);
+      border-top-left-radius: var(--bubble-radius-small);
+      color: var(--text-bubble-incoming);
     }
 
     .outgoing .bubble {
-      background: linear-gradient(135deg, #0f766e, var(--bg-base));
+      background: linear-gradient(135deg, var(--bubble-outgoing-bg-start), var(--bubble-outgoing-bg-end));
       border: 1px solid var(--accent);
       box-shadow: 0 0 15px var(--accent-glow);
-      border-top-right-radius: 4px;
-      color: #fff;
+      border-top-right-radius: var(--bubble-radius-small);
+      color: var(--text-bubble-outgoing);
     }
 
     /* --- Reply Box Context UI --- */
     .reply-quote {
-      background: rgba(16, 185, 129, 0.12);
+      background: var(--reply-quote-bg);
       border-left: 4px solid var(--accent);
       padding: 10px 14px;
-      border-radius: 14px;
+      border-radius: var(--reply-quote-radius);
       font-size: 13px;
-      color: #e2e8f0;
+      color: var(--text-reply-quote);
       margin-bottom: 10px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -278,27 +386,28 @@
     }
     
     .outgoing .reply-quote {
-      border-left-color: #fff;
-      background: rgba(255, 255, 255, 0.08);
+      border-left-color: var(--reply-quote-border-outgoing);
+      background: var(--reply-quote-outgoing-bg);
     }
 
     .reply-user-label {
       font-weight: 700;
       font-size: 11px;
       display: block;
-      color: var(--accent);
+      color: var(--reply-user-label);
       margin-bottom: 2px;
     }
+    
     .outgoing .reply-user-label {
-      color: #fff;
+      color: var(--reply-user-label-outgoing);
     }
 
     /* --- Moderation Button --- */
     .admin-delete-btn {
-      background: rgba(220, 38, 38, 0.15);
-      border: 1px solid rgba(220, 38, 38, 0.3);
-      color: #ef4444;
-      border-radius: 6px;
+      background: var(--danger-bg);
+      border: 1px solid var(--danger-border);
+      color: var(--danger);
+      border-radius: var(--admin-btn-radius);
       padding: 2px 6px;
       font-size: 11px;
       cursor: pointer;
@@ -309,13 +418,13 @@
     }
 
     .admin-delete-btn:hover {
-      background: #dc2626;
-      color: #fff;
+      background: var(--danger-hover-bg);
+      color: var(--danger-hover-text);
     }
 
     /* --- Input Area with Reply Context Ribbon --- */
     .input-area {
-      background: rgba(2, 44, 34, 0.7);
+      background: var(--bg-input-area);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       flex-shrink: 0;
@@ -328,8 +437,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(16, 185, 129, 0.08);
-      border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+      background: var(--bg-reply-preview);
+      border-bottom: 1px solid var(--accent-border-light);
       padding: 8px 16px;
       font-size: 13px;
     }
@@ -360,7 +469,7 @@
     }
 
     .cancel-reply-btn:hover {
-      color: #ef4444;
+      color: var(--danger);
     }
 
     .input-wrapper {
@@ -376,11 +485,11 @@
 
     .input-form input {
       flex: 1;
-      background: rgba(255, 255, 255, 0.04);
+      background: var(--bg-input);
       border: 1px solid var(--glass-border);
       padding: 14px 18px;
-      border-radius: 30px;
-      color: #fff;
+      border-radius: var(--input-radius);
+      color: var(--text-white);
       font-size: 15px;
       font-family: inherit;
       transition: 0.3s;
@@ -390,23 +499,23 @@
 
     .input-form input:focus {
       border-color: var(--accent);
-      background: rgba(255, 255, 255, 0.08);
+      background: var(--bg-input-focus);
       box-shadow: 0 0 12px var(--accent-glow);
     }
 
     .input-form input::placeholder {
-      color: #94a3b8;
+      color: var(--text-muted);
       opacity: 0.7;
     }
 
     .send-btn {
       background: var(--accent);
-      color: #022c22;
+      color: var(--text-on-accent);
       border: none;
       width: 48px;
       height: 48px;
       min-width: 48px;
-      border-radius: 50px;
+      border-radius: var(--btn-radius);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -414,24 +523,25 @@
       font-size: 18px;
       transition: 0.3s;
       flex-shrink: 0;
-      box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+      box-shadow: var(--shadow-send-btn);
     }
 
     .send-btn:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 18px var(--accent);
+      box-shadow: var(--shadow-send-btn-hover);
     }
 
+    /* --- Message Action Menu --- */
     .message-action-menu {
       display: none;
       position: fixed;
       z-index: 1200;
       width: min(240px, 92vw);
-      background: rgba(5, 78, 63, 0.96);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 18px;
+      background: var(--bg-menu);
+      border: 1px solid var(--glass-border-light);
+      border-radius: var(--menu-radius);
       padding: 10px 12px;
-      box-shadow: 0 24px 48px rgba(0,0,0,0.32);
+      box-shadow: var(--shadow-menu);
       gap: 10px;
       color: var(--text-main);
       backdrop-filter: blur(18px);
@@ -450,10 +560,10 @@
     .message-action-menu button {
       width: 100%;
       border: none;
-      background: rgba(255,255,255,0.08);
+      background: var(--bg-menu-btn);
       color: var(--text-main);
       padding: 10px 14px;
-      border-radius: 14px;
+      border-radius: var(--menu-btn-radius);
       cursor: pointer;
       font-weight: 700;
       transition: background 0.2s, transform 0.2s;
@@ -464,7 +574,7 @@
     }
 
     .message-action-menu button:hover {
-      background: rgba(16,185,129,0.18);
+      background: var(--bg-menu-btn-hover);
       transform: translateY(-1px);
     }
 
@@ -483,8 +593,8 @@
       width: 100%;
       scrollbar-width: thin;
       -webkit-overflow-scrolling: touch;
-      background: rgba(255,255,255,0.04);
-      border-radius: 16px;
+      background: var(--bg-reaction-grid);
+      border-radius: var(--reaction-grid-radius);
     }
 
     .reaction-grid::-webkit-scrollbar {
@@ -492,12 +602,12 @@
     }
 
     .reaction-grid::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.24);
+      background: var(--reaction-scrollbar-thumb);
       border-radius: 999px;
     }
 
     .reaction-grid::-webkit-scrollbar-track {
-      background: rgba(255,255,255,0.06);
+      background: var(--reaction-scrollbar-track);
       border-radius: 999px;
     }
 
@@ -508,22 +618,22 @@
       height: 36px !important;
       min-height: 36px;
       aspect-ratio: 1;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: var(--reaction-btn-radius);
+      background: var(--bg-reaction);
+      border: 1px solid var(--glass-border-strong);
       cursor: pointer;
       font-size: 16px;
       transition: transform 0.2s, background 0.2s;
       display: grid;
       place-items: center;
       flex-shrink: 0;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
       padding: 0;
       margin: 0;
     }
 
     .reaction-grid .reaction-btn:hover {
-      background: rgba(16,185,129,0.2);
+      background: var(--bg-reaction-hover);
       transform: translateY(-2px);
     }
 
@@ -533,7 +643,7 @@
       gap: 8px;
       margin-top: 12px;
       padding-top: 8px;
-      border-top: 1px solid rgba(255,255,255,0.08);
+      border-top: 1px solid var(--reaction-bar-border);
     }
 
     .reaction-pill {
@@ -541,21 +651,21 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      border-radius: 999px;
+      border-radius: var(--reaction-pill-radius);
       padding: 6px 10px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.14);
+      background: var(--bg-reaction);
+      border: 1px solid var(--glass-border-medium);
       color: var(--text-main);
       font-size: 14px;
     }
 
     .reaction-pill.selected {
-      background: rgba(16,185,129,0.22);
-      border-color: rgba(16,185,129,0.5);
+      background: var(--accent-pill-bg);
+      border-color: var(--accent-pill-border);
     }
 
     .message-action-menu .selected {
-      background: rgba(16,185,129,0.2);
+      background: var(--bg-reaction-hover);
     }
 
     @media (max-width: 480px) {
@@ -575,90 +685,95 @@
         font-size: 14px;
       }
     }
+
     /* ===== MODAL STYLE INTEGRATION FOR CHAT ===== */
-#profile-preview-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(2, 44, 34, 0.95);
-  backdrop-filter: blur(20px);
-  z-index: 1000;
-  display: none; /* Controlled directly by JavaScript strings */
-  justify-content: center;
-  align-items: center;
-  padding: 16px;
-}
+    #profile-preview-modal {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-modal-overlay);
+      backdrop-filter: blur(20px);
+      z-index: 1000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
 
-.modal-content {
-  background: #043c2f;
-  width: 100%;
-  max-width: 400px;
-  border-radius: 28px;
-  overflow: hidden;
-  position: relative;
-  border: 1px solid var(--glass-border);
-  animation: modalPop 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
+    .modal-content {
+      background: var(--bg-modal);
+      width: 100%;
+      max-width: 400px;
+      border-radius: var(--modal-radius);
+      overflow: hidden;
+      position: relative;
+      border: 1px solid var(--glass-border);
+      animation: modalPop 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
-@keyframes modalPop {
-  0% { opacity: 0; transform: scale(0.92) translateY(20px); }
-  100% { opacity: 1; transform: scale(1) translateY(0); }
-}
+    @keyframes modalPop {
+      0% { opacity: 0; transform: scale(0.92) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
 
-.modal-bg { height: 130px; background-size: cover; background-position: center; }
-.modal-profile-pic {
-  width: 110px; height: 110px; border-radius: 50%;
-  object-fit: cover; border: 4px solid #043c2f;
-  margin: -55px auto 0; display: block; position: relative;
-}
+    .modal-bg { height: 130px; background-size: cover; background-position: center; }
+    
+    .modal-profile-pic {
+      width: 110px; height: 110px; border-radius: 50%;
+      object-fit: cover; border: 4px solid var(--modal-pic-border);
+      margin: -55px auto 0; display: block; position: relative;
+    }
 
-.modal-info { padding: 20px 24px 30px; text-align: center; }
-.modal-info h2 { font-family: 'Outfit', sans-serif; font-size: 24px; color: var(--text-main); }
+    .modal-info { padding: 20px 24px 30px; text-align: center; }
+    .modal-info h2 { font-family: var(--font-display); font-size: 24px; color: var(--text-main); }
     #preview-level { color: var(--accent); font-weight: 700; margin-bottom: 10px; font-size: 13px; }
     #preview-about { margin: 0 auto 18px; max-width: 320px; color: var(--text-muted); font-size: 14px; line-height: 1.6; white-space: pre-wrap; }
+    
     .modal-stats { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
-    .modal-stat-card { min-width: 100px; flex: 1 1 100px; padding: 14px 12px; border-radius: 18px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 10px 30px rgba(0,0,0,0.12); }
-    .modal-stat-card strong { display: block; font-size: 24px; font-weight: 800; margin-bottom: 6px; color: #fff; }
-    .modal-stat-card span { display: block; color: #d1d5db; font-size: 13px; }
+    .modal-stat-card { min-width: 100px; flex: 1 1 100px; padding: 14px 12px; border-radius: var(--stat-radius); background: var(--bg-stat-card); border: 1px solid var(--glass-border-light); box-shadow: var(--shadow-stat-card); }
+    .modal-stat-card strong { display: block; font-size: 24px; font-weight: 800; margin-bottom: 6px; color: var(--text-white); }
+    .modal-stat-card span { display: block; color: var(--text-modal-stat); font-size: 13px; }
+    
     .modal-level-progress { display: flex; gap: 6px; justify-content: center; }
-.level-step { flex: 1; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.1); }
-.level-step.active { background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+    .level-step { flex: 1; height: 6px; border-radius: var(--level-step-radius); background: var(--bg-level-inactive); }
+    .level-step.active { background: var(--accent); box-shadow: 0 0 8px var(--accent-glow-strong); }
 
-.close { position: absolute; top: 12px; right: 18px; font-size: 28px; color: #fff; cursor: pointer; z-index: 10; opacity: 0.6; }
-/* --- Live Online Counter UI --- */
-.online-counter {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 6px;
-  font-size: 13px;
-  color: var(--text-muted);
-  font-weight: 500;
-}
+    .close { position: absolute; top: 12px; right: 18px; font-size: 28px; color: var(--modal-close-color); cursor: pointer; z-index: 10; opacity: var(--modal-close-opacity); }
 
-.pulse-dot {
-  width: 8px;
-  height: 8px;
-  background-color: var(--accent);
-  border-radius: 50%;
-  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-  animation: counterGlowPulse 1.8s infinite;
-}
+    /* --- Live Online Counter UI --- */
+    .online-counter {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
 
-@keyframes counterGlowPulse {
-  0% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5);
-  }
-  70% {
-    transform: scale(1);
-    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
-  }
-  100% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
-  }
-}
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--pulse-dot-color);
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 var(--pulse-glow-color);
+      animation: counterGlowPulse 1.8s infinite;
+    }
+
+    @keyframes counterGlowPulse {
+      0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 var(--pulse-glow-color);
+      }
+      70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+      }
+      100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+      }
+    }
   </style>
 </head>
 <body>
@@ -674,29 +789,27 @@
   </header>
 
   <main class="chat-container">
-<main class="chat-container">
-  <div class="chat-header">
-    <h1>English Speaking Club</h1>
-    
-    <div class="online-counter">
-      <span class="pulse-dot"></span>
-      <span id="online-count">Online: 0</span>
+    <div class="chat-header">
+      <h1>English Speaking Club</h1>
+      
+      <div class="online-counter">
+        <span class="pulse-dot"></span>
+        <span id="online-count">Online: 0</span>
+      </div>
     </div>
     
-  </div>
-    
     <div class="messages-box" id="messages-box">
-      </div>
+    </div>
 
     <div id="message-action-menu" class="message-action-menu" aria-hidden="true">
-        <div class="reaction-grid">
+      <div class="reaction-grid">
         <button type="button" class="reaction-btn" data-emoji="👍">👍</button>
         <button type="button" class="reaction-btn" data-emoji="❤️">❤️</button>
         <button type="button" class="reaction-btn" data-emoji="😂">😂</button>
         <button type="button" class="reaction-btn" data-emoji="🎉">🎉</button>
         <button type="button" class="reaction-btn" data-emoji="😮">😮</button>
         <button type="button" class="reaction-btn" data-emoji="😢">😢</button>
-        <button type="button" class="reaction-btn" data-emoji="�">😊</button>
+        <button type="button" class="reaction-btn" data-emoji="😊">😊</button>
         <button type="button" class="reaction-btn" data-emoji="😎">😎</button>
         <button type="button" class="reaction-btn" data-emoji="🎊">🎊</button>
         <button type="button" class="reaction-btn" data-emoji="💯">💯</button>
@@ -705,7 +818,7 @@
       <button type="button" id="action-clear-reaction">Remove reaction</button>
     </div>
 
-      <div class="input-area">
+    <div class="input-area">
       <div class="reply-preview-bar hidden" id="reply-preview-bar">
         <div class="reply-preview-text" id="reply-preview-text"></div>
         <button type="button" class="cancel-reply-btn" id="cancel-reply-btn" title="Cancel reply">
@@ -721,7 +834,6 @@
       </div>
     </div>
   </main>
-
 
   <div id="profile-preview-modal">
     <div class="modal-content">
@@ -739,7 +851,7 @@
           <div class="level-step"></div>
           <div class="level-step"></div>
         </div>
-                <div class="modal-stats">
+        <div class="modal-stats">
           <div class="modal-stat-card">
             <strong id="preview-quiz-count">0</strong>
             <span>🎓 Quizzes</span>
