@@ -21,8 +21,66 @@ const aboutInput = document.getElementById('about-input');
 const profilePicInput = document.getElementById('profile-pic-input');
 const bgPicInput = document.getElementById('bg-pic-input');
 const logoutBtn = document.getElementById('logout-btn');
+const templateOptions = document.querySelectorAll('.template-option');
+const templateLabels = document.querySelectorAll('.template-label');
 
 const toast = document.getElementById('toast');
+
+// ===== TEMPLATE SYSTEM (uses shared template.js) =====
+let lastSavedTemplate = 'emerald';
+let pendingTemplate = null;
+
+// Initialize template system from shared module
+function initTemplateSystem() {
+  // Get the current template from body class
+  TEMPLATES.forEach(t => {
+    if (document.body.classList.contains(`template-${t}`)) {
+      lastSavedTemplate = t;
+    }
+  });
+  
+  // Update UI to match
+  updateTemplateUI(lastSavedTemplate);
+}
+
+// Update template selector UI
+function updateTemplateUI(templateName) {
+  templateOptions.forEach(opt => {
+    const isActive = opt.dataset.template === templateName;
+    opt.classList.toggle('active', isActive);
+  });
+  
+  templateLabels.forEach(label => {
+    const wrapper = label.parentElement;
+    const option = wrapper.querySelector('.template-option');
+    const isActive = option.dataset.template === templateName;
+    label.style.color = isActive ? 'var(--primary)' : '';
+    label.style.fontWeight = isActive ? '600' : '400';
+  });
+}
+
+// Live preview template (doesn't save to Firestore)
+function previewTemplate(templateName) {
+  if (templateName === lastSavedTemplate && !pendingTemplate) return;
+  
+  // Apply template visually using shared function
+  if (typeof applyTemplate === 'function') {
+    applyTemplate(templateName);
+  }
+  
+  updateTemplateUI(templateName);
+  pendingTemplate = templateName;
+  
+  showToast(`🎨 Preview: ${capitalize(templateName)} theme`);
+}
+
+// Template click handler
+templateOptions.forEach(option => {
+  option.addEventListener('click', () => {
+    const template = option.dataset.template;
+    previewTemplate(template);
+  });
+});
 
 // ===== STATE =====
 let currentUser = null;
@@ -34,7 +92,7 @@ let toastTimer = null;
 function showToast(message, isError = false) {
   if (toastTimer) clearTimeout(toastTimer);
   toast.textContent = message;
-  toast.className = 'toast ' + (isError ? 'error' : '') + ' show';
+  toast.className = 'toast' + (isError ? ' error' : '') + ' show';
   toastTimer = setTimeout(() => {
     toast.classList.remove('show');
   }, 3000);
@@ -54,6 +112,11 @@ function flipToBack() {
   profilePicInput.value = '';
   bgPicInput.value = '';
   
+  // Sync template state
+  lastSavedTemplate = getCurrentTemplateFromBody();
+  pendingTemplate = null;
+  updateTemplateUI(lastSavedTemplate);
+  
   flipper.classList.add('flipped');
   isFlipped = true;
 }
@@ -61,8 +124,27 @@ function flipToBack() {
 function flipToFront() {
   if (isSaving) return;
   
+  // If template was changed but not saved, revert to last saved
+  if (pendingTemplate && pendingTemplate !== lastSavedTemplate) {
+    if (typeof applyTemplate === 'function') {
+      applyTemplate(lastSavedTemplate);
+    }
+    pendingTemplate = null;
+  }
+  
   flipper.classList.remove('flipped');
   isFlipped = false;
+}
+
+// Helper to get current template from body
+function getCurrentTemplateFromBody() {
+  let current = 'emerald';
+  TEMPLATES.forEach(t => {
+    if (document.body.classList.contains(`template-${t}`)) {
+      current = t;
+    }
+  });
+  return current;
 }
 
 flipToBackBtn.addEventListener('click', (e) => {
@@ -90,12 +172,14 @@ async function loadProfile() {
     const doc = await db.collection('users').doc(currentUser.uid).get();
     const data = doc.exists ? doc.data() : {};
 
+    // Update basic profile info
     if (data.nickname) nicknameDisplay.textContent = data.nickname;
     if (data.profilePic) profilePicImage.src = data.profilePic;
     if (data.profileBg) profileTopBg.style.backgroundImage = `url(${data.profileBg})`;
 
     aboutDisplay.textContent = data.about || 'Tell something about yourself.';
 
+    // Update level
     if (data.level) {
       levelDisplay.textContent = `Level: ${capitalize(data.level)}`;
       updateLevelProgress(data.level);
@@ -104,6 +188,7 @@ async function loadProfile() {
       resetLevelProgress();
     }
 
+    // Update stats
     const quizCount = data.quizCount != null ? data.quizCount : 0;
     const correctAnswers = data.correctAnswers != null ? data.correctAnswers : 0;
     const lightningCount = data.lightningCount != null ? data.lightningCount : 0;
@@ -111,6 +196,10 @@ async function loadProfile() {
     if (quizCountDisplay) quizCountDisplay.textContent = quizCount;
     if (correctAnswersDisplay) correctAnswersDisplay.textContent = correctAnswers;
     if (lightningDisplay) lightningDisplay.textContent = lightningCount;
+    
+    // Initialize template after profile loads
+    initTemplateSystem();
+    
   } catch (err) {
     console.error('Profile load error:', err);
     showToast('Failed to load profile', true);
@@ -139,11 +228,15 @@ function updateLevelProgress(level) {
       levelSteps[2].classList.add('active', 'intermediate');
       levelSteps[3].classList.add('active', 'advanced');
       break;
+    default:
+      break;
   }
 }
 
 function resetLevelProgress() {
-  levelSteps.forEach(step => step.className = 'level-step');
+  levelSteps.forEach(step => {
+    step.className = 'level-step';
+  });
 }
 
 // ===== IMGBB UPLOAD =====
@@ -198,6 +291,11 @@ saveSettingsBtn.addEventListener('click', async () => {
       updates.profileBg = imageUrl;
     }
 
+    // Save template if changed
+    if (pendingTemplate && pendingTemplate !== lastSavedTemplate) {
+      updates.template = pendingTemplate;
+    }
+
     if (Object.keys(updates).length === 0) {
       showToast('No changes to save');
       flipToFront();
@@ -211,13 +309,20 @@ saveSettingsBtn.addEventListener('click', async () => {
     if (updates.about !== undefined) aboutDisplay.textContent = updates.about || 'Tell something about yourself.';
     if (updates.profilePic) profilePicImage.src = updates.profilePic;
     if (updates.profileBg) profileTopBg.style.backgroundImage = `url(${updates.profileBg})`;
-
-    showToast('Profile updated successfully! 🎉');
+    
+    // Update template state
+    if (updates.template) {
+      lastSavedTemplate = updates.template;
+      pendingTemplate = null;
+      showToast('✅ Profile & theme updated!');
+    } else {
+      showToast('✅ Profile updated successfully!');
+    }
     
     // Auto flip back to front after successful save
     setTimeout(() => {
       flipToFront();
-    }, 800); // Slight delay so user sees the success toast before flip
+    }, 800);
     
   } catch (err) {
     console.error('Save error:', err);
@@ -230,7 +335,7 @@ saveSettingsBtn.addEventListener('click', async () => {
 });
 
 // ===== LOGOUT =====
-logoutBtn.addEventListener('click', async () => {
+logoutBtn.addEventListener('click', async () => { 
   try {
     await auth.signOut();
     window.location.href = 'index.html';

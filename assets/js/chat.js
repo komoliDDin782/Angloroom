@@ -5,6 +5,36 @@ const messagesBox = document.getElementById('messages-box');
 const chatForm = document.getElementById('chat-form');
 const msgInput = document.getElementById('msg-input');
 
+/* ---------- Template Fix for Chat ---------- */
+function applyTemplateToChat() {
+  const chatContainer = document.querySelector('.chat-container');
+  const bodyStyles = getComputedStyle(document.body);
+  const vars = [
+    '--accent', '--accent-glow', '--accent-glow-strong', '--accent-glow-level',
+    '--accent-border-light', '--bg-base', '--bg-glass', '--bg-glass-hover',
+    '--bg-input-area', '--bg-current-user', '--bg-reaction-hover',
+    '--bg-reply-preview', '--bg-menu', '--bg-menu-btn-hover',
+    '--bubble-outgoing-bg-start', '--bubble-outgoing-bg-end',
+    '--pulse-glow-color', '--reply-quote-bg', '--reply-user-label', '--text-on-accent'
+  ];
+  
+  vars.forEach(v => {
+    const val = bodyStyles.getPropertyValue(v).trim();
+    if (val) chatContainer.style.setProperty(v, val);
+  });
+
+  const accentGlow = bodyStyles.getPropertyValue('--accent-glow').trim();
+  if (accentGlow) {
+    chatContainer.style.setProperty('--shadow-send-btn', `0 4px 10px ${accentGlow}`);
+    chatContainer.style.setProperty('--shadow-send-btn-hover', `0 0 18px ${accentGlow}`);
+  }
+
+  const accent = bodyStyles.getPropertyValue('--accent').trim();
+  if (accent) {
+    chatContainer.style.setProperty('--shadow-send-btn-hover', `0 0 18px ${accent}`);
+  }
+}
+
 // Reply UI elements
 const replyPreviewBar = document.getElementById('reply-preview-bar');
 const replyPreviewText = document.getElementById('reply-preview-text');
@@ -35,16 +65,9 @@ let cachedUserData = {
   nickname: "Student",
   profilePic: "assets/image/logo.jpg"
 };
-
-// State management tracking the specific structural node targeted for inline replies
 let activeReplyTarget = null;
-
-// Dedicated user profile memory cache to prevent duplicate Firestore document reads
 const globalProfileCache = {};
-
-// Level configuration order for the progress tracking system
 const levelOrder = ['beginner', 'elementary', 'intermediate', 'advanced'];
-
 const ADMIN_EMAIL = "test@gmail.com";
 
 /* ---------- Auth Control & Profile Fetch ---------- */
@@ -67,9 +90,7 @@ auth.onAuthStateChanged(async (user) => {
     console.error("Failed to parse student data card details:", err);
   }
 
-  // --- FIX: Bulletproof Presence Registration ---
   try {
-    // Explicitly fallback to older naming fallback if compat layers struggle with the helper map
     const serverFieldValue = (firebase.firestore && firebase.firestore.FieldValue) 
       ? firebase.firestore.FieldValue.serverTimestamp() 
       : new Date();
@@ -79,7 +100,6 @@ auth.onAuthStateChanged(async (user) => {
       lastActive: serverFieldValue
     }, { merge: true });
 
-    // Mark offline if the user closes the window or tab
     window.addEventListener('beforeunload', () => {
       db.collection('presences').doc(user.uid).update({ status: 'offline' });
     });
@@ -87,9 +107,9 @@ auth.onAuthStateChanged(async (user) => {
     console.error("Presence status write failed:", presenceErr);
   }
 
-  // Kick off both listeners
   listenForMessages();
-  listenForOnlineCount(); 
+  listenForOnlineCount();
+  applyTemplateToChat(); 
 });
 
 /* ---------- Real-Time Active Users Count ---------- */
@@ -100,7 +120,6 @@ function listenForOnlineCount() {
   db.collection('presences')
     .where('status', '==', 'online')
     .onSnapshot((snapshot) => {
-      // Safely read the snapshot metadata size attribute directly
       const count = snapshot ? snapshot.size : 0;
       countCounterEl.textContent = `Online: ${count}`;
     }, (error) => {
@@ -109,6 +128,8 @@ function listenForOnlineCount() {
 }
 
 /* ---------- Real-Time Listener (Firestore Snapshot) ---------- */
+let isFirstLoad = true; // ✅ Track initial load to force bottom scroll
+
 function listenForMessages() {
   db.collection('messages')
     .orderBy('createdAt', 'asc')
@@ -116,7 +137,9 @@ function listenForMessages() {
     .onSnapshot((snapshot) => {
       const scrollPos = messagesBox.scrollTop;
       const scrollHeight = messagesBox.scrollHeight;
-      const isAtBottom = messagesBox.scrollTop + messagesBox.clientHeight >= scrollHeight - 50;
+      
+      // ✅ Check if user is near the bottom. Tolerance increased to 100px for better UX.
+      const isAtBottom = messagesBox.scrollTop + messagesBox.clientHeight >= scrollHeight - 100;
       
       messagesBox.innerHTML = '';
       let lastDate = null;
@@ -125,7 +148,6 @@ function listenForMessages() {
         const msg = doc.data();
         const msgDate = msg.createdAt ? getDateOnly(msg.createdAt) : null;
         
-        // Insert date separator if day changed
         if (msgDate && (!lastDate || msgDate !== lastDate)) {
           const separator = formatDateSeparator(msg.createdAt);
           messagesBox.insertAdjacentHTML('beforeend', separator);
@@ -135,16 +157,17 @@ function listenForMessages() {
         renderMessage(msg, doc.id);
       });
 
-      // Preserve scroll position unless user was at bottom
-      if (isAtBottom) {
+      // ✅ Force scroll to bottom on first load OR if user was already at the bottom
+      if (isFirstLoad || isAtBottom) {
         messagesBox.scrollTop = messagesBox.scrollHeight;
+        isFirstLoad = false;
       } else {
-        messagesBox.scrollTop = scrollPos;
+        messagesBox.scrollTop = scrollPos; // Maintain user's scroll position if reading history
       }
     }, (error) => {
       console.error("Snapshot network failure tracking messages:", error);
     });
-}
+} 
 
 /* ---------- HTML Render Template Matrix ---------- */
 function renderMessage(msg, msgId) {
@@ -156,13 +179,11 @@ function renderMessage(msg, msgId) {
     ? `<button class="admin-delete-btn" onclick="event.stopPropagation(); deleteMessage('${msgId}')" title="Delete message"><i class="fas fa-trash-can"></i>remove</button>` 
     : '';
   
-  // Construct internal parent reference if message metadata contains parent pointers
   let quoteHTML = '';
   if (msg.parentMsg) {
     quoteHTML = `<div class="reply-quote"><span class="reply-user-label">@${msg.parentMsg.nickname}</span>${escapeHTML(msg.parentMsg.text)}</div>`;
   }
 
-  // Build reaction row from server-side payload
   const reactionHTML = buildReactionBar(msg.reactions || {});
   const userReaction = currentUser && msg.reactions ? msg.reactions[currentUser.uid] || '' : '';
   const timestamp = msg.createdAt ? formatMessageTime(msg.createdAt) : '';
@@ -203,49 +224,22 @@ function buildReactionBar(reactions) {
 
 function formatMessageTime(timestamp) {
   if (!timestamp) return '';
-  
-  let date;
-  if (timestamp.toDate) {
-    date = timestamp.toDate();
-  } else if (timestamp instanceof Date) {
-    date = timestamp;
-  } else {
-    return '';
-  }
-
-  return date.toLocaleTimeString('en-US', { 
-    hour: '2-digit', 
-    minute: '2-digit',
-    hour12: true
-  });
+  let date = timestamp.toDate ? timestamp.toDate() : (timestamp instanceof Date ? timestamp : null);
+  if (!date) return '';
+  return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
 }
 
 function getDateOnly(timestamp) {
   if (!timestamp) return null;
-  
-  let date;
-  if (timestamp.toDate) {
-    date = timestamp.toDate();
-  } else if (timestamp instanceof Date) {
-    date = timestamp;
-  } else {
-    return null;
-  }
-
+  let date = timestamp.toDate ? timestamp.toDate() : (timestamp instanceof Date ? timestamp : null);
+  if (!date) return null;
   return date.toDateString();
 }
 
 function formatDateSeparator(timestamp) {
   if (!timestamp) return '';
-  
-  let date;
-  if (timestamp.toDate) {
-    date = timestamp.toDate();
-  } else if (timestamp instanceof Date) {
-    date = timestamp;
-  } else {
-    return '';
-  }
+  let date = timestamp.toDate ? timestamp.toDate() : (timestamp instanceof Date ? timestamp : null);
+  if (!date) return '';
 
   const today = new Date();
   const yesterday = new Date(today);
@@ -259,7 +253,6 @@ function formatDateSeparator(timestamp) {
     return `<div class="date-separator">${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: date.getFullYear() !== today.getFullYear() ? 'numeric' : undefined })}</div>`;
   }
 }
-
 
 /* ---------- Asynchronous Profile Cache Worker ---------- */
 async function getProfileCardData(uid) {
@@ -285,22 +278,15 @@ async function getProfileCardData(uid) {
     console.error("Failed to parse remote student profile schema card info:", uid, err);
   }
   
-  // Resilient fallback state object prevents UI crashes if user record retrieval errors out
   return {
-    nickname: "User",
-    profilePic: "assets/image/logo.jpg",
-    level: 'beginner',
-    profileBg: 'assets/image/back4.jpg',
-    about: 'No information yet.',
-    quizCount: 0,
-    correctAnswers: 0,
-    lightningCount: 0
+    nickname: "User", profilePic: "assets/image/logo.jpg", level: 'beginner',
+    profileBg: 'assets/image/back4.jpg', about: 'No information yet.',
+    quizCount: 0, correctAnswers: 0, lightningCount: 0
   };
 }
 
 /* ---------- Event Delegation: Chat Click Action Router ---------- */
 messagesBox.addEventListener('click', async (e) => {
-  // Capture click handling routing vectors only if user clicked target profile icons
   if (e.target.classList.contains('user-avatar')) {
     const targetUID = e.target.dataset.uid;
     if (!targetUID) return;
@@ -338,11 +324,8 @@ messagesBox.addEventListener('click', async (e) => {
 /* ---------- Reply Actions UI State Managers ---------- */
 window.setReplyTarget = function(msgId, nickname, text) {
   activeReplyTarget = { msgId, nickname, text };
-  
-  // Truncate preview line text if too long
   const cleanText = text.length > 60 ? text.substring(0, 60) + '...' : text;
   replyPreviewText.innerHTML = `Replying to <strong>@${escapeHTML(nickname)}</strong>: "${escapeHTML(cleanText)}"`;
-  
   replyPreviewBar.classList.remove('hidden');
   msgInput.focus();
 };
@@ -410,16 +393,10 @@ function openMessageActionMenu(bubble, msgId, nickname, text) {
   let left = bubbleRect.left + bubbleRect.width / 2 - menuWidth / 2;
   let top = bubbleRect.top - menuHeight - 10;
   
-  // Clamp horizontal position
   left = Math.max(10, Math.min(left, viewportWidth - menuWidth - 10));
   
-  // Clamp vertical position
-  if (top < 10) {
-    top = bubbleRect.bottom + 10;
-  }
-  if (top + menuHeight > viewportHeight) {
-    top = Math.max(10, viewportHeight - menuHeight - 10);
-  }
+  if (top < 10) top = bubbleRect.bottom + 10;
+  if (top + menuHeight > viewportHeight) top = Math.max(10, viewportHeight - menuHeight - 10);
   
   actionMenu.style.left = `${left}px`;
   actionMenu.style.top = `${top}px`;
@@ -463,7 +440,6 @@ function hideActionMenu() {
 /* ---------- Admin Action Vector: Delete Document ---------- */
 window.deleteMessage = async function(msgId) {
   if (!confirm("Delete this message permanently from the group?")) return;
-  
   try {
     await db.collection('messages').doc(msgId).delete();
   } catch (err) {
@@ -489,7 +465,6 @@ chatForm.addEventListener('submit', async (e) => {
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   };
 
-  // If a reply target is active, append object map metadata context payload fields
   if (activeReplyTarget) {
     payload.parentMsg = {
       msgId: activeReplyTarget.msgId,
@@ -501,6 +476,12 @@ chatForm.addEventListener('submit', async (e) => {
 
   try {
     await db.collection('messages').add(payload);
+    
+    // ✅ Ensure client scrolls down to their newly sent message immediately
+    setTimeout(() => {
+        messagesBox.scrollTop = messagesBox.scrollHeight;
+    }, 100);
+
   } catch (err) {
     console.error("Failed to commit message block transaction:", err);
     alert("Message could not be transmitted. Please try again.");

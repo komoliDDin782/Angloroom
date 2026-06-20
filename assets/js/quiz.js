@@ -41,6 +41,99 @@ function preventExit(e) {
 }
 
 /* =========================
+   TEMPLATE HELPER
+========================= */
+
+// Apply current template to modal content
+function applyTemplateToModal() {
+  const bodyClasses = document.body.className;
+  const templateClass = bodyClasses.split(' ').find(c => c.startsWith('template-'));
+  
+  if (templateClass) {
+    if (!quizModal.classList.contains(templateClass)) {
+      ['template-emerald', 'template-ocean', 'template-sunset', 'template-midnight', 'template-sakura'].forEach(cls => {
+        quizModal.classList.remove(cls);
+      });
+      quizModal.classList.add(templateClass);
+    }
+  }
+}
+
+// Force template CSS variables onto the modal (fixes fixed-position inheritance bug)
+function forceTemplateVarsOnModal() {
+  const bodyStyles = getComputedStyle(document.body);
+  const vars = [
+    '--accent',
+    '--accent-hover',
+    '--accent-glow',
+    '--accent-glow-strong',
+    '--accent-glow-level',
+    '--accent-bg-light',
+    '--accent-bg',
+    '--accent-bg-hover',
+    '--accent-border-light',
+    '--accent-border-modal',
+    '--accent-pill-bg',
+    '--accent-pill-border',
+    '--accent-shadow',
+    '--bg-base',
+    '--bg-glass',
+    '--bg-glass-hover',
+    '--bg-glass-strong',
+    '--bg-glass-active',
+    '--bg-modal',
+    '--bg-modal-overlay',
+    '--bg-input-area',
+    '--bg-current-user',
+    '--bg-reaction-hover',
+    '--bg-reply-preview',
+    '--bg-menu',
+    '--bg-menu-btn-hover',
+    '--header-bg',
+    '--gradient-text-start',
+    '--body-glow-color',
+    '--bubble-outgoing-bg-start',
+    '--bubble-outgoing-bg-end',
+    '--card-courses-accent',
+    '--modal-pic-border',
+    '--reply-quote-bg',
+    '--reply-user-label',
+    '--pulse-glow-color',
+    '--scrollbar-thumb-hover',
+    '--text-on-accent'
+  ];
+  
+  vars.forEach(v => {
+    const val = bodyStyles.getPropertyValue(v).trim();
+    if (val) {
+      quizModal.style.setProperty(v, val);
+    }
+  });
+
+  // Force shadow variables (must be computed manually since they use var())
+  const accentGlow = bodyStyles.getPropertyValue('--accent-glow').trim();
+  if (accentGlow) {
+    quizModal.style.setProperty('--shadow-selected', `0 0 18px ${accentGlow}`);
+    quizModal.style.setProperty('--shadow-btn-hover', `0 10px 25px ${accentGlow}`);
+    quizModal.style.setProperty('--shadow-save-btn', `0 4px 15px ${accentGlow}`);
+    quizModal.style.setProperty('--shadow-tab-active', `0 4px 15px ${accentGlow}`);
+  }
+}
+
+// Force template styles on dynamically created elements
+function applyTemplateToElement(element) {
+  const bodyClasses = document.body.className;
+  const templateClass = bodyClasses.split(' ').find(c => c.startsWith('template-'));
+  
+  if (templateClass && element) {
+    ['template-emerald', 'template-ocean', 'template-sunset', 'template-midnight', 'template-sakura'].forEach(cls => {
+      element.classList.remove(cls);
+    });
+    element.classList.add(templateClass);
+  }
+}
+
+/* =========================
    AUTH
 ========================= */
 
@@ -63,6 +156,8 @@ auth.onAuthStateChanged(async user => {
     if (videoLesson && userLevel === 'intermediate') {
       videoLesson.style.display = 'block';
     }
+
+    await loadTemplateGlobally();
 
     loadQuizCards();
 
@@ -148,9 +243,7 @@ async function openQuizModal(jsonFile, quizId) {
     const form = document.createElement('form');
     form.id = 'quiz-form';
 
-    /* =========================
-       QUESTIONS
-    ========================= */
+    applyTemplateToElement(form);
 
     questions.forEach((q, index) => {
       const correctAnswer = q.options[0];
@@ -189,10 +282,6 @@ async function openQuizModal(jsonFile, quizId) {
       form.appendChild(card);
     });
 
-    /* =========================
-       SUBMIT BUTTON
-    ========================= */
-
     const submitBtn = document.createElement('button');
     submitBtn.type = 'submit';
     submitBtn.className = 'submit-btn';
@@ -200,16 +289,11 @@ async function openQuizModal(jsonFile, quizId) {
 
     form.appendChild(submitBtn);
 
-    // ACTIVATE LOCKDOWN SYSTEM
     isQuizActive = true;
     closeModal.style.display = 'none';
     window.addEventListener('beforeunload', preventExit);
 
     startTime = Date.now();
-
-    /* =========================
-       SUBMIT LOGIC
-    ========================= */
 
     form.addEventListener('submit', async e => {
       e.preventDefault();
@@ -249,7 +333,6 @@ async function openQuizModal(jsonFile, quizId) {
       try {
         const lightningEarned = timeTakenMs <= 180000;
 
-        // DEACTIVATE LOCKDOWN SYSTEM ON SUCCESSFUL SUBMISSION
         isQuizActive = false;
         closeModal.style.display = 'block';
         window.removeEventListener('beforeunload', preventExit);
@@ -290,6 +373,10 @@ async function openQuizModal(jsonFile, quizId) {
     });
 
     modalQuizContainer.appendChild(form);
+    
+    applyTemplateToModal();
+    forceTemplateVarsOnModal();
+    
     quizModal.style.display = 'block';
 
   } catch (err) {
@@ -306,23 +393,27 @@ function openReviewModal(resultData, achievementMessage = '') {
   modalQuizContainer.innerHTML = '';
 
   const wrapper = document.createElement('div');
+  
+  applyTemplateToElement(wrapper);
 
   wrapper.innerHTML = `
     <div style="margin-bottom:30px;">
-      <h2 style="font-size:32px; margin-bottom:10px;">
+      <h2 style="font-size:32px; margin-bottom:10px; color: var(--text-main);">
         Quiz Review
       </h2>
 
-      <p style="color:#94a3b8;">
+      <p style="color: var(--text-muted);">
         Score: ${resultData.score} / ${resultData.total}
       </p>
-      ${achievementMessage ? `<p style="margin-top:10px; color:#f59e0b; font-weight:700;">${achievementMessage}</p>` : ''}
+      ${achievementMessage ? `<p style="margin-top:10px; color: var(--accent); font-weight:700;">${achievementMessage}</p>` : ''}
     </div>
   `;
 
   resultData.answers.forEach((answer, index) => {
     const card = document.createElement('div');
     card.className = 'question-card';
+    
+    applyTemplateToElement(card);
 
     let optionsHTML = '';
 
@@ -350,7 +441,7 @@ function openReviewModal(resultData, achievementMessage = '') {
     });
 
     const notAnsweredHTML = !answer.selectedAnswer
-      ? `<p style="margin-top:10px; color:#fbbf24; font-weight:600;">
+      ? `<p style="margin-top:10px; color: var(--accent); font-weight:600;">
           ⚠ Not answered
         </p>`
       : '';
@@ -371,6 +462,10 @@ function openReviewModal(resultData, achievementMessage = '') {
   });
 
   modalQuizContainer.appendChild(wrapper);
+  
+  applyTemplateToModal();
+  forceTemplateVarsOnModal();
+  
   quizModal.style.display = 'block';
 }
 
@@ -383,7 +478,6 @@ closeModal.addEventListener('click', () => {
 });
 
 window.addEventListener('click', e => {
-  // If exam state is running, completely ignore outer backdrop clicks
   if (isQuizActive) return;
 
   if (e.target === quizModal) {
@@ -395,6 +489,11 @@ function closeQuizModal() {
   quizModal.style.display = 'none';
   modalQuizContainer.innerHTML = '';
 }
+
+/* =========================
+   START MODAL
+========================= */
+
 const startModal = document.getElementById('start-confirm-modal');
 const confirmStartBtn = document.getElementById('confirm-start');
 const cancelStartBtn = document.getElementById('cancel-start');
@@ -412,7 +511,7 @@ function showStartModal(file, quizId) {
 cancelStartBtn.addEventListener('click', () => {
   startModal.classList.remove('show');
 });
-
+ 
 confirmStartBtn.addEventListener('click', () => {
   startModal.classList.remove('show');
 
@@ -421,3 +520,38 @@ confirmStartBtn.addEventListener('click', () => {
     pendingQuizId
   );
 });
+
+/* =========================
+   GLOBAL TEMPLATE LOADER FALLBACK
+========================= */
+
+async function loadTemplateGlobally() {
+  try {
+    const bodyClasses = document.body.className;
+    const hasTemplate = bodyClasses.split(' ').some(c => c.startsWith('template-'));
+    
+    if (hasTemplate) {
+      return;
+    }
+    
+    if (!currentUser) {
+      document.body.classList.add('template-emerald');
+      return;
+    }
+    
+    const doc = await db.collection('users').doc(currentUser.uid).get();
+    const data = doc.exists ? doc.data() : {};
+    
+    if (data.template) {
+      ['template-emerald', 'template-ocean', 'template-sunset', 'template-midnight', 'template-sakura'].forEach(cls => {
+        document.body.classList.remove(cls);
+      });
+      document.body.classList.add(`template-${data.template}`);
+    } else {
+      document.body.classList.add('template-emerald');
+    }
+  } catch (err) {
+    console.error('Failed to load template:', err);
+    document.body.classList.add('template-emerald');
+  }
+}
