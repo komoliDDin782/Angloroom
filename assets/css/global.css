@@ -950,8 +950,8 @@ h1 {
   background: var(--bg-glass);
   border-left: 1px solid var(--glass-border);
   border-right: 1px solid var(--glass-border);
-  overflow: hidden;
   min-height: 0;
+  padding-bottom: 120px;
 }
 
 .chat-header {
@@ -995,7 +995,7 @@ h1 {
 .messages-box {
   flex: 1;
   padding: 16px 12px;
-  padding-bottom: 8px;
+  padding-bottom: 120px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -1186,15 +1186,22 @@ h1 {
   color: var(--danger-hover-text);
 }
 
-/* ---- Input Area ---- */
+/* ---- Input Area (Fixed to bottom, transparent, raised) ---- */
 .input-area {
-  background: var(--bg-input-area);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  flex-shrink: 0;
-  border-top: 1px solid var(--glass-border);
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 20px);
+  max-width: 900px;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--card-radius);
   display: flex;
   flex-direction: column;
+  z-index: 50;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .reply-preview-bar {

@@ -2,104 +2,124 @@
   "title": "Revision Test",
   "questions": [
     {
-      "question": "It is quarter past three",
-      "options": ["3:15", "3:45", "4:15", "4:45"]
+      "question": "It is half past seven.",
+      "options": ["7:30", "7:15", "6:30", "8:30"]
     },
     {
-      "question": "My brother ___ very friendly.",
-      "options": ["is", "am", "are", "be"]
-    },
-    {
-      "question": "___ they from England?",
-      "options": ["Are", "Is", "Am", "Do"]
-    },
-    {
-      "question": "This is Anna. ___ is my friend.",
-      "options": ["She", "We", "It", "They"]
-    },
-    {
-      "question": "We love our school. ___ teachers are great.",
-      "options": ["Our", "His", "Her", "Their"]
-    },
-    {
-      "question": "___ you got a bicycle?",
-      "options": ["Have", "Has", "Are", "Do"]
-    },
-    {
-      "question": "Tom ___ got a new computer.",
-      "options": ["has", "have", "is", "are"]
-    },
-    {
-      "question": "I haven't got ___ brothers.",
-      "options": ["any", "some", "a", "an"]
-    },
-    {
-      "question": "___ is my pen here.",
-      "options": ["This", "These", "Those", "They"]
-    },
-    {
-      "question": "how much ___ are there in the fridge?",
-      "options": ["milk", "books", "apples", "chairs"]
-    },
-    {
-      "question": "There ___ a desk in the classroom.",
-      "options": ["is", "are", "am", "be"]
-    },
-    {
-      "question": "There ___ twenty students in my class.",
+      "question": "My parents ___ very busy.",
       "options": ["are", "is", "am", "be"]
     },
     {
-      "question": "Lucy ___ play the piano.",
-      "options": ["can", "is", "has", "does"]
+      "question": "___ she from Spain?",
+      "options": ["Is", "Are", "Am", "Do"]
     },
     {
-      "question": "___ your sister swim?",
-      "options": ["Can", "Do", "Is", "Has"]
+      "question": "This is Jack. ___ is my cousin.",
+      "options": ["He", "She", "They", "We"]
     },
     {
-      "question": "Tom usually ___ football after school.",
-      "options": ["plays", "play", "playing", "played"]
+      "question": "Sarah loves her dog. ___ dog is very cute.",
+      "options": ["Her", "His", "Our", "Their"]
     },
     {
-      "question": "We ___ lunch at school every day.",
-      "options": ["eat", "eats", "eating", "ate"]
-    }, 
-    {
-      "question": "___ Amy like science?",
-      "options": ["Does", "Do", "Is", "Has"]
+      "question": "___ you got any pets?",
+      "options": ["Have", "Has", "Are", "Do"]
     },
     {
-      "question": "My father ___ to work by car.",
-      "options": ["goes", "go", "going", "gone"]
+      "question": "Emma ___ got a new bike.",
+      "options": ["has", "have", "is", "are"]
     },
     {
-      "question": "I ___ get up at 7 o'clock.",
-      "options": ["always", "that", "yesterday", "now"]
-    },
-    {
-      "question": "The cat is ___ the table.",
-      "options": ["under", "many", "every", "often"]
-    },
-    {
-      "question": "The picture is ___ the wall.",
-      "options": ["on", "under", "between", "behind"]
-    },
-    {
-      "question": "There are ___ apples in the bag.",
-      "options": ["some", "any", "a", "an"]
-    },
-    {
-      "question": "Have you got ___ homework today?",
+      "question": "We haven't got ___ cheese.",
       "options": ["any", "some", "a", "an"]
     },
     {
-      "question": "___ is your birthday?",
-      "options": ["When", "Who", "Where", "Why"]
+      "question": "___ are my new shoes.",
+      "options": ["These", "This", "That", "It"]
     },
     {
-      "question": "___ do you live?",
-      "options": ["Where", "When", "Who", "What"]
+      "question": "How much ___ is there in the bottle?",
+      "options": ["water", "apples", "books", "chairs"]
+    },
+    {
+      "question": "There ___ a computer in the room.",
+      "options": ["is", "are", "am", "be"]
+    },
+    {
+      "question": "There ___ five windows in our classroom.",
+      "options": ["are", "is", "am", "be"]
+    },
+    {
+      "question": "My sister ___ speak French.",
+      "options": ["can", "is", "has", "does"]
+    },
+    {
+      "question": "___ your brother ride a bike?",
+      "options": ["Can", "Do", "Is", "Has"]
+    },
+    {
+      "question": "Ben usually ___ TV in the evening.",
+      "options": ["watches", "watch", "watching", "watched"]
+    },
+    {
+      "question": "They ___ breakfast at home every morning.",
+      "options": ["have", "has", "having", "had"]
+    },
+    {
+      "question": "___ Lucy like music?",
+      "options": ["Does", "Do", "Is", "Has"]
+    },
+    {
+      "question": "My mother ___ to work by bus.",
+      "options": ["goes", "go", "going", "gone"]
+    },
+    {
+      "question": "I ___ brush my teeth before bed.",
+      "options": ["always", "yesterday", "tomorrow", "now"]
+    },
+    {
+      "question": "The cat is ___ the chair.",
+      "options": ["under", "often", "many", "every"]
+    },
+    {
+      "question": "The clock is ___ the wall.",
+      "options": ["on", "between", "behind", "under"]
+    },
+    {
+      "question": "There are ___ oranges on the table.",
+      "options": ["some", "any", "a", "an"]
+    },
+    {
+      "question": "Have we got ___ milk?",
+      "options": ["any", "some", "a", "an"]
+    },
+    {
+      "question": "___ is your favourite subject?", 
+      "options": ["What", "Who", "Where", "Why"]
+    },
+    {
+      "question": "___ do you usually go to bed?",
+      "options": ["When", "Who", "Much", "What"]
+    },
+    {
+      "question": "Look! Tom ___ football now.",
+      "options": ["is playing", "plays", "play", "played"]
+    },
+    {
+      "question": "We ___ dinner at the moment.",
+      "options": ["are having", "have", "has", "having"]
+    },
+    {
+      "question": "___ your sister watching TV now?",
+      "options": ["Is", "Are", "Do", "Does"]
+    },
+    {
+      "question": "I am___ my homework right now.",
+      "options": ["doing", "do", "does", "did"]
+    },
+    {
+      "question": "They ___ not sleeping at the moment.",
+      "options": ["are", "is", "am", "be"]
     }
   ]
 }
