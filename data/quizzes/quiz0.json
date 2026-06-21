@@ -51,11 +51,11 @@
     },
     {
       "question": "My sister ___ speak French.",
-      "options": ["can", "is", "has", "does"]
+      "options": ["can", "is", "has", "does"] 
     },
     {
       "question": "___ your brother ride a bike?",
-      "options": ["Can", "Does", "Is", "Has"]
+      "options": ["Can", "Do", "Is", "Has"]
     },
     {
       "question": "Ben usually ___ TV in the evening.",
