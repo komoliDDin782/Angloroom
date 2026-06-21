@@ -70,6 +70,115 @@ const globalProfileCache = {};
 const levelOrder = ['beginner', 'elementary', 'intermediate', 'advanced'];
 const ADMIN_EMAIL = "test@gmail.com";
 
+// Template color map for modal theming (each user sees the profile owner's theme)
+const TEMPLATE_COLORS = {
+  emerald: {
+    '--bg-base': '#022c22',
+    '--bg-modal': '#043c2f',
+    '--bg-modal-overlay': 'rgba(2, 44, 34, 0.95)',
+    '--bg-stat-card': 'rgba(255, 255, 255, 0.08)',
+    '--bg-level-inactive': 'rgba(255, 255, 255, 0.1)',
+    '--accent': '#10b981',
+    '--accent-glow': 'rgba(16, 185, 129, 0.4)',
+    '--accent-glow-level': 'rgba(16, 185, 129, 0.5)',
+    '--text-main': '#f8fafc',
+    '--text-muted': '#94a3b8',
+    '--text-white': '#fff',
+    '--text-modal-stat': '#d1d5db',
+    '--modal-pic-border': '#043c2f',
+    '--glass-border': 'rgba(255, 255, 255, 0.08)',
+    '--glass-border-light': 'rgba(255, 255, 255, 0.12)',
+    '--shadow-stat-card': '0 4px 12px rgba(0, 0, 0, 0.2)',
+    '--shadow-modal': '0 25px 60px rgba(0, 0, 0, 0.4)',
+    '--modal-close-color': '#fff',
+    '--modal-close-opacity': '0.6'
+  },
+  ocean: {
+    '--bg-base': '#0c1a2b',
+    '--bg-modal': '#0f2840',
+    '--bg-modal-overlay': 'rgba(12, 26, 43, 0.95)',
+    '--bg-stat-card': 'rgba(255, 255, 255, 0.08)',
+    '--bg-level-inactive': 'rgba(255, 255, 255, 0.1)',
+    '--accent': '#0ea5e9',
+    '--accent-glow': 'rgba(14, 165, 233, 0.4)',
+    '--accent-glow-level': 'rgba(14, 165, 233, 0.5)',
+    '--text-main': '#f8fafc',
+    '--text-muted': '#94a3b8',
+    '--text-white': '#fff',
+    '--text-modal-stat': '#d1d5db',
+    '--modal-pic-border': '#0f2840',
+    '--glass-border': 'rgba(255, 255, 255, 0.08)',
+    '--glass-border-light': 'rgba(255, 255, 255, 0.12)',
+    '--shadow-stat-card': '0 4px 12px rgba(0, 0, 0, 0.2)',
+    '--shadow-modal': '0 25px 60px rgba(0, 0, 0, 0.4)',
+    '--modal-close-color': '#fff',
+    '--modal-close-opacity': '0.6'
+  },
+  sunset: {
+    '--bg-base': '#2d1b0e',
+    '--bg-modal': '#3d2515',
+    '--bg-modal-overlay': 'rgba(45, 27, 14, 0.95)',
+    '--bg-stat-card': 'rgba(255, 255, 255, 0.08)',
+    '--bg-level-inactive': 'rgba(255, 255, 255, 0.1)',
+    '--accent': '#f97316',
+    '--accent-glow': 'rgba(249, 115, 22, 0.4)',
+    '--accent-glow-level': 'rgba(249, 115, 22, 0.5)',
+    '--text-main': '#f8fafc',
+    '--text-muted': '#94a3b8',
+    '--text-white': '#fff',
+    '--text-modal-stat': '#d1d5db',
+    '--modal-pic-border': '#3d2515',
+    '--glass-border': 'rgba(255, 255, 255, 0.08)',
+    '--glass-border-light': 'rgba(255, 255, 255, 0.12)',
+    '--shadow-stat-card': '0 4px 12px rgba(0, 0, 0, 0.2)',
+    '--shadow-modal': '0 25px 60px rgba(0, 0, 0, 0.4)',
+    '--modal-close-color': '#fff',
+    '--modal-close-opacity': '0.6'
+  },
+  midnight: {
+    '--bg-base': '#1a1025',
+    '--bg-modal': '#25183a',
+    '--bg-modal-overlay': 'rgba(26, 16, 37, 0.95)',
+    '--bg-stat-card': 'rgba(255, 255, 255, 0.08)',
+    '--bg-level-inactive': 'rgba(255, 255, 255, 0.1)',
+    '--accent': '#8b5cf6',
+    '--accent-glow': 'rgba(139, 92, 246, 0.4)',
+    '--accent-glow-level': 'rgba(139, 92, 246, 0.5)',
+    '--text-main': '#f8fafc',
+    '--text-muted': '#94a3b8',
+    '--text-white': '#fff',
+    '--text-modal-stat': '#d1d5db',
+    '--modal-pic-border': '#25183a',
+    '--glass-border': 'rgba(255, 255, 255, 0.08)',
+    '--glass-border-light': 'rgba(255, 255, 255, 0.12)',
+    '--shadow-stat-card': '0 4px 12px rgba(0, 0, 0, 0.2)',
+    '--shadow-modal': '0 25px 60px rgba(0, 0, 0, 0.4)',
+    '--modal-close-color': '#fff',
+    '--modal-close-opacity': '0.6'
+  },
+  sakura: {
+    '--bg-base': '#2d1424',
+    '--bg-modal': '#3d1a2e',
+    '--bg-modal-overlay': 'rgba(45, 20, 36, 0.95)',
+    '--bg-stat-card': 'rgba(255, 255, 255, 0.08)',
+    '--bg-level-inactive': 'rgba(255, 255, 255, 0.1)',
+    '--accent': '#ec4899',
+    '--accent-glow': 'rgba(236, 72, 153, 0.4)',
+    '--accent-glow-level': 'rgba(236, 72, 153, 0.5)',
+    '--text-main': '#f8fafc',
+    '--text-muted': '#94a3b8',
+    '--text-white': '#fff',
+    '--text-modal-stat': '#d1d5db',
+    '--modal-pic-border': '#3d1a2e',
+    '--glass-border': 'rgba(255, 255, 255, 0.08)',
+    '--glass-border-light': 'rgba(255, 255, 255, 0.12)',
+    '--shadow-stat-card': '0 4px 12px rgba(0, 0, 0, 0.2)',
+    '--shadow-modal': '0 25px 60px rgba(0, 0, 0, 0.4)',
+    '--modal-close-color': '#fff',
+    '--modal-close-opacity': '0.6'
+  }
+};
+
 /* ---------- Auth Control & Profile Fetch ---------- */
 auth.onAuthStateChanged(async (user) => {
   if (!user) {
@@ -128,7 +237,7 @@ function listenForOnlineCount() {
 }
 
 /* ---------- Real-Time Listener (Firestore Snapshot) ---------- */
-let isFirstLoad = true; // ✅ Track initial load to force bottom scroll
+let isFirstLoad = true;
 
 function listenForMessages() {
   db.collection('messages')
@@ -138,7 +247,6 @@ function listenForMessages() {
       const scrollPos = messagesBox.scrollTop;
       const scrollHeight = messagesBox.scrollHeight;
       
-      // ✅ Check if user is near the bottom. Tolerance increased to 100px for better UX.
       const isAtBottom = messagesBox.scrollTop + messagesBox.clientHeight >= scrollHeight - 100;
       
       messagesBox.innerHTML = '';
@@ -157,12 +265,11 @@ function listenForMessages() {
         renderMessage(msg, doc.id);
       });
 
-      // ✅ Force scroll to bottom on first load OR if user was already at the bottom
       if (isFirstLoad || isAtBottom) {
         messagesBox.scrollTop = messagesBox.scrollHeight;
         isFirstLoad = false;
       } else {
-        messagesBox.scrollTop = scrollPos; // Maintain user's scroll position if reading history
+        messagesBox.scrollTop = scrollPos;
       }
     }, (error) => {
       console.error("Snapshot network failure tracking messages:", error);
@@ -270,7 +377,8 @@ async function getProfileCardData(uid) {
         about: data.about || 'No information yet.',
         quizCount: data.quizCount || 0,
         correctAnswers: data.correctAnswers || 0,
-        lightningCount: data.lightningCount || 0
+        lightningCount: data.lightningCount || 0,
+        template: data.template || 'emerald'
       };
       return globalProfileCache[uid];
     }
@@ -279,10 +387,31 @@ async function getProfileCardData(uid) {
   }
   
   return {
-    nickname: "User", profilePic: "assets/image/logo.jpg", level: 'beginner',
-    profileBg: 'assets/image/back4.jpg', about: 'No information yet.',
-    quizCount: 0, correctAnswers: 0, lightningCount: 0
+    nickname: "User",
+    profilePic: "assets/image/logo.jpg",
+    level: 'beginner',
+    profileBg: 'assets/image/back4.jpg',
+    about: 'No information yet.',
+    quizCount: 0,
+    correctAnswers: 0,
+    lightningCount: 0,
+    template: 'emerald'
   };
+}
+
+/* ---------- Modal Theme Application ---------- */
+function applyThemeToModal(templateName) {
+  const colors = TEMPLATE_COLORS[templateName] || TEMPLATE_COLORS.emerald;
+  Object.entries(colors).forEach(([prop, value]) => {
+    modal.style.setProperty(prop, value);
+  });
+}
+
+function resetModalTheme() {
+  const allProps = Object.keys(TEMPLATE_COLORS.emerald);
+  allProps.forEach(prop => {
+    modal.style.removeProperty(prop);
+  });
 }
 
 /* ---------- Event Delegation: Chat Click Action Router ---------- */
@@ -292,6 +421,10 @@ messagesBox.addEventListener('click', async (e) => {
     if (!targetUID) return;
 
     const profile = await getProfileCardData(targetUID);
+    
+    // Apply the profile owner's theme to the modal
+    applyThemeToModal(profile.template);
+    
     modalPic.src = profile.profilePic;
     modalBg.style.backgroundImage = `url(${profile.profileBg})`;
     modalNickname.textContent = profile.nickname;
@@ -370,10 +503,15 @@ window.addEventListener('click', (e) => {
 });
 
 /* ---------- Modal Close Actions ---------- */
-modalClose.addEventListener('click', () => modal.style.display = 'none');
+function closeProfileModal() {
+  modal.style.display = 'none';
+  resetModalTheme();
+}
+
+modalClose.addEventListener('click', closeProfileModal);
 
 window.addEventListener('click', (e) => {
-  if (e.target === modal) modal.style.display = 'none';
+  if (e.target === modal) closeProfileModal();
 });
 
 function openMessageActionMenu(bubble, msgId, nickname, text) {
@@ -477,7 +615,6 @@ chatForm.addEventListener('submit', async (e) => {
   try {
     await db.collection('messages').add(payload);
     
-    // ✅ Ensure client scrolls down to their newly sent message immediately
     setTimeout(() => {
         messagesBox.scrollTop = messagesBox.scrollHeight;
     }, 100);

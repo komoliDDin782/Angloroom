@@ -1,3 +1,5 @@
+// assets/js/results.js
+
 // ==================== DOM REFS ====================
 const resultsContainer = document.getElementById('results-container');
 const leaderboardContent = document.getElementById('leaderboard-content');
@@ -11,6 +13,9 @@ const modalPic = document.getElementById('preview-pic');
 const modalNickname = document.getElementById('preview-nickname');
 const modalLevel = document.getElementById('preview-level');
 const modalAbout = document.getElementById('preview-about');
+const modalQuizCount = document.getElementById('preview-quiz-count');
+const modalCorrectCount = document.getElementById('preview-correct-count');
+const modalLightningCount = document.getElementById('preview-lightning-count');
 const modalSteps = modal.querySelectorAll('.level-step');
 
 // ==================== CONSTANTS ====================
@@ -26,7 +31,117 @@ const DEFAULT_USER_DATA = {
   about: 'No information yet.',
   quizCount: 0,
   correctAnswers: 0,
-  lightningCount: 0
+  lightningCount: 0,
+  template: 'emerald'
+};
+
+// Template color map for modal theming (each user sees the profile owner's theme)
+const TEMPLATE_COLORS = {
+  emerald: {
+    '--bg-base': '#022c22',
+    '--bg-modal': '#043c2f',
+    '--bg-modal-overlay': 'rgba(2, 44, 34, 0.95)',
+    '--bg-stat-card': 'rgba(255, 255, 255, 0.08)',
+    '--bg-level-inactive': 'rgba(255, 255, 255, 0.1)',
+    '--accent': '#10b981',
+    '--accent-glow': 'rgba(16, 185, 129, 0.4)',
+    '--accent-glow-level': 'rgba(16, 185, 129, 0.5)',
+    '--text-main': '#f8fafc',
+    '--text-muted': '#94a3b8',
+    '--text-white': '#fff',
+    '--text-modal-stat': '#d1d5db',
+    '--modal-pic-border': '#043c2f',
+    '--glass-border': 'rgba(255, 255, 255, 0.08)',
+    '--glass-border-light': 'rgba(255, 255, 255, 0.12)',
+    '--shadow-stat-card': '0 4px 12px rgba(0, 0, 0, 0.2)',
+    '--shadow-modal': '0 25px 60px rgba(0, 0, 0, 0.4)',
+    '--modal-close-color': '#fff',
+    '--modal-close-opacity': '0.6'
+  },
+  ocean: {
+    '--bg-base': '#0c1a2b',
+    '--bg-modal': '#0f2840',
+    '--bg-modal-overlay': 'rgba(12, 26, 43, 0.95)',
+    '--bg-stat-card': 'rgba(255, 255, 255, 0.08)',
+    '--bg-level-inactive': 'rgba(255, 255, 255, 0.1)',
+    '--accent': '#0ea5e9',
+    '--accent-glow': 'rgba(14, 165, 233, 0.4)',
+    '--accent-glow-level': 'rgba(14, 165, 233, 0.5)',
+    '--text-main': '#f8fafc',
+    '--text-muted': '#94a3b8',
+    '--text-white': '#fff',
+    '--text-modal-stat': '#d1d5db',
+    '--modal-pic-border': '#0f2840',
+    '--glass-border': 'rgba(255, 255, 255, 0.08)',
+    '--glass-border-light': 'rgba(255, 255, 255, 0.12)',
+    '--shadow-stat-card': '0 4px 12px rgba(0, 0, 0, 0.2)',
+    '--shadow-modal': '0 25px 60px rgba(0, 0, 0, 0.4)',
+    '--modal-close-color': '#fff',
+    '--modal-close-opacity': '0.6'
+  },
+  sunset: {
+    '--bg-base': '#2d1b0e',
+    '--bg-modal': '#3d2515',
+    '--bg-modal-overlay': 'rgba(45, 27, 14, 0.95)',
+    '--bg-stat-card': 'rgba(255, 255, 255, 0.08)',
+    '--bg-level-inactive': 'rgba(255, 255, 255, 0.1)',
+    '--accent': '#f97316',
+    '--accent-glow': 'rgba(249, 115, 22, 0.4)',
+    '--accent-glow-level': 'rgba(249, 115, 22, 0.5)',
+    '--text-main': '#f8fafc',
+    '--text-muted': '#94a3b8',
+    '--text-white': '#fff',
+    '--text-modal-stat': '#d1d5db',
+    '--modal-pic-border': '#3d2515',
+    '--glass-border': 'rgba(255, 255, 255, 0.08)',
+    '--glass-border-light': 'rgba(255, 255, 255, 0.12)',
+    '--shadow-stat-card': '0 4px 12px rgba(0, 0, 0, 0.2)',
+    '--shadow-modal': '0 25px 60px rgba(0, 0, 0, 0.4)',
+    '--modal-close-color': '#fff',
+    '--modal-close-opacity': '0.6'
+  },
+  midnight: {
+    '--bg-base': '#1a1025',
+    '--bg-modal': '#25183a',
+    '--bg-modal-overlay': 'rgba(26, 16, 37, 0.95)',
+    '--bg-stat-card': 'rgba(255, 255, 255, 0.08)',
+    '--bg-level-inactive': 'rgba(255, 255, 255, 0.1)',
+    '--accent': '#8b5cf6',
+    '--accent-glow': 'rgba(139, 92, 246, 0.4)',
+    '--accent-glow-level': 'rgba(139, 92, 246, 0.5)',
+    '--text-main': '#f8fafc',
+    '--text-muted': '#94a3b8',
+    '--text-white': '#fff',
+    '--text-modal-stat': '#d1d5db',
+    '--modal-pic-border': '#25183a',
+    '--glass-border': 'rgba(255, 255, 255, 0.08)',
+    '--glass-border-light': 'rgba(255, 255, 255, 0.12)',
+    '--shadow-stat-card': '0 4px 12px rgba(0, 0, 0, 0.2)',
+    '--shadow-modal': '0 25px 60px rgba(0, 0, 0, 0.4)',
+    '--modal-close-color': '#fff',
+    '--modal-close-opacity': '0.6'
+  },
+  sakura: {
+    '--bg-base': '#2d1424',
+    '--bg-modal': '#3d1a2e',
+    '--bg-modal-overlay': 'rgba(45, 20, 36, 0.95)',
+    '--bg-stat-card': 'rgba(255, 255, 255, 0.08)',
+    '--bg-level-inactive': 'rgba(255, 255, 255, 0.1)',
+    '--accent': '#ec4899',
+    '--accent-glow': 'rgba(236, 72, 153, 0.4)',
+    '--accent-glow-level': 'rgba(236, 72, 153, 0.5)',
+    '--text-main': '#f8fafc',
+    '--text-muted': '#94a3b8',
+    '--text-white': '#fff',
+    '--text-modal-stat': '#d1d5db',
+    '--modal-pic-border': '#3d1a2e',
+    '--glass-border': 'rgba(255, 255, 255, 0.08)',
+    '--glass-border-light': 'rgba(255, 255, 255, 0.12)',
+    '--shadow-stat-card': '0 4px 12px rgba(0, 0, 0, 0.2)',
+    '--shadow-modal': '0 25px 60px rgba(0, 0, 0, 0.4)',
+    '--modal-close-color': '#fff',
+    '--modal-close-opacity': '0.6'
+  }
 };
 
 // ==================== STATE ====================
@@ -58,6 +173,30 @@ function getOrdinal(n) {
   return n + (s[(v - 20) % 10] || s[v] || s[0]);
 }
 
+// ==================== MODAL THEME FUNCTIONS ====================
+function applyThemeToModal(templateName) {
+  const colors = TEMPLATE_COLORS[templateName] || TEMPLATE_COLORS.emerald;
+  Object.entries(colors).forEach(([prop, value]) => {
+    modal.style.setProperty(prop, value);
+  });
+}
+
+function resetModalTheme() {
+  const allProps = Object.keys(TEMPLATE_COLORS.emerald);
+  allProps.forEach(prop => {
+    modal.style.removeProperty(prop);
+  });
+}
+
+function openModal() {
+  modal.classList.add('active');
+}
+
+function closeModal() {
+  modal.classList.remove('active');
+  resetModalTheme();
+}
+
 // ==================== DATA FETCHING ====================
 async function getUserData(uid) {
   if (userCache[uid]) return userCache[uid];
@@ -74,7 +213,8 @@ async function getUserData(uid) {
         about: data.about || DEFAULT_USER_DATA.about,
         quizCount: data.quizCount || 0,
         correctAnswers: data.correctAnswers || 0,
-        lightningCount: data.lightningCount || 0
+        lightningCount: data.lightningCount || 0,
+        template: data.template || DEFAULT_USER_DATA.template
       };
       return userCache[uid];
     }
@@ -336,7 +476,7 @@ async function switchTab(tabType) {
     btn.classList.toggle('active', btn.dataset.tab === tabType);
   });
 
-  // Show loader - Updated to use CSS class only
+  // Show loader
   leaderboardContent.innerHTML = `<div class="loader"><span>LOADING...</span></div>`;
 
   try {
@@ -389,15 +529,18 @@ async function handleProfileClick(e) {
 async function showProfilePreview(uid) {
   const user = await getUserData(uid);
 
+  // Apply the profile owner's theme to the modal
+  applyThemeToModal(user.template);
+
   modalPic.src = user.profilePic;
   modalBg.style.backgroundImage = `url(${user.profileBg})`;
   modalNickname.textContent = user.nickname;
   modalLevel.textContent = `Level: ${capitalize(user.level)}`;
   modalAbout.textContent = user.about || 'No information yet.';
 
-  document.getElementById('preview-quiz-count').textContent = user.quizCount;
-  document.getElementById('preview-correct-count').textContent = user.correctAnswers;
-  document.getElementById('preview-lightning-count').textContent = user.lightningCount;
+  modalQuizCount.textContent = user.quizCount;
+  modalCorrectCount.textContent = user.correctAnswers;
+  modalLightningCount.textContent = user.lightningCount;
 
   modalSteps.forEach(step => step.classList.remove('active'));
   const levelIndex = LEVELS.indexOf(user.level);
@@ -405,7 +548,7 @@ async function showProfilePreview(uid) {
     modalSteps[i].classList.add('active');
   }
 
-  modal.classList.add('active');
+  openModal();
 }
 
 // ==================== TAB CLICK HANDLERS ====================
@@ -419,19 +562,17 @@ tabButtons.forEach(btn => {
 });
 
 // ==================== MODAL CLOSE HANDLERS ====================
-modalClose.addEventListener('click', () => {
-  modal.classList.remove('active');
-});
+modalClose.addEventListener('click', closeModal);
 
 window.addEventListener('click', (e) => {
   if (e.target === modal) {
-    modal.classList.remove('active');
+    closeModal();
   }
 });
 
 window.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && modal.classList.contains('active')) {
-    modal.classList.remove('active');
+    closeModal();
   }
 });
 
