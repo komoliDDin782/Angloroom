@@ -15,11 +15,11 @@
     },
     {
       "question": "This is Jack. ___ is my cousin.",
-      "options": ["He", "She", "They", "We"]
+      "options": ["He", "It", "They", "We"] 
     },
     {
       "question": "Sarah loves her dog. ___ dog is very cute.",
-      "options": ["Her", "His", "Our", "Their"]
+      "options": ["Her", "Its", "Our", "Their"]
     },
     {
       "question": "___ you got any pets?",
@@ -55,7 +55,7 @@
     },
     {
       "question": "___ your brother ride a bike?",
-      "options": ["Can", "Do", "Is", "Has"]
+      "options": ["Can", "Does", "Is", "Has"]
     },
     {
       "question": "Ben usually ___ TV in the evening.",
@@ -75,7 +75,7 @@
     },
     {
       "question": "I ___ brush my teeth before bed.",
-      "options": ["always", "yesterday", "tomorrow", "now"]
+      "options": ["always", "yesterday", "tomorrow", "is"] 
     },
     {
       "question": "The cat is ___ the chair.",
@@ -102,12 +102,12 @@
       "options": ["When", "Who", "Much", "What"]
     },
     {
-      "question": "Look! Tom ___ football now.",
-      "options": ["is playing", "plays", "play", "played"]
+      "question": "Look! Tom is___ football now.",
+      "options": ["playing", "plays", "play", "played"]
     },
     {
-      "question": "We ___ dinner at the moment.",
-      "options": ["are having", "have", "has", "having"]
+      "question": "We are ___ dinner at the moment.",
+      "options": ["having", "have", "has", "having"]
     },
     {
       "question": "___ your sister watching TV now?",
