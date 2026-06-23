@@ -1,147 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>AngloRoom - Global Chat</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<title>AngloRoom - Global Chat</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
 
-  <script src="assets/js/firebase.js" defer></script>
-  <script src="assets/js/chat.js" defer></script>
-  <script src="assets/js/template.js" defer></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <link rel="stylesheet" href="assets/css/global.css">
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      overflow: hidden; /* Prevents the whole page from scrolling */
-    }
+<script src="assets/js/firebase.js" defer></script>
+<script src="assets/js/chat.js" defer></script>
+<script src="assets/js/template.js" defer></script>
 
-    .chat-container {
-      display: flex;
-      flex-direction: column;
-      height: 100vh; /* Takes up exactly the screen height */
-      max-height: 100vh;
-    }
+<link rel="stylesheet" href="assets/css/global.css">
 
-    /* Header stays at the top */
-    .chat-header {
-      flex-shrink: 0; 
-      z-index: 10;
-    }
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* Prevents the whole page from scrolling */
+  }
 
-    /* Messages box takes up remaining space and scrolls internally */
-    .messages-box {
-      flex-grow: 1;
-      overflow-y: auto;
-      padding-bottom: 10px;
-      scroll-behavior: smooth; /* Smooth scrolling for UX */
-    }
+  .chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Takes up exactly the screen height */
+    max-height: 100vh;
+  }
 
-    /* Input area is permanently fixed at the bottom of the flex container */
-    .input-area {
-      flex-shrink: 0;
-      z-index: 10;
-      background: var(--bg-input-area, #ffffff); /* Ensure it has a solid background */
-      padding-bottom: env(safe-area-inset-bottom); /* Fix for iOS notch devices */
-    }
-  </style>
+  /* Header stays at the top */
+  .chat-header {
+    flex-shrink: 0; 
+    z-index: 10;
+  }
+
+  /* Messages box takes up remaining space and scrolls internally */
+  .messages-box {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-bottom: 10px;
+    scroll-behavior: smooth; /* Smooth scrolling for UX */
+  }
+
+  /* Input area is permanently fixed at the bottom of the flex container */
+  .input-area {
+    flex-shrink: 0;
+    z-index: 10;
+    background: var(--bg-input-area, #ffffff); /* Ensure it has a solid background */
+    padding-bottom: env(safe-area-inset-bottom); /* Fix for iOS notch devices */
+  }
+</style>
 </head>
 <body>
- 
-  <header>
-    <nav>
-      <a href="main.html">Main</a>
-      <a href="quiz.html">Quizzes</a>
-      <a href="results.html">Results</a>
-      <a href="profile.html">Profile</a>
-      <a href="chat.html" class="active"><span id="online-count">Online: 0</span></a>
-    </nav>
-  </header>
 
-  <main class="chat-container">
+<header>
+  <nav>
+    <a href="main.html">Main</a>
+    <a href="quiz.html">Quizzes</a>
+    <a href="results.html">Results</a>
+    <a href="profile.html">Profile</a>
+    <a href="chat.html" class="active"><span id="online-count">Online: 0</span></a>
+  </nav>
+</header>
+
+<main class="chat-container">
+  
+  <div class="messages-box" id="messages-box">
+    <br><br>
+    </div>
+
+
+  <div id="message-action-menu" class="message-action-menu" aria-hidden="true">
+    <div class="reaction-grid">
+      <button type="button" class="reaction-btn" data-emoji="👍">👍</button>
+      <button type="button" class="reaction-btn" data-emoji="❤️">❤️</button>
+      <button type="button" class="reaction-btn" data-emoji="😂">😂</button>
+      <button type="button" class="reaction-btn" data-emoji="🎉">🎉</button>
+      <button type="button" class="reaction-btn" data-emoji="😮">😮</button>
+      <button type="button" class="reaction-btn" data-emoji="😢">😢</button>
+      <button type="button" class="reaction-btn" data-emoji="😊">😊</button>
+      <button type="button" class="reaction-btn" data-emoji="😎">😎</button>
+      <button type="button" class="reaction-btn" data-emoji="🎊">🎊</button>
+      <button type="button" class="reaction-btn" data-emoji="💯">💯</button>
+    </div>
+    <button type="button" id="action-reply"><i class="fas fa-reply"></i> Reply</button>
+    <button type="button" id="action-clear-reaction">Remove reaction</button>
+  </div>
+
+  <div class="input-area">
+    <div class="reply-preview-bar hidden" id="reply-preview-bar">
+      <div class="reply-preview-text" id="reply-preview-text"></div>
+      <button type="button" class="cancel-reply-btn" id="cancel-reply-btn" title="Cancel reply">
+        <i class="fas fa-xmark"></i>
+      </button>
+    </div>
     
-    <div class="messages-box" id="messages-box">
-      </div>
-
-    <div id="message-action-menu" class="message-action-menu" aria-hidden="true">
-      <div class="reaction-grid">
-        <button type="button" class="reaction-btn" data-emoji="👍">👍</button>
-        <button type="button" class="reaction-btn" data-emoji="❤️">❤️</button>
-        <button type="button" class="reaction-btn" data-emoji="😂">😂</button>
-        <button type="button" class="reaction-btn" data-emoji="🎉">🎉</button>
-        <button type="button" class="reaction-btn" data-emoji="😮">😮</button>
-        <button type="button" class="reaction-btn" data-emoji="😢">😢</button>
-        <button type="button" class="reaction-btn" data-emoji="😊">😊</button>
-        <button type="button" class="reaction-btn" data-emoji="😎">😎</button>
-        <button type="button" class="reaction-btn" data-emoji="🎊">🎊</button>
-        <button type="button" class="reaction-btn" data-emoji="💯">💯</button>
-      </div>
-      <button type="button" id="action-reply"><i class="fas fa-reply"></i> Reply</button>
-      <button type="button" id="action-clear-reaction">Remove reaction</button>
+    <div class="input-wrapper">
+      <form class="input-form" id="chat-form">
+        <input type="text" id="msg-input" placeholder="Type a message in English..." autocomplete="off" required maxlength="500">
+        <button type="submit" class="send-btn"><i class="fas fa-paper-plane"></i></button>
+      </form>
     </div>
+  </div>
+</main>
 
-    <div class="input-area">
-      <div class="reply-preview-bar hidden" id="reply-preview-bar">
-        <div class="reply-preview-text" id="reply-preview-text"></div>
-        <button type="button" class="cancel-reply-btn" id="cancel-reply-btn" title="Cancel reply">
-          <i class="fas fa-xmark"></i>
-        </button>
+<div id="profile-preview-modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div class="modal-bg" id="preview-bg"></div>
+    <img id="preview-pic" class="modal-profile-pic" src="" alt="Profile">
+    <div class="modal-info">
+      <h2 id="preview-nickname">Nickname</h2>
+      <p id="preview-level">Level: —</p>
+      <p id="preview-about">About me is not set yet.</p>
+
+      <div class="modal-level-progress">
+        <div class="level-step"></div>
+        <div class="level-step"></div>
+        <div class="level-step"></div>
+        <div class="level-step"></div>
       </div>
-      
-      <div class="input-wrapper">
-        <form class="input-form" id="chat-form">
-          <input type="text" id="msg-input" placeholder="Type a message in English..." autocomplete="off" required maxlength="500">
-          <button type="submit" class="send-btn"><i class="fas fa-paper-plane"></i></button>
-        </form>
-      </div>
-    </div>
-  </main>
-
-  <div id="profile-preview-modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <div class="modal-bg" id="preview-bg"></div>
-      <img id="preview-pic" class="modal-profile-pic" src="" alt="Profile">
-      <div class="modal-info">
-        <h2 id="preview-nickname">Nickname</h2>
-        <p id="preview-level">Level: —</p>
-        <p id="preview-about">About me is not set yet.</p>
-
-        <div class="modal-level-progress">
-          <div class="level-step"></div>
-          <div class="level-step"></div>
-          <div class="level-step"></div>
-          <div class="level-step"></div>
+      <div class="modal-stats">
+        <div class="modal-stat-card">
+          <strong id="preview-quiz-count">0</strong>
+          <span>🎓 Quizzes</span>
         </div>
-        <div class="modal-stats">
-          <div class="modal-stat-card">
-            <strong id="preview-quiz-count">0</strong>
-            <span>🎓 Quizzes</span>
-          </div>
-          <div class="modal-stat-card">
-            <strong id="preview-correct-count">0</strong>
-            <span>✅ Correct Answers</span>
-          </div>
-          <div class="modal-stat-card">
-            <strong id="preview-lightning-count">0</strong>
-            <span>⚡ Lightning</span>
-          </div>
+        <div class="modal-stat-card">
+          <strong id="preview-correct-count">0</strong>
+          <span>✅ Correct Answers</span>
+        </div>
+        <div class="modal-stat-card">
+          <strong id="preview-lightning-count">0</strong>
+          <span>⚡ Lightning</span>
         </div>
       </div>
     </div>
   </div>
+</div>
 
 </body>
 </html>
