@@ -23,7 +23,6 @@
       --danger: #ef4444;
     }
 
-    /* ===== BASE ===== */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
     body {
@@ -38,17 +37,10 @@
       content: ''; position: fixed; top: -10%; left: -10%; width: 50vw; height: 50vw;
       background: radial-gradient(circle, rgba(16,185,129,0.15) 0%, transparent 70%);
       filter: blur(100px); z-index: -1;
-      animation: pulseGlow 8s infinite alternate;
     }
 
-    @keyframes pulseGlow {
-      0% { opacity: 0.7; transform: scale(1); }
-      100% { opacity: 1; transform: scale(1.1); }
-    }
-
-    /* ===== NAVIGATION ===== */
     header {
-      padding: 20px;
+      padding: 16px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -60,203 +52,545 @@
       border-bottom: 1px solid var(--glass-border);
     }
 
-    .nav-logo { font-family: 'Outfit', sans-serif; font-weight: 900; color: var(--accent); text-decoration: none; }
+    .nav-logo { 
+      font-family: 'Outfit', sans-serif; 
+      font-weight: 900; 
+      color: var(--accent); 
+      text-decoration: none; 
+      font-size: 18px;
+    }
     
     #logout-btn {
       background: rgba(239, 68, 68, 0.1);
       color: var(--danger);
       border: 1px solid rgba(239, 68, 68, 0.2);
       padding: 8px 16px;
-      border-radius: 12px;
+      border-radius: 10px;
       cursor: pointer;
-      font-weight: 700;
+      font-weight: 600;
+      font-size: 14px;
       transition: 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     #logout-btn:hover { background: var(--danger); color: white; }
 
-    /* ===== MAIN DASHBOARD ===== */
     main {
-      max-width: 1200px;
+      max-width: 900px;
       margin: 0 auto;
-      padding: 40px 20px;
-      animation: fadeUp 0.8s ease forwards;
+      padding: 32px 24px;
     }
-
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
     h1 {
       font-family: 'Outfit', sans-serif;
-      font-size: clamp(32px, 8vw, 42px);
+      font-size: 32px;
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 32px;
       background: linear-gradient(135deg, #fff, var(--accent));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
 
-    .admin-main {
+    .admin-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
     }
 
-    .admin-main button {
+    @media (max-width: 768px) {
+      .admin-grid { grid-template-columns: 1fr; }
+    }
+
+    .admin-card {
       background: var(--glass-bg);
       border: 1px solid var(--glass-border);
-      padding: 40px 20px;
-      border-radius: 24px;
-      color: white;
-      font-family: 'Outfit', sans-serif;
-      font-size: 22px;
-      font-weight: 700;
+      border-radius: 20px;
+      padding: 28px 20px;
       cursor: pointer;
-      transition: all 0.4s ease;
+      transition: all 0.3s ease;
       backdrop-filter: blur(10px);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
+      text-align: center;
     }
 
-    .admin-main button i { font-size: 32px; color: var(--accent); transition: 0.3s; }
-
-    .admin-main button:hover {
-      transform: translateY(-10px);
+    .admin-card:hover {
+      transform: translateY(-4px);
       border-color: var(--accent);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
     }
-    
-    .admin-main button:hover i { transform: scale(1.2); text-shadow: 0 0 15px var(--accent-glow); }
 
-    /* ===== OVERLAYS ===== */
+    .admin-card i { font-size: 36px; color: var(--accent); margin-bottom: 12px; }
+    .admin-card h3 { font-family: 'Outfit', sans-serif; font-size: 18px; margin-bottom: 6px; }
+    .admin-card p { color: var(--text-muted); font-size: 13px; }
+
+    /* Overlays */
     .overlay {
       display: none;
       position: fixed;
       inset: 0;
-      margin: auto;
-      width: min(95%, 1000px);
-      height: 85vh;
-      background: rgba(2, 44, 34, 0.95);
-      backdrop-filter: blur(30px);
-      border: 1px solid var(--glass-border);
-      border-radius: 32px;
-      padding: 30px;
-      overflow-y: auto;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
       z-index: 1000;
-      box-shadow: 0 50px 100px rgba(0,0,0,0.6);
+      overflow-y: auto;
+    }
+
+    .overlay-content {
+      background: var(--bg-base);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 24px;
+      margin: 20px auto;
+      max-width: 900px;
+      width: 95%;
+      position: relative;
     }
 
     .close-btn {
-      position: sticky; top: 0; float: right;
-      background: var(--danger); color: white; border: none;
-      width: 40px; height: 40px; border-radius: 12px; cursor: pointer;
+      position: sticky;
+      top: 0;
+      float: right;
+      background: var(--danger);
+      color: white;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: 0.3s;
+      z-index: 10;
     }
 
-    h2 { font-family: 'Outfit', sans-serif; color: var(--accent); margin: 20px 0; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px; }
+    .close-btn:hover { background: #dc2626; }
 
-    /* ===== TABLES ===== */
-    table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
-    th { padding: 15px; color: var(--text-muted); font-size: 13px; text-transform: uppercase; text-align: left; }
-    td { background: rgba(255,255,255,0.03); padding: 15px; border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); }
-    td:first-child { border-left: 1px solid var(--glass-border); border-radius: 15px 0 0 15px; }
-    td:last-child { border-right: 1px solid var(--glass-border); border-radius: 0 15px 15px 0; }
-    .student-pic { width: 45px; height: 45px; border-radius: 12px; border: 2px solid var(--accent); object-fit: cover; }
+    h2 { 
+      font-family: 'Outfit', sans-serif; 
+      color: var(--accent); 
+      margin-bottom: 20px;
+      font-size: 22px;
+      clear: both;
+    }
 
-    /* Form Elements */
+    /* Student Management - Level Sections */
+    .level-section {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .level-header {
+      padding: 16px 20px;
+      background: rgba(16, 185, 129, 0.08);
+      border-bottom: 1px solid var(--glass-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .level-header h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin: 0;
+    }
+
+    .level-badge {
+      background: var(--accent);
+      color: var(--bg-base);
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 13px;
+      min-width: 40px;
+      text-align: center;
+    }
+
+    .level-badge.empty {
+      background: rgba(255,255,255,0.1);
+      color: var(--text-muted);
+    }
+
+    /* Table Styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      padding: 10px 16px;
+      color: var(--text-muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-align: left;
+      background: rgba(0,0,0,0.2);
+    }
+
+    td {
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 14px;
+    }
+
+    tr:hover td {
+      background: rgba(255,255,255,0.02);
+    }
+
+    .student-pic {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 2px solid var(--accent);
+      object-fit: cover;
+      vertical-align: middle;
+    }
+
+    /* Dropdowns */
     .level-select {
-      background: #011a14; color: white; border: 1px solid var(--glass-border);
-      padding: 8px; border-radius: 8px; outline: none;
+      background: #011a14;
+      color: white;
+      border: 1px solid var(--glass-border);
+      padding: 6px 10px;
+      border-radius: 8px;
+      outline: none;
+      font-size: 13px;
+      cursor: pointer;
+      transition: 0.2s;
     }
 
-    .action-btn {
-      display: block; margin: 30px auto; padding: 15px 40px;
-      background: var(--accent); color: var(--bg-base); font-weight: 800;
-      border-radius: 14px; border: none; cursor: pointer;
+    .level-select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
     }
 
-    .delete-result-btn { background: none; border: 1px solid var(--danger); color: var(--danger); padding: 5px 10px; border-radius: 8px; cursor: pointer; transition: 0.3s; }
-    .delete-result-btn:hover { background: var(--danger); color: white; }
+    .level-select.changed {
+      border-color: #f59e0b;
+      box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.1);
+    }
 
-    @media (max-width: 600px) { .overlay { padding: 15px; } table { font-size: 12px; } }
+    /* Save Button */
+    .save-bar {
+      position: sticky;
+      bottom: 0;
+      background: rgba(2, 44, 34, 0.95);
+      backdrop-filter: blur(20px);
+      padding: 16px;
+      border-top: 1px solid var(--glass-border);
+      margin: 20px -24px -24px;
+      border-radius: 0 0 20px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .save-info {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .save-info .count {
+      color: #f59e0b;
+      font-weight: 700;
+    }
+
+    .save-btn {
+      background: var(--accent);
+      color: var(--bg-base);
+      font-weight: 700;
+      padding: 10px 24px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.3s;
+      white-space: nowrap;
+    }
+
+    .save-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .save-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* Action Bar */
+    .action-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .search-input {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--glass-border);
+      padding: 8px 14px;
+      border-radius: 8px;
+      color: white;
+      outline: none;
+      flex: 1;
+      min-width: 180px;
+      font-size: 14px;
+    }
+
+    .search-input:focus { border-color: var(--accent); }
+
+    /* Buttons */
+    .btn {
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      transition: 0.2s;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.2);
+      color: var(--accent);
+    }
+
+    .btn-primary:hover { background: var(--accent); color: var(--bg-base); }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: rgba(239, 68, 68, 0.2);
+      color: var(--danger);
+    }
+
+    .btn-danger:hover { background: var(--danger); color: white; }
+
+    .btn-sm {
+      padding: 4px 10px;
+      font-size: 12px;
+      border-radius: 6px;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 24px;
+      color: var(--text-muted);
+    }
+
+    .empty-state i {
+      font-size: 28px;
+      margin-bottom: 8px;
+      opacity: 0.3;
+      display: block;
+    }
+
+    .empty-state span {
+      font-size: 13px;
+    }
+
+    /* Loading */
+    .loading-spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-top: 2px solid #10b981;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Toast Animations */
+    @keyframes slideInRight {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideOutRight {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(100%); opacity: 0; }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
   </style>
 </head>
 <body>
 
   <header>
     <a href="main.html" class="nav-logo">ANGLOROOM ADMIN</a>
-    <div id="logout-btn"><i class="fas fa-sign-out-alt"></i> Exit</div>
+    <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Exit</button>
   </header>
 
   <main>
     <h1>Control Center</h1>
 
-    <div class="admin-main">
-      <button id="btn-results">
+    <div class="admin-grid">
+      <div class="admin-card" id="btn-results">
         <i class="fas fa-chart-line"></i>
-        <span>Exam Results</span>
-      </button>
+        <h3>Exam Results</h3>
+        <p>View & manage quiz scores</p>
+      </div>
       
-      <button id="btn-students">
+      <div class="admin-card" id="btn-students">
         <i class="fas fa-users"></i>
-        <span>Manage Students</span>
-      </button>
+        <h3>Students</h3>
+        <p>Manage levels & groups</p>
+      </div>
 
-      <button id="btn-new-students">
+      <div class="admin-card" id="btn-new-students">
         <i class="fas fa-user-plus"></i>
-        <span>New Registrations</span>
-      </button>
+        <h3>Registrations</h3>
+        <p>Review new sign-ups</p>
+      </div>
     </div>
   </main>
 
+  <!-- RESULTS OVERLAY -->
   <div id="results-overlay" class="overlay">
-    <button class="close-btn" id="close-results">✕</button>
-    <h2>Quiz Results</h2>
-    <table id="results-table">
-      <thead>
-        <tr>
-          <th>Student</th>
-          <th>Quiz</th>
-          <th>Score</th>
-          <th>Date</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <div class="overlay-content">
+      <button class="close-btn" id="close-results">✕</button>
+      <h2>📊 Quiz Results</h2>
+      <div class="action-bar">
+        <input type="text" class="search-input" id="results-search" placeholder="🔍 Search by name, quiz, or score...">
+        <button class="btn btn-primary" id="refresh-results"><i class="fas fa-sync-alt"></i> Refresh</button>
+        <button class="btn btn-danger" id="delete-all-results"><i class="fas fa-trash-alt"></i> Clear All</button>
+      </div>
+      <table id="results-table">
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Quiz</th>
+            <th>Score</th>
+            <th>Date</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </div>
 
+  <!-- NEW STUDENTS OVERLAY -->
   <div id="new-students-overlay" class="overlay">
-    <button class="close-btn" id="close-new-students">✕</button>
-    <h2>New Inquiries</h2>
-    <table id="new-students-table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Phone</th>
-          <th>Requested Level</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-    <button class="action-btn" style="background: var(--danger); color: white;" onclick="removeAllStudents()">Clear All Leads</button>
+    <div class="overlay-content">
+      <button class="close-btn" id="close-new-students">✕</button>
+      <h2>📝 New Registrations</h2>
+      <div class="action-bar">
+        <span style="color: var(--text-muted); font-size: 14px;" id="new-students-count"></span>
+        <button class="btn btn-danger" onclick="removeAllStudents()"><i class="fas fa-trash-alt"></i> Clear All</button>
+      </div>
+      <table id="new-students-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Level</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </div>
 
+  <!-- STUDENTS OVERLAY -->
   <div id="students-overlay" class="overlay">
-    <button class="close-btn" id="close-students">✕</button>
-    
-    <h2>Beginner</h2>
-    <table id="students-beginner"><tbody></tbody></table>
+    <div class="overlay-content" style="padding-bottom: 0;">
+      <button class="close-btn" id="close-students">✕</button>
+      <h2>👥 Student Levels</h2>
+      
+      <div class="level-section">
+        <div class="level-header">
+          <h3>🌱 Beginner</h3>
+          <span class="level-badge" id="count-beginner">0</span>
+        </div>
+        <table id="students-beginner">
+          <thead>
+            <tr>
+              <th style="width:50px;"></th>
+              <th>Student</th>
+              <th style="width:180px;">Level</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
 
-    <h2>Elementary</h2>
-    <table id="students-elementary"><tbody></tbody></table>
+      <div class="level-section">
+        <div class="level-header">
+          <h3>📗 Elementary</h3>
+          <span class="level-badge" id="count-elementary">0</span>
+        </div>
+        <table id="students-elementary">
+          <thead>
+            <tr>
+              <th style="width:50px;"></th>
+              <th>Student</th>
+              <th style="width:180px;">Level</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
 
-    <h2>Intermediate</h2>
-    <table id="students-intermediate"><tbody></tbody></table>
+      <div class="level-section">
+        <div class="level-header">
+          <h3>📘 Intermediate</h3>
+          <span class="level-badge" id="count-intermediate">0</span>
+        </div>
+        <table id="students-intermediate">
+          <thead>
+            <tr>
+              <th style="width:50px;"></th>
+              <th>Student</th>
+              <th style="width:180px;">Level</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
 
-    <h2>Advanced</h2>
-    <table id="students-advanced"><tbody></tbody></table>
+      <div class="level-section">
+        <div class="level-header">
+          <h3>📕 Advanced</h3>
+          <span class="level-badge" id="count-advanced">0</span>
+        </div>
+        <table id="students-advanced">
+          <thead>
+            <tr>
+              <th style="width:50px;"></th>
+              <th>Student</th>
+              <th style="width:180px;">Level</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
 
-    <button class="action-btn" id="save-all-levels">Apply All Changes</button>
+      <div class="save-bar">
+        <div class="save-info">
+          Changes: <span class="count" id="changes-count">0</span>
+        </div>
+        <button class="save-btn" id="save-all-levels" disabled>💾 Save Changes</button>
+      </div>
+    </div>
   </div>
 
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>

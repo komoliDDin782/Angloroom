@@ -2,124 +2,124 @@
   "title": "Revision Test",
   "questions": [
     {
-      "question": "It is half past seven.",
-      "options": ["7:30", "7:15", "6:30", "8:30"]
+      "question": "It is quarter past nine.",
+      "options": ["9:15", "9:30", "8:15", "10:15"]
     },
     {
-      "question": "My parents ___ very busy.",
-      "options": ["are", "is", "am", "be"]
-    },
-    {
-      "question": "___ she from Spain?",
-      "options": ["Is", "Are", "Am", "Do"]
-    },
-    {
-      "question": "This is Jack. ___ is my cousin.",
-      "options": ["He", "It", "They", "We"] 
-    },
-    {
-      "question": "Sarah loves her dog. ___ dog is very cute.",
-      "options": ["Her", "Its", "Our", "Their"]
-    },
-    {
-      "question": "___ you got any pets?",
-      "options": ["Have", "Has", "Are", "Do"]
-    },
-    {
-      "question": "Emma ___ got a new bike.",
-      "options": ["has", "have", "is", "are"]
-    },
-    {
-      "question": "We haven't got ___ cheese.",
-      "options": ["any", "some", "a", "an"]
-    },
-    {
-      "question": "___ are my new shoes.",
-      "options": ["These", "This", "That", "It"]
-    },
-    {
-      "question": "How much ___ is there in the bottle?",
-      "options": ["water", "apples", "books", "chairs"]
-    },
-    {
-      "question": "There ___ a computer in the room.",
+      "question": "My brother ___ at school today.",
       "options": ["is", "are", "am", "be"]
     },
     {
-      "question": "There ___ five windows in our classroom.",
-      "options": ["are", "is", "am", "be"]
+      "question": "___ they from Italy?",
+      "options": ["Are", "Is", "Am", "Do"]
     },
     {
-      "question": "My sister ___ speak French.",
-      "options": ["can", "is", "has", "does"] 
+      "question": "This is Emma. ___ is my best friend.",
+      "options": ["She", "It", "They", "We"]
     },
     {
-      "question": "___ your brother ride a bike?",
-      "options": ["Can", "Do", "Is", "Has"]
+      "question": "Tom has a cat. ___ cat is very friendly.",
+      "options": ["His", "Her", "Its", "Their"]
     },
     {
-      "question": "Ben usually ___ TV in the evening.",
-      "options": ["watches", "watch", "watching", "watched"]
+      "question": "___ you got a bicycle?",
+      "options": ["Have", "Has", "Are", "Do"]
     },
     {
-      "question": "They ___ breakfast at home every morning.",
-      "options": ["have", "has", "having", "had"]
+      "question": "My sister ___ got two rabbits.",
+      "options": ["has", "have", "is", "are"]
     },
     {
-      "question": "___ Lucy like music?",
-      "options": ["Does", "Do", "Is", "Has"]
-    },
-    {
-      "question": "My mother ___ to work by bus.",
-      "options": ["goes", "go", "going", "gone"]
-    },
-    {
-      "question": "I ___ brush my teeth before bed.",
-      "options": ["always", "yesterday", "tomorrow", "is"] 
-    },
-    {
-      "question": "The cat is ___ the chair.",
-      "options": ["under", "often", "many", "every"]
-    },
-    {
-      "question": "The clock is ___ the wall.",
-      "options": ["on", "between", "behind", "under"]
-    },
-    {
-      "question": "There are ___ oranges on the table.",
-      "options": ["some", "any", "a", "an"]
-    },
-    {
-      "question": "Have we got ___ milk?",
+      "question": "We haven't got ___ eggs.",
       "options": ["any", "some", "a", "an"]
     },
     {
-      "question": "___ is your favourite subject?", 
+      "question": "___ are my grandparents.",
+      "options": ["These", "This", "That", "It"]
+    },
+    {
+      "question": "How much ___ do you drink every day?",
+      "options": ["juice", "bananas", "chairs", "pens"]
+    },
+    {
+      "question": "There ___ a sofa in the living room.",
+      "options": ["is", "are", "am", "be"]
+    },
+    {
+      "question": "There ___ three books on the desk.",
+      "options": ["are", "is", "am", "be"]
+    },
+    {
+      "question": "Lucy ___ play the piano.",
+      "options": ["can", "is", "has", "does"]
+    },
+    {
+      "question": "___ your father cook well?",
+      "options": ["Can", "Do", "Is", "Has"]
+    },
+    {
+      "question": "Anna usually ___ to school on foot.",
+      "options": ["walks", "walk", "walking", "walked"]
+    },
+    {
+      "question": "We ___ lunch at twelve o'clock.",
+      "options": ["have", "has", "having", "had"]
+    },
+    {
+      "question": "___ your cousin like football?",
+      "options": ["Does", "Do", "Is", "Has"]
+    },
+    {
+      "question": "My dad ___ to work by car.",
+      "options": ["goes", "go", "going", "gone"]
+    },
+    {
+      "question": "I ___ help my parents after school.",
+      "options": ["always", "yesterday", "tomorrow", "is"]
+    },
+    {
+      "question": "The dog is ___ the table.",
+      "options": ["under", "often", "many", "every"]
+    },
+    {
+      "question": "The picture is ___ the wall.",
+      "options": ["on", "between", "behind", "under"]
+    },
+    {
+      "question": "There are ___ apples in the basket.",
+      "options": ["some", "any", "a", "an"]
+    },
+    {
+      "question": "Have they got ___ bread?",
+      "options": ["any", "some", "a", "an"]
+    },
+    {
+      "question": "___ is your favourite animal?",
       "options": ["What", "Who", "Where", "Why"]
     },
     {
-      "question": "___ do you usually go to bed?",
+      "question": "___ do you usually have breakfast?",
       "options": ["When", "Who", "Much", "What"]
     },
     {
-      "question": "Look! Tom is___ football now.",
-      "options": ["playing", "plays", "play", "played"]
+      "question": "Look! The children are ___ in the park.",
+      "options": ["playing", "play", "plays", "played"]
     },
     {
-      "question": "We are ___ dinner at the moment.",
-      "options": ["having", "have", "has", "having"]
+      "question": "We are ___ breakfast at the moment.",
+      "options": ["having", "have", "has", "eat"]
     },
     {
-      "question": "___ your sister watching TV now?",
-      "options": ["Is", "Are", "Do", "Does"]
+      "question": "___ your parents working now?",
+      "options": ["Are", "Is", "Do", "Does"]
     },
     {
-      "question": "I am___ my homework right now.",
-      "options": ["doing", "do", "does", "did"]
+      "question": "I am ___ a story at the moment.",
+      "options": ["reading", "read", "reads", "readed"]
     },
     {
-      "question": "They ___ not sleeping at the moment.",
-      "options": ["are", "is", "am", "be"]
+      "question": "She ___ not wearing a jacket today.",
+      "options": ["is", "are", "am", "be"]
     }
   ]
 }

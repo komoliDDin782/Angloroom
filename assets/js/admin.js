@@ -1,251 +1,71 @@
-// --- Configuration & Global Variables ---
+// --- Configuration ---
 const adminEmail = "komoliddinkevin@gmail.com";
 let currentUser;
 let isLoading = false;
+let changedLevels = {}; // Track changes: { userId: newLevel }
 
-// --- Toast Notification System ---
+const LEVELS = ['beginner', 'elementary', 'intermediate', 'advanced'];
+const LEVEL_ICONS = { beginner: '🌱', elementary: '📗', intermediate: '📘', advanced: '📕' };
+
+// --- Toast System ---
 function showToast(message, type = 'info') {
-  // Remove existing toasts
   const existingToast = document.querySelector('.admin-toast');
   if (existingToast) existingToast.remove();
 
-  const toast = document.createElement('div');
-  toast.className = `admin-toast toast-${type}`;
-  toast.innerHTML = `
-    <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
-    <span>${message}</span>
-  `;
+  const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warning: 'fa-exclamation-triangle' };
+  const colors = { success: '#10b981', error: '#ef4444', info: '#3b82f6', warning: '#f59e0b' };
 
-  // Toast styling
+  const toast = document.createElement('div');
+  toast.className = 'admin-toast';
+  toast.innerHTML = `<i class="fas ${icons[type]}"></i> ${message}`;
+  
   Object.assign(toast.style, {
-    position: 'fixed',
-    bottom: '20px',
-    right: '20px',
-    padding: '16px 24px',
-    borderRadius: '12px',
-    background: type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6',
-    color: 'white',
-    fontWeight: '600',
-    zIndex: '9999',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-    boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
-    animation: 'slideInRight 0.3s ease',
-    maxWidth: '400px'
+    position: 'fixed', bottom: '20px', right: '20px', padding: '12px 20px',
+    borderRadius: '10px', background: colors[type], color: 'white', fontWeight: '600',
+    zIndex: '9999', display: 'flex', alignItems: 'center', gap: '8px',
+    boxShadow: '0 8px 24px rgba(0,0,0,0.3)', animation: 'slideInRight 0.3s ease',
+    maxWidth: '400px', fontSize: '14px'
   });
 
   document.body.appendChild(toast);
-
-  // Auto remove after 3 seconds
   setTimeout(() => {
     toast.style.animation = 'slideOutRight 0.3s ease';
     setTimeout(() => toast.remove(), 300);
   }, 3000);
 }
 
-// Add toast animations
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes slideInRight {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-  }
-  @keyframes slideOutRight {
-    from { transform: translateX(0); opacity: 1; }
-    to { transform: translateX(100%); opacity: 0; }
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  .loading-spinner {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    border: 2px solid rgba(255,255,255,0.3);
-    border-top: 2px solid var(--accent);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-  .confirm-dialog {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #022c22;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 20px;
-    padding: 30px;
-    z-index: 10000;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-    backdrop-filter: blur(20px);
-    max-width: 400px;
-    width: 90%;
-  }
-  .confirm-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.7);
-    z-index: 9999;
-    backdrop-filter: blur(5px);
-  }
-  .confirm-buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-  }
-  .confirm-btn {
-    flex: 1;
-    padding: 12px;
-    border-radius: 10px;
-    border: none;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  .confirm-yes {
-    background: #ef4444;
-    color: white;
-  }
-  .confirm-yes:hover {
-    background: #dc2626;
-  }
-  .confirm-no {
-    background: rgba(255,255,255,0.1);
-    color: white;
-    border: 1px solid rgba(255,255,255,0.1);
-  }
-  .confirm-no:hover {
-    background: rgba(255,255,255,0.2);
-  }
-  .empty-state {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--text-muted);
-  }
-  .empty-state i {
-    font-size: 48px;
-    margin-bottom: 15px;
-    opacity: 0.3;
-  }
-  .action-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    gap: 15px;
-    flex-wrap: wrap;
-  }
-  .search-input {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    padding: 10px 15px;
-    border-radius: 10px;
-    color: white;
-    outline: none;
-    min-width: 200px;
-  }
-  .search-input:focus {
-    border-color: var(--accent);
-  }
-  .danger-btn {
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.2);
-    color: #ef4444;
-    padding: 10px 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .danger-btn:hover {
-    background: #ef4444;
-    color: white;
-  }
-  .refresh-btn {
-    background: rgba(16, 185, 129, 0.1);
-    border: 1px solid rgba(16, 185, 129, 0.2);
-    color: #10b981;
-    padding: 10px 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .refresh-btn:hover {
-    background: #10b981;
-    color: white;
-  }
-`;
-document.head.appendChild(style);
-
-// --- Elements ---
-const btnStudents = document.getElementById('btn-students');
-const studentsOverlay = document.getElementById('students-overlay');
-const closeStudentsBtn = document.getElementById('close-students');
-const saveAllLevelsBtn = document.getElementById('save-all-levels');
-
-const btnNewStudents = document.getElementById('btn-new-students');
-const newStudentsOverlay = document.getElementById('new-students-overlay');
-const closeNewStudentsBtn = document.getElementById('close-new-students');
-const newStudentsTableBody = document.querySelector('#new-students-table tbody');
-
-const btnResults = document.getElementById('btn-results');
-const resultsOverlay = document.getElementById('results-overlay');
-const closeResultsBtn = document.getElementById('close-results');
-const resultsTableBody = document.querySelector('#results-table tbody');
-
-const studentTables = {
-  elementary: document.querySelector('#students-elementary tbody'),
-  beginner: document.querySelector('#students-beginner tbody'),
-  intermediate: document.querySelector('#students-intermediate tbody'),
-  advanced: document.querySelector('#students-advanced tbody')
-};
-
-// --- Custom Confirm Dialog ---
+// --- Confirm Dialog ---
 function showConfirm(message, onConfirm) {
   const overlay = document.createElement('div');
-  overlay.className = 'confirm-overlay';
-  
+  Object.assign(overlay.style, {
+    position: 'fixed', inset: '0', background: 'rgba(0,0,0,0.7)',
+    zIndex: '10000', display: 'flex', alignItems: 'center', justifyContent: 'center',
+    backdropFilter: 'blur(5px)'
+  });
+
   const dialog = document.createElement('div');
-  dialog.className = 'confirm-dialog';
+  Object.assign(dialog.style, {
+    background: '#022c22', border: '1px solid rgba(255,255,255,0.1)',
+    borderRadius: '16px', padding: '24px', maxWidth: '400px', width: '90%',
+    boxShadow: '0 20px 60px rgba(0,0,0,0.5)'
+  });
+
   dialog.innerHTML = `
-    <h3 style="color: white; margin-bottom: 10px;">Confirm Action</h3>
-    <p style="color: var(--text-muted);">${message}</p>
-    <div class="confirm-buttons">
-      <button class="confirm-btn confirm-no" id="confirm-no">Cancel</button>
-      <button class="confirm-btn confirm-yes" id="confirm-yes">Confirm</button>
+    <h3 style="color: white; margin-bottom: 8px; font-size: 18px;">Confirm Action</h3>
+    <p style="color: #94a3b8; margin-bottom: 20px; font-size: 14px;">${message}</p>
+    <div style="display: flex; gap: 10px;">
+      <button id="confirm-no" style="flex:1; padding:10px; border-radius:8px; background:rgba(255,255,255,0.1); color:white; border:1px solid rgba(255,255,255,0.1); cursor:pointer; font-weight:600; font-size:14px;">Cancel</button>
+      <button id="confirm-yes" style="flex:1; padding:10px; border-radius:8px; background:#ef4444; color:white; border:none; cursor:pointer; font-weight:600; font-size:14px;">Confirm</button>
     </div>
   `;
 
   overlay.appendChild(dialog);
   document.body.appendChild(overlay);
 
-  dialog.querySelector('#confirm-yes').addEventListener('click', () => {
-    document.body.removeChild(overlay);
-    onConfirm();
-  });
-
-  dialog.querySelector('#confirm-no').addEventListener('click', () => {
-    document.body.removeChild(overlay);
-  });
-
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) document.body.removeChild(overlay);
-  });
+  const close = () => document.body.removeChild(overlay);
+  dialog.querySelector('#confirm-yes').onclick = () => { close(); onConfirm(); };
+  dialog.querySelector('#confirm-no').onclick = close;
+  overlay.onclick = (e) => { if (e.target === overlay) close(); };
 }
 
 // --- Auth Check ---
@@ -257,12 +77,13 @@ auth.onAuthStateChanged(user => {
   currentUser = user;
   if (user.email !== adminEmail) {
     showToast("Access denied. Admin only.", "error");
-    setTimeout(() => {
-      window.location.href = "main.html";
-    }, 2000);
+    setTimeout(() => window.location.href = "main.html", 2000);
     return;
   }
+  document.querySelector('main').style.display = 'block';
 });
+
+document.querySelector('main').style.display = 'none';
 
 // --- Utility Functions ---
 function capitalize(word) {
@@ -272,93 +93,129 @@ function capitalize(word) {
 
 function formatDate(timestamp) {
   if (!timestamp) return 'N/A';
-  const date = timestamp.seconds ? new Date(timestamp.seconds * 1000) : new Date(timestamp);
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  });
+  const date = timestamp?.seconds ? new Date(timestamp.seconds * 1000) : new Date(timestamp);
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
 }
 
-// --- 1. Manage Current Students (Level Assignments) ---
+// ============================================
+// 1. STUDENT MANAGEMENT (DROPDOWNS + COUNTS)
+// ============================================
 
-btnStudents.addEventListener('click', () => {
-  studentsOverlay.style.display = "block";
+const studentTables = {
+  beginner: document.querySelector('#students-beginner tbody'),
+  elementary: document.querySelector('#students-elementary tbody'),
+  intermediate: document.querySelector('#students-intermediate tbody'),
+  advanced: document.querySelector('#students-advanced tbody')
+};
+
+const countBadges = {
+  beginner: document.getElementById('count-beginner'),
+  elementary: document.getElementById('count-elementary'),
+  intermediate: document.getElementById('count-intermediate'),
+  advanced: document.getElementById('count-advanced')
+};
+
+const studentsOverlay = document.getElementById('students-overlay');
+const saveAllBtn = document.getElementById('save-all-levels');
+const changesCountEl = document.getElementById('changes-count');
+
+document.getElementById('btn-students').addEventListener('click', () => {
+  studentsOverlay.style.display = 'block';
   loadStudents();
 });
 
-closeStudentsBtn.addEventListener('click', () => studentsOverlay.style.display = "none");
+document.getElementById('close-students').addEventListener('click', () => {
+  studentsOverlay.style.display = 'none';
+});
 
 async function loadStudents() {
   if (isLoading) return;
   
   try {
     isLoading = true;
-    const snapshot = await db.collection('users').get();
+    changedLevels = {};
+    updateSaveButton();
     
     // Clear all tables
-    for (let key in studentTables) {
-      if (studentTables[key]) {
-        studentTables[key].innerHTML = '<tr><td colspan="3" class="empty-state"><div class="loading-spinner"></div><br>Loading students...</td></tr>';
-      }
-    }
+    LEVELS.forEach(level => {
+      studentTables[level].innerHTML = '';
+      countBadges[level].textContent = '...';
+      countBadges[level].className = 'level-badge';
+    });
 
-    // Clear tables for real
-    for (let key in studentTables) {
-      if (studentTables[key]) studentTables[key].innerHTML = '';
-    }
-
+    const snapshot = await db.collection('users').get();
+    
     if (snapshot.empty) {
-      for (let key in studentTables) {
-        if (studentTables[key]) {
-          studentTables[key].innerHTML = '<tr><td colspan="3" class="empty-state"><i class="fas fa-user-graduate"></i><br>No students found</td></tr>';
-        }
-      }
+      LEVELS.forEach(level => {
+        studentTables[level].innerHTML = `<tr><td colspan="3" class="empty-state"><i class="fas fa-user-graduate"></i><span>No students</span></td></tr>`;
+        countBadges[level].textContent = '0';
+        countBadges[level].classList.add('empty');
+      });
       return;
     }
 
-    let totalStudents = 0;
+    // Group students by level
+    const grouped = { beginner: [], elementary: [], intermediate: [], advanced: [] };
     
     snapshot.forEach(doc => {
-      const u = doc.data();
-      let level = u.level || 'elementary';
-      
-      if (!studentTables[level]) level = 'elementary';
-      
-      const levelOptions = [
-        { value: 'beginner', label: 'Beginner' },
-        { value: 'elementary', label: 'Elementary' },
-        { value: 'intermediate', label: 'Intermediate' },
-        { value: 'advanced', label: 'Advanced' }
-      ];
-      
-      let dropdownHTML = '<select class="level-select">';
-      levelOptions.forEach(opt => {
-        dropdownHTML += `<option value="${opt.value}" ${level === opt.value ? 'selected' : ''}>${opt.label}</option>`;
-      });
-      dropdownHTML += '</select>';
-      
-      const row = `
-        <tr data-id="${doc.id}">
-          <td><img src="${u.profilePic || 'assets/img/default-pic.png'}" class="student-pic" alt="${u.nickname || 'Student'}"></td>
-          <td>${u.nickname || 'N/A'}</td>
-          <td>${dropdownHTML}</td>
-        </tr>`;
-      
-      studentTables[level].insertAdjacentHTML('beforeend', row);
-      totalStudents++;
+      const user = doc.data();
+      const level = user.level && LEVELS.includes(user.level) ? user.level : 'beginner';
+      grouped[level].push({ id: doc.id, ...user });
     });
 
-    // Show empty state for levels with no students
-    for (let key in studentTables) {
-      if (studentTables[key] && studentTables[key].children.length === 0) {
-        studentTables[key].innerHTML = '<tr><td colspan="3" class="empty-state"><i class="fas fa-user-graduate"></i><br>No students in this level</td></tr>';
-      }
-    }
+    // Render each level
+    LEVELS.forEach(level => {
+      const students = grouped[level];
+      countBadges[level].textContent = students.length;
+      if (students.length === 0) countBadges[level].classList.add('empty');
 
-    showToast(`Loaded ${totalStudents} students`, 'success');
+      if (students.length === 0) {
+        studentTables[level].innerHTML = `<tr><td colspan="3" class="empty-state"><i class="fas fa-user-graduate"></i><span>No students in this level</span></td></tr>`;
+        return;
+      }
+
+      students.forEach(student => {
+        const pic = student.profilePic || 'assets/img/default-pic.png';
+        const name = student.nickname || 'Unknown';
+        
+        const levelOptions = LEVELS.map(opt => 
+          `<option value="${opt}" ${level === opt ? 'selected' : ''}>${capitalize(opt)}</option>`
+        ).join('');
+
+        const row = document.createElement('tr');
+        row.setAttribute('data-id', student.id);
+        row.setAttribute('data-original-level', level);
+        row.innerHTML = `
+          <td><img src="${pic}" class="student-pic" alt="${name}" onerror="this.src='assets/img/default-pic.png'"></td>
+          <td><strong>${name}</strong></td>
+          <td>
+            <select class="level-select" data-user-id="${student.id}" data-original="${level}">
+              ${levelOptions}
+            </select>
+          </td>
+        `;
+
+        // Listen for changes
+        const select = row.querySelector('.level-select');
+        select.addEventListener('change', function() {
+          const newLevel = this.value;
+          const originalLevel = this.dataset.original;
+          
+          if (newLevel !== originalLevel) {
+            changedLevels[student.id] = newLevel;
+            this.classList.add('changed');
+          } else {
+            delete changedLevels[student.id];
+            this.classList.remove('changed');
+          }
+          
+          updateSaveButton();
+        });
+
+        studentTables[level].appendChild(row);
+      });
+    });
+
   } catch (err) {
     console.error("Load Students Error:", err);
     showToast("Failed to load students", "error");
@@ -367,387 +224,311 @@ async function loadStudents() {
   }
 }
 
-saveAllLevelsBtn.addEventListener('click', async () => {
-  if (isLoading) return;
+function updateSaveButton() {
+  const count = Object.keys(changedLevels).length;
+  changesCountEl.textContent = count;
+  saveAllBtn.disabled = count === 0;
   
-  showConfirm('Are you sure you want to apply all level changes?', async () => {
+  if (count > 0) {
+    saveAllBtn.textContent = `💾 Save ${count} Change${count > 1 ? 's' : ''}`;
+    saveAllBtn.style.background = '#f59e0b';
+  } else {
+    saveAllBtn.textContent = '💾 Save Changes';
+    saveAllBtn.style.background = 'var(--accent)';
+  }
+}
+
+saveAllBtn.addEventListener('click', async () => {
+  const count = Object.keys(changedLevels).length;
+  if (count === 0 || isLoading) return;
+  
+  showConfirm(`Apply ${count} level change${count > 1 ? 's' : ''}?`, async () => {
     try {
       isLoading = true;
-      saveAllLevelsBtn.disabled = true;
-      saveAllLevelsBtn.innerHTML = '<div class="loading-spinner"></div> Saving...';
+      saveAllBtn.disabled = true;
+      saveAllBtn.innerHTML = '<span class="loading-spinner"></span> Saving...';
       
       const batch = db.batch();
-      let updateCount = 0;
-      
-      for (let key in studentTables) {
-        const rows = studentTables[key].querySelectorAll('tr[data-id]');
-        rows.forEach(row => {
-          const userId = row.dataset.id;
-          const newLevel = row.querySelector('.level-select').value;
-          batch.update(db.collection('users').doc(userId), { level: newLevel });
-          updateCount++;
-        });
-      }
-      
-      if (updateCount === 0) {
-        showToast("No changes to save", "info");
-        return;
+      for (const [userId, newLevel] of Object.entries(changedLevels)) {
+        batch.update(db.collection('users').doc(userId), { level: newLevel });
       }
       
       await batch.commit();
-      showToast(`Updated ${updateCount} students successfully!`, 'success');
+      showToast(`${count} student${count > 1 ? 's' : ''} updated!`, 'success');
       loadStudents();
+      
     } catch (err) {
       console.error("Update Error:", err);
       showToast("Failed to update students", "error");
     } finally {
       isLoading = false;
-      saveAllLevelsBtn.disabled = false;
-      saveAllLevelsBtn.innerHTML = 'Apply All Changes';
     }
   });
 });
 
-// --- 2. Manage New Student Registrations ---
+// ============================================
+// 2. NEW STUDENT REGISTRATIONS
+// ============================================
 
-btnNewStudents.addEventListener('click', () => {
+const newStudentsOverlay = document.getElementById('new-students-overlay');
+const newStudentsTableBody = document.querySelector('#new-students-table tbody');
+const newStudentsCountEl = document.getElementById('new-students-count');
+
+document.getElementById('btn-new-students').addEventListener('click', () => {
   newStudentsOverlay.style.display = 'block';
   loadNewStudents();
 });
 
-closeNewStudentsBtn.addEventListener('click', () => newStudentsOverlay.style.display = 'none');
+document.getElementById('close-new-students').addEventListener('click', () => {
+  newStudentsOverlay.style.display = 'none';
+});
 
 async function loadNewStudents() {
   if (isLoading) return;
   
   try {
     isLoading = true;
-    const snapshot = await db.collection('NewStudents').orderBy('timestamp', 'desc').get();
     newStudentsTableBody.innerHTML = '';
 
+    const snapshot = await db.collection('NewStudents').orderBy('timestamp', 'desc').get();
+    
     if (snapshot.empty) {
-      newStudentsTableBody.innerHTML = '<tr><td colspan="3" class="empty-state"><i class="fas fa-inbox"></i><br>No new registrations</td></tr>';
+      newStudentsTableBody.innerHTML = '<tr><td colspan="5" class="empty-state"><i class="fas fa-inbox"></i><span>No new registrations</span></td></tr>';
+      newStudentsCountEl.textContent = '';
       return;
     }
 
+    newStudentsCountEl.textContent = `${snapshot.size} registration${snapshot.size > 1 ? 's' : ''}`;
+
     snapshot.forEach(doc => {
       const s = doc.data();
-      const row = `
-        <tr>
-          <td><strong>${s.name || 'N/A'}</strong></td>
-          <td>${s.phone || 'N/A'}</td>
-          <td><span style="color: var(--accent); font-weight: 600;">${s.level || 'N/A'}</span></td>
-        </tr>`;
-      newStudentsTableBody.insertAdjacentHTML('beforeend', row);
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td><strong>${s.name || 'N/A'}</strong></td>
+        <td>${s.phone || 'N/A'}</td>
+        <td><span style="color: var(--accent); font-weight: 600;">${capitalize(s.level) || 'N/A'}</span></td>
+        <td>${formatDate(s.timestamp)}</td>
+        <td>
+          <button class="btn btn-primary btn-sm" onclick="approveStudent('${doc.id}')">✓ Approve</button>
+          <button class="btn btn-danger btn-sm" onclick="rejectStudent('${doc.id}')">✕ Reject</button>
+        </td>
+      `;
+      newStudentsTableBody.appendChild(row);
     });
 
-    showToast(`Loaded ${snapshot.size} new registrations`, 'success');
   } catch (err) {
-    console.error("Load New Students Error:", err);
+    console.error("Load Error:", err);
+    newStudentsTableBody.innerHTML = '<tr><td colspan="5" class="empty-state"><i class="fas fa-exclamation-triangle"></i><span>Error loading registrations</span></td></tr>';
     showToast("Failed to load registrations", "error");
   } finally {
     isLoading = false;
   }
 }
 
-// Add remove all function for new students
-async function removeAllStudents() {
-  showConfirm('This will permanently delete ALL new student registrations. This action cannot be undone!', async () => {
-    if (isLoading) return;
-    
+async function approveStudent(docId) {
+  showConfirm('Approve and add to students?', async () => {
     try {
-      isLoading = true;
-      const snapshot = await db.collection('NewStudents').get();
+      const doc = await db.collection('NewStudents').doc(docId).get();
+      if (!doc.exists) { showToast("Not found", "error"); return; }
       
-      if (snapshot.empty) {
-        showToast("No registrations to delete", "info");
-        return;
-      }
-
-      const batch = db.batch();
-      snapshot.forEach(doc => {
-        batch.delete(doc.ref);
+      const data = doc.data();
+      await db.collection('users').add({
+        nickname: data.name || 'New Student',
+        phone: data.phone || '',
+        level: data.level || 'beginner',
+        email: data.email || '',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
       
-      await batch.commit();
-      showToast(`Deleted ${snapshot.size} registrations successfully!`, 'success');
+      await db.collection('NewStudents').doc(docId).delete();
+      showToast('Student approved!', 'success');
       loadNewStudents();
     } catch (err) {
-      console.error("Delete All Error:", err);
-      showToast("Failed to delete registrations", "error");
+      console.error(err);
+      showToast("Failed to approve", "error");
+    }
+  });
+}
+
+async function rejectStudent(docId) {
+  showConfirm('Reject and delete this registration?', async () => {
+    try {
+      await db.collection('NewStudents').doc(docId).delete();
+      showToast('Registration rejected', 'success');
+      loadNewStudents();
+    } catch (err) {
+      console.error(err);
+      showToast("Failed to reject", "error");
+    }
+  });
+}
+
+async function removeAllStudents() {
+  const snapshot = await db.collection('NewStudents').get();
+  if (snapshot.empty) { showToast("Nothing to delete", "info"); return; }
+  
+  showConfirm(`Delete ALL ${snapshot.size} registrations?`, async () => {
+    try {
+      isLoading = true;
+      const batch = db.batch();
+      snapshot.forEach(doc => batch.delete(doc.ref));
+      await batch.commit();
+      showToast(`${snapshot.size} deleted!`, 'success');
+      loadNewStudents();
+    } catch (err) {
+      console.error(err);
+      showToast("Failed to delete", "error");
     } finally {
       isLoading = false;
     }
   });
 }
 
-// Make removeAllStudents globally accessible
+window.approveStudent = approveStudent;
+window.rejectStudent = rejectStudent;
 window.removeAllStudents = removeAllStudents;
 
-// --- 3. Quiz Results Management (Complete Rewrite) ---
+// ============================================
+// 3. QUIZ RESULTS
+// ============================================
 
-// Add action bar to results overlay
-function addResultsActionBar() {
-  const existingBar = document.querySelector('.results-action-bar');
-  if (existingBar) existingBar.remove();
-  
-  const actionBar = document.createElement('div');
-  actionBar.className = 'action-bar results-action-bar';
-  actionBar.innerHTML = `
-    <div style="display: flex; gap: 10px; align-items: center;">
-      <input type="text" class="search-input" id="results-search" placeholder="🔍 Search results...">
-      <button class="refresh-btn" id="refresh-results">
-        <i class="fas fa-sync-alt"></i> Refresh
-      </button>
-    </div>
-    <button class="danger-btn" id="delete-all-results">
-      <i class="fas fa-trash-alt"></i> Remove All Results
-    </button>
-  `;
+const resultsOverlay = document.getElementById('results-overlay');
+const resultsTableBody = document.querySelector('#results-table tbody');
 
-  const resultsHeader = resultsOverlay.querySelector('h2');
-  resultsHeader.after(actionBar);
-
-  // Add event listeners
-  document.getElementById('refresh-results').addEventListener('click', loadResults);
-  document.getElementById('delete-all-results').addEventListener('click', deleteAllResults);
-  document.getElementById('results-search').addEventListener('input', filterResults);
-}
-
-btnResults.addEventListener('click', () => {
+document.getElementById('btn-results').addEventListener('click', () => {
   resultsOverlay.style.display = 'block';
-  addResultsActionBar();
   loadResults();
 });
 
-closeResultsBtn.addEventListener('click', () => resultsOverlay.style.display = 'none');
+document.getElementById('close-results').addEventListener('click', () => {
+  resultsOverlay.style.display = 'none';
+});
 
-// Load all results
 async function loadResults() {
   if (isLoading) return;
   
   try {
     isLoading = true;
-    resultsTableBody.innerHTML = '<tr><td colspan="5" class="empty-state"><div class="loading-spinner"></div><br>Loading results...</td></tr>';
-
-    const snapshot = await db.collection('results').orderBy('timestamp', 'desc').get();
     resultsTableBody.innerHTML = '';
 
+    const snapshot = await db.collection('results').orderBy('timestamp', 'desc').get();
+    
     if (snapshot.empty) {
-      resultsTableBody.innerHTML = '<tr><td colspan="5" class="empty-state"><i class="fas fa-chart-bar"></i><br>No quiz results found</td></tr>';
+      resultsTableBody.innerHTML = '<tr><td colspan="5" class="empty-state"><i class="fas fa-chart-bar"></i><span>No quiz results</span></td></tr>';
       return;
     }
 
-    // Collect all unique user IDs
+    // Batch fetch user nicknames
     const userIds = new Set();
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      if (data.userId) userIds.add(data.userId);
-    });
+    snapshot.forEach(doc => { const d = doc.data(); if (d.userId) userIds.add(d.userId); });
 
-    // Batch fetch user data
     const userCache = {};
     if (userIds.size > 0) {
-      const userPromises = [];
-      const userIdArray = Array.from(userIds);
-      
-      // Process in batches of 10 (Firestore limitation)
-      for (let i = 0; i < userIdArray.length; i += 10) {
-        const batch = userIdArray.slice(i, i + 10);
-        userPromises.push(
-          Promise.all(batch.map(uid => db.collection('users').doc(uid).get()))
-        );
+      const arr = Array.from(userIds);
+      for (let i = 0; i < arr.length; i += 10) {
+        const results = await Promise.all(arr.slice(i, i + 10).map(uid => db.collection('users').doc(uid).get()));
+        results.forEach(doc => { if (doc.exists) userCache[doc.id] = doc.data().nickname || 'Unknown'; });
       }
-      
-      const userResults = await Promise.all(userPromises);
-      userResults.flat().forEach(userDoc => {
-        if (userDoc.exists) {
-          userCache[userDoc.id] = userDoc.data().nickname || 'Unknown';
-        }
-      });
     }
 
-    // Render results
     snapshot.forEach(doc => {
       const res = doc.data();
-      const date = formatDate(res.timestamp);
-      
-      let displayName = "Anonymous";
-      if (res.userId && userCache[res.userId]) {
-        displayName = userCache[res.userId];
-      } else if (res.userEmail) {
-        displayName = res.userEmail;
-      }
+      let name = "Anonymous";
+      if (res.userId && userCache[res.userId]) name = userCache[res.userId];
+      else if (res.userEmail) name = res.userEmail;
 
-      const scoreDisplay = res.total ? `${res.score} / ${res.total} (${Math.round((res.score / res.total) * 100)}%)` : res.score;
+      const scoreText = res.total 
+        ? `<strong style="color: var(--accent);">${res.score}/${res.total}</strong> <small style="color: var(--text-muted);">(${Math.round((res.score/res.total)*100)}%)</small>`
+        : `<strong style="color: var(--accent);">${res.score}</strong>`;
 
-      const row = `
-        <tr data-result-id="${doc.id}" data-student="${displayName.toLowerCase()}">
-          <td><strong>${displayName}</strong></td>
-          <td>${res.quizName || res.quizId || 'General Quiz'}</td>
-          <td style="color: var(--accent); font-weight: bold;">${scoreDisplay}</td>
-          <td>${date}</td>
-          <td>
-            <button class="delete-result-btn" onclick="deleteResult('${doc.id}')" title="Delete this result">
-              <i class="fas fa-trash"></i>
-            </button>
-          </td>
-        </tr>`;
-      resultsTableBody.insertAdjacentHTML('beforeend', row);
+      const row = document.createElement('tr');
+      row.setAttribute('data-student', name.toLowerCase());
+      row.innerHTML = `
+        <td><strong>${name}</strong></td>
+        <td>${res.quizName || res.quizId || 'Quiz'}</td>
+        <td>${scoreText}</td>
+        <td>${formatDate(res.timestamp)}</td>
+        <td><button class="btn btn-danger btn-sm" onclick="deleteResult('${doc.id}')"><i class="fas fa-trash"></i></button></td>
+      `;
+      resultsTableBody.appendChild(row);
     });
 
-    showToast(`Loaded ${snapshot.size} results`, 'success');
   } catch (err) {
-    console.error("Results Load Error:", err);
-    resultsTableBody.innerHTML = '<tr><td colspan="5" class="empty-state"><i class="fas fa-exclamation-triangle"></i><br>Error loading results. Please try again.</td></tr>';
+    console.error(err);
+    resultsTableBody.innerHTML = '<tr><td colspan="5" class="empty-state"><i class="fas fa-exclamation-triangle"></i><span>Error loading results</span></td></tr>';
     showToast("Failed to load results", "error");
   } finally {
     isLoading = false;
   }
 }
 
-// Filter results by search term
-function filterResults(event) {
-  const searchTerm = event.target.value.toLowerCase();
-  const rows = resultsTableBody.querySelectorAll('tr');
-  
-  rows.forEach(row => {
-    if (row.querySelector('.empty-state')) return; // Skip empty state row
-    
-    const studentName = row.dataset.student || '';
-    const quizName = row.querySelector('td:nth-child(2)')?.textContent.toLowerCase() || '';
-    const score = row.querySelector('td:nth-child(3)')?.textContent.toLowerCase() || '';
-    
-    if (studentName.includes(searchTerm) || quizName.includes(searchTerm) || score.includes(searchTerm)) {
-      row.style.display = '';
-    } else {
-      row.style.display = 'none';
-    }
+// Search
+document.getElementById('results-search').addEventListener('input', function(e) {
+  const term = e.target.value.toLowerCase();
+  resultsTableBody.querySelectorAll('tr').forEach(row => {
+    if (row.querySelector('.empty-state')) return;
+    const text = (row.getAttribute('data-student') || '') + ' ' + row.textContent.toLowerCase();
+    row.style.display = text.includes(term) ? '' : 'none';
   });
-}
+});
 
-// Delete single result
+document.getElementById('refresh-results').addEventListener('click', loadResults);
+
 async function deleteResult(id) {
-  showConfirm('Are you sure you want to delete this result? This action cannot be undone.', async () => {
+  showConfirm('Delete this result?', async () => {
     try {
       await db.collection('results').doc(id).delete();
-      showToast("Result deleted successfully!", 'success');
+      showToast("Deleted!", 'success');
       loadResults();
-    } catch (err) {
-      console.error("Delete Error:", err);
-      showToast("Failed to delete result", "error");
-    }
+    } catch (err) { console.error(err); showToast("Failed", "error"); }
   });
 }
 
-// DELETE ALL RESULTS - Main function you requested
 async function deleteAllResults() {
   const snapshot = await db.collection('results').get();
+  if (snapshot.empty) { showToast("Nothing to delete", "info"); return; }
   
-  if (snapshot.empty) {
-    showToast("No results to delete", "info");
-    return;
-  }
-
-  showConfirm(
-    `⚠️ WARNING: This will permanently delete ALL ${snapshot.size} quiz results!<br><br>This action CANNOT be undone. Are you absolutely sure?`,
-    async () => {
-      if (isLoading) return;
-      
-      try {
-        isLoading = true;
-        
-        // Show progress
-        const deleteBtn = document.getElementById('delete-all-results');
-        if (deleteBtn) {
-          deleteBtn.disabled = true;
-          deleteBtn.innerHTML = '<div class="loading-spinner"></div> Deleting...';
-        }
-
-        // Use batch delete for better performance
-        const batch = db.batch();
-        let count = 0;
-        
-        snapshot.forEach(doc => {
-          batch.delete(doc.ref);
-          count++;
-        });
-
-        await batch.commit();
-        
-        showToast(`✅ Successfully deleted ${count} results!`, 'success');
-        loadResults(); // Reload empty table
-        
-      } catch (err) {
-        console.error("Delete All Results Error:", err);
-        
-        // Fallback: try one by one if batch fails
-        try {
-          showToast("Batch delete failed. Trying alternative method...", "info");
-          
-          let deletedCount = 0;
-          const deletePromises = [];
-          
-          snapshot.forEach(doc => {
-            deletePromises.push(
-              db.collection('results').doc(doc.id).delete()
-                .then(() => { deletedCount++; })
-                .catch(e => console.error(`Failed to delete ${doc.id}:`, e))
-            );
-          });
-          
-          await Promise.all(deletePromises);
-          showToast(`⚠️ Partially deleted ${deletedCount}/${snapshot.size} results`, 'warning');
-          loadResults();
-          
-        } catch (fallbackErr) {
-          console.error("Fallback Delete Error:", fallbackErr);
-          showToast("Failed to delete results. Please try again.", "error");
-        }
-        
-      } finally {
-        isLoading = false;
-        const deleteBtn = document.getElementById('delete-all-results');
-        if (deleteBtn) {
-          deleteBtn.disabled = false;
-          deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i> Remove All Results';
-        }
-      }
-    }
-  );
+  showConfirm(`Delete ALL ${snapshot.size} results?`, async () => {
+    try {
+      isLoading = true;
+      const batch = db.batch();
+      snapshot.forEach(doc => batch.delete(doc.ref));
+      await batch.commit();
+      showToast(`${snapshot.size} deleted!`, 'success');
+      loadResults();
+    } catch (err) { console.error(err); showToast("Failed", "error"); }
+    finally { isLoading = false; }
+  });
 }
 
-// Make functions globally accessible
+document.getElementById('delete-all-results').addEventListener('click', deleteAllResults);
 window.deleteResult = deleteResult;
-window.deleteAllResults = deleteAllResults;
 
-// --- Logout ---
-document.getElementById('logout-btn').addEventListener('click', async () => {
-  showConfirm('Are you sure you want to logout?', async () => {
+// ============================================
+// 4. GENERAL
+// ============================================
+
+document.getElementById('logout-btn').addEventListener('click', () => {
+  showConfirm('Logout from admin panel?', async () => {
     try {
       await auth.signOut();
       window.location.href = "index.html";
-    } catch (err) {
-      console.error("Logout Error:", err);
-      showToast("Failed to logout", "error");
-    }
+    } catch (err) { console.error(err); showToast("Failed to logout", "error"); }
   });
 });
 
-// --- Close overlays when clicking outside ---
-window.addEventListener('click', (e) => {
-  if (e.target.classList.contains('overlay')) {
-    e.target.style.display = 'none';
-  }
+// Close overlays on outside click
+document.querySelectorAll('.overlay').forEach(overlay => {
+  overlay.addEventListener('click', function(e) {
+    if (e.target === this) this.style.display = 'none';
+  });
 });
 
-// --- Keyboard shortcuts ---
+// Escape to close
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
-    document.querySelectorAll('.overlay').forEach(overlay => {
-      overlay.style.display = 'none';
-    });
+    document.querySelectorAll('.overlay').forEach(o => o.style.display = 'none');
   }
 });
 
-console.log('🔐 AngloRoom Admin Panel Initialized');
+console.log('🔐 AngloRoom Admin Ready');

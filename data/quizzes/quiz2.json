@@ -1,95 +1,86 @@
 {
-  "title": "Infinitive and Gerund - Sequential Verbs",
+  "title": "Mixed Tenses Verb Choice Test (Intermediate)",
   "questions": [
     {
-      "question": "I want _______ the book.",
-      "options": [
-        "to read",
-        "reading",
-        "to writing",
-        "writing"
-      ]
+      "question": "I usually ___ to school by bus every day. (go)",
+      "options": ["go", "went", "going", "will go"]
     },
     {
-      "question": "She enjoys _______ in the park.",
-      "options": [
-        "jogging",
-        "to jog",
-        "to running",
-        "running to"
-      ]
+      "question": "She ___ right now in her room. (study)",
+      "options": ["is studying", "studies", "studied", "will study"]
     },
     {
-      "question": "He promised _______ me.",
-      "options": [
-        "to help",
-        "helping",
-        "to helping",
-        "helped"
-      ]
+      "question": "They ___ to the cinema last night. (go)",
+      "options": ["went", "go", "going", "will go"]
     },
     {
-      "question": "We decided _______ abroad.",
-      "options": [
-        "to travel",
-        "traveling",
-        "to traveling",
-        "travels"
-      ]
+      "question": "We ___ our grandparents tomorrow. (visit)",
+      "options": ["will visit", "visited", "visit", "are visiting"]
     },
     {
-      "question": "They started _______ English.",
-      "options": [
-        "studying",
-        "to study",
-        "study",
-        "to studying"
-      ]
+      "question": "I ___ TV when you called me. (watch)",
+      "options": ["was watching", "watched", "watch", "am watching"]
     },
     {
-      "question": "I can’t afford _______ a new laptop.",
-      "options": [
-        "to buy",
-        "buying",
-        "to buying",
-        "bought"
-      ]
+      "question": "He usually ___ football every Sunday. (play)",
+      "options": ["plays", "played", "is playing", "will play"]
     },
     {
-      "question": "She avoided _______ late.",
-      "options": [
-        "being",
-        "to be",
-        "be",
-        "been"
-      ]
+      "question": "They ___ to the market at the moment. (go)",
+      "options": ["are going", "go", "went", "will go"]
     },
     {
-      "question": "He hopes _______ soon.",
-      "options": [
-        "to move",
-        "moving",
-        "move",
-        "to moving"
-      ]
+      "question": "She ___ you later tonight. (call)",
+      "options": ["will call", "calls", "called", "is calling"]
     },
     {
-      "question": "I enjoy _______ tea in the morning.",
-      "options": [
-        "drinking",
-        "to drink",
-        "drink",
-        "to drinking"
-      ]
+      "question": "I ___ my friend yesterday. (meet)",
+      "options": ["met", "meet", "meeting", "will meet"]
     },
     {
-      "question": "They practiced _______ the song.",
-      "options": [
-        "singing",
-        "to sing",
-        "sang",
-        "to singing"
-      ]
+      "question": "We ___ football when it started to rain. (play)",
+      "options": ["were playing", "played", "play", "are playing"]
+    },
+    {
+      "question": "He usually ___ coffee in the morning. (drink)",
+      "options": ["drinks", "drank", "is drinking", "will drink"]
+    },
+    {
+      "question": "They ___ to Turkey next year. (travel)",
+      "options": ["will travel", "travelled", "travelling", "are travelling"]
+    },
+    {
+      "question": "I ___ my homework right now. (do)",
+      "options": ["am doing", "do", "did", "will do"]
+    },
+    {
+      "question": "She ___ her uncle last weekend. (visit)",
+      "options": ["visited", "visits", "visiting", "will visit"]
+    },
+    {
+      "question": "We ___ when the phone rang. (sleep)",
+      "options": ["were sleeping", "slept", "sleep", "are sleeping"]
+    },
+    {
+      "question": "He ___ to school at the moment. (go)",
+      "options": ["is going", "goes", "went", "will go"]
+    },
+    {
+      "question": "I ___ you with your project tomorrow. (help)",
+      "options": ["will help", "helped", "helping", "am helping"]
+    },
+    {
+      "question": "They ___ tennis every Saturday. (play)",
+      "options": ["play", "played", "are playing", "will play"]
+    },
+    {
+      "question": "She ___ dinner when I arrived. (cook)",
+      "options": ["was cooking", "cooked", "cooks", "is cooking"]
+    },
+    {
+      "question": "We ___ our teacher after school today. (meet)",
+      "options": ["are meeting", "met", "meet", "will meet"]
     }
   ]
 }
+

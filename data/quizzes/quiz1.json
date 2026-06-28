@@ -1,85 +1,92 @@
+
 {
-  "title": "Present Perfect - Revision Test",
+  "title": "Past Simple - Revision Test",
   "questions": [
     {
-      "question": "I have ___ my room. (clean)",
-      "options": ["cleaned", "clean", "cleant", "cleaning"]
+      "question": "I ___ my room yesterday. (clean)",
+      "options": ["cleaned", "clean", "cleaning", "cleant"]
     },
     {
-      "question": "She has ___ a delicious cake. (make)",
+      "question": "She ___ a delicious cake last Sunday. (make)",
       "options": ["made", "maked", "make", "making"]
     },
     {
-      "question": "They have ___ to the museum this month. (go)",
-      "options": ["gone", "went", "goed", "going"]
+      "question": "They ___ to the beach last summer. (go)",
+      "options": ["went", "gone", "goed", "going"]
     },
     {
-      "question": "Have you finished the project ___?",
-      "options": ["yet", "already", "just", "ever"]
+      "question": "We ___ football two days ago. (play)",
+      "options": ["played", "play", "playing", "plays"]
     },
     {
-      "question": "We have ___ seen this movie before.",
-      "options": ["never", "ever", "yet", "for"]
+      "question": "He ___ breakfast at 7:00 yesterday. (eat)",
+      "options": ["ate", "eaten", "eated", "eating"]
     },
     {
-      "question": "He has ___ eaten breakfast.",
-      "options": ["just", "yet", "ever", "for"]
-    },
-    {
-      "question": "She has lived here ___ 2020.",
-      "options": ["since", "for", "from", "at"]
-    },
-    {
-      "question": "My brother has ___ his wallet. (find)",
+      "question": "My brother ___ his keys yesterday. (find)",
       "options": ["found", "find", "founded", "finding"]
     },
     {
-      "question": "Have you ___ tried Italian food?",
-      "options": ["ever", "never", "yet", "since"]
+      "question": "I ___ my friend a birthday present last week. (give)",
+      "options": ["gave", "given", "gived", "giving"]
     },
     {
-      "question": "The teacher has ___ the test papers. (check)",
-      "options": ["checked", "check", "checking", "checken"]
+      "question": "She ___ five glasses of water after PE. (drink)",
+      "options": ["drank", "drunk", "drinked", "drinking"]
     },
     {
-      "question": "We have known each other ___ five years.",
-      "options": ["for", "since", "from", "at"]
+      "question": "Tom ___ home very late last night. (come)",
+      "options": ["came", "come", "comed", "coming"]
     },
     {
-      "question": "She has ___ her arm. (hurt)",
-      "options": ["hurt", "hurted", "hurting", "hurts"]
+      "question": "He ___ many photos on holiday. (take)",
+      "options": ["took", "taken", "taked", "taking"]
     },
     {
-      "question": "I have ___ this article twice. (read)",
-      "options": ["read", "red", "readed", "reading"]
+      "question": "___ you watch TV yesterday?",
+      "options": ["Did", "Do", "Are", "Have"]
     },
     {
-      "question": "They haven't called me ___.",
-      "options": ["yet", "already", "just", "ever"]
+      "question": "She ___ not go to school yesterday.",
+      "options": ["did", "does", "was", "has"]
     },
     {
-      "question": "She has ___ all the water. (drink)",
-      "options": ["drunk", "drank", "drinked", "drinking"]
+      "question": "They ___ their homework last night.",
+      "options": ["did", "do", "done", "doing"]
     },
     {
-      "question": "We haven't met him ___ Monday.",
-      "options": ["since", "for", "still", "at"]
+      "question": "I ___ a funny film last weekend. (see)",
+      "options": ["saw", "seen", "seed", "seeing"]
     },
     {
-      "question": "I have ___ my friend some advice. (give)",
-      "options": ["given", "gave", "gived", "giving"]
+      "question": "We ___ to music yesterday evening. (listen)",
+      "options": ["listened", "listen", "listening", "listent"]
     },
     {
-      "question": "Tom has ___ five kilometers today. (run)",
-      "options": ["run", "ran", "runned", "running"]
+      "question": "She ___ her homework before dinner. (finish)",
+      "options": ["finished", "finish", "finishing", "finisht"]
     },
     {
-      "question": "My grandparents have lived here ___ 40 years.",
-      "options": ["for", "since", "from", "at"]
+      "question": "Which sentence is in the Past Simple?",
+      "options": [
+        "I visited my grandma yesterday.",
+        "I am visiting my grandma.",
+        "I visit my grandma every Sunday.",
+        "I have visited my grandma."
+      ]
     },
     {
-      "question": "He has ___ a lot of photos this week. (take)",
-      "options": ["taken", "took", "taked", "taking"]
+      "question": "Which time expression is usually used with the Past Simple?",
+      "options": ["last year", "now", "at the moment", "every day"]
+    },
+    {
+      "question": "She ___ in London in 2022. (live)",
+      "options": ["lived", "lives", "living", "live"]
+    },
+    {
+      "question": "We ___ to the zoo three weeks ago. (drive)",
+      "options": ["drove", "driven", "drived", "driving"]
     }
   ]
 }
+
